@@ -1,26 +1,3 @@
-#=============================================#
-#   Softwareprojekt | Team 17 | Kontakt.txt   #
-#=============================================#
-
-Name:       Dominik Witoschek
-eMail:      Dominik@Witoschek.eu
-WhatsApp:   0 152 01795117
-Discord:    Mochi#0928
-
-Name:		Thomas Böhme
-eMail:		thomas.boehme@student.uni-augsburg.de
-WhatApp		0 152 56840213
-Discord:	Thomas Böhme#7314
-
 Name:		Ulrich Reiter
 eMail:		ulrich.reiter@student.uni-augsburg.de
 Discord:	Ulrich Reiter#0478
-
-
-
-
-
-
-#=============================================#
-#   Softwareprojekt | Team 17 | Kontakt.txt   #
-#=============================================#
