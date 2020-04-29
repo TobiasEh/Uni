@@ -12,6 +12,9 @@ eMail:		thomas.boehme@student.uni-augsburg.de
 WhatApp		0 152 56840213
 Discord:	Thomas Böhme#7314
 
+Name:		Ulrich Reiter
+eMail:		ulrich.reiter@student.uni-augsburg.de
+Discord:	Ulrich Reiter#0478
 
 
 
