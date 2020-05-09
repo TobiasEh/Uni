@@ -1,4 +1,4 @@
-#=============================================#
+﻿#=============================================#
 #   Softwareprojekt | Team 17 | Kontakt.txt   #
 #=============================================#
 
@@ -12,11 +12,22 @@ eMail:		thomas.boehme@student.uni-augsburg.de
 WhatApp		0 152 56840213
 Discord:	Thomas Böhme#7314
 
+Name:		Ulrich Reiter
+eMail:		ulrich.reiter@student.uni-augsburg.de
+Discord:	Ulrich Reiter#0478
 
+Name:		Peter Koppelstetter
+eMail:		peter@koppelstetter.de
+WhatsApp:	0152 29266555
+Discord: 	Talrasha#4253
 
+Name:		Nguyen Thao Dat
+eMail:		nguyen.dat@pornhub.bayern
+Discord:	博士 讨#0817
 
-
-
+Name:   	Tobias Eh
+eMail:		tobieh99@gmail.com
+Discord 	TOBI#6087
 
 #=============================================#
 #   Softwareprojekt | Team 17 | Kontakt.txt   #
