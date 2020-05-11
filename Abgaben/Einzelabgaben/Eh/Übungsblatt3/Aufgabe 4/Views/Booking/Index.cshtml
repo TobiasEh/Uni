@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "BookingTable";
+}
+
+<h1>BookingTable</h1>
+<table class="table table-striped table-borderless table-hover">
+    <tr>
+        <th>Current charge</th>
+        <th>Required distance</th>
+        <th>Start</th>
+        <th>End</th>
+    </tr>
+
+    @foreach (Booking booking in Model)
+    {
+        <tr>
+            <td> @booking.currentCharge</td>
+            <td> @booking.requiredDistance</td>
+            <td> @booking.start</td>
+            <td> @booking.end</td>
+        </tr>
+    }
+</table>
+
