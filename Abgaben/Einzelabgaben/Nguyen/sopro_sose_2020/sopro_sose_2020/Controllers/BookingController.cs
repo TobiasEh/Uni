@@ -28,15 +28,14 @@ namespace sopro_sose_2020.Controllers
             return View(bookingList);
         }
 
+        [HttpGet]
         public IActionResult create()
         {
             
             return View();
         }
-        public void get()
-        {
-            // warum zum fick soll ich ne extra get funktion machen bzw wofür lol
-        }
+
+        [HttpPost]
         public IActionResult postBooking(Booking _booking) //modelbind post from html
         {
             var cacheKey = "bookingList";
