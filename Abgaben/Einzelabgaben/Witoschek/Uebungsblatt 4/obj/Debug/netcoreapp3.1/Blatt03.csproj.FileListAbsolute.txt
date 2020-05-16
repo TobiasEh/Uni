@@ -330,11 +330,3 @@ F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebung
 F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\obj\Debug\netcoreapp3.1\Blatt03.dll
 F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\obj\Debug\netcoreapp3.1\Blatt03.pdb
 F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\obj\Debug\netcoreapp3.1\Blatt03.genruntimeconfig.cache
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\obj\Debug\netcoreapp3.1\Blatt03.csproj.CoreCompileInputs.cache
-F:\Git\Softwareprojekt\tutorium-d-team-17\Abgaben\Einzelabgaben\Witoschek\Uebungsblatt 4\obj\Debug\netcoreapp3.1\Blatt03.MvcApplicationPartsAssemblyInfo.cache

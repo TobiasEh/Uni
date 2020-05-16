@@ -1,12 +1,9 @@
 {
   "version": 2,
-  "dgSpecHash": "52T0GCa3M0Me267+umv4WCRD9vLrKyYfl9RtKymJt2H/HYSOHLVl1o9zh98KpuzZ/PCkI6TMcfYFT3psEjvdTg==",
+  "dgSpecHash": "xpx8kb8V34iQsBPQ8A01lntwISD9+KMOByZSdI3CaHF1PnxdvivUgNoI6RtwSutQ+DmJHDffLDZ3shJktR+FFw==",
   "success": true,
   "projectFilePath": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 4\\Blatt03.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Dominik\\.nuget\\packages\\bootstrap\\3.3.0\\bootstrap.3.3.0.nupkg.sha512",
-    "C:\\Users\\Dominik\\.nuget\\packages\\bootstrap.v3.datetimepicker.css\\4.17.45\\bootstrap.v3.datetimepicker.css.4.17.45.nupkg.sha512",
-    "C:\\Users\\Dominik\\.nuget\\packages\\jquery\\1.9.0\\jquery.1.9.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",
@@ -35,7 +32,6 @@
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.utils\\3.1.2\\microsoft.visualstudio.web.codegeneration.utils.3.1.2.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\3.1.2\\microsoft.visualstudio.web.codegenerators.mvc.3.1.2.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
-    "C:\\Users\\Dominik\\.nuget\\packages\\moment.js\\2.9.0\\moment.js.2.9.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\nuget.frameworks\\4.7.0\\nuget.frameworks.4.7.0.nupkg.sha512",

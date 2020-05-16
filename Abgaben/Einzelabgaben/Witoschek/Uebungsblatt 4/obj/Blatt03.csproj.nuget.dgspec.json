@@ -38,10 +38,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
-            "Bootstrap.v3.Datetimepicker.CSS": {
-              "target": "Package",
-              "version": "[4.17.45, )"
-            },
             "Microsoft.Extensions.Caching.Memory": {
               "target": "Package",
               "version": "[3.1.4, )"
