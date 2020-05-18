@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qzXT55+65TCE/jIk+1S07SA1vrjIVo+AqVB8H3Cm4foUwqMatDTcj6LKt2E80bnoJm9lp/VNeowAwYsG36ml4A==",
+  "dgSpecHash": "6GG9zdbEm8HhwDqvvyhIDNeDEgAE04HXt1WucueBWhZZxmXjwQBTj7SuXPJmRP/6WyzDRBhZy4nJ29YBy33dxg==",
   "success": true,
-  "projectFilePath": "F:\\C#\\Projekte\\Blatt3\\Blatt03\\Blatt03.csproj",
+  "projectFilePath": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 3\\Blatt03.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

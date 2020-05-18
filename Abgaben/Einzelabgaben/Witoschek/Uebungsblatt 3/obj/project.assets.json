@@ -6076,11 +6076,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\C#\\Projekte\\Blatt3\\Blatt03\\Blatt03.csproj",
+      "projectUniqueName": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 3\\Blatt03.csproj",
       "projectName": "Blatt03",
-      "projectPath": "F:\\C#\\Projekte\\Blatt3\\Blatt03\\Blatt03.csproj",
+      "projectPath": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 3\\Blatt03.csproj",
       "packagesPath": "C:\\Users\\Dominik\\.nuget\\packages\\",
-      "outputPath": "F:\\C#\\Projekte\\Blatt3\\Blatt03\\obj\\",
+      "outputPath": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 3\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dominik\\AppData\\Roaming\\NuGet\\NuGet.Config",

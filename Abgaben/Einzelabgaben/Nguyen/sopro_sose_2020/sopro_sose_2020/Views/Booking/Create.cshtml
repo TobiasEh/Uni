@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Booking</h1>
+<div>
+    <form asp-controller="Booking" asp-action="postBooking" method="post">
+        <div class="form-group">
+            <label for="in_cur_charge">current charge</label>
+            <input type="number" class="form-control" id="in_cur_charge" placeholder="current charge in %" min="0" max="100" name="cur_charge" >
+        </div>
+        <div class="form-group">
+            <label for="in_needed_distance">needed distance</label>
+            <input type="number" class="form-control" id="in_needed_distance" placeholder="needed distance in km" min="1" max="1000" name="needed_distance" >
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label for="in_startTime">starting time</label>
+            <input type="datetime-local" class="form-control" id="in_startTime" name="startTime" >
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label for="in_endTime">ending time</label>
+            <input type="datetime-local" class="form-control" id="in_endTime" name="endTime" >
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+

@@ -5,26 +5,47 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using sopro_sose_2020.Models;
 
 namespace sopro_sose_2020.Controllers
 {
     public class BookingController : Controller
     {
+        List<Models.Booking> bookingList;
+        private readonly IMemoryCache _memoryCache;
+
+        public BookingController(IMemoryCache memoryCache)
+        {
+            _memoryCache = memoryCache;
+        }
         public IActionResult Index()
         {
-            Random rnd = new Random();
-            DateTime startTime = new DateTime(2020, 05, 07, 22, 10, 00);
-            DateTime rndStartTime = new DateTime();
-            List<Models.Booking> bookingList = new List<Models.Booking>() ;
-            for (int i = 0; i < 10; i++)
-            {
-                rndStartTime = startTime.AddHours(rnd.NextDouble()*240);
-                bookingList.Add(
-                    new Models.Booking() { cur_charge = Math.Round(rnd.NextDouble() * 100, 2), needed_distance = rnd.Next(100), startTime = rndStartTime, endTime = rndStartTime.AddHours(10) }
-                    );
-            };
+            var cacheKey = "bookingList";
+            _memoryCache.TryGetValue(cacheKey, out bookingList); //read from cache , if null see Index.cshtml
+            
+           
             return View(bookingList);
+        }
+
+        [HttpGet]
+        public IActionResult create()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult postBooking(Booking _booking) //modelbind post from html
+        {
+            var cacheKey = "bookingList";
+            if (!_memoryCache.TryGetValue(cacheKey, out bookingList)) //read from cache to bookingList matching key
+            {
+                bookingList = new List<Booking>();
+            }
+            bookingList.Add(_booking); 
+            _memoryCache.Set(cacheKey, bookingList); //overwrite old if necessary
+            return View("Index", bookingList);
         }
     }
 }
