@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Peter\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+      "projectUniqueName": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 3\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "C:\\Users\\Peter\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+      "projectPath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 3\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
       "packagesPath": "C:\\Users\\Peter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Peter\\source\\repos\\WebApplication1\\WebApplication1\\obj\\",
+      "outputPath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 3\\WebApplication1\\WebApplication1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
