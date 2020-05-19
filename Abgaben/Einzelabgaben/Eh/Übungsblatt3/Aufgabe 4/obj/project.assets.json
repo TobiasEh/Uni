@@ -6076,11 +6076,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Übungsblatt3\\Aufgabe 4\\Aufgabe 4\\Aufgabe 4.csproj",
+      "projectUniqueName": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Übungsblatt3\\Aufgabe 4\\Aufgabe 4.csproj",
       "projectName": "Aufgabe 4",
-      "projectPath": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Übungsblatt3\\Aufgabe 4\\Aufgabe 4\\Aufgabe 4.csproj",
+      "projectPath": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Übungsblatt3\\Aufgabe 4\\Aufgabe 4.csproj",
       "packagesPath": "C:\\Users\\Tobias\\.nuget\\packages\\",
-      "outputPath": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Übungsblatt3\\Aufgabe 4\\Aufgabe 4\\obj\\",
+      "outputPath": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Übungsblatt3\\Aufgabe 4\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Tobias\\AppData\\Roaming\\NuGet\\NuGet.Config",
