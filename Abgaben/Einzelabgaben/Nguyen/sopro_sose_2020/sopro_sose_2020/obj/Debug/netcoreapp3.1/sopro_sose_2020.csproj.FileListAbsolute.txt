@@ -231,5 +231,12 @@ D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sop
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\Razor\Views\Booking\Evaluation.cshtml.g.cs
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Debug.dll
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.csproj.CoreCompileInputs.cache
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.MvcApplicationPartsAssemblyInfo.cache
