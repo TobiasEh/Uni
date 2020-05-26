@@ -1,0 +1,39 @@
+﻿@model List<sopro_sose_2020.ViewModel.Booking.ConnectorTypeEvaluationViewModel>
+@{
+    ViewData["Title"] = "Evaluation";
+}
+
+<h1>Evaluation</h1>
+<table class="table">
+    @if (Model != null)
+    {
+        <tr>
+            <th>Connector Type</th>
+            <th>Percentage of Connector Type in Bookings</th>
+        </tr>
+        @foreach (sopro_sose_2020.ViewModel.Booking.ConnectorTypeEvaluationViewModel c in Model)
+        {
+            <tr>
+                @if (@c.connectorType == ConnectorType.type_a)
+                {
+                    <th>Type A</th>
+                }
+                else if (c.connectorType == ConnectorType.type_b)
+                {
+                    <th>Type B</th>
+                }
+                else if (c.connectorType == ConnectorType.type_c)
+                {
+                    <th>Type C</th>
+                }
+                <td>@c.percOfBookingsCT %</td>
+            </tr>
+        }
+    }
+    else
+    {
+        <p class="text-center col">nothing to be shown</p>
+    }
+
+</table>
+

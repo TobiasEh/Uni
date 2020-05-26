@@ -24,5 +24,13 @@ namespace sopro_sose_2020.Models
         [Required]
         public DateTime endTime { get; set; }
 
+        public ConnectorType connectorType { get; set; }
+
+    }
+    public enum ConnectorType
+    {
+        type_a,
+        type_b,
+        type_c
     }
 }

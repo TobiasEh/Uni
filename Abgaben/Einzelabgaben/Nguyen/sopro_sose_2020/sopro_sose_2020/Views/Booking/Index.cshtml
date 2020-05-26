@@ -20,16 +20,29 @@
                     <th>Needed distance in km</th>
                     <th>Start time</th>
                     <th>End time</th>
+                    <th>Connector Type</th>
                 </tr>
                 @foreach (var Booking in Model)
                 {
 
-                    <tr>
-                        <td>@Booking.cur_charge</td>
-                        <td>@Booking.needed_distance</td>
-                        <td>@Booking.startTime</td>
-                        <td>@Booking.endTime</td>
-                    </tr>
+            <tr>
+                <td>@Booking.cur_charge</td>
+                <td>@Booking.needed_distance</td>
+                <td>@Booking.startTime</td>
+                <td>@Booking.endTime</td>
+                    @if (@Booking.connectorType == ConnectorType.type_a)
+                    {
+                        <td>Type A</td>
+                    }
+                    else if (Booking.connectorType == ConnectorType.type_b)
+                    {
+                        <td>Type B</td>
+                    }
+                    else if (Booking.connectorType == ConnectorType.type_c)
+                    {
+                        <td>Type C</td>
+                    }
+            </tr>
                 }
             </table>
         }

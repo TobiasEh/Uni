@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             };
 
             List<Booking> bookinglist = new List<Booking>()
-            {
+            { 
                 b1,
                 b2
             };
