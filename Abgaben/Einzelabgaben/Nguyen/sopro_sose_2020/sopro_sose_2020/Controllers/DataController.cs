@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2013.PowerPoint.Roaming;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
@@ -72,28 +73,29 @@ namespace sopro_sose_2020.Controllers
             return File(fileBytes, "application/json", fileName);
         }
         [HttpPost]
-        public async Task<IActionResult> upload(IFormFile file)
+        public async Task<IActionResult> upload(jsonFileModel filePreVal)
         {
-            if(file == null)
+            if (ModelState.IsValid)
             {
-                return Content("File not selected");
-            }
-            else
-            {
-                var fileName = file.FileName;
-                var filePath = $"wwwroot/APP_DATA/{fileName}";
-
-                using (var stream = System.IO.File.Create(filePath))
+                var file = filePreVal.jsonFile;
+                if (file == null)
                 {
-                    await file.CopyToAsync(stream);
+                    ModelState.AddModelError("","File is empty");
+                    return Content("File not selected");
                 }
+                else
+                {
+                    var fileName = file.FileName;
+                    var filePath = $"wwwroot/APP_DATA/{fileName}";
 
-
-
-                return importData(fileName);
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    return importData(fileName);
+                }
             }
-            
-
+            return Content("File invalid");
         }
     }
 }

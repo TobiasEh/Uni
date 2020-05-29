@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {}
+    "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {}
   },
   "projects": {
-    "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {
+    "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
+        "projectUniqueName": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
         "projectName": "sopro_sose_2020",
-        "projectPath": "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
+        "projectPath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
         "packagesPath": "C:\\Users\\dd896\\.nuget\\packages\\",
-        "outputPath": "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\obj\\",
+        "outputPath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dd896\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -69,6 +69,10 @@
             "Selenium.WebDriver.MicrosoftDriver": {
               "target": "Package",
               "version": "[17.17134.0, )"
+            },
+            "foolproof": {
+              "target": "Package",
+              "version": "[0.9.4518, )"
             }
           },
           "imports": [

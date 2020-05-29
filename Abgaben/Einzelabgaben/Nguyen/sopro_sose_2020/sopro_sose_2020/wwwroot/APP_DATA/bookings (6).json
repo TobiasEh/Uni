@@ -1,0 +1,9 @@
+[
+  {
+    "cur_charge": 20,
+    "needed_distance": 20,
+    "startTime": "2020-02-20T20:20:00",
+    "endTime": "2020-02-20T20:20:00",
+    "connectorType": "type_a"
+  }
+]

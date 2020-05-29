@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Foolproof;
+using sopro_sose_2020.CustomValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,12 +20,14 @@ namespace sopro_sose_2020.Models
 
         [DataType(DataType.DateTime)]
         [Required]
+        [DateValidation]
         public DateTime startTime { get; set; }
 
         [DataType(DataType.DateTime)]
         [Required]
+        [GreaterThan("startTime")]
         public DateTime endTime { get; set; }
-
+        [Required]
         public ConnectorType connectorType { get; set; }
 
     }

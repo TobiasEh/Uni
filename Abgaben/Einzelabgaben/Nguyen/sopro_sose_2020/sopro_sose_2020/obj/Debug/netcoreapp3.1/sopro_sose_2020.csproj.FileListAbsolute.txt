@@ -238,8 +238,6 @@ D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sop
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
 D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Debug.dll
-D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.csproj.CoreCompileInputs.cache
-D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.MvcApplicationPartsAssemblyInfo.cache
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\appsettings.json
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -370,3 +368,15 @@ D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\WebDriver.dll
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.csproj.CoreCompileInputs.cache
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.MvcApplicationPartsAssemblyInfo.cache
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\nunit.framework.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\WebDriver.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\FoolproofValidation.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.csproj.CoreCompileInputs.cache
+D:\Userdata\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.MvcApplicationPartsAssemblyInfo.cache

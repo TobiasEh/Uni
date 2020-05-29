@@ -1,0 +1,14 @@
+[
+  {
+    "connectorType": "type_a",
+    "percOfBookingsCT": 62.5
+  },
+  {
+    "connectorType": "type_b",
+    "percOfBookingsCT": 12.5
+  },
+  {
+    "connectorType": "type_c",
+    "percOfBookingsCT": 25
+  }
+]
