@@ -4,9 +4,10 @@
 }
 
 <h1>Evaluation</h1>
-<table class="table">
-    @if (Model != null)
-    {
+
+@if (Model != null)
+{
+    <table class="table">
         <tr>
             <th>Connector Type</th>
             <th>Percentage of Connector Type in Bookings</th>
@@ -29,11 +30,15 @@
                 <td>@c.percOfBookingsCT %</td>
             </tr>
         }
-    }
-    else
-    {
-        <p class="text-center col">nothing to be shown</p>
-    }
+    </table>
+    
+    <input class="float-right  btn btn-primary ml-2" type="button" name="exportBooking" value="export" onclick="location.href='@Url.Action("exportData", "Data", new { cKey = "eva" })'" />
+    
+}
+else
+{
+    <p class="text-center col">nothing to be shown</p>
+}
 
-</table>
+
 

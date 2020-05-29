@@ -2,16 +2,23 @@
 @{
     ViewData["Title"] = "Booking";
 }
-
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 <h1>Bookings</h1>
 <div class="centered container">
     <br />
     <div class="row">
         <p class="float-left col">Übersicht der Buchungen:</p>
-        <input class="float-right col btn btn-primary" type="button" name="createBooking" value="+Buchung" onclick="location.href='@Url.Action("create", "Booking")'" />
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#upload_modal">
+            import
+        </button>
+        @if (Model != null)
+        {
+            <input class="float-right  btn btn-primary ml-2" type="button" name="exportBooking" value="export" onclick="location.href='@Url.Action("exportData", "Data", new { cKey = "bookingList" })'" />
+        }
+        <input class="float-right btn btn-primary ml-2" type="button" name="createBooking" value="booking +" onclick="location.href='@Url.Action("create", "Booking")'" />
     </div>
     <br />
-    <div class="row">
+    <div class="row mt-5 mb-5">
         @if (Model != null)
         {
             <table class="table table-striped table-borderless table-hover">
@@ -25,24 +32,24 @@
                 @foreach (var Booking in Model)
                 {
 
-            <tr>
-                <td>@Booking.cur_charge</td>
-                <td>@Booking.needed_distance</td>
-                <td>@Booking.startTime</td>
-                <td>@Booking.endTime</td>
-                    @if (@Booking.connectorType == ConnectorType.type_a)
-                    {
-                        <td>Type A</td>
-                    }
-                    else if (Booking.connectorType == ConnectorType.type_b)
-                    {
-                        <td>Type B</td>
-                    }
-                    else if (Booking.connectorType == ConnectorType.type_c)
-                    {
-                        <td>Type C</td>
-                    }
-            </tr>
+                    <tr>
+                        <td>@Booking.cur_charge</td>
+                        <td>@Booking.needed_distance</td>
+                        <td>@Booking.startTime</td>
+                        <td>@Booking.endTime</td>
+                        @if (@Booking.connectorType == ConnectorType.type_a)
+                        {
+                            <td>Type A</td>
+                        }
+                        else if (Booking.connectorType == ConnectorType.type_b)
+                        {
+                            <td>Type B</td>
+                        }
+                        else if (Booking.connectorType == ConnectorType.type_c)
+                        {
+                            <td>Type C</td>
+                        }
+                    </tr>
                 }
             </table>
         }
@@ -54,3 +61,37 @@
 
 
 </div>
+<!-- Modal -->
+<div class="modal fade" id="upload_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="upload_modalLabel">Upload json to import</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-controller="Data" asp-action="upload" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file" name="file" accept=".json">
+                            <label class="custom-file-label" for="customFile">Choose file to upload</label>
+                        </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {}
+    "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {}
   },
   "projects": {
-    "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {
+    "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
+        "projectUniqueName": "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
         "projectName": "sopro_sose_2020",
-        "projectPath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
+        "projectPath": "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\sopro_sose_2020.csproj",
         "packagesPath": "C:\\Users\\dd896\\.nuget\\packages\\",
-        "outputPath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\obj\\",
+        "outputPath": "D:\\Userdata\\Desktop\\Nguyen\\sopro_sose_2020\\sopro_sose_2020\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dd896\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -53,6 +53,22 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.3, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[3.141.0, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[83.0.4103.3900, )"
+            },
+            "Selenium.WebDriver.MicrosoftDriver": {
+              "target": "Package",
+              "version": "[17.17134.0, )"
             }
           },
           "imports": [

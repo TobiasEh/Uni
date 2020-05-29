@@ -93,8 +93,8 @@ namespace sopro_sose_2020.Controllers
                 percOfBookingsCT = Math.Round((cc / i) * 100, 2)
 
             });
-
-
+            cacheKey = "eva";
+            _memoryCache.Set(cacheKey, EvaList);
             return View(EvaList);
         }
     }
