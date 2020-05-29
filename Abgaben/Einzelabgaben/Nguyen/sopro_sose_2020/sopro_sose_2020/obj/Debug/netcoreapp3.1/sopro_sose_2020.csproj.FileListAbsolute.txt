@@ -368,3 +368,5 @@ D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.genruntimeconfig.cache
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\nunit.framework.dll
 D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\bin\Debug\netcoreapp3.1\WebDriver.dll
+D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.csproj.CoreCompileInputs.cache
+D:\Userdata\Desktop\Nguyen\sopro_sose_2020\sopro_sose_2020\obj\Debug\netcoreapp3.1\sopro_sose_2020.MvcApplicationPartsAssemblyInfo.cache

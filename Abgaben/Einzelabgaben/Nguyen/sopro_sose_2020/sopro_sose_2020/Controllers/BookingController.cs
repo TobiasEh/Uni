@@ -44,9 +44,21 @@ namespace sopro_sose_2020.Controllers
             {
                 bookingList = new List<Booking>();
             }
+            if (!dateTest(_booking.startTime,_booking.endTime))
+            {
+                return Content("Don't fool me!");
+            }
             bookingList.Add(_booking); 
             _memoryCache.Set(cacheKey, bookingList); //overwrite old if necessary
             return View("Index", bookingList);
+        }
+        public bool dateTest(DateTime start, DateTime end)
+        {
+            if(start < DateTime.Now || start >= end)
+            {
+                return false;
+            }
+            return true;
         }
         public IActionResult Evaluation()
         {
