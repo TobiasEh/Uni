@@ -13,7 +13,7 @@ namespace sopro_sose_2020.Models
     public class jsonFileModel
     {
         [FileSize(1 * 1024 * 1024)]
-        [FileExtension("json")]
-        public IFormFile jsonFile { get; set; }
+        [FileExtension(".json")]
+        public IFormFile file { get; set; }
     }
 }

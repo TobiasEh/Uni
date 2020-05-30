@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
@@ -14,12 +15,18 @@ namespace CustomModelValidation.CustomValidation
         {
             size = _size;
         }
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            long fsize = Convert.ToInt64(value);
-            
+            var file = value as IFormFile;
+            if (file != null)
+            {
+                if (file.Length > size)
+                {
+                    return new ValidationResult(GetErrorMessage());
+                }
+            }
 
-            return fsize <= size;
+            return ValidationResult.Success;
         }
     }
 }

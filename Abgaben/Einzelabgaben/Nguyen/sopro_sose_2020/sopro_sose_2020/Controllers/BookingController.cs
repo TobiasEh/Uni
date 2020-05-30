@@ -39,26 +39,18 @@ namespace sopro_sose_2020.Controllers
         [HttpPost]
         public IActionResult postBooking(Booking _booking) //modelbind post from html
         {
-            var cacheKey = "bookingList";
-            if (!_memoryCache.TryGetValue(cacheKey, out bookingList)) //read from cache to bookingList matching key
+            if (ModelState.IsValid)
             {
-                bookingList = new List<Booking>();
+                var cacheKey = "bookingList";
+                if (!_memoryCache.TryGetValue(cacheKey, out bookingList)) //read from cache to bookingList matching key
+                {
+                    bookingList = new List<Booking>();
+                }
+                bookingList.Add(_booking);
+                _memoryCache.Set(cacheKey, bookingList); //overwrite old if necessary
+                return View("Index", bookingList);
             }
-            if (!dateTest(_booking.startTime,_booking.endTime))
-            {
-                return Content("Don't fool me!");
-            }
-            bookingList.Add(_booking); 
-            _memoryCache.Set(cacheKey, bookingList); //overwrite old if necessary
-            return View("Index", bookingList);
-        }
-        public bool dateTest(DateTime start, DateTime end)
-        {
-            if(start < DateTime.Now || start >= end)
-            {
-                return false;
-            }
-            return true;
+            return Content("Error - incorrect input");
         }
         public IActionResult Evaluation()
         {

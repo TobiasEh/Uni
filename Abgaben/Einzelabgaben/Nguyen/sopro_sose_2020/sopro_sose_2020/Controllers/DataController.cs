@@ -73,27 +73,29 @@ namespace sopro_sose_2020.Controllers
             return File(fileBytes, "application/json", fileName);
         }
         [HttpPost]
-        public async Task<IActionResult> upload(jsonFileModel filePreVal)
+        public async Task<IActionResult> upload(jsonFileModel uploaded)
         {
+            
+
             if (ModelState.IsValid)
             {
-                var file = filePreVal.jsonFile;
-                if (file == null)
-                {
-                    ModelState.AddModelError("","File is empty");
-                    return Content("File not selected");
-                }
-                else
-                {
-                    var fileName = file.FileName;
-                    var filePath = $"wwwroot/APP_DATA/{fileName}";
+               var _file = uploaded.file;
+                if (_file == null)
+               {
+                   ModelState.AddModelError("","File is empty");
+                   return Content("File not selected");
+               }
+             else
+             {
+            var fileName = _file.FileName;
+            var filePath = $"wwwroot/APP_DATA/{fileName}";
 
-                    using (var stream = System.IO.File.Create(filePath))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-                    return importData(fileName);
-                }
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                  await _file.CopyToAsync(stream);
+            }
+                return importData(fileName);
+             }
             }
             return Content("File invalid");
         }

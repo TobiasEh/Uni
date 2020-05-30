@@ -12,18 +12,18 @@ namespace sopro_sose_2020.CustomValidation
     {
         public string extension;
         public string GetErrorMessage() =>
-       $"File extension has to be {extension}.";
+       $"File extension not allowed.";
         public FileExtensionAttribute(string _extension) 
         {
             extension = _extension;
         }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var file = value as IFormFile;
-            var Extension = Path.GetExtension(file.FileName);
+            IFormFile file = value as IFormFile;
+            string fileExtension = Path.GetExtension(file.FileName);
             if (file != null)
             {
-                if (!extension.Contains(Extension.ToLower()))
+                if (!extension.Contains(fileExtension.ToLower()))
                 {
                     return new ValidationResult(GetErrorMessage());
                 }
