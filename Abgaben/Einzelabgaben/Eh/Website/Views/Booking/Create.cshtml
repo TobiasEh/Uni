@@ -1,0 +1,40 @@
+﻿@using Website.Models;
+@model Booking;
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Erstelle Buchung</h1>
+
+<div>
+    <form asp-controller="Booking" asp-action="Post" method="post">
+        <div class="form-group">
+            <label for="@Model.currentCharge">Current charge</label>
+            <input type="number" class="form-control" id="@Model.currentCharge" placeholder="current charge in Percent" min="0" max="100" name="currentCharge">
+        </div>
+        <div class="form-group">
+            <label for="@Model.requiredDistance">requiredDistance</label>
+            <input type="number" class="form-control" id="@Model.requiredDistance" placeholder="required distance in km" min="1" max="1000" name="requiredDistance">
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label for="@Model.start">Start Time</label>
+            <input type="datetime-local" class="form-control" id="@Model.start" name="start">
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label for="@Model.end">End Time</label>
+            <input type="datetime-local" class="form-control" id="@Model.end" name="end">
+        </div>
+    <div class="form-group">
+        <label for="in_connectorType">Art des Anschlusses</label>
+        <select class="form-control" id="in_connectorType" name="connectorType">
+            <option value="SchukoSocket">Schuku-Socket (AC)</option>
+            <option value="Type1Plug">Type 1-Plug (AC)</option>
+            <option value="Type2Plug">Type 2-Plug (AC)</option>
+            <option value="CHAdeMOPlug">CHAdeMO-Plug (DC)</option>
+            <option value="TeslaSupercharger">Tesla Supercharger (DC)</option>
+            <option value="CCSCombo2Plug">CCS Combo 2-Plug (DC)</option>
+        </select>
+</div>
+<button type="submit" class="btn btn-primary">Buchen</button>
+    </form>
+</div>
