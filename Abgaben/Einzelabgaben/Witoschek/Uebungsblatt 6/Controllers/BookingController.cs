@@ -73,10 +73,10 @@ namespace Blatt03.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upload(IFormFile importedBookings)
+        public IActionResult Upload(IFormFile f)
         {
-            List<Booking> addition = JsonSerializer.Deserialize<IFormFile>(importedBookings);
-            return View("Index", bookings);
+            var inbook = System.IO.File.ReadAllText(f);
+            List<Booking> addition = JsonSerializer.Deserialize<List<Booking>>(inbook);
         }
 
         public IActionResult Evaluation()
