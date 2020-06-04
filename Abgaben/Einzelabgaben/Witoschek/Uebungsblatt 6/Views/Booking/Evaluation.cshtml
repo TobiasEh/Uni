@@ -5,11 +5,12 @@
 }
 
 <h1>Auswertung</h1>
-<br/>
-<table class="table table-striped table-borderless table-hover">
+<br />
 
-    @if (Model != null)
-    {
+
+@if (Model != null)
+{
+    <table class="table table-striped table-borderless table-hover">
         <thead class="thead-dark">
             <tr>
                 <th>Stecker Typ</th>
@@ -24,12 +25,15 @@
                 <td>@c.percAppearsInBookings %</td>
             </tr>
         }
-    }
-    else
-    {
-        <p class="text-center col">Keine Daten verfügbar</p>
-    }
+    </table>
+    <input class="btn btn-primary btn-lg" type="button" name="exportBooking" value="Export" />
+}
+else
+{
+    <p class="text-center col">Keine Daten verfügbar</p>
+    <input class="btn btn-secondary btn-lg" type="button" name="exportBooking" value="Export" />
+}
 
-</table>
+    
 
 

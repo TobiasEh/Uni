@@ -3,6 +3,11 @@
     ViewData["Title"] = "Booking";
 }
 
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js">
+    $(document).ready(function () {
+    });
+</script>
+
 <div class="d-flex">
     <div>
         <p class="h4 d-inline-block">Übersicht aller Buchungen</p>
@@ -10,7 +15,7 @@
     <div class="ml-auto">
         <input class="float-right col btn btn-primary btn-lg" type="button" name="createBooking" value="Neue Buchung" onclick="location.href='@Url.Action("create", "Booking")'" />
     </div>
-    
+
 </div>
 
 <br />
@@ -43,11 +48,42 @@
             }
         </table>
     </div>
+    <div class="ml-auto">
+        <form asp-controller="Booking" asp-action="Download" method="get" class="form-horizontal">
+            <input class="btn btn-primary" type="submit" name="exportBooking" value="Export" />
+        </form>
+    </div>
 }
 else
 {
     <p class="text-center col">Noch keine Buchungen vorhanden!</p>
+
+    <div class="ml-auto">
+        <input class="btn btn-secondary" type="button" name="exportBooking" value="Export" />
+    </div>
 }
+
+<form asp-controller="Booking" asp-action="Upload" class="form-horizontal mt-2" method="post" enctype="multipart/form-data">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <button type="submit" class="btn btn-primary col-xs-12">Import</button>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+
 
 
 
