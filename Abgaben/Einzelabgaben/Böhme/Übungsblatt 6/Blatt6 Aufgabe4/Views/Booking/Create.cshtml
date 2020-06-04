@@ -1,0 +1,48 @@
+﻿@using Blatt3_Aufgabe4.Models;
+@model Booking;
+ 
+@{
+    ViewData["Titel"] = "Create";
+}
+
+<h1>@ViewData["Titel"] Buchungen</h1>
+
+<div>
+    <form asp-controller="Booking" asp-action="Post" method="post">
+        <div class="form-group">
+            <label for="@Model.chargeStatus">Charge Status</label>
+            <input type="number" class="form-control" id="@Model.chargeStatus" placeholder="charge Status in %" min="0" max="100" name="chargeStatus">
+        </div>
+        <div class="form-group">
+            <label for="@Model.distance">Distance</label>
+            <input type="number" class="form-control" id="@Model.distance" placeholder="distance in km" min="1" max="1000" name="distance">
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label for="@Model.startTime">Start Time</label>
+            <input type="datetime-local" class="form-control" id="@Model.startTime" name="startTime">
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label for="@Model.endTime">End Time</label>
+            <input type="datetime-local" class="form-control" id="@Model.endTime" name="endTime">
+        </div>
+        <div class="form-group">
+            <lable for="@Model.connectorType">Stecker Type</lable>
+            <select id="plugType" class="form-control" asp-for="@Model.connectorType" asp-items="Html.GetEnumSelectList<ConnectorType>()" >
+            </select>
+        </div>
+        <button type="submit" id="button_submit" class="btn btn-primary">Buchen</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var now = new Date().toISOString().min = now;
+    document.getElementById("in_startTime").min = now;
+    document.getElementById("in_endTime").min = now;
+</script>
+<script type="text/javascript">
+    function endTimeMIN(e) {
+        document.getElementById("in_endTime").min = e.target.value;
+    }
+</script>
+
+

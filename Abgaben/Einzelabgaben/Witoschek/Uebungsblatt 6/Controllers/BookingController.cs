@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blatt03.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using Microsoft.Extensions.Caching.Memory;
 using Blatt03.ViewModel;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Text;
+using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace Blatt03.Controllers
 {
@@ -49,6 +48,35 @@ namespace Blatt03.Controllers
             bookings.Add(booking);
             _memoryCache.Set(cacheKey, bookings);
             return View("Index", bookings);
+        }
+
+        [HttpGet]
+        public IActionResult Download()
+        {
+            // Read cache
+            var cacheKey = "bookings";
+            _memoryCache.TryGetValue(cacheKey, out bookings);
+
+            // Write enum content as string
+            var stringEnumConverter = new System.Text.Json.Serialization.JsonStringEnumConverter();
+            JsonSerializerOptions opts = new JsonSerializerOptions() { WriteIndented = true};
+            opts.Converters.Add(stringEnumConverter);
+
+            // Serialize
+            var data = JsonSerializer.Serialize(bookings, opts);
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+
+            // Export
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "bookings.json";
+            return output;
+        }
+
+        [HttpPost]
+        public IActionResult Upload(IFormFile f)
+        {
+            var inbook = System.IO.File.ReadAllText(f);
+            List<Booking> addition = JsonSerializer.Deserialize<List<Booking>>(inbook);
         }
 
         public IActionResult Evaluation()
