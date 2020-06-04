@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bin",
+    "\\bin\\Debug\\netcoreapp3.1",
+    "\\obj",
+    "\\obj\\Debug",
+    "\\obj\\Release",
+    "\\obj\\Release\\netcoreapp3.1",
+    "\\Views",
+    "\\Views\\Home",
+    "\\Views\\Shared"
+  ],
+  "SelectedNode": "\\Controllers\\BookingController.cs",
+  "PreviewInSolutionExplorer": false
+}

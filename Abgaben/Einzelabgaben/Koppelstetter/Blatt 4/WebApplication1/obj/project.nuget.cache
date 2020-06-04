@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "64GLSl9Eco7Xe3gON/kuXR40D0l+ujL4yZjdvJ1s7YY1o53X6g+WjPMfaJSdmGgYcfGiJvri4eu9AmAFfWVGcw==",
+  "dgSpecHash": "CgTWkFsIJQ3G4vyZoQbHWN/Jr2U5qw8P1QvZ4UkTC0l3PCSvnrubzhAn/52iNKfXwAnWHX3Avwz+fyj2ms2RqQ==",
   "success": true,
-  "projectFilePath": "D:\\Userdata\\Desktop\\Blatt 4\\WebApplication1\\WebApplication1.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 4\\WebApplication1\\WebApplication1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Peter\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
   "logs": []
 }
