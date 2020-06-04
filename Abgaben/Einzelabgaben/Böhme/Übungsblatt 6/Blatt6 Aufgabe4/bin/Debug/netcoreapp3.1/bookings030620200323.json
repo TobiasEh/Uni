@@ -1,0 +1,16 @@
+[
+  {
+    "chargeStatus": 80,
+    "distance": 120,
+    "startTime": "2020-10-10T10:10:00",
+    "endTime": "2020-10-10T12:00:00",
+    "connectorType": "type2_Plug"
+  },
+  {
+    "chargeStatus": 100,
+    "distance": 1000,
+    "startTime": "2020-10-12T08:00:00",
+    "endTime": "2020-10-12T10:00:00",
+    "connectorType": "tesla_Supercharger"
+  }
+]
