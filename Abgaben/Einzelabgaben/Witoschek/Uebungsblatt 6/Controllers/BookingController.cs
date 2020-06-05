@@ -8,6 +8,8 @@ using Blatt03.ViewModel;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Text.Json.Serialization;
 
 namespace Blatt03.Controllers
 {
@@ -25,7 +27,6 @@ namespace Blatt03.Controllers
         {
             var cacheKey = "bookings";
             _memoryCache.TryGetValue(cacheKey, out bookings);
-
             return View(bookings);
         }
 
@@ -36,6 +37,7 @@ namespace Blatt03.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Post(Booking booking)
         {
             var cacheKey = "bookings";
@@ -58,7 +60,7 @@ namespace Blatt03.Controllers
             _memoryCache.TryGetValue(cacheKey, out bookings);
 
             // Write enum content as string
-            var stringEnumConverter = new System.Text.Json.Serialization.JsonStringEnumConverter();
+            var stringEnumConverter = new JsonStringEnumConverter();
             JsonSerializerOptions opts = new JsonSerializerOptions() { WriteIndented = true};
             opts.Converters.Add(stringEnumConverter);
 
@@ -73,10 +75,40 @@ namespace Blatt03.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upload(IFormFile f)
+        [ValidateAntiForgeryToken]
+        public IActionResult Upload(IFormFile importedFile)
         {
-            var inbook = System.IO.File.ReadAllText(f);
-            List<Booking> addition = JsonSerializer.Deserialize<List<Booking>>(inbook);
+            var file = importedFile;
+            var cacheKey = "bookings";
+
+            _memoryCache.TryGetValue(cacheKey, out bookings);
+            if (!_memoryCache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<Booking>();
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                return View("Index", bookings);
+            }
+
+            var result = new StringBuilder();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    result.AppendLine(reader.ReadLine());
+            }
+
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            List<Booking> importedBookings = JsonSerializer.Deserialize<List<Booking>>(result.ToString(), options);
+            foreach (Booking b in importedBookings) {
+                bookings.Add(b);
+            }
+
+            _memoryCache.Set(cacheKey, bookings);
+
+            return View("Index", bookings);
         }
 
         public IActionResult Evaluation()
