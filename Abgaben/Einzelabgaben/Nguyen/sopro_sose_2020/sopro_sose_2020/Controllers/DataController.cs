@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -36,7 +37,6 @@ namespace sopro_sose_2020.Controllers
         }
         public IActionResult exportData(string cKey)
         {
-            cacheKey = cKey;
             string _filename;
             object obj;
             if(cKey == "eva")
@@ -51,11 +51,11 @@ namespace sopro_sose_2020.Controllers
                 obj = bookingList;
                 
             }
-            _memoryCache.TryGetValue(cacheKey, out obj);
+            _memoryCache.TryGetValue(cKey, out obj);
             string json = JsonSerializer.Serialize(obj, options);
             string filename = string.Concat(DateTime.Now.ToString("yyyyddMM"),_filename,"-exported", ".json");
-            System.IO.File.WriteAllText($"wwwroot/APP_DATA/{filename}", json);
-            return download(filename);
+            //System.IO.File.WriteAllText($"wwwroot/APP_DATA/{filename}", json);
+            return download(filename,json);
         }
         public IActionResult importData(string filename)
         {
@@ -65,13 +65,12 @@ namespace sopro_sose_2020.Controllers
             _memoryCache.Set(cacheKey, bookingList);
             return RedirectToAction("Index", "Booking");
         }
-        public IActionResult download(string _fileName)
+        public IActionResult download(string _fileName,string _data)
         {
-            var fileName = $"{_fileName}";
-            var filepath = $"wwwroot/APP_DATA/{fileName}";
-            byte[] fileBytes = System.IO.File.ReadAllBytes(filepath);
-            return File(fileBytes, "application/json", fileName);
+            byte[] fileBytes = Encoding.UTF8.GetBytes(_data);
+            return File(fileBytes, "application/octet-stream", _fileName);
         }
+      
         [HttpPost]
         public async Task<IActionResult> upload(jsonFileModel uploaded)
         {

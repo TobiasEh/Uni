@@ -1,4 +1,5 @@
-﻿using Foolproof;
+﻿
+using FoolProof.Core;
 using sopro_sose_2020.CustomValidation;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using CustomModelValidation.CustomValidation;
-using Foolproof;
+using FoolProof.Core;
 using Microsoft.AspNetCore.Http;
 using sopro_sose_2020.CustomValidation;
 using System;
