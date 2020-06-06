@@ -6309,11 +6309,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 6\\Blatt03.csproj",
+      "projectUniqueName": "C:\\Users\\Dominik\\Desktop\\Uebungsblatt 6\\Blatt03.csproj",
       "projectName": "Blatt03",
-      "projectPath": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 6\\Blatt03.csproj",
+      "projectPath": "C:\\Users\\Dominik\\Desktop\\Uebungsblatt 6\\Blatt03.csproj",
       "packagesPath": "C:\\Users\\Dominik\\.nuget\\packages\\",
-      "outputPath": "F:\\Git\\Softwareprojekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\Uebungsblatt 6\\obj\\",
+      "outputPath": "C:\\Users\\Dominik\\Desktop\\Uebungsblatt 6\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dominik\\AppData\\Roaming\\NuGet\\NuGet.Config",

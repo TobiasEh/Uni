@@ -9,7 +9,9 @@ namespace Blatt03.ViewModel
 {
     public class CreatePostViewModel
     {
-        public List<Booking> bookings { get; set; }
+        public List<Booking> bookinglist { get; set; }
+        [MaxFileSize(1 * 1024 * 1024, ErrorMessage ="test")]
+        [AllowedExtensions(new String[] { ".json"}, ErrorMessage = "Wrong extension")]
         public IFormFile importedBookings { set; get; }
     }
 }

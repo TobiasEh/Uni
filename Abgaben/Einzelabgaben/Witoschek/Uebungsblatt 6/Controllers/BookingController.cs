@@ -27,7 +27,8 @@ namespace Blatt03.Controllers
         {
             var cacheKey = "bookings";
             _memoryCache.TryGetValue(cacheKey, out bookings);
-            return View(bookings);
+
+            return View(new CreatePostViewModel() { bookinglist = this.bookings });
         }
 
         [HttpGet]
@@ -49,7 +50,8 @@ namespace Blatt03.Controllers
 
             bookings.Add(booking);
             _memoryCache.Set(cacheKey, bookings);
-            return View("Index", bookings);
+
+            return View("Index", new CreatePostViewModel() { bookinglist = this.bookings });
         }
 
         [HttpGet]
@@ -76,10 +78,15 @@ namespace Blatt03.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upload(IFormFile importedFile)
+        public IActionResult Upload([FromForm]CreatePostViewModel model)
         {
-            var file = importedFile;
+            var file = model.importedBookings;
             var cacheKey = "bookings";
+
+            if (!ModelState.IsValid)
+            {
+                return View("Index", new CreatePostViewModel() { bookinglist = this.bookings });
+            }
 
             _memoryCache.TryGetValue(cacheKey, out bookings);
             if (!_memoryCache.TryGetValue(cacheKey, out bookings))
@@ -89,7 +96,7 @@ namespace Blatt03.Controllers
 
             if (file == null || file.Length == 0)
             {
-                return View("Index", bookings);
+                return View("Index", new CreatePostViewModel() { bookinglist = this.bookings });
             }
 
             var result = new StringBuilder();
@@ -108,7 +115,7 @@ namespace Blatt03.Controllers
 
             _memoryCache.Set(cacheKey, bookings);
 
-            return View("Index", bookings);
+            return View("Index", new CreatePostViewModel() { bookinglist = this.bookings });
         }
 
         public IActionResult Evaluation()
