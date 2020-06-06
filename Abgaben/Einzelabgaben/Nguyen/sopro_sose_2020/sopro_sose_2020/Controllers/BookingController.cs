@@ -33,7 +33,7 @@ namespace sopro_sose_2020.Controllers
         public IActionResult create()
         {
             
-            return View();
+            return View(new Booking());
         }
 
         [HttpPost]
