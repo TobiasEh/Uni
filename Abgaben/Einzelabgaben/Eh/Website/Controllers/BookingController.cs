@@ -8,6 +8,12 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using System.Collections;
 using Website.ViewModel;
+using System.Text;
+using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Text.Json.Serialization;
+using System.Diagnostics;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,7 +31,15 @@ namespace Website.Controllers
             _memoryCache = memoryCache;
         }
         public IActionResult Index()
-        {/*
+        {
+            _memoryCache.TryGetValue("bookings", out bookings);
+            if(bookings == null)
+            {
+                bookings = new List<Booking>();
+            }
+            /*UploadViewModel test = new UploadViewModel();
+            test.bookings = bookings;
+            
             Booking b1 = new Booking()
             {
                 currentCharge = 10,
@@ -65,6 +79,7 @@ namespace Website.Controllers
                 b4
             };
             */
+            Debug.WriteLine("test");
             return View(bookings);
         }
 
@@ -75,7 +90,7 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Booking booking)
+        public IActionResult newBooking(Booking booking)
         {
             string cacheKey = "bookings";
             if (!_memoryCache.TryGetValue(cacheKey, out bookings))
@@ -85,6 +100,7 @@ namespace Website.Controllers
 
             bookings.Add(booking);
             _memoryCache.Set(cacheKey, bookings);
+            Debug.WriteLine("test1");
             return View("Index", bookings);
         }
 
@@ -116,6 +132,73 @@ namespace Website.Controllers
             }
 
             return View(evaluationData);
+        }
+
+
+        [HttpGet]
+        public IActionResult Export()
+        {
+            var cacheKey = "bookings";
+            _memoryCache.TryGetValue(cacheKey, out bookings);
+
+            var stringEnumConverter = new System.Text.Json.Serialization.JsonStringEnumConverter();
+            JsonSerializerOptions opts = new JsonSerializerOptions() { WriteIndented = true };
+            opts.Converters.Add(stringEnumConverter);
+
+            var data = JsonSerializer.Serialize(bookings, opts);
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "bookings.json";
+            return output;
+        }
+
+
+        [HttpPost]
+        public IActionResult Index(JsonFileModel jsonModel)
+        {
+           
+            _memoryCache.TryGetValue("bookings", out bookings);
+            if (bookings == null)
+                {
+                    bookings = new List<Booking>();
+                }
+            if (ModelState.IsValid)
+            {
+                var file = jsonModel.file;
+                if (file == null || file.Length == 0)
+                {
+                    ViewBag.ErrorMessage = "File not found";
+                    return View(bookings);
+                }
+                var import = new StringBuilder();
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                {
+                    while (reader.Peek() >= 0)
+                        import.AppendLine(reader.ReadLine());
+                }
+                var jsonOption = new JsonSerializerOptions();
+                jsonOption.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                List<Booking> newBookings = JsonSerializer.Deserialize<List<Booking>>(import.ToString(), jsonOption);
+
+
+                foreach (Booking booking in newBookings)
+                {
+                    bookings.Add(booking);
+                }
+
+
+
+                _memoryCache.Set("bookings", bookings);
+
+                ViewBag.Message = "File successfully uploaded";
+
+                return View(newBookings);
+            } else
+            {
+                ViewBag.ErrorMessage = "ERROR: Es wurde eine falsche Datei ausgewählt.";
+                return View(bookings);
+            }
         }
     }
 }
