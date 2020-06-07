@@ -78,3 +78,8 @@ body {
 .filter-blue {
     filter: invert(12%) sepia(39%) saturate(5864%) hue-rotate(229deg) brightness(108%) contrast(128%);
 }
+
+.btn-mhp {
+    background-color: #000099;
+    color: white;
+}
