@@ -4590,9 +4590,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MSV Projekte\\NUnitTestProject1\\NUnitTestProject1.csproj",
-      "projectName": "NUnitTestProject1",
-      "projectPath": "D:\\MSV Projekte\\NUnitTestProject1\\NUnitTestProject1.csproj",
+      "projectUniqueName": "D:\\MSV Projekte\\NUnitTestProject1\\UI-Test.csproj",
+      "projectName": "UI-Test",
+      "projectPath": "D:\\MSV Projekte\\NUnitTestProject1\\UI-Test.csproj",
       "packagesPath": "C:\\Users\\Thoma\\.nuget\\packages\\",
       "outputPath": "D:\\MSV Projekte\\NUnitTestProject1\\obj\\",
       "projectStyle": "PackageReference",

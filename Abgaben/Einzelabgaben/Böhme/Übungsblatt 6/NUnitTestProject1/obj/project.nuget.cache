@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZW7MfPh88ZOExUDNkbFMyzvE8VE/AqWav7QqlXeuXfE4XPKReU2dMqzOBJ8aqineCw1EC1bBadnt/LvEFK/QGA==",
+  "dgSpecHash": "G/ZoO+8U59gfxfyn26ItEbCEgDbJhTqi8oAYPC6eFZWjE+j2mOMQtD3PO9aOMNYde5/HOQ3bqm1R7wHr5Thffw==",
   "success": true,
-  "projectFilePath": "D:\\MSV Projekte\\NUnitTestProject1\\NUnitTestProject1.csproj",
+  "projectFilePath": "D:\\MSV Projekte\\NUnitTestProject1\\UI-Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Thoma\\.nuget\\packages\\microsoft.codecoverage\\16.5.0\\microsoft.codecoverage.16.5.0.nupkg.sha512",
     "C:\\Users\\Thoma\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",

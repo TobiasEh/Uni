@@ -72,7 +72,7 @@ namespace NUnitTestProject1
             startTime.SendKeys(Keys.Tab);
 
             IWebElement endTime = webDriver.FindElement(By.XPath("//input[@name='endTime']"));
-            endTime.SendKeys("11202020");
+            endTime.SendKeys("11102020");
             endTime.SendKeys(Keys.ArrowRight);
             endTime.SendKeys("0830");
             endTime.SendKeys(Keys.Tab);

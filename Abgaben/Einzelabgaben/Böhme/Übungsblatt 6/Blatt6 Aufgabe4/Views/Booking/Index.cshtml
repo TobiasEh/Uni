@@ -12,7 +12,7 @@
 {
     <br/>
     <p>Noch keine Buchungen vorhanden!</p>
-    
+
 }
 else
 {<table class="table table-hover table-striped">
@@ -47,7 +47,7 @@ else
         </tr>
     }
 </table>
-<input type="button" class="btn btn-primary" value="Export" style="display:inline; float:left" onclick="location.href='@Url.Action("exportData", "Data", new {cacheKey = "bookings"})'"/>
+<input type="button" class="btn btn-primary" value="Export" style="display:inline; float:left" onclick="location.href='@Url.Action("exportData", "Data", new { cacheKey = "bookings" })'"/>
 }
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import_modal" style="display:inline; float:right">Import</button>
 </div>
@@ -65,13 +65,14 @@ else
         <form asp-controller="Data" asp-action="upload" method="post" enctype="multipart/form-data">
             <div class="modal-body">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="file" name="spezifier" accept=".json">
+                    <input type="file" class="custom-file-input" id="file" name="file" accept=".json">
                     <label class="custom-file-label" for="customFile">Choose file to import</label>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Import</button>
+                
             </div>
         </form>
     </div>
@@ -79,11 +80,11 @@ else
 </div>  
 
 
-<script>
-    
-    $("submit").on("change", function() {
-        var filename2 = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-lable").addClass("selected").html(filename2);
-    });
-</script>
-  
+@{/*<script>
+
+        $("customfile-input").on("change", function() {
+            var filename2 = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-lable").addClass("selected").html(filename2);
+        });
+    </script>
+    */}

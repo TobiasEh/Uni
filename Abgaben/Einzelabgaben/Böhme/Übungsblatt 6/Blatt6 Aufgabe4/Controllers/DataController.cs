@@ -41,6 +41,7 @@ namespace Blatt3_Aufgabe4.Controllers
             {
                 List<ConnectorTypeEvaluationViewModel> evaluList = new List<ConnectorTypeEvaluationViewModel>();
                 filename = "evaluation";
+                objec = bookings;
             } 
             else
             {
@@ -67,8 +68,15 @@ namespace Blatt3_Aufgabe4.Controllers
         {
             cacheKey = "bookings";
             json = System.IO.File.ReadAllText($"{filename2}");
-            bookings = JsonSerializer.Deserialize<List<Booking>>(json ,options);
+            bookings = JsonSerializer.Deserialize<List<Booking>>(json, options);
+            List<Booking> output = new List<Booking>();
+            _memoryCache.TryGetValue(cacheKey, out output);
+            foreach (Booking b in output)
+            {
+                bookings.Add(b);
+            }
             _memoryCache.Set(cacheKey, bookings);
+
             return RedirectToAction("Index", "Booking");
         }
         [HttpPost]

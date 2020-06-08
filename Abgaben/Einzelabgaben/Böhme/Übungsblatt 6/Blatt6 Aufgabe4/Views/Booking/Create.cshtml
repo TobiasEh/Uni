@@ -19,11 +19,11 @@
         </div>
         <div class="form-group input-append date form_datetime">
             <label for="@Model.startTime">Start Time</label>
-            <input type="datetime-local" class="form-control" id="@Model.startTime" name="startTime">
+            <input type="datetime-local" class="form-control" id="@Model.startTime" name="startTime" min="@DateTime.Now">
         </div>
         <div class="form-group input-append date form_datetime">
             <label for="@Model.endTime">End Time</label>
-            <input type="datetime-local" class="form-control" id="@Model.endTime" name="endTime">
+            <input type="datetime-local" class="form-control" id="@Model.endTime" name="endTime" min="@Model.startTime">
         </div>
         <div class="form-group">
             <lable for="@Model.connectorType">Stecker Type</lable>
@@ -34,15 +34,5 @@
     </form>
 </div>
 
-<script type="text/javascript">
-    var now = new Date().toISOString().min = now;
-    document.getElementById("in_startTime").min = now;
-    document.getElementById("in_endTime").min = now;
-</script>
-<script type="text/javascript">
-    function endTimeMIN(e) {
-        document.getElementById("in_endTime").min = e.target.value;
-    }
-</script>
 
 

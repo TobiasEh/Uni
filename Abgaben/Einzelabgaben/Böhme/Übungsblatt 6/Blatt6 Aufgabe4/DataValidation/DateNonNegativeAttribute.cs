@@ -8,15 +8,26 @@ namespace Blatt3_Aufgabe4.DataValidation
 {
     public class DateNonNegativeAttribute : ValidationAttribute
     {
-        public DateTime startTime;
+        private DateTime startTime;
         public DateNonNegativeAttribute(DateTime _startTime)
         {
-            startTime = _startTime;
+            this.startTime = _startTime;
         }
-        public override bool IsValid(object value)
+
+        /*public override bool IsValid(object value)
         {
-            var endTime = (DateTime)value;
+            DateTime endTime = (DateTime)value;
             return endTime >= startTime;
+        }*/
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            DateTime endTime = (DateTime)value;
+            if (endTime >= startTime)
+            {
+                return ValidationResult.Success;
+            }
+            return new ValidationResult("endTime must be greater than starTime");
         }
 
     }

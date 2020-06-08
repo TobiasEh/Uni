@@ -1,6 +1,7 @@
 ﻿using Blatt3_Aufgabe4.DataValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace Blatt3_Aufgabe4.Models
 {
@@ -30,9 +31,6 @@ namespace Blatt3_Aufgabe4.Models
 		{
 
 		}
-
-		
-
 	}
 
 	public enum ConnectorType
