@@ -58,7 +58,7 @@
             <td>08.06.2020 17:00</td>
             <td>30%</td>
             <td>100</td>
-            <td><button class="btn btn-primary btn-mhp" ><img src="~/bootstrap-icons/pencil.svg" width="20" /></button> <button class="btn btn-secondary"><img src="~/bootstrap-icons/x-circle-fill.svg" width="20" /></button></td>
+            <td><button class="btn btn-primary btn-mhp"><img src="~/bootstrap-icons/pencil.svg" width="20" /></button> <button class="btn btn-secondary"><img src="~/bootstrap-icons/x-circle-fill.svg" width="20" /></button></td>
         </tr>
         <tr>
             <td>München</td>
@@ -85,8 +85,11 @@
             <td>08.06.2020 17:00</td>
             <td>30%</td>
             <td>100</td>
-            <td><button class="btn btn-primary btn-mhp"><img src="~/bootstrap-icons/pencil.svg" width="20" /></button> <button class="btn btn-secondary"><img src="~/bootstrap-icons/x-circle-fill.svg" width="20"/></button></td>
+            <td><button class="btn btn-primary btn-mhp"><img src="~/bootstrap-icons/pencil.svg" width="20" /></button> <button class="btn btn-secondary"><img src="~/bootstrap-icons/x-circle-fill.svg" width="20" /></button></td>
         </tr>
     </table>
+    <form methode="post">
+        <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp">Neue Buchungsanfrage</button>
+    </form>
 </div>
 
