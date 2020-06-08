@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kU5U5QZrExqSPdutQKGixbimFuPK6x6wuUBy1Buf+5i4ekoL4mHCBhGpmHBuEhFShbTbyyc9mwPlEsIEnv1ZPA==",
+  "dgSpecHash": "KmcuCl/sxTSVmKHCiXAM6RzbJs0a0JjkJ2zfZKkvwlENDwCHjDv1zAi6INdW7QrtsSGGdQB5XTd3iW+KDMn9GQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dd896\\source\\repos\\sopro2020-abgabe\\sopro2020-abgabe.csproj",
+  "projectFilePath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Gruppe\\sopro2020-abgabe\\sopro2020-abgabe.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dd896\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\dd896\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

@@ -6076,11 +6076,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dd896\\source\\repos\\sopro2020-abgabe\\sopro2020-abgabe.csproj",
+      "projectUniqueName": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Gruppe\\sopro2020-abgabe\\sopro2020-abgabe.csproj",
       "projectName": "sopro2020-abgabe",
-      "projectPath": "C:\\Users\\dd896\\source\\repos\\sopro2020-abgabe\\sopro2020-abgabe.csproj",
+      "projectPath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Gruppe\\sopro2020-abgabe\\sopro2020-abgabe.csproj",
       "packagesPath": "C:\\Users\\dd896\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dd896\\source\\repos\\sopro2020-abgabe\\obj\\",
+      "outputPath": "D:\\Userdata\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Gruppe\\sopro2020-abgabe\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\dd896\\AppData\\Roaming\\NuGet\\NuGet.Config",
