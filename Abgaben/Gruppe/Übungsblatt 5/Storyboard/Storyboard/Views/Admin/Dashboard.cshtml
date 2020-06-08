@@ -71,7 +71,7 @@
 <div class="table-responsive">
     <table class="table table-striped table-borderless table-hover">
         <thead class="thead-dark">
-            <tr >
+            <tr>
                 <th>Benutzer</th>
                 <th>Standort</th>
                 <th>Zone</th>
@@ -124,5 +124,11 @@
             <td><button class="btn btn-primary btn-mhp"><img src="~/bootstrap-icons/pencil.svg" width="20" /></button> <button class="btn btn-secondary"><img src="~/bootstrap-icons/x-circle-fill.svg" width="20" /></button></td>
         </tr>
     </table>
+    <form methode="post">
+        <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp">Neue Buchungsanfrage</button>
+    </form>
+    <form methode="post">
+        <button asp-controller="Simulation" asp-action="Cartemplates" class="btn btn-primary btn-mhp">Auto</button>
+    </form>
 </div>
 

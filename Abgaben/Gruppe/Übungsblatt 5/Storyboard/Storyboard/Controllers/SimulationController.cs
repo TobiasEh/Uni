@@ -6,19 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Storyboard.Controllers
 {
-    public class BookingController : Controller
+    public class SimulationController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Dashboard()
-        {
-            return View();
-        }
-
-        public IActionResult CreateBooking()
+        public IActionResult Cartemplates()
         {
             return View();
         }
