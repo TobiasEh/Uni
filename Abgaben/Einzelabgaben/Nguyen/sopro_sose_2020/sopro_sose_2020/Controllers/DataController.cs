@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -60,10 +61,14 @@ namespace sopro_sose_2020.Controllers
         public IActionResult importData(string filename)
         {
             cacheKey = "bookingList";
-            string json = System.IO.File.ReadAllText($"wwwroot/APP_DATA/{filename}");
+            var path = $"wwwroot/APP_DATA/{filename}";
+            string json = System.IO.File.ReadAllText(path);
             bookingList = JsonSerializer.Deserialize<List<Booking>>(json, options);
             _memoryCache.Set(cacheKey, bookingList);
+            System.IO.File.Delete(path);
             return RedirectToAction("Index", "Booking");
+
+
         }
         public IActionResult download(string _fileName,string _data)
         {
@@ -78,23 +83,23 @@ namespace sopro_sose_2020.Controllers
 
             if (ModelState.IsValid)
             {
-               var _file = uploaded.file;
+                var _file = uploaded.file;
                 if (_file == null)
-               {
+                {
                    ModelState.AddModelError("","File is empty");
                    return Content("File not selected");
-               }
-             else
-             {
-            var fileName = _file.FileName;
-            var filePath = $"wwwroot/APP_DATA/{fileName}";
+                }
+                else
+                {
+                    var fileName = _file.FileName;
+                    var filePath = $"wwwroot/APP_DATA/{fileName}";
 
-            using (var stream = System.IO.File.Create(filePath))
-            {
-                  await _file.CopyToAsync(stream);
-            }
-                return importData(fileName);
-             }
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                          await _file.CopyToAsync(stream);
+                    }
+                        return importData(fileName);
+                }
             }
             return Content("File invalid");
         }

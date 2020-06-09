@@ -37,7 +37,7 @@ namespace NUnitTestProject1
             get { return webDriver; }
         }
     }
-    class NUnit_Demo_1
+    class NUnit_UI_test
     {
         Browser_ops brow = new Browser_ops();
         string test_url = "https://localhost:44327/Booking/create";
@@ -57,16 +57,18 @@ namespace NUnitTestProject1
 
             driver = brow.getDriver;
 
-            IWebElement cur_charge = driver.FindElement(By.XPath("//*[@id='in_cur_charge']"));
-            IWebElement needed_dist = driver.FindElement(By.XPath("//*[@id='in_needed_distance']"));
-            IWebElement startTime = driver.FindElement(By.XPath("//*[@id='in_startTime']"));
-            IWebElement endTIme = driver.FindElement(By.XPath("//*[@id='in_endTime']"));
-            IWebElement plug_type = driver.FindElement(By.XPath("//*[@id='in_connectorType']"));
+            IWebElement cur_charge = driver.FindElement(By.XPath("//*[@id='cur_charge']"));
+            IWebElement needed_dist = driver.FindElement(By.XPath("//*[@id='needed_distance']"));
+            IWebElement startTime = driver.FindElement(By.XPath("//*[@id='startTime']"));
+            IWebElement endTIme = driver.FindElement(By.XPath("//*[@id='endTime']"));
+            IWebElement plug_type = driver.FindElement(By.XPath("//*[@id='connectorType']"));
             IWebElement submit = driver.FindElement(By.XPath("//*[@id='submit_btn']"));
 
             var selectElement = new SelectElement(plug_type);
 
+            cur_charge.Clear();
             cur_charge.SendKeys("69");
+            needed_dist.Clear();
             needed_dist.SendKeys("123");
             startTime.SendKeys("20042069");
             startTime.SendKeys(Keys.Tab);

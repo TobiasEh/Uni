@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Drawing;
@@ -20,6 +21,9 @@ namespace sopro_sose_2020.Controllers
         {
             _memoryCache = memoryCache;
         }
+
+
+
         public IActionResult Index()
         {
             var cacheKey = "bookingList";
@@ -52,6 +56,19 @@ namespace sopro_sose_2020.Controllers
             }
             return Content("Error - incorrect input");
         }
+        [HttpPost]
+        public IActionResult postBookingTEST(Booking _booking) //modelbind post from html
+        {
+            if (ModelState.IsValid)
+            {
+                
+                bookingList = new List<Booking>();
+                bookingList.Add(_booking);
+                return View("Index", bookingList);
+            }
+            return Content("Error - incorrect input");
+        }
+
         public IActionResult Evaluation()
         {
             var cacheKey = "bookingList";
@@ -101,5 +118,7 @@ namespace sopro_sose_2020.Controllers
             _memoryCache.Set(cacheKey, EvaList);
             return View(EvaList);
         }
+        
     }
+
 }
