@@ -5,6 +5,7 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace NUnitTestProject1
 {
@@ -13,10 +14,10 @@ namespace NUnitTestProject1
         IWebDriver webDriver;
         public void initBrowser()
         {
-            
+
 
             //System.Environment.SetEnvironmentVariable("webdriver.chrome.driver", @"D:\Downloads\chromedriver_win32\chromedriver.exe");
-            //webDriver = new ChromeDriver();
+            //webDriver = new ChromeDriver(@"D:\Downloads\chromedriver_win32\");
 
             System.Environment.SetEnvironmentVariable("webdriver.edge.driver", @"D:\Downloads\edgedriver_win64\MicrosoftWebDriver.exe");
             webDriver = new EdgeDriver(@"D:\Downloads\edgedriver_win64\");
@@ -51,10 +52,8 @@ namespace NUnitTestProject1
             opsBrowser.initBrowser();
         }
 
-        //[TestCase(20, null, "10102020", "1000", "10102020", "1345", false)]
-        //[TestCase(1, 0, "10102020", "1000", "10102020", "1345", false)]
-        [TestCase(20, 120, "10102020", "1000", "10102020", "1345", true)]
-        public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP, bool expected)
+        [TestCase(20, 120, "10102020", "1000", "10102020", "1345")]
+        public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP)
         {
             opsBrowser.Goto(ulrToTest);
             System.Threading.Thread.Sleep(5000);
@@ -88,21 +87,10 @@ namespace NUnitTestProject1
             IWebElement submit = webDriver.FindElement(By.XPath("//button[@type='submit']"));
 
             System.Threading.Thread.Sleep(2000);
-            
-
-            if (expected == false)
-            {
-                
-                submit.Click();
-                System.Threading.Thread.Sleep(2000);
-                var b = charge.FindElement(By.CssSelector("input:required:invalid"));
-                Assert.IsTrue(b.Text.ToString().Contains("Wert"));
-            } else
-            {
-                submit.Click();
-            }
-
-            System.Threading.Thread.Sleep(2000);
+   
+            submit.Click();
+            System.Threading.Thread.Sleep(1000);
+            Assert.IsTrue(webDriver.Url.ToString().Equals("https://localhost:44336/Booking/Post"));
         }
         [TearDown]
         public void kill()
