@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using TestProjekt.Models;
@@ -74,37 +77,21 @@ namespace TestProjekt.Controllers
             return RedirectToAction("Evaluation", "Booking", output);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> upload(FileSpec spezifier)
+        public IActionResult impoBookingData(IFormFile jsonfile)
         {
-            if (ModelState.IsValid)
+            var file = jsonfile;
+            cacheKey = "bookings";
+            StringBuilder tempJson = new StringBuilder();
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
             {
-                var _file = spezifier.file;
-                if (_file == null)
+                while (reader.Peek() != 0)
                 {
-                    ModelState.AddModelError("", "File is empty");
-                    return Content("File is not selected");
-                }
-
-                else
-                {
-                    var filename = _file.FileName;
-                    var filepath = $"{filename}";
-
-                    using (var stream = System.IO.File.Create(filepath))
-                    {
-                        await _file.CopyToAsync(stream);
-                    }
-                    return impoBookingData(filename);
+                    tempJson.AppendLine(reader.ReadLine());
                 }
             }
-            return Content("File is invalid");
-        }
+            json = tempJson.ToString();
 
-        public IActionResult impoBookingData(string filename)
-        {
-            cacheKey = "bookings";
-            json = System.IO.File.ReadAllText($"{filename}");
             bookings = JsonSerializer.Deserialize<List<Booking>>(json, options);
 
             List<Booking> output = new List<Booking>();

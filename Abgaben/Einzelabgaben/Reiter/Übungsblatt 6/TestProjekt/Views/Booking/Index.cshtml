@@ -54,43 +54,26 @@ else
     <div class="ml-auto">
         <input class="float-right col btn btn-primary btn-lg" type="button" name="export" value="Export" onclick="location.href='@Url.Action("expoBookingData", "DataModel", new { cacheKey = "bookings" })'" />
     </div>
-    <div class="ml-auto">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#import" style="display:inline; float:left">Import</button>
-    </div>
+</div>
 
-    <!--Modal-->
-    <div class="modal fade" id="import" role="dialog" aria-labelledby="modal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title" id="import_modalLabel">Select file</h2>
-                    <button txpe="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form asp-controller="DataModel" asp-action="upload" method="post" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="file" name="spezifier" accept=".json">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Import</button>
-                    </div>
-                </form>
-            </div>
+<form asp-controller="DataModel" asp-action="impoBookingData" class="form-horizontal mt-2" method="post" enctype="multipart/form-data">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <button type="submit" class="btn btn-primary col-xs-12">Import</button>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile" accept=".json">
+            <label class="custom-file-label" for="customFile" id="fileLabel">Datei wählen</label>
         </div>
     </div>
+</form>
 
 
-    <script>
 
-        $("submit").on("change", function () {
-            var filename = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-lable").addClass("selected").html(filename);
-        });
-    </script>
-
-</div>
+<script>
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        document.getElementById("fileLabel").innerHTML(fileName)
+    });
+</script>
