@@ -22,5 +22,9 @@ namespace Storyboard.Controllers
         {
             return View();
         }
+        public IActionResult Evaluation()
+        {
+            return View();
+        }
     }
 }
