@@ -10,6 +10,8 @@ using System.Text.Json;
 using Blatt3_Aufgabe4.Controllers;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Text;
 
 namespace Blatt3_Aufgabe4.Controllers
 {
@@ -30,6 +32,7 @@ namespace Blatt3_Aufgabe4.Controllers
             options.WriteIndented = true;
             
         }
+        [HttpGet]
         public IActionResult exportData(string cacheKey)
         {
             
@@ -63,48 +66,44 @@ namespace Blatt3_Aufgabe4.Controllers
             }
             
         }
-        
-        public IActionResult importData(string filename2)
+       
+        [HttpPost]
+        public IActionResult upload(JSONFileSpezifier spezifier)
         {
             cacheKey = "bookings";
-            json = System.IO.File.ReadAllText($"{filename2}");
-            bookings = JsonSerializer.Deserialize<List<Booking>>(json, options);
-            List<Booking> output = new List<Booking>();
-            _memoryCache.TryGetValue(cacheKey, out output);
+            if(!_memoryCache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<Booking>();
+            }
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ErrorMessage = "Achtung Sie haben eine falsche Datei ausgewählt.";
+                return RedirectToAction("Index", "Booking", bookings);
+            }
+
+            var _file = spezifier.file;
+            if (_file == null || _file.Length == 0)
+            {
+                ViewBag.ErrorMessage = "File not found";
+                return RedirectToAction("Index", "Booking", bookings);
+            }
+
+            var res = new StringBuilder();
+            using (var rea = new StreamReader(_file.OpenReadStream()))
+            {
+                while (rea.Peek() >= 0)
+                    res.AppendLine(rea.ReadLine());
+            }
+            
+            List<Booking>output = JsonSerializer.Deserialize<List<Booking>>(res.ToString(), options);
             foreach (Booking b in output)
             {
                 bookings.Add(b);
             }
             _memoryCache.Set(cacheKey, bookings);
+            ViewBag.Message = "File wurde erfolgreich Hochgeladen";
 
             return RedirectToAction("Index", "Booking");
-        }
-        [HttpPost]
-        public async Task<IActionResult> upload(JSONFileSpezifier spezifier)
-        {
-            Console.WriteLine("upload_beginn");
-            if (ModelState.IsValid)
-            {
-                var _file = spezifier.file;
-                if(_file == null)
-                {
-                    ModelState.AddModelError("", "File is empty");
-                    return Content("File is not selected");
-                }
-
-                else
-                {
-                    var filename2 = _file.FileName;
-                    var filepath = $"{filename2}";
-                
-                using (var stream = System.IO.File.Create(filepath))
-                    {
-                        await _file.CopyToAsync(stream);
-                    }
-                    return importData(filename2);
-                }
-            }
-            return Content("File is invalid");
         }
     }
 }

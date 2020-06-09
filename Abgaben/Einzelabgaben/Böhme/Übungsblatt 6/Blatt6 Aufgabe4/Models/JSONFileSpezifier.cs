@@ -12,7 +12,7 @@ namespace Blatt3_Aufgabe4.Models
     public class JSONFileSpezifier
     {
         [FileExtension(".json")]
-        [FileSize(1024 * 1024)]
+        [FileSize(1024 * 1024*1024)]
         public IFormFile file { get; set; }
     }
 }

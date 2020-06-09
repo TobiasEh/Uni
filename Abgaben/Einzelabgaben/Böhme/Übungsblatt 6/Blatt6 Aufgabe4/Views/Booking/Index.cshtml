@@ -2,89 +2,101 @@
 @{
     ViewData["Titel"] = "Booking";
     }
-<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.js">$(document).ready(function () { });</script>
 <div class="">
-<h1>Buchungen</h1>
-<p style="display:inline">Übersicht aller Buchugen:</p>
-<input type="button" class="btn btn-primary" style="display:inline; float:right" value="Neue Buchung anlegen" onclick="location.href='@Url.Action("Create", "Booking")'"/>
+    <h1>Buchungen</h1>
+    <p style="display:inline">Übersicht aller Buchugen:</p>
+    <input type="button" class="btn btn-primary" style="display:inline; float:right" value="Neue Buchung anlegen" onclick="location.href='@Url.Action("Create", "Booking")'" />
 
-@if (Model == null)
-{
-    <br/>
-    <p>Noch keine Buchungen vorhanden!</p>
-
-}
-else
-{<table class="table table-hover table-striped">
-    <tr>
-        <th>Charge Status</th>
-        <th>Distance</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Connector Type</th>
-    </tr>
-
-
-    @foreach (Booking item in Model)
+    @if (Model == null)
     {
-        <tr>
-            <td>
-                @item.chargeStatus
+        <br />
+        <p>Noch keine Buchungen vorhanden!</p>
 
-            </td>
-            <td>
-                @item.distance
-            </td>
-            <td>
-                @item.startTime
-            </td>
-            <td>
-                @item.endTime
-            </td>
-            <td>
-                @item.connectorType
-            </td>
-        </tr>
     }
-</table>
-<input type="button" class="btn btn-primary" value="Export" style="display:inline; float:left" onclick="location.href='@Url.Action("exportData", "Data", new { cacheKey = "bookings" })'"/>
-}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import_modal" style="display:inline; float:right">Import</button>
+    else
+    {<table class="table table-hover table-striped">
+            <tr>
+                <th>Charge Status</th>
+                <th>Distance</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Connector Type</th>
+            </tr>
+
+
+            @foreach (Booking item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.chargeStatus
+
+                    </td>
+                    <td>
+                        @item.distance
+                    </td>
+                    <td>
+                        @item.startTime
+                    </td>
+                    <td>
+                        @item.endTime
+                    </td>
+                    <td>
+                        @item.connectorType
+                    </td>
+                </tr>
+            }
+        </table>
+        <input type="button" class="btn btn-primary" value="Export" style="display:inline; float:left" onclick="location.href='@Url.Action("exportData", "Data", new { cacheKey = "bookings" })'" />
+    }
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import_modal" style="display:inline; float:right">Import</button>
+    
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            <p>@ViewBag.Message</p>
+        </div>
+    }
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alter alert-danger" style="margin-top:20px">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
 </div>
 
-<!--Modal-->  
-<div class="modal fade" id="import_modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title" id="import_modalLabel">Select File to import</h2>
-            <button txpe="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form asp-controller="Data" asp-action="upload" method="post" enctype="multipart/form-data">
-            <div class="modal-body">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="file" name="file" accept=".json">
-                    <label class="custom-file-label" for="customFile">Choose file to import</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Import</button>
-                
-            </div>
-        </form>
-    </div>
-    </div>
-</div>  
+  <!--Modal-->  
+  <div class="modal fade" id="import_modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h2 class="modal-title" id="import_modalLabel">Select File to import</h2>
+              <button txpe="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <form asp-controller="Data" asp-action="upload" method="post" enctype="multipart/form-data">
+              <div class="modal-body">
+                  <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="file" name="file" accept=".json">
+                      <label class="custom-file-label" for="customFile">Choose file to import</label>
+                  </div>
 
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Import</button>
 
-@{/*<script>
+              </div>
+          </form>
+      </div>
+      </div>
+  </div>  
+  <script>
 
-        $("customfile-input").on("change", function() {
-            var filename2 = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-lable").addClass("selected").html(filename2);
-        });
+    $("custom-file-lable").on("change", function() {
+        var filename2 = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-lable").addClass("selected").html(filename2);
+     });
     </script>
-    */}

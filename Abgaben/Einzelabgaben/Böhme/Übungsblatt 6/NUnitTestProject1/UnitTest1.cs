@@ -13,10 +13,12 @@ namespace NUnitTestProject1
         IWebDriver webDriver;
         public void initBrowser()
         {
-            System.Environment.SetEnvironmentVariable("webdriver.edge.driver", @"D:\Downloads\edgedriver_win64\MicrosoftWebDriver.exe");
             
+
+            //System.Environment.SetEnvironmentVariable("webdriver.chrome.driver", @"D:\Downloads\chromedriver_win32\chromedriver.exe");
             //webDriver = new ChromeDriver();
-            
+
+            System.Environment.SetEnvironmentVariable("webdriver.edge.driver", @"D:\Downloads\edgedriver_win64\MicrosoftWebDriver.exe");
             webDriver = new EdgeDriver(@"D:\Downloads\edgedriver_win64\");
             webDriver.Manage().Window.Maximize();
         }
@@ -49,43 +51,56 @@ namespace NUnitTestProject1
             opsBrowser.initBrowser();
         }
 
-        [Test]
-        public void Test1()
+        //[TestCase(20, null, "10102020", "1000", "10102020", "1345", false)]
+        //[TestCase(1, 0, "10102020", "1000", "10102020", "1345", false)]
+        [TestCase(20, 120, "10102020", "1000", "10102020", "1345", true)]
+        public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP, bool expected)
         {
             opsBrowser.Goto(ulrToTest);
             System.Threading.Thread.Sleep(5000);
 
             webDriver = opsBrowser.getDriver;
-
-            Random r = new Random();
+            var exeption = new WebDriverException();
 
             IWebElement charge = webDriver.FindElement(By.XPath("//input[@name='chargeStatus']"));
-            charge.SendKeys(r.Next(0, 100).ToString());
+            charge.SendKeys(chargeP.ToString());
 
             IWebElement distance = webDriver.FindElement(By.XPath("//input[@name='distance']"));
-            distance.SendKeys(r.Next(1, 1000).ToString());
+            distance.SendKeys(distanceP.ToString());
             
             IWebElement startTime = webDriver.FindElement(By.XPath("//input[@name='startTime']"));
-            startTime.SendKeys("10102020");
+            startTime.SendKeys(startDateP);
             startTime.SendKeys(Keys.ArrowRight);
-            startTime.SendKeys("1000");
+            startTime.SendKeys(startTimeP);
             startTime.SendKeys(Keys.Tab);
 
             IWebElement endTime = webDriver.FindElement(By.XPath("//input[@name='endTime']"));
-            endTime.SendKeys("11102020");
+            endTime.SendKeys(endDateP);
             endTime.SendKeys(Keys.ArrowRight);
-            endTime.SendKeys("0830");
+            endTime.SendKeys(endTimeP);
             endTime.SendKeys(Keys.Tab);
 
+            Random r = new Random();
             IWebElement plugType = webDriver.FindElement(By.XPath("//select[@id='plugType']"));
             SelectElement selectElement = new SelectElement(plugType);
             selectElement.SelectByIndex(r.Next(1, 6));
 
             IWebElement submit = webDriver.FindElement(By.XPath("//button[@type='submit']"));
 
-            System.Threading.Thread.Sleep(4000);
+            System.Threading.Thread.Sleep(2000);
+            
 
-            submit.Click();
+            if (expected == false)
+            {
+                
+                submit.Click();
+                System.Threading.Thread.Sleep(2000);
+                var b = charge.FindElement(By.CssSelector("input:required:invalid"));
+                Assert.IsTrue(b.Text.ToString().Contains("Wert"));
+            } else
+            {
+                submit.Click();
+            }
 
             System.Threading.Thread.Sleep(2000);
         }
