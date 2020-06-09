@@ -29,6 +29,7 @@ a {
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -60,6 +61,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
+  margin-top: 125px;
   margin-bottom: 60px;
 }
 .footer {
@@ -75,8 +77,14 @@ body {
     font-size: 16px;
 }
 
+/* Buttons */
+
 .filter-blue {
     filter: invert(18%) sepia(48%) saturate(5675%) hue-rotate(238deg) brightness(61%) contrast(140%);
+}
+
+.filter-white {
+    filter: invert(100%) sepia(0%) saturate(474%) hue-rotate(30deg) brightness(115%) contrast(87%);
 }
 
 .btn-mhp {

@@ -2,3 +2,21 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+// Sidebar
+$(document).ready(function () {
+
+    $('#sidebarCollapse').on('click', function () {
+
+        $('#sidebar').toggleClass('active');
+
+        var text = $(this).text();
+        if (text == ">") {
+            $(this).text("<");
+        } else {
+            $(this).text(">");
+        }
+        
+    });
+
+});
