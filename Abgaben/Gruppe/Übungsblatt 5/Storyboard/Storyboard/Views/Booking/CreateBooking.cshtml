@@ -3,7 +3,7 @@
     ViewData["Title"] = "Buchungsanfrage anlegen";
 }
 
-<h1>Buchungsanfrage anlegen</h1>
+<h1 class="display-3">Buchungsanfrage anlegen</h1>
 
 <form asp-controller="Booking" asp-action="Dashboard" id="createBooking" method="post" />
 <div>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="form-group float-right mt-4">
-        <button form="createBooking" type="reset" class="btn btn-secondary" >Abbrechen</button>
+        <button form="createBooking" type="reset" class="btn btn-secondary">Abbrechen</button>
         <button form="createBooking" type="submit" class="btn btn-primary btn-mhp">Buchen</button>
     </div>
 </div>

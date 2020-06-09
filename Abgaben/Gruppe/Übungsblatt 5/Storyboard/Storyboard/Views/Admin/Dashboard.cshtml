@@ -1,7 +1,6 @@
 ﻿
 @{
     ViewData["Title"] = "Buchungsübersicht";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1 class="pb-5">Buchungsübersicht</h1>
@@ -125,11 +124,29 @@
             <td><button class="btn btn-primary btn-mhp"><img src="~/bootstrap-icons/pencil.svg" width="20" /></button> <button class="btn btn-secondary"><img src="~/bootstrap-icons/x-circle-fill.svg" width="20" /></button></td>
         </tr>
     </table>
-    <form methode="post">
-        <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp">Neue Buchungsanfrage</button>
-    </form>
-    <form methode="post">
-        <button asp-controller="Simulation" asp-action="Cartemplates" class="btn btn-primary btn-mhp">Auto</button>
-    </form>
 </div>
+<div class="d-flex">
+    <div>
+        <form asp-controller="Booking" asp-action="" class="form-horizontal" method="post" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-primary col-xs-12 btn-mhp">Import</button>
+        </form>
+    </div>
+    <div>
+        <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
+    </div>
+    <div class="ml-auto">
+        <form methode="post">
+            <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp">Buchen</button>
+        </form>
+    </div>
+</div>
+<form methode="post">
+    <button asp-controller="Simulation" asp-action="Cartemplates" class="btn btn-primary btn-mhp">Auto</button>
+</form>
+<form methode="post">
+    <button asp-controller="Simulation" asp-action="Index" class="btn btn-primary btn-mhp">Simulation</button>
+</form>
+<form methode="post">
+    <button asp-controller="Simulation" asp-action="History" class="btn btn-primary btn-mhp">History</button>
+</form>
 
