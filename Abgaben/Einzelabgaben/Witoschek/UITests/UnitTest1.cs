@@ -15,8 +15,6 @@ namespace UITests
         IWebDriver webDriver;
         public void initBrowser()
         {
-
-
             System.Environment.SetEnvironmentVariable("webdriver.chrome.driver", @"C:\Users\Dominik\Desktop\chromedriver\chromedriver.exe");
             webDriver = new ChromeDriver(@"C:\Users\Dominik\Desktop\chromedriver\");
             webDriver.Manage().Window.Maximize();
@@ -45,7 +43,7 @@ namespace UITests
     public class Tests
     {
         operationsBrowser opsBrowser = new operationsBrowser();
-        string ulrToTest = "https://localhost:44365/Booking/create";
+        string ulr = "https://localhost:44365/Booking/create";
         IWebDriver webDriver;
 
         [SetUp]
@@ -54,14 +52,13 @@ namespace UITests
             opsBrowser.initBrowser();
         }
 
-        [TestCase(20, 120, "10102020", "1000", "10102020", "1345")]
+        [TestCase(22, 100, "10.10.2020", "10:00", "10.10.2020", "13:45")]
         public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP)
         {
-            opsBrowser.Goto(ulrToTest);
+            opsBrowser.Goto(ulr);
             System.Threading.Thread.Sleep(5000);
 
             webDriver = opsBrowser.getDriver;
-            var exeption = new WebDriverException();
 
             IWebElement charge = webDriver.FindElement(By.XPath("//input[@name='currentCharge']"));
             charge.SendKeys(chargeP.ToString());
