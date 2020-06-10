@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QIGObJ/10rizdfsU69vIFDGCtuBKz4B017TN+tZOpXnfQVui2ryKzZeYz+68UY79jiRD55c/UutZQEN4HD8e4A==",
+  "dgSpecHash": "BMwDK7K07P9iarNk8W4sApky2OKe/5AED8wVO4q49Q+Z0wsgZTSFlahgj4mEh2R8341d8QmOM8YJ8FlgXdYuYQ==",
   "success": true,
   "projectFilePath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\UITests.csproj",
   "expectedPackageFiles": [
@@ -48,6 +48,8 @@
     "C:\\Users\\Dominik\\.nuget\\packages\\nunit\\3.12.0\\nunit.3.12.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\nunit3testadapter\\3.15.1\\nunit3testadapter.3.15.1.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
+    "C:\\Users\\Dominik\\.nuget\\packages\\selenium.support\\3.141.0\\selenium.support.3.141.0.nupkg.sha512",
+    "C:\\Users\\Dominik\\.nuget\\packages\\selenium.webdriver\\3.141.0\\selenium.webdriver.3.141.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\selenium.webdriver.chromedriver\\83.0.4103.3900\\selenium.webdriver.chromedriver.83.0.4103.3900.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\selenium.webdriver.iedriver\\3.150.1\\selenium.webdriver.iedriver.3.150.1.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\selenium.webdriver.msedgedriver\\83.0.478.37\\selenium.webdriver.msedgedriver.83.0.478.37.nupkg.sha512",

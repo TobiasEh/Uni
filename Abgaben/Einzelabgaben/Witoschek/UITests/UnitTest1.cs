@@ -1,58 +1,103 @@
 using Blatt03.Models;
+using Blatt03.ViewModel.CustomValidation;
 using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 
 namespace UITests
 {
-    public class Tests
+    public class operationsBrowser
     {
-        public List<Booking> bookings = new List<Booking>();
-
-        [Test]
-        public void TestCreateBooking()
+        IWebDriver webDriver;
+        public void initBrowser()
         {
-            bookings.Clear();
-            var range = new System.ComponentModel.DataAnnotations.RangeAttribute(0, 100);
-            var dataVal = new DataAttribute();
 
-            bookings.Add(new Booking { currentCharge = 20, requiredDistance = 100, connectorType = ConnectorType.Type2Plug, start = new DateTime(2020, 10, 10, 10, 0, 0), end = new DateTime(2020, 10, 10, 12, 0, 0) });
-            bookings.Add(new Booking { currentCharge = 90, requiredDistance = 1000, connectorType = ConnectorType.TeslaSupercharger, start = new DateTime(2020, 12, 5, 11, 0, 0), end = new DateTime(2020, 12, 5, 13, 45, 0) });
-            foreach (Booking b in bookings)
-            {
-                var resultR = range.IsValid(b.chargeStatus);
-                Assert.IsTrue(resultR);
-                var resultDataV1 = dataVal.IsValid(b.startTime);
-                Assert.IsTrue(resultDataV1);
-                var resultDataV2 = dataVal.IsValid(b.endTime);
-                Assert.IsTrue(resultDataV2);
-                var dateNon = new DateNonNegativeAttribute(b.startTime);
-                var resultDateNon = dateNon.IsValid(b.endTime);
-                Assert.IsTrue(resultDateNon);
-            };
+
+            System.Environment.SetEnvironmentVariable("webdriver.chrome.driver", @"C:\Users\Dominik\Desktop\chromedriver\chromedriver.exe");
+            webDriver = new ChromeDriver(@"C:\Users\Dominik\Desktop\chromedriver\");
+            webDriver.Manage().Window.Maximize();
+
+            //System.Environment.SetEnvironmentVariable("webdriver.edge.driver", @"C:\Users\Dominik\Desktop\edgedriver_win64\msedgedriver.exe");
+            //webDriver = new EdgeDriver(@"C:\Users\Dominik\Desktop\edgedriver_win64\");
+            //webDriver.Manage().Window.Maximize();
         }
 
-        [Test]
-        public void BadTestCreateBooking()
+        public void Goto(string url)
         {
-            bookings.Clear();
-            var range = new System.ComponentModel.DataAnnotations.RangeAttribute(0, 100);
-            var dataVal = new DataValidationAttribute();
+            webDriver.Url = url;
+        }
 
-            bookings.Add(new Booking { chargeStatus = 120, distance = 0, connectorType = ConnectorType.Type2_Plug, startTime = new DateTime(2020, 3, 3, 10, 0, 0), endTime = new DateTime(2020, 3, 2, 12, 0, 0) });
-            bookings.Add(new Booking { chargeStatus = -1, distance = 1020, connectorType = ConnectorType.Tesla_Supercharger, startTime = new DateTime(2020, 1, 2, 11, 0, 0), endTime = new DateTime(2020, 1, 2, 10, 45, 0) });
-            foreach (Booking item in bookings)
-            {
-                var resultR = range.IsValid(item.chargeStatus);
-                Assert.IsFalse(resultR, range.ErrorMessage);
-                var resultDataV1 = dataVal.IsValid(item.startTime);
-                Assert.IsFalse(resultDataV1, dataVal.ErrorMessage);
-                var resultDataV2 = dataVal.IsValid(item.endTime);
-                Assert.IsFalse(resultDataV2, dataVal.ErrorMessage);
-                var dateNon = new DateNonNegativeAttribute(item.startTime);
-                var resultDateNon = dateNon.IsValid(item.endTime);
-                Assert.IsFalse(resultDateNon, dateNon.ErrorMessage);
-            };
+        public IWebDriver getDriver
+        {
+            get { return webDriver; }
+        }
+
+        public void kill()
+        {
+            webDriver.Quit();
+        }
+    }
+
+    public class Tests
+    {
+        operationsBrowser opsBrowser = new operationsBrowser();
+        string ulrToTest = "https://localhost:44365/Booking/create";
+        IWebDriver webDriver;
+
+        [SetUp]
+        public void Setup()
+        {
+            opsBrowser.initBrowser();
+        }
+
+        [TestCase(20, 120, "10102020", "1000", "10102020", "1345")]
+        public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP)
+        {
+            opsBrowser.Goto(ulrToTest);
+            System.Threading.Thread.Sleep(5000);
+
+            webDriver = opsBrowser.getDriver;
+            var exeption = new WebDriverException();
+
+            IWebElement charge = webDriver.FindElement(By.XPath("//input[@name='currentCharge']"));
+            charge.SendKeys(chargeP.ToString());
+
+            IWebElement distance = webDriver.FindElement(By.XPath("//input[@name='requiredDistance']"));
+            distance.SendKeys(distanceP.ToString());
+
+            IWebElement startTime = webDriver.FindElement(By.XPath("//input[@name='start']"));
+            startTime.SendKeys(startDateP);
+            startTime.SendKeys(Keys.ArrowRight);
+            startTime.SendKeys(startTimeP);
+            startTime.SendKeys(Keys.Tab);
+
+            IWebElement endTime = webDriver.FindElement(By.XPath("//input[@name='end']"));
+            endTime.SendKeys(endDateP);
+            endTime.SendKeys(Keys.ArrowRight);
+            endTime.SendKeys(endTimeP);
+            endTime.SendKeys(Keys.Tab);
+
+            Random r = new Random();
+            IWebElement connectorType = webDriver.FindElement(By.XPath("//select[@name='connectorType']"));
+            SelectElement selectElement = new SelectElement(connectorType);
+            selectElement.SelectByIndex(r.Next(1, 6));
+
+            IWebElement submit = webDriver.FindElement(By.XPath("//button[@type='submit']"));
+
+            System.Threading.Thread.Sleep(2000);
+
+            submit.Click();
+            System.Threading.Thread.Sleep(1000);
+            Assert.IsTrue(webDriver.Url.ToString().Equals("https://localhost:44365/Booking/Post"));
+        }
+        [TearDown]
+        public void kill()
+        {
+            opsBrowser.kill();
         }
     }
 }
