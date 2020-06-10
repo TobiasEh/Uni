@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website.csproj", "{3D03B815-660C-4D70-9BE7-FBDB9CEE5BEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "Website.csproj", "{3D03B815-660C-4D70-9BE7-FBDB9CEE5BEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit-Website", "..\NUnit-Website\NUnit-Website.csproj", "{2CEA5444-1340-4F32-94EE-90922EDF6DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ent-To-Ent-Tests", "..\Ent-To-Ent-Tests\Ent-To-Ent-Tests.csproj", "{662E2FF7-41BF-41F2-A6D6-39147D0D5444}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{3D03B815-660C-4D70-9BE7-FBDB9CEE5BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D03B815-660C-4D70-9BE7-FBDB9CEE5BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D03B815-660C-4D70-9BE7-FBDB9CEE5BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CEA5444-1340-4F32-94EE-90922EDF6DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CEA5444-1340-4F32-94EE-90922EDF6DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CEA5444-1340-4F32-94EE-90922EDF6DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CEA5444-1340-4F32-94EE-90922EDF6DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{662E2FF7-41BF-41F2-A6D6-39147D0D5444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{662E2FF7-41BF-41F2-A6D6-39147D0D5444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{662E2FF7-41BF-41F2-A6D6-39147D0D5444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{662E2FF7-41BF-41F2-A6D6-39147D0D5444}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
