@@ -6071,20 +6071,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dominik\\.nuget\\packages\\": {}
+    "C:\\Users\\Uli\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Gruppe\\Übungsblatt 5\\Storyboard\\Storyboard\\Storyboard.csproj",
+      "projectUniqueName": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Gruppe\\Übungsblatt 5\\Storyboard\\Storyboard\\Storyboard.csproj",
       "projectName": "Storyboard",
-      "projectPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Gruppe\\Übungsblatt 5\\Storyboard\\Storyboard\\Storyboard.csproj",
-      "packagesPath": "C:\\Users\\Dominik\\.nuget\\packages\\",
-      "outputPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Gruppe\\Übungsblatt 5\\Storyboard\\Storyboard\\obj\\",
+      "projectPath": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Gruppe\\Übungsblatt 5\\Storyboard\\Storyboard\\Storyboard.csproj",
+      "packagesPath": "C:\\Users\\Uli\\.nuget\\packages\\",
+      "outputPath": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Gruppe\\Übungsblatt 5\\Storyboard\\Storyboard\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Dominik\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Uli\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -6130,7 +6137,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
