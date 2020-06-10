@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.ComponentModel;
+using Blatt03.ViewModel.CustomValidation;
 
 namespace Blatt03.Models
 {
@@ -20,6 +21,7 @@ namespace Blatt03.Models
         [Required]
         public DateTime start { get; set; }
         [DataType(DataType.DateTime)]
+        [DateAttribute()]
         [Required]
         public DateTime end { get; set; }
         public ConnectorType connectorType { get; set; }
