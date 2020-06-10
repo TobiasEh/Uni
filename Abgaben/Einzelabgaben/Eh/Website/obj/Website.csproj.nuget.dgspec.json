@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj": {}
+    "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj": {}
   },
   "projects": {
-    "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj": {
+    "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj",
+        "projectUniqueName": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj",
         "projectName": "Website",
-        "projectPath": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj",
+        "projectPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj",
         "packagesPath": "C:\\Users\\Tobias\\.nuget\\packages\\",
-        "outputPath": "E:\\SoftwareProjekt\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\obj\\",
+        "outputPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tobias\\AppData\\Roaming\\NuGet\\NuGet.Config",

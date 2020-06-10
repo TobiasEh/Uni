@@ -4589,27 +4589,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Uli\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Tobias\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\UITEst\\UITEst.csproj",
+      "projectUniqueName": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\UITEst\\UITEst.csproj",
       "projectName": "UITEst",
-      "projectPath": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\UITEst\\UITEst.csproj",
-      "packagesPath": "C:\\Users\\Uli\\.nuget\\packages\\",
-      "outputPath": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\UITEst\\obj\\",
+      "projectPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\UITEst\\UITEst.csproj",
+      "packagesPath": "C:\\Users\\Tobias\\.nuget\\packages\\",
+      "outputPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\UITEst\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Uli\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+        "C:\\Users\\Tobias\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -4668,7 +4661,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
