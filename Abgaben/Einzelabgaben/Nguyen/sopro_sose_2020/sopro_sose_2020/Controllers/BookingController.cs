@@ -22,7 +22,7 @@ namespace sopro_sose_2020.Controllers
             _memoryCache = memoryCache;
         }
 
-
+        
 
         public IActionResult Index()
         {
@@ -76,48 +76,10 @@ namespace sopro_sose_2020.Controllers
             {
                 return View();
             };
-            List<ConnectorTypeEvaluationViewModel> EvaList = new List<ConnectorTypeEvaluationViewModel>() { };
-            int i = 0;
-            double ac = 0, bc = 0, cc = 0; // "a-Count" == ac [...]
-           foreach(Booking b in bookingList)
-            {
-                if(b.connectorType ==  ConnectorType.type_a)
-                {
-                    ac++;
-
-                }else if (b.connectorType ==  ConnectorType.type_b)
-                {
-                    bc++;
-                }else if(b.connectorType == ConnectorType.type_c)
-                {
-                    cc++;
-                }
-                i++; 
-            }
-
-
-            EvaList.Add(new ConnectorTypeEvaluationViewModel()
-            {
-                connectorType = ConnectorType.type_a,
-                percOfBookingsCT = Math.Round((ac / i) * 100, 2)
-
-            });
-            EvaList.Add(new ConnectorTypeEvaluationViewModel()
-            {
-                connectorType = ConnectorType.type_b,
-                percOfBookingsCT = Math.Round((bc / i) * 100, 2)
-
-            });
-            EvaList.Add(new ConnectorTypeEvaluationViewModel()
-            {
-                connectorType = ConnectorType.type_c,
-                percOfBookingsCT = Math.Round((cc / i) * 100, 2)
-
-            });
-            cacheKey = "eva";
-            _memoryCache.Set(cacheKey, EvaList);
-            return View(EvaList);
+            var controller = new EvaluationController();
+            return View(controller.Evaluation(bookingList));
         }
+        
         
     }
 

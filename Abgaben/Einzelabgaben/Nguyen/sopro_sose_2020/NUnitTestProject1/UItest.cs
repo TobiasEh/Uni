@@ -78,11 +78,28 @@ namespace NUnitTestProject1
             endTIme.SendKeys("1620");
             selectElement.SelectByValue("type_a");
 
-          
+
             submit.Click();
 
             /* Perform wait to check the output */
             System.Threading.Thread.Sleep(2000);
+
+            List<IWebElement> tableElements = driver.FindElements(By.CssSelector("#bookingsTable tbody tr td")).ToList<IWebElement>();
+            List<String> tableValues = new List<String>();
+            foreach (var element in tableElements)
+            {
+                String str = element.Text;
+                tableValues.Add(str);
+            }
+            Assert.IsNotNull(tableElements);
+            Assert.IsNotNull(tableValues);
+            Assert.AreEqual(tableValues[0], "69");
+            Assert.AreEqual(tableValues[1], "123");
+            Assert.AreEqual(tableValues[2], "20/04/2069 04:20:00");
+            Assert.AreEqual(tableValues[3], "20/04/2069 16:20:00");
+            Assert.AreEqual(tableValues[4], "Type A");
+
+
         }
 
         [TearDown]

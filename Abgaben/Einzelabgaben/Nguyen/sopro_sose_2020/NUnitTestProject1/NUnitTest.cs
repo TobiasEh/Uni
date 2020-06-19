@@ -13,5 +13,18 @@ using System.Text;
 
 namespace NUnitTestProject1
 {
-
+    [TestFixture]
+    public class Test
+    {
+        // ( a, b, c) => a(partt of) b, c expected percentage
+        [TestCase(2,5,40)]
+        [TestCase(1,100,1)]
+        [TestCase(1,1000,0.1)]
+        public void testPercCalculation(int a,int b,double expected)
+        {
+            var controller = new EvaluationController();
+            double result = controller.percCalc(a, b);
+            Assert.AreEqual(result,expected);
+        }
+    }
 }

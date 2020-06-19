@@ -40,24 +40,33 @@ namespace sopro_sose_2020.Controllers
         {
             string _filename;
             object obj;
-            if(cKey == "eva")
+            string json;
+            if (cKey == "eva")
             {
-                List<ConnectorTypeEvaluationViewModel> EvaList = new List<ConnectorTypeEvaluationViewModel>() { };
+                var controller = new EvaluationController();
+                List<ConnectorTypeEvaluationViewModel> EvaList = controller.Evaluation(getBookingList());
                 _filename = "evaluation";
                 obj = EvaList;
             }
             else
             {
                 _filename = "bookings";
-                obj = bookingList;
-                
+                obj = getBookingList();
+
             }
-            _memoryCache.TryGetValue(cKey, out obj);
-            string json = JsonSerializer.Serialize(obj, options);
+            json = JsonSerializer.Serialize(obj, options);
             string filename = string.Concat(DateTime.Now.ToString("yyyyddMM"),_filename,"-exported", ".json");
             //System.IO.File.WriteAllText($"wwwroot/APP_DATA/{filename}", json);
             return download(filename,json);
         }
+
+        private List<Booking> getBookingList()
+        {
+            var cacheKey = "bookingList";
+            _memoryCache.TryGetValue(cacheKey, out bookingList);
+            return bookingList;
+        }
+
         public IActionResult importData(string filename)
         {
             cacheKey = "bookingList";
