@@ -10,21 +10,24 @@ namespace Website.Models
 {
     public class Booking
     {
+        [Required]
         [Range(0, 100)]
-        [Required]
         public double currentCharge { get; set; }
-
-        [Range(0, 1000)]
+        
         [Required]
+        [Range(0, 1000)]
         public int requiredDistance { get; set; }
 
-        [DataType(DataType.DateTime)]
         [Required]
+        [DataType(DataType.DateTime)]
+        [DateValidater()]
         public DateTime start { get; set; }
 
-        [DataType(DataType.DateTime)]
         [Required]
+        [DataType(DataType.DateTime)]
+        [DateValidater("start")]
         public DateTime end { get; set; }
+
         public Plug plugType { get; set; }
 
     }
