@@ -6196,9 +6196,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\UITests.csproj",
-      "projectName": "UITests",
-      "projectPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\UITests.csproj",
+      "projectUniqueName": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\AutomatedUITests.csproj",
+      "projectName": "AutomatedUITests",
+      "projectPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\AutomatedUITests.csproj",
       "packagesPath": "C:\\Users\\Dominik\\.nuget\\packages\\",
       "outputPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\obj\\",
       "projectStyle": "PackageReference",

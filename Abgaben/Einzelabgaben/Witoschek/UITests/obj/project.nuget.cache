@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BMwDK7K07P9iarNk8W4sApky2OKe/5AED8wVO4q49Q+Z0wsgZTSFlahgj4mEh2R8341d8QmOM8YJ8FlgXdYuYQ==",
+  "dgSpecHash": "AQvaZot5VTbqRuU3u/AZXwdnxD6BffFSZSVGCjVK6Zc6CTpnVaeA0pypjKMzPSAI+UQ5f2QglOpX2maoU0hvuQ==",
   "success": true,
-  "projectFilePath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\UITests.csproj",
+  "projectFilePath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Witoschek\\UITests\\AutomatedUITests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dominik\\.nuget\\packages\\bootstrap\\3.3.0\\bootstrap.3.3.0.nupkg.sha512",
     "C:\\Users\\Dominik\\.nuget\\packages\\bootstrap.v3.datetimepicker.css\\4.17.45\\bootstrap.v3.datetimepicker.css.4.17.45.nupkg.sha512",

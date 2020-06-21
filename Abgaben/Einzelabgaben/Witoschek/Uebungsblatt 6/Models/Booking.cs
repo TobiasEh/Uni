@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.ComponentModel;
 using Blatt03.ViewModel.CustomValidation;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Blatt03.Models
 {
@@ -18,10 +19,11 @@ namespace Blatt03.Models
         [Required]
         public int requiredDistance { get; set; }
         [DataType(DataType.DateTime)]
+        [DateAttribute()]
         [Required]
         public DateTime start { get; set; }
         [DataType(DataType.DateTime)]
-        [DateAttribute()]
+        [DateAttribute("start")]
         [Required]
         public DateTime end { get; set; }
         public ConnectorType connectorType { get; set; }
