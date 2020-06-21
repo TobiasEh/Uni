@@ -10,8 +10,7 @@
     <form asp-controller="Booking" asp-action="Post" method="post">
         <div class="form-group">
             <label for="@Model.chargeStatus">Charge Status</label>
-            <input type="number" class="form-control" id="@Model.chargeStatus" placeholder="charge Status in %" min="0" max="100" name="chargeStatus" required>
-            
+            <input type="number" class="form-control" id="@Model.chargeStatus" placeholder="charge Status in %" min="0" max="100" name="chargeStatus" required />
         </div>
         <div class="form-group">
             <label for="@Model.distance">Distance</label>
@@ -19,11 +18,11 @@
         </div>
         <div class="form-group input-append date form_datetime">
             <label for="@Model.startTime">Start Time</label>
-            <input type="datetime-local" class="form-control" id="@Model.startTime" name="startTime" min="@DateTime.Now" required>
+            <input type="datetime-local" class="form-control" id="@Model.startTime" name="startTime" onchange="" required>
         </div>
         <div class="form-group input-append date form_datetime">
             <label for="@Model.endTime">End Time</label>
-            <input type="datetime-local" class="form-control" id="@Model.endTime" name="endTime" min="@Model.startTime" required>
+            <input type="datetime-local" class="form-control" id="@Model.endTime" name="endTime"  required>
         </div>
         <div class="form-group">
             <lable for="@Model.connectorType">Stecker Type</lable>
@@ -33,6 +32,5 @@
         <button type="submit" id="button_submit" class="btn btn-primary">Buchen</button>
     </form>
 </div>
-
 
 
