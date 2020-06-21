@@ -467,3 +467,4 @@ D:\MSV Projekte\Blatt6 Aufgabe4\obj\Debug\netcoreapp3.1\Blatt3 Aufgabe4.pdb
 D:\MSV Projekte\Blatt6 Aufgabe4\obj\Debug\netcoreapp3.1\Blatt3 Aufgabe4.genruntimeconfig.cache
 D:\MSV Projekte\Blatt6 Aufgabe4\bin\Debug\netcoreapp3.1\bookings030620200323.json
 D:\MSV Projekte\Blatt6 Aufgabe4\bin\Debug\netcoreapp3.1\bookings070620200254.json
+D:\MSV Projekte\Blatt6 Aufgabe4\bin\Debug\netcoreapp3.1\bookings090620200410.json

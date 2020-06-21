@@ -56,6 +56,7 @@ else
     </div>
 </div>
 
+
 <form asp-controller="DataModel" asp-action="impoBookingData" class="form-horizontal mt-2" method="post" enctype="multipart/form-data">
     <div class="input-group">
         <div class="input-group-prepend">
@@ -68,12 +69,10 @@ else
     </div>
 </form>
 
-
-
 <script>
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        document.getElementById("fileLabel").innerHTML(fileName)
+        document.getElementById("customFile").innerHTML(fileName)
     });
 </script>
