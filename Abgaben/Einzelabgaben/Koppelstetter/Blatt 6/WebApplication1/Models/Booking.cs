@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Validations;
 
 namespace WebApplication1.Models
 {
@@ -15,9 +16,11 @@ namespace WebApplication1.Models
         [Required]
         public int required_Distance { get; set; }
         [Required]
+        [DateTimeVal]
         public DateTime start_Time { get; set; }
         [Required]
         public DateTime end_Time { get; set; }
+        [DateTimeVal]
         [Required]
         public ConnectorType connectorType { get; set; }
     }

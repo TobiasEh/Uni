@@ -49,7 +49,6 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult import(UploadModel jsondata)
         {
-            Console.WriteLine("Hello World!");
 
             if (!ModelState.IsValid)
             {

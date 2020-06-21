@@ -20,6 +20,10 @@ namespace WebApplication1.Controllers
             _memoryCache = memoryCache;
         }
 
+        public BookingController()
+        { 
+        }
+
         public IActionResult Index()
         {
             var cacheKey = "bookings";
@@ -71,12 +75,24 @@ namespace WebApplication1.Controllers
                 evaluationData.Add(new ConnectorTypeEvaluationViewModel()
                 {
                     connectorType = c,
-                    percentageBooking = Math.Round((double)plugs[(int)c] / (double)total * 100, 2)
-                });
-            }
+                    percentageBooking = calcpercentage(plugs, c, total)
+                }); ;
+            } 
+            
 
             return View(evaluationData);
         }
+        public double calcpercentage(int[] plugs, ConnectorType c, int total)
+        {
+            //return Math.Round((double)plugs[(int)c] / (double)total * 100, 2);
+            return onlycalc(plugs[(int)c], total);
+        }
+
+        public double onlycalc(int plugs, int total)
+        {
+            return Math.Round((double)plugs / (double)total * 100, 2);
+        }
+        
     }
 
 }
