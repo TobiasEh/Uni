@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0RArvrYir+jmeG2uBAJ8hodWi1qRXaEtrn89rTOIUdiZHldBUurgkdXRxlovHd7JKiyPpP0RSldvoNEqzrtyAg==",
+  "dgSpecHash": "we+vrjvwTIj25VX9Vfv5Q9n00xL4gyEtRN8riEOZHmc63nCFDoUyrFC8LZiU56FoVne+IztbWIC/opXTWQnN5Q==",
   "success": true,
   "projectFilePath": "G:\\Uni Git\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Reiter\\Übungsblatt 6\\NUnitTestProject\\NUnitTestProject.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,6 @@
     "C:\\Users\\Uli\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Uli\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",
     "C:\\Users\\Uli\\.nuget\\packages\\microsoft.aspnetcore.razor.runtime\\2.2.0\\microsoft.aspnetcore.razor.runtime.2.2.0.nupkg.sha512",
-    "C:\\Users\\Uli\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\2.9.4\\microsoft.codeanalysis.analyzers.2.9.4.nupkg.sha512",
     "C:\\Users\\Uli\\.nuget\\packages\\microsoft.codeanalysis.common\\3.3.1\\microsoft.codeanalysis.common.3.3.1.nupkg.sha512",
     "C:\\Users\\Uli\\.nuget\\packages\\microsoft.codeanalysis.csharp\\3.3.1\\microsoft.codeanalysis.csharp.3.3.1.nupkg.sha512",
     "C:\\Users\\Uli\\.nuget\\packages\\microsoft.codeanalysis.csharp.workspaces\\3.3.1\\microsoft.codeanalysis.csharp.workspaces.3.3.1.nupkg.sha512",

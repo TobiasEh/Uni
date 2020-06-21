@@ -8,23 +8,23 @@
     <form asp-controller="Booking" asp-action="Post" method="post">
         <div class="form-group">
             <label for="in_currentCharge">Ladestand (aktuell)</label>
-            <input type="number" class="form-control" id="@Model.currentCharge" placeholder="Current charge in %" name="currentCharge" min="0" max="100" required>
+            <input type="number" class="form-control" id="currentCharge" placeholder="Current charge in %" name="currentCharge" min="0" max="100" required>
         </div>
         <div class="form-group">
             <label for="in_requiredDistance">Anzahl benötigter KM</label>
-            <input type="number" class="form-control" id="@Model.requiredDistance" placeholder="Required distance in km" name="requiredDistance" min="1" max="1000" required>
+            <input type="number" class="form-control" id="requiredDistance" placeholder="Required distance in km" name="requiredDistance" min="1" max="1000" required>
         </div>
         <div class="form-group input-append date form_datetime">
             <label for="in_start">Startzeitpunkt</label>
-            <input type="datetime-local" class="form-control" id="@Model.start" name="start" placeholder="Start timestamp" required>
+            <input type="datetime-local" class="form-control" id="start" name="start" placeholder="Start timestamp" required>
         </div>
         <div class="form-group input-append date form_datetime">
             <label for="in_end">Endezeitpunkt</label>
-            <input type="datetime-local" class="form-control" id="@Model.end" name="end" placeholder="End timestamp" required>
+            <input type="datetime-local" class="form-control" id="end" name="end" placeholder="End timestamp" required>
         </div>
         <div class="form-group">
             <label for="in_connectorType">Anschlusstype</label>
-            <select class="form-control" id="@Model.connectorType" name="connectorType" required>
+            <select class="form-control" id="connectorType" name="connectorType" required>
                 <option value="SchukoSocket">Schuku-Socket</option>
                 <option value="Type1Plug">Type 1-Plug</option>
                 <option value="Type2Plug">Type 2-Plug</option>
@@ -34,7 +34,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Buchung erstellen</button>
+        <button type="submit" class="btn btn-primary" id="createB">Buchung erstellen</button>
     </form>
 
 </div>
