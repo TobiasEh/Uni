@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,10 +8,17 @@ namespace WebApplication1.Models
 {
     public class Booking
     {
+        [Range(0, 100)]
+        [Required]
         public double current_Charge { get; set; }
+        [Range(1, 1000)]
+        [Required]
         public int required_Distance { get; set; }
+        [Required]
         public DateTime start_Time { get; set; }
+        [Required]
         public DateTime end_Time { get; set; }
+        [Required]
         public ConnectorType connectorType { get; set; }
     }
     public enum ConnectorType

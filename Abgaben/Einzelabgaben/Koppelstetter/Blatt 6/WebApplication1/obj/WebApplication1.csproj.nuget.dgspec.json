@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj": {}
+    "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj": {
+    "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
-        "packagesPath": "C:\\Users\\peter\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\obj\\",
+        "projectPath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
+        "packagesPath": "C:\\Users\\Peter\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
