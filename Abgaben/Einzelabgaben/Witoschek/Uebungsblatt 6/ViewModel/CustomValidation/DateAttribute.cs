@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blatt03.ViewModel.CustomValidation
 {
-    public class DateAttribute : ValidationAttribute, IClientModelValidator
+    public class DateAttribute : ValidationAttribute
     {
         public DateTime date { get; }
         string comparisonProperty = null;
@@ -55,11 +55,6 @@ namespace Blatt03.ViewModel.CustomValidation
             }
 
             return ValidationResult.Success;
-        }
-
-        public void AddValidation(ClientModelValidationContext context)
-        {
-            throw new NotImplementedException();
         }
     }
 }
