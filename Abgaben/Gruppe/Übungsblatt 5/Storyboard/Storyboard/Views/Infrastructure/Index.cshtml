@@ -13,8 +13,8 @@
         string colla = string.Concat("collapsible", i.ToString());
         <div name="panel ">
             <div class="d-flex rounded shadow mt-4 justify-content-between pl-2 py-1">
-                <h2 class="ml-2 mr-5 ">Standort</h2>
-                <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#@colla " aria-expanded="false" aria-controls="t2" width="40" class="mr-2 ml-2 filter-blue float-right" />
+                <h5 class="ml-2 mr-5 ">Standort</h5>
+                <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#@colla " aria-expanded="false" aria-controls="t2" width="23" class="mr-2 ml-2 filter-blue float-right" />
             </div>
 
             <div id="@colla" class="collapse ml-4">
@@ -29,7 +29,7 @@
                                     <h4><b>Zone A</b></h4>
                                     <div class="ml-auto">
                                         <form methode="post">
-                                            <button asp-controller="Infrastructure" asp-action="EditZone" class="btn btn-link"><img src="~/bootstrap-icons/pencil-square.svg" width="20" /></button>
+                                            <button asp-controller="Infrastructure" asp-action="EditZone" class="btn btn-link"><img src="~/bootstrap-icons/pencil-square.svg" width="20" class="filter-blue"/></button>
                                         </form>
                                     </div>
                                     <div class="ml-2">
