@@ -4,20 +4,20 @@
     Layout = "_AdminLayout";
 }
 
-<h1 class="display-4 mb-5">Simulation</h1>
+<h1 class="display-4 mb-5 pt-5">Simulation</h1>
 <h3 class="mb-2">Szenarien</h3>
 <div class="flex-column">
-    <div class="d-flex rounded shadow mt-3">
+    <div class="d-flex rounded shadow mt-3 py-2 px-2">
         <h5 class="ml-2 mt-1 mr-5"> Bsp Szenario 1 </h5>
         <img src="~/bootstrap-icons/geo-alt.svg" width="23" class="ml-2" />
         <div class="ml-2 mt-1">Bsp Location 1</div>
         <div class="mr-auto ml-4 mt-1">Stoßzeiten: 3</div>
         <a asp-controller="Simulation" asp-action="Evaluation">
-            <img src="~/bootstrap-icons/caret-right-fill.svg" width="23" class="filter-green mr-2" />
+            <img src="~/bootstrap-icons/caret-right-fill.svg" width="23" class="filter-green mr-2 mt-1" />
         </a>
 
-        <img src="~/bootstrap-icons/pencil.svg" width="23" class="mr-2" />
-        <img src="~/bootstrap-icons/x-circle-fill.svg" width="23" class="mr-4" />
+        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="mr-2" />
+        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-4" />
         <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" width="23" class="mr-2 ml-2 filter-blue" />
     </div>
     <div id="collapseOne" class="collapse ml-4" aria-labelledby="headingOne">
@@ -53,16 +53,16 @@
             </div>
         </div>
     </div>
-    <div class="d-flex rounded shadow mt-3">
+    <div class="d-flex rounded shadow mt-3 py-2 px-2">
         <h5 class="ml-2 mt-1 mr-5"> Bsp Szenario 1 </h5>
         <img src="~/bootstrap-icons/geo-alt.svg" width="23" class="ml-2" />
         <div class="ml-2 mt-1">Bsp Location 1</div>
         <div class="mr-auto ml-4 mt-1">Stoßzeiten: 3</div>
         <a asp-controller="Simulation" asp-action="Evaluation">
-            <img src="~/bootstrap-icons/caret-right-fill.svg" width="23" class="filter-green mr-2" />
+            <img src="~/bootstrap-icons/caret-right-fill.svg" width="23" class="filter-green mr-2 mt-1" />
         </a>
-        <img src="~/bootstrap-icons/pencil.svg" width="23" class="mr-2" />
-        <img src="~/bootstrap-icons/x-circle-fill.svg" width="23" class="mr-4" />
+        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="mr-2" />
+        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-4" />
         <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" width="23" class="mr-2 ml-2 filter-blue" />
     </div>
     <div id="collapseTwo" class="collapse ml-4" aria-labelledby="headingOne">
@@ -99,7 +99,7 @@
         </div>
     </div>
 </div>
-<div class="d-flex mt-4">
+<div class="d-flex mt-4 ">
     <div class="mr-3">
         <form asp-controller="" asp-action="" class="form-horizontal" method="post" enctype="multipart/form-data">
             <button type="submit" class="btn btn-primary btn-mhp">Import</button>
