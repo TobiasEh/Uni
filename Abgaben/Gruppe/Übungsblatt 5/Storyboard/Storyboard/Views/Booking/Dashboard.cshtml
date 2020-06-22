@@ -3,7 +3,13 @@
     ViewData["Title"] = "Buchungsübersicht";
 }
 
-<h1 class="pb-5 display-4">Buchungsübersicht</h1>
+<div class="d-flex">
+    <h1 class="pb-5 display-4">Buchungsübersicht</h1>
+    <form methode="post" class="ml-auto mt-3">
+        <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp btn-lg">Neue Buchung</button>
+    </form>
+</div>
+
 
 <div class="mb-4">
     <div class="d-inline-flex flex-wrap pb-2">
