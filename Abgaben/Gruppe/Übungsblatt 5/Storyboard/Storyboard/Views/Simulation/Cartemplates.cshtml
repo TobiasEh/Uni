@@ -3,11 +3,11 @@
     ViewData["Title"] = "EditVehicle";
     Layout = "_AdminLayout";
 }
-<div class="d-flex flex-wrap">
+
+<h1 class="display-4 pt-5">Fahrzeuge</h1>
+<div class="d-flex flex-wrap pt-5">
     <div class="mr-5 pr-5">
-        <h1>
-            Fahrzeug hinzufügen
-        </h1>
+        <h3 class="pb-3">Hinzufügen</h3>
         <div>
             <form asp-controller="" asp-action="" method="post" id="addCar" />
 
@@ -68,19 +68,19 @@
             </div>
 
             <div class="float-right mt-4 mb-5">
-                <button form="addCar" type="reset" class="btn btn-secondary">Cancel</button>
-                <button form="addCar" type="submit" class="btn btn-primary btn-mhp">Add</button>
+                <button form="addCar" type="reset" class="btn btn-secondary">Abbrechen</button>
+                <button form="addCar" type="submit" class="btn btn-primary btn-mhp">Hinzufügen</button>
             </div>
         </div>
 
     </div>
 
     <div>
-        <h1>Fahrzeug Übersichts</h1>
-        <div class="centered">
+        <h3 class="pb-3">Übersicht</h3>
+        <div class="centered table-responsive rounded">
             <table class="table table-striped table-borderless table-hover">
                 <thead>
-                    <tr>
+                    <tr class="bg-dark text-white">
                         <th>
                             Modell
                         </th>
@@ -96,6 +96,9 @@
                         <th>
                             SoC-end
                         </th>
+                        <th>
+                            Bearbeiten
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,27 +106,29 @@
                     {
                         <tr>
                             <td>
-                                example
+                                Porsche Taycan
                             </td>
                             <td>
-                                example
+                                Type-2-Plug
                             </td>
                             <td>
-                                example
+                                79,2kWh
                             </td>
                             <td>
-                                example
+                                7
                             </td>
                             <td>
-                                example
+                                30
                             </td>
-                            <td>
-                                <button class="btn btn-primary btn-mhp">
-                                    <img src="~/bootstrap-icons/pencil.svg" width="20" />
-                                </button>
-                                <button class="btn btn-secondary">
-                                    <img src="~/bootstrap-icons/x-circle-fill.svg" width="20" />
-                                </button>
+                            <td class="text-center">
+                                <div>
+                                    <a asp-controller="" asp-action="">
+                                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                                    </a>
+                                    <a asp-controller="" asp-action="">
+                                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -136,3 +141,4 @@
 
 
 </div>
+
