@@ -202,7 +202,6 @@ C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppels
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.pdb
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.Views.dll
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.Views.pdb
-C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csprojAssemblyReference.cache
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.CoreCompileInputs.cache
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.RazorAssemblyInfo.cache
@@ -231,3 +230,4 @@ C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppels
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.pdb
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.genruntimeconfig.cache
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.CopyComplete
+C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csprojAssemblyReference.cache

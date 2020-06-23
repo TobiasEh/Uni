@@ -20,9 +20,7 @@ namespace WebApplication1.Controllers
             _memoryCache = memoryCache;
         }
 
-        public BookingController()
-        { 
-        }
+        
 
         public IActionResult Index()
         {
@@ -84,7 +82,6 @@ namespace WebApplication1.Controllers
         }
         public double calcpercentage(int[] plugs, ConnectorType c, int total)
         {
-            //return Math.Round((double)plugs[(int)c] / (double)total * 100, 2);
             return onlycalc(plugs[(int)c], total);
         }
 

@@ -12,15 +12,15 @@
         </div>
         <div class="form-group">
             <label asp-for="required_Distance">Distanz</label>
-            <input form="create" asp-for="required_Distance" class="form-control" placeholder="distance in km" min="1" max="1000" required>
+            <input form="create" asp-for="required_Distance" class="form-control" placeholder="distance in km" min="1" max="1000" required value=1>
         </div>
         <div class="form-group input-append date form_datetime">
             <label asp-for="start_Time">Start Time</label>
-            <input form="create" asp-for="start_Time" class="form-control" placeholder="Start Time" required>
+            <input form="create" asp-for="start_Time" class="form-control" placeholder="Start Time" required value="@DateTime.Now.AddMinutes(5).ToString("dd.MM.yyyy HH:mm")">
         </div>
         <div class="form-group input-append date form_datetime">
             <label asp-for="end_Time">End Time</label>
-            <input form="create" asp-for="end_Time" class="form-control" name="end_Time" placeholder="End Time" required>
+            <input form="create" asp-for="end_Time" class="form-control" name="end_Time" placeholder="End Time" required value="@DateTime.Now.AddHours(1).ToString("dd.MM.yyyy HH:mm")"> 
         </div>
         <div class="form-group">
             <label asp-for="connectorType">Anschluss</label>
@@ -33,7 +33,7 @@
 
             </select>
         </div>
-        <button form="create" type="submit" class="btn btn-primary">Buchen</button>
+        <button form="create" type="submit" class="btn btn-primary" id="buchen">Buchen</button>
         
 
 </div>
