@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "c0ldS3Zt032pDQ+UeTc141jHtFBka4rPrpcOXF1N+vBrG7vrRK2cfZoHRroLWUotKwh7xhK8kDPVv5hjCjI5eg==",
+  "dgSpecHash": "JQmhTm/UtYkiRcBZPSR56aDnTsPjN9mqynoCBLkpNgr8JfYUuPbNxYB0vB5VSCccPZgSXJQAiWcbuh7wzO78nQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\NUnitTestProject1\\NUnitTestProject1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.codecoverage\\16.4.0\\microsoft.codecoverage.16.4.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.dotnet.internalabstractions\\1.0.0\\microsoft.dotnet.internalabstractions.1.0.0.nupkg.sha512",
+    "C:\\Users\\Peter\\.nuget\\packages\\microsoft.edge.seleniumtools\\3.141.1\\microsoft.edge.seleniumtools.3.141.1.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.net.test.sdk\\16.4.0\\microsoft.net.test.sdk.16.4.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
@@ -24,7 +25,6 @@
     "C:\\Users\\Peter\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\selenium.webdriver\\3.141.0\\selenium.webdriver.3.141.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\selenium.webdriver.chromedriver\\83.0.4103.3900\\selenium.webdriver.chromedriver.83.0.4103.3900.nupkg.sha512",
-    "C:\\Users\\Peter\\.nuget\\packages\\selenium.webdriver.msedgedriver\\83.0.478.37\\selenium.webdriver.msedgedriver.83.0.478.37.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\system.appcontext\\4.1.0\\system.appcontext.4.1.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",

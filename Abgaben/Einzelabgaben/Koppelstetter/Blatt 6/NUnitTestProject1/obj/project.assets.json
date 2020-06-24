@@ -61,6 +61,18 @@
           "lib/netstandard1.3/Microsoft.DotNet.InternalAbstractions.dll": {}
         }
       },
+      "Microsoft.Edge.SeleniumTools/3.141.1": {
+        "type": "package",
+        "dependencies": {
+          "Selenium.WebDriver": "[3.141.0]"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Edge.SeleniumTools.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Edge.SeleniumTools.dll": {}
+        }
+      },
       "Microsoft.NET.Test.Sdk/16.4.0": {
         "type": "package",
         "dependencies": {
@@ -492,12 +504,6 @@
         "type": "package",
         "build": {
           "build/Selenium.WebDriver.ChromeDriver.targets": {}
-        }
-      },
-      "Selenium.WebDriver.MSEdgeDriver/83.0.478.37": {
-        "type": "package",
-        "build": {
-          "build/Selenium.WebDriver.MSEdgeDriver.targets": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -1404,6 +1410,21 @@
         "microsoft.dotnet.internalabstractions.nuspec"
       ]
     },
+    "Microsoft.Edge.SeleniumTools/3.141.1": {
+      "sha512": "JnPUoAUX6YJKEuar3M/uFWVSCVuGlxhy9iLJDqQ1U/0QLm5S7NbsDn82/XUKHqe8LmIOl/TBm5LTtAmhCWyZtw==",
+      "type": "package",
+      "path": "microsoft.edge.seleniumtools/3.141.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/Microsoft.Edge.SeleniumTools.dll",
+        "lib/net40/Microsoft.Edge.SeleniumTools.dll",
+        "lib/net45/Microsoft.Edge.SeleniumTools.dll",
+        "lib/netstandard2.0/Microsoft.Edge.SeleniumTools.dll",
+        "microsoft.edge.seleniumtools.3.141.1.nupkg.sha512",
+        "microsoft.edge.seleniumtools.nuspec"
+      ]
+    },
     "Microsoft.NET.Test.Sdk/16.4.0": {
       "sha512": "gjjqS3rCzg4DrSQq4YwJwUUvc49HtXpXrZkW9fu5VG+K4X+Ztn4+UzolyML7wPnl/EAIufk4hu628bJB4WtpFg==",
       "type": "package",
@@ -2187,22 +2208,6 @@
         "driver/win32/chromedriver.exe",
         "selenium.webdriver.chromedriver.83.0.4103.3900.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
-      ]
-    },
-    "Selenium.WebDriver.MSEdgeDriver/83.0.478.37": {
-      "sha512": "r7xNiVSWDy2uWMN4Q2PZy6A/kRgNZGfv9BmpxizcQDe44fVTjI2v752Dmkw/TqB9F7wcGnazu7y+zrbo3CdKog==",
-      "type": "package",
-      "path": "selenium.webdriver.msedgedriver/83.0.478.37",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/Selenium.WebDriver.MSEdgeDriver.targets",
-        "driver/mac64/msedgedriver",
-        "driver/win32/msedgedriver.exe",
-        "driver/win64/msedgedriver.exe",
-        "license/license.txt",
-        "selenium.webdriver.msedgedriver.83.0.478.37.nupkg.sha512",
-        "selenium.webdriver.msedgedriver.nuspec"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -4923,11 +4928,11 @@
     ".NETCoreApp,Version=v3.1": [
       "MSTest.TestAdapter >= 2.1.2",
       "MSTest.TestFramework >= 2.1.2",
+      "Microsoft.Edge.SeleniumTools >= 3.141.1",
       "Microsoft.NET.Test.Sdk >= 16.4.0",
       "NUnit3TestAdapter >= 3.15.1",
       "Selenium.WebDriver >= 3.141.0",
       "Selenium.WebDriver.ChromeDriver >= 83.0.4103.3900",
-      "Selenium.WebDriver.MSEdgeDriver >= 83.0.478.37",
       "WebApplication1 >= 1.0.0",
       "nunit >= 3.12.0"
     ]
@@ -4981,6 +4986,10 @@
             "target": "Package",
             "version": "[2.1.2, )"
           },
+          "Microsoft.Edge.SeleniumTools": {
+            "target": "Package",
+            "version": "[3.141.1, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[16.4.0, )"
@@ -4996,10 +5005,6 @@
           "Selenium.WebDriver.ChromeDriver": {
             "target": "Package",
             "version": "[83.0.4103.3900, )"
-          },
-          "Selenium.WebDriver.MSEdgeDriver": {
-            "target": "Package",
-            "version": "[83.0.478.37, )"
           },
           "nunit": {
             "target": "Package",

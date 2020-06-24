@@ -2,9 +2,9 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
 using System.Threading;
 using OpenQA.Selenium.Support.UI;
+using Microsoft.Edge.SeleniumTools;
 
 namespace NUnitTestProject1
 {
@@ -23,7 +23,9 @@ namespace NUnitTestProject1
             [OneTimeSetUp]
             public void OneTimeSetUp()
             {
-                //driverME = new EdgeDriver(new EdgeOptions().useChromium = true);
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.UseChromium= true;
+                driverME = new EdgeDriver(edgeOptions);
                 driverGC = new ChromeDriver();
                 
 
