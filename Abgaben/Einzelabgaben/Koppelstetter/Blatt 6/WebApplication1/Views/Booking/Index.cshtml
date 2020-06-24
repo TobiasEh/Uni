@@ -5,17 +5,19 @@
 
 
 <h1>Bookings</h1>
-<form asp-controller="Data" asp-action="import" method="post" enctype="multipart/form-data">
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="file" name="file" accept=".json">
-        <label class="custom-file-label" for="customFile">import file</label>
+<div class="bm-3">
+    <form asp-controller="Data" asp-action="import" method="post" enctype="multipart/form-data">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="file" name="file" accept=".json">
+            <label class="custom-file-label" for="customFile">import file</label>
+        </div>
         <button class="btn btn-primary float-right" type="submit">submit imported file</button>
-        <button class="btn btn-primary float-right" onclick="location.href='@Url.Action("Create", "Booking")'">Neue Buchung anlegen</button>
-        <p style="display:inline">Übersicht aller Buchugen:</p>
-    </div>
-</form>
+    </form>
+</div>
+
 <div>
-    
+    <p style="display:inline">Übersicht aller Buchugen:</p>
+    <button class="btn btn-primary float-right" onclick="location.href='@Url.Action("Create", "Booking")'">Neue Buchung anlegen</button>
 
 </div>
 <br />

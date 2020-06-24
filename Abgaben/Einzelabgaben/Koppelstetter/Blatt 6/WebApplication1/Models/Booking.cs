@@ -19,8 +19,9 @@ namespace WebApplication1.Models
         [DateTimeVal]
         public DateTime start_Time { get; set; }
         [Required]
-        public DateTime end_Time { get; set; }
         [DateTimeVal]
+        public DateTime end_Time { get; set; }
+        
         [Required]
         public ConnectorType connectorType { get; set; }
     }
