@@ -8,15 +8,15 @@
     <form asp-controller="Booking" asp-action="Post" method="post" id="create"/>
         <div class="form-group">
             <label asp-for="current_Charge">Ladestatus</label>
-            <input form="create" asp-for="current_Charge" class="form-control" placeholder="charge in %" min="0" max="100" required>
+            <input form="create" asp-for="current_Charge" class="form-control" placeholder="charge in %" min="0" max="100" required name="charge">
         </div>
         <div class="form-group">
             <label asp-for="required_Distance">Distanz</label>
-            <input form="create" asp-for="required_Distance" class="form-control" placeholder="distance in km" min="1" max="1000" required value=1>
+            <input form="create" asp-for="required_Distance" class="form-control" placeholder="distance in km" min="1" max="1000" required value=1 name="distance">
         </div>
         <div class="form-group input-append date form_datetime">
             <label asp-for="start_Time">Start Time</label>
-            <input form="create" asp-for="start_Time" class="form-control" placeholder="Start Time" required value="@DateTime.Now.AddMinutes(5).ToString("dd.MM.yyyy HH:mm")">
+            <input form="create" asp-for="start_Time" class="form-control" placeholder="Start Time" required value="@DateTime.Now.AddMinutes(5).ToString("dd.MM.yyyy HH:mm")" name="startTime">
         </div>
         <div class="form-group input-append date form_datetime">
             <label asp-for="end_Time">End Time</label>
@@ -33,7 +33,7 @@
 
             </select>
         </div>
-        <button form="create" type="submit" class="btn btn-primary" id="buchen">Buchen</button>
+        <button form="create" type="submit" class="btn btn-primary" id="buchen" name="buchen">Buchen</button>
         
 
 </div>

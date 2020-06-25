@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Models;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.AspNetCore.Mvc;
 using WebApplication1.ViewModel;
 
 namespace WebApplication1.Controllers

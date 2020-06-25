@@ -107,3 +107,5 @@ C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppels
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\NUnitTestProject1\obj\Debug\netcoreapp3.1\NUnitTestProject1.pdb
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\NUnitTestProject1\obj\Debug\netcoreapp3.1\NUnitTestProject1.genruntimeconfig.cache
 C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\NUnitTestProject1\bin\Debug\netcoreapp3.1\WebDriver.dll
+C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\NUnitTestProject1\bin\Debug\netcoreapp3.1\Microsoft.Edge.SeleniumTools.dll
+C:\Users\Peter\Documents\GitHub\tutorium-d-team-17\Abgaben\Einzelabgaben\Koppelstetter\Blatt 6\NUnitTestProject1\obj\Debug\netcoreapp3.1\NUnitTestProject1.csproj.CoreCompileInputs.cache

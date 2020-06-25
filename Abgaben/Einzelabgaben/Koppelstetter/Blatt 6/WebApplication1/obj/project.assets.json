@@ -8,19 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\peter\\.nuget\\packages\\": {}
+    "C:\\Users\\Peter\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
+      "projectUniqueName": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
-      "packagesPath": "C:\\Users\\peter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\obj\\",
+      "projectPath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\WebApplication1.csproj",
+      "packagesPath": "C:\\Users\\Peter\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Peter\\Documents\\GitHub\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Koppelstetter\\Blatt 6\\WebApplication1\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -53,6 +57,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.2, 3.1.2]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -61,7 +71,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }
