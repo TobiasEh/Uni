@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj": {}
+    "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj": {}
   },
   "projects": {
-    "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj": {
+    "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj",
+        "projectUniqueName": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj",
         "projectName": "Ent-To-Ent-Tests",
-        "projectPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj",
-        "packagesPath": "C:\\Users\\Tobias\\.nuget\\packages\\",
-        "outputPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\obj\\",
+        "projectPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\Ent-To-Ent-Tests.csproj",
+        "packagesPath": "C:\\Users\\Dominik\\.nuget\\packages\\",
+        "outputPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Ent-To-Ent-Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Tobias\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Dominik\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -78,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

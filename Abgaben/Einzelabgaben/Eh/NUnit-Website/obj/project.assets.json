@@ -5829,19 +5829,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tobias\\.nuget\\packages\\": {}
+    "C:\\Users\\Dominik\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\NUnit-Website\\NUnit-Website.csproj",
+      "projectUniqueName": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\NUnit-Website\\NUnit-Website.csproj",
       "projectName": "NUnit-Website",
-      "projectPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\NUnit-Website\\NUnit-Website.csproj",
-      "packagesPath": "C:\\Users\\Tobias\\.nuget\\packages\\",
-      "outputPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\NUnit-Website\\obj\\",
+      "projectPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\NUnit-Website\\NUnit-Website.csproj",
+      "packagesPath": "C:\\Users\\Dominik\\.nuget\\packages\\",
+      "outputPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\NUnit-Website\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tobias\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dominik\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5854,8 +5854,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj": {
-              "projectPath": "E:\\Sopro\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj"
+            "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj": {
+              "projectPath": "F:\\Git\\Tutorium\\tutorium-d-team-17\\Abgaben\\Einzelabgaben\\Eh\\Website\\Website.csproj"
             }
           }
         }
@@ -5900,7 +5900,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }
