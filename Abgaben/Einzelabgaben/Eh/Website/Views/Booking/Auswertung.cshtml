@@ -1,0 +1,32 @@
+﻿@model List<Website.ViewModel.ConnectorTypeEvaluationViewModel>
+@{
+    ViewData["Title"] = "Auswertung";
+}
+
+<h1>Auswertung</h1>
+
+@if (Model != null)
+{
+    <table class="table table-striped table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Stecker Typ</th>
+                <th>Prozentteil</th>
+            </tr>
+        </thead>
+        @foreach (Website.ViewModel.ConnectorTypeEvaluationViewModel plug in Model)
+        {
+            <tr>
+                <td> @plug.plugType</td>
+                <td> @plug.percentShowsInBookings %</td>
+            </tr>
+        }
+    </table>
+    <a asp-action="Export"><button class="btn btn-primary" style="display:inline; float:right">Export</button></a>
+}
+else
+{
+    <p class="text-sm-center">Keine Daten Verfügbar</p>
+}
+
+

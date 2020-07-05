@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "BookingTable";
+}
+
+<h1>BookingTable</h1>
+<p style="display:inline">Übersicht aller Buchugen:</p>
+<a asp-action="Create"><button class="btn btn-primary" style="display:inline; float:right">Neue Buchung anlegen</button></a>
+
+@if (Model.Count == 0)
+{
+    <p>
+        Noch keine Buchungen vorhanden!
+    </p>
+}
+else
+{
+    <table class="table table-striped table-borderless table-hover">
+
+        <tr>
+            <th>Current charge</th>
+            <th>Required distance</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Plug Type</th>
+        </tr>
+
+
+        @foreach (Booking booking in Model)
+        {
+            <tr>
+                <td> @booking.currentCharge</td>
+                <td> @booking.requiredDistance</td>
+                <td> @booking.start</td>
+                <td> @booking.end</td>
+                <td> @booking.plugType</td>
+            </tr>
+        }
+    </table>
+    <a asp-action="Export"><button class="btn btn-primary" style="display:inline; float:right">Export</button></a>
+}
+
+
+
+<form asp-controller="Booking" asp-action="Index" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" style="margin-top:20px">
+        @ViewBag.Message
+    </div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" style="margin-top:20px">
+        @ViewBag.ErrorMessage
+    </div>
+}

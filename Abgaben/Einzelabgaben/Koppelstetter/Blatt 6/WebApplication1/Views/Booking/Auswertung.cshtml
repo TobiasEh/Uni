@@ -1,0 +1,29 @@
+﻿@model List<WebApplication1.ViewModel.ConnectorTypeEvaluationViewModel>
+@{
+    ViewData["Title"] = "Auswertung";
+}
+
+<h1>Auswertung</h1>
+@if (Model == null)
+{
+    <p>Noch keine Daten vorhanden!</p>
+}
+else
+{
+    <table class="table table-striped table-hover table-borderless ">
+        <tr>
+            <th>plug type</th>
+            <th>percentage</th>
+        </tr>
+
+        @foreach (WebApplication1.ViewModel.ConnectorTypeEvaluationViewModel b in Model)
+        {
+            <tr>
+                <td>@b.connectorType</td>
+                <td>@b.percentageBooking</td>
+            </tr>
+        }
+    </table>
+}
+
+

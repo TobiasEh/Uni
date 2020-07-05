@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "Booking";
+}
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js">
+    $(document).ready(function () {
+    });
+</script>
+
+<div class="d-flex">
+    <div>
+        <p class="h4 d-inline-block">Übersicht aller Buchungen</p>
+    </div>
+    <div class="ml-auto">
+        <input class="float-right col btn btn-primary btn-lg" type="button" name="createBooking" value="Neue Buchung" onclick="location.href='@Url.Action("create", "Booking")'" />
+    </div>
+
+</div>
+
+<br />
+@if (Model.bookinglist != null)
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-borderless table-hover">
+            <caption>List of bookings</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th>Current Charge</th>
+                    <th>Requested Distance in km</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Plug Type</th>
+                </tr>
+            </thead>
+
+            @foreach (Booking booking in Model.bookinglist)
+            {
+                <tr>
+                    <td>@booking.currentCharge</td>
+                    <td>@booking.requiredDistance</td>
+                    <td>@booking.start</td>
+                    <td>@booking.end</td>
+                    <td>@booking.connectorType.Description()</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="ml-auto">
+        <form asp-controller="Booking" asp-action="Download" method="get" class="form-horizontal">
+            <input class="btn btn-primary" type="submit" name="exportBooking" value="Export" />
+        </form>
+    </div>
+}
+else
+{
+    <p class="text-center col">Noch keine Buchungen vorhanden!</p>
+
+    <div class="ml-auto">
+        <input class="btn btn-secondary" type="button" name="exportBooking" value="Export" />
+    </div>
+}
+
+@model Blatt03.ViewModel.CreatePostViewModel
+<form asp-controller="Booking" asp-action="Upload" class="form-horizontal mt-2" method="post" enctype="multipart/form-data">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <button type="submit" class="btn btn-primary col-xs-12">Import</button>
+        </div>
+        <div class="custom-file">
+            <input asp-for="importedBookings" type="file" class="custom-file-input" id="customFile" />
+            <label class="custom-file-label" for="customFile">Datei wählen</label>
+        </div>
+    </div>
+    <span asp-validation-for="importedBookings" class="text-danger"></span>
+</form>
+
+<script> 
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+
+
+
+

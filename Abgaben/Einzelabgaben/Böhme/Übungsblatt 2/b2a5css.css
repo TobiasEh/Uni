@@ -1,0 +1,71 @@
+html {
+	background-color: #C2D6BB
+}
+
+body {
+	margin: 0;
+	font-family: 'arial';
+}
+
+h1 {
+	text-align: center;
+}
+
+img {
+	margin: 10px auto 20px;
+	display: block;
+}
+
+.navbar{
+	margin: 0;
+	background-color: #4B6F44;
+	overflow: hidden;
+	text-align: center;
+}
+
+.navbar a {
+	display: inline-block;
+	background-color: #4B6F44;
+	color: #C2D6BB;
+	text-align: center;
+	font-size: 15px;
+	text-decoration: none;
+	padding: 14px 16px;
+}
+
+.navbar a:hover {
+	background-color: black;
+	color: white;
+}
+
+.head {
+	background-color: #4B6F44;
+	color: white;
+}
+
+.rowEven {
+	background-color: #C2D6BB;
+	color: black;
+}
+
+.rowUneven {
+	background-color: #B1C5AA;
+	color: black;
+
+}
+table {
+	margin: auto;
+	display: middle;
+}
+
+th, td {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+th:hover, td:hover {
+	color: white;
+	background-color:black;
+}
+
+

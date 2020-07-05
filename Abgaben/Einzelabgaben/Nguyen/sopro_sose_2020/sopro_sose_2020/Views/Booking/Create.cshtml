@@ -1,0 +1,50 @@
+﻿@model Booking
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Booking</h1>
+<div>
+    <form asp-controller="Booking" asp-action="postBooking" method="post">
+        <div class="form-group">
+            <label asp-for="cur_charge">current charge</label>
+            <input asp-for="cur_charge" type="number" class="form-control" placeholder="current charge in %" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label asp-for="needed_distance">needed distance</label>
+            <input asp-for="needed_distance" class="form-control" placeholder="needed distance in km" min="1" max="1000" required>
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label asp-for="startTime">starting time</label>
+            <input asp-for="startTime" class="form-control" onchange="endTimeMIN(event)" required>
+        </div>
+        <div class="form-group input-append date form_datetime">
+            <label asp-for="endTime">ending time</label>
+            <input asp-for="endTime" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label asp-for="connectorType">Connector Type</label>
+            <select asp-for="connectorType" class="form-control"required>
+                <option value="type_a">Typ A</option>
+                <option value="type_b">Typ B</option>
+                <option value="type_c">Typ C</option>
+            </select>
+        </div>
+        <button type="submit" id="submit_btn" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var now = new Date().toISOString().slice(0, 16);
+    document.getElementById("startTime").min = now;
+    document.getElementById("startTime").value = now;
+    document.getElementById("endTime").min = now;
+    document.getElementById("endTime").value = now;
+</script>
+<script type="text/javascript">
+    function endTimeMIN(e) {
+        document.getElementById("endTime").min = e.target.value;
+        document.getElementById("endTime").value = e.target.value;
+    }
+</script>
+
