@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Sopro.Models.Infrastructure;
 using sopro2020_abgabe.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,66 +11,67 @@ namespace UnitTests.Infrastructure
     [TestFixture]
     class LocationTest
     {
-        Plug p1 = new Plug
+        static Plug p1 = new Plug
         {
             id = "abc",
             power = 20,
             type = PlugType.CCS
         };
 
-        Plug p2 = new Plug
+        static Plug p2 = new Plug
         {
             id = "abcd",
             power = 40,
             type = PlugType.TYPE2
         };
 
-        Plug p3 = new Plug
+        static Plug p3 = new Plug
         {
             id = "abcawdd",
             power = 50,
             type = PlugType.TYPE2
         };
 
-        Station s1 = new Station
+        static Station s1 = new Station
         {
             id = "abc",
-            plugs = { p1, p2 },
+            plugs = new List<Plug> { p1, p2 },
             maxPower = 200,
             manufacturer = "hi",
             maxParallelUseable = 4
         };
 
-        Station s2 = new Station
+        static Station s2 = new Station
         {
             id = "abcadwdad",
-            plugs = { p3 },
+            plugs = new List<Plug> { p3 },
             maxPower = 200,
             manufacturer = "hi",
             maxParallelUseable = 4
         };
 
-        Zone z1 = new Zone
+        static Zone z1 = new Zone
         {
-            stations = { s1 },
+            stations = new List<Station> { s1 },
             id = "abc",
             site = 'A',
             maxPower = 1000
         };
 
-        Zone z2 = new Zone
+        static Zone z2 = new Zone
         {
-            stations = { s2 },
+            stations = new List<Station> { s2 },
             id = "abc",
             site = 'B',
             maxPower = 1000
         };
 
+        [Test]
         public void testLocationCreateValid()
         {
             Location location = new Location
             {
-                zones = { z1 },
+                zones = new List<Zone> { z1 },
                 id = "xas",
                 name ="hi",
                 emergency = 3.5
@@ -80,11 +82,12 @@ namespace UnitTests.Infrastructure
             Assert.AreEqual(0, validationResults.Count);
         }
 
+        [Test]
         public void testLocationCreateInvalidZones()
         {
             Location location = new Location
             {
-                zones = { },
+                zones = new List<Zone>(){ },
                 id = "xas",
                 name = "hi",
                 emergency = 3.5
@@ -98,11 +101,12 @@ namespace UnitTests.Infrastructure
             Assert.AreEqual("zones", msg.MemberNames.ElementAt(0));
         }
 
+        [Test]
         public void testLocationCreateInvalidName()
         {
             Location location = new Location
             {
-                zones = { z1 },
+                zones = new List<Zone> { z1 },
                 id = "xas",
                 name = "",
                 emergency = 3.5
@@ -116,11 +120,12 @@ namespace UnitTests.Infrastructure
             Assert.AreEqual("name", msg.MemberNames.ElementAt(0));
         }
 
+        [Test]
         public void testLocationCreateInvalidEmergency()
         {
             Location location = new Location
             {
-                zones = { z1 },
+                zones = new List<Zone> { z1 },
                 id = "xas",
                 name = "hi",
                 emergency = -3.5
@@ -134,11 +139,12 @@ namespace UnitTests.Infrastructure
             Assert.AreEqual("emergency", msg.MemberNames.ElementAt(0));
         }
 
+        [Test]
         public void testLocationAddZone()
         {
             Location location = new Location
             {
-                zones = { z1 },
+                zones = new List<Zone> { z1 },
                 id = "xas",
                 name = "hi",
                 emergency = -3.5
@@ -149,11 +155,12 @@ namespace UnitTests.Infrastructure
             Assert.IsTrue(location.zones.Count > zones_before);
         }
 
-        public void testLocationAddZone()
+        [Test]
+        public void testLocationDeleteZone()
         {
             Location location = new Location
             {
-                zones = { z1, z2 },
+                zones = new List<Zone> { z1, z2 },
                 id = "xas",
                 name = "hi",
                 emergency = -3.5

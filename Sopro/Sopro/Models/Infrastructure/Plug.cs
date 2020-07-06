@@ -9,9 +9,8 @@ namespace sopro2020_abgabe.Models
 {
     public class Plug
     {
-        
         public string id { get; set; }
-        [Range(0,int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int power { get; set; }
         public PlugType type { get; set; }
     }

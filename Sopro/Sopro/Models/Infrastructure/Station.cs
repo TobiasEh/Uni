@@ -14,7 +14,7 @@ namespace sopro2020_abgabe.Models
         public List<Plug> plugs { get; set; }
         public string manufacturer { get; set; }
         public int maxPower { get; set; }
-        public int maxParallelUsable { get; set; }
+        public int maxParallelUseable { get; set; }
 
         public bool addPlug(Plug plug)
         {

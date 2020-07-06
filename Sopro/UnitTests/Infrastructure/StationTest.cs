@@ -15,7 +15,7 @@ namespace UnitTests.Infrastructure
             Station station = new Station
             {
                 id = "abc",
-                plugs = { new Plug { id = "a", power = "10" }, new Plug { id = "b", power = "20" } },
+                plugs = new List<Plug>{ new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
@@ -32,7 +32,7 @@ namespace UnitTests.Infrastructure
             Station station = new Station
             {
                 id = "abc",
-                plugs = { },
+                plugs = new List<Plug>{ },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
@@ -46,12 +46,13 @@ namespace UnitTests.Infrastructure
             Assert.AreEqual("plugs", msg.MemberNames.ElementAt(0));
         }
 
+        [Test]
         public void testStationCreateInvalidMaxPower()
         {
             Station station = new Station
             {
                 id = "abc",
-                plugs = { new Plug { id = "a", power = "10" }, new Plug { id = "b", power = "20" } },
+                plugs = new List<Plug> { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
                 maxPower = -200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
@@ -65,12 +66,13 @@ namespace UnitTests.Infrastructure
             Assert.AreEqual("maxPower", msg.MemberNames.ElementAt(0));
         }
 
+        [Test]
         public void testStationCreateInvalidMaxParallelUseable()
         {
             Station station = new Station
             {
                 id = "abc",
-                plugs = { new Plug { id = "a", power = "10" }, new Plug { id = "b", power = "20" } },
+                plugs = new List<Plug> { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = -2
@@ -90,7 +92,7 @@ namespace UnitTests.Infrastructure
             Station station = new Station
             {
                 id = "abc",
-                plugs = { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug> { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
@@ -101,13 +103,14 @@ namespace UnitTests.Infrastructure
             Assert.IsTrue(station.plugs.Count > plugs_before);
         }
 
+        [Test]
         public void testStationCreateDeletePlug()
         {
-            Plug p = new Plug { id = "a", power = 10 }
+            Plug p = new Plug { id = "a", power = 10 };
             Station station = new Station
             {
                 id = "abc",
-                plugs = { p, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug> { p, new Plug { id = "b", power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
