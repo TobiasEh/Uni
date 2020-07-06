@@ -83,25 +83,6 @@ namespace UnitTests.Infrastructure
         }
 
         [Test]
-        public void testLocationCreateInvalidZones()
-        {
-            Location location = new Location
-            {
-                zones = new List<Zone>(){ },
-                id = "xas",
-                name = "hi",
-                emergency = 3.5
-            };
-
-            var validationResults = new List<ValidationResult>();
-            var actual = Validator.TryValidateObject(location, new ValidationContext(location), validationResults, true);
-            Assert.AreEqual(1, validationResults.Count);
-
-            var msg = validationResults[0];
-            Assert.AreEqual("zones", msg.MemberNames.ElementAt(0));
-        }
-
-        [Test]
         public void testLocationCreateInvalidName()
         {
             Location location = new Location
