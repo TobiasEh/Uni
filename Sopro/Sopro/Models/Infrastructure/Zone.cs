@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sopro.CustomValidationAttributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,18 @@ namespace sopro2020_abgabe.Models
 {
     public class Zone
     {
-        private string id { get; set; }
-        private List<Station> stations { get; set; }
-        private char site { get; set; }
-        private int maxPowerZone { get; set; }
+        public string id { get; set; }
+        [ListMinLength(1)]
+        public List<Station> stations { get; set; }
+        public char site { get; set; }
+        public int maxPower { get; set; }
 
 
         public bool addStation(Station station)
         {
-            if (station != null)
+            stations.Add(station);
+            if (stations.Contains(station))
             {
-                stations.Add(station);
                 return true;
             }
             else
@@ -25,7 +27,7 @@ namespace sopro2020_abgabe.Models
                 return false;
             }
         }
-        public bool deleteZone(Station station)
+        public bool deleteStation(Station station)
         {
             if (stations.Contains(station))
             {

@@ -1,4 +1,5 @@
-﻿using sopro2020_abgabe.Interfaces;
+﻿using Sopro.CustomValidationAttributes;
+using sopro2020_abgabe.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,11 @@ namespace sopro2020_abgabe.Models
 {
     public class Location : ILocation
     {
-        private String id { get; set; }
-        private List<Zone> zones { get; set; }
-        private string name { get; set; }
-        private double emergencyReserve { get; set; }
+        public String id { get; set; }
+        [ListMinLength(0)]
+        public List<Zone> zones { get; set; }
+        public string name { get; set; }
+        public double emergency { get; set; }
 
         public bool addZone(Zone zone)
         {

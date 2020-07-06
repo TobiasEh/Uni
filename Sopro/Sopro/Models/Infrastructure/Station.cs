@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Sopro.CustomValidationAttributes;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,16 +10,17 @@ namespace sopro2020_abgabe.Models
     public class Station
     {
         public string id { get; set; }
+        [ListMinLength(1)]
         public List<Plug> plugs { get; set; }
         public string manufacturer { get; set; }
-        public string name { get; set; }
-        public int maxPowerStation { get; set; }
+        public int maxPower { get; set; }
+        public int maxParallelUsable { get; set; }
 
-        public bool addStation(Plug plug)
+        public bool addPlug(Plug plug)
         {
-            if (plug != null)
+            plugs.Add(plug);
+            if (plugs.Contains(plug))
             {
-                plugs.Add(plug);
                 return true;
             }
             else
@@ -25,7 +28,7 @@ namespace sopro2020_abgabe.Models
                 return false;
             }
         }
-        public bool deleteZone(Plug plug)
+        public bool deletePlug(Plug plug)
         {
             if (plugs.Contains(plug))
             {
