@@ -1,9 +1,0 @@
-[
-  {
-    "chargeStatus": 20,
-    "distance": 100,
-    "startTime": "2020-10-10T10:00:00",
-    "endTime": "2020-10-10T13:00:00",
-    "connectorType": "chAdeMO_Plug"
-  }
-]

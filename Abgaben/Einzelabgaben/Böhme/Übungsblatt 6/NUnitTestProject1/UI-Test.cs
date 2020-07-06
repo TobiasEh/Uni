@@ -52,8 +52,9 @@ namespace UITest
             opsBrowser.initBrowser();
         }
 
-        [TestCase(20, 120, "10102020", "1000", "10102020", "1345")]
-        public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP)
+        [TestCase(-20, 120, "10102020", "1000", "10102020", "1345", false)] //one wrong data
+        [TestCase(20, 120, "10102020", "1000", "10102020", "1345", true)] //all true data
+        public void Test1(int chargeP, int distanceP, string startDateP, string startTimeP, string endDateP, string endTimeP, bool state)
         {
             opsBrowser.Goto(ulrToTest);
             System.Threading.Thread.Sleep(5000);
@@ -66,7 +67,7 @@ namespace UITest
 
             IWebElement distance = webDriver.FindElement(By.XPath("//input[@name='distance']"));
             distance.SendKeys(distanceP.ToString());
-            
+
             IWebElement startTime = webDriver.FindElement(By.XPath("//input[@name='startTime']"));
             startTime.SendKeys(startDateP);
             startTime.SendKeys(Keys.ArrowRight);
@@ -87,10 +88,17 @@ namespace UITest
             IWebElement submit = webDriver.FindElement(By.XPath("//button[@type='submit']"));
 
             System.Threading.Thread.Sleep(2000);
-   
             submit.Click();
-            System.Threading.Thread.Sleep(1000);
-            Assert.IsTrue(webDriver.Url.ToString().Equals("https://localhost:44336/Booking/Post"));
+            if (state)
+            {
+                System.Threading.Thread.Sleep(1000);
+                Assert.IsTrue(webDriver.Url.ToString().Equals("https://localhost:44336/Booking/Post"));
+            } 
+            if (!state) {
+                System.Threading.Thread.Sleep(1000);
+                Assert.IsTrue(webDriver.Url.ToString().Equals("https://localhost:44336/Booking/Create"));
+            }
+            
         }
         [TearDown]
         public void kill()

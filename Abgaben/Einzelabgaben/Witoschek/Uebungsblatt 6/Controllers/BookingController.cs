@@ -48,6 +48,11 @@ namespace Blatt03.Controllers
                 bookings = new List<Booking>();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Create));
+            }
+
             bookings.Add(booking);
             _memoryCache.Set(cacheKey, bookings);
 
@@ -82,11 +87,6 @@ namespace Blatt03.Controllers
         {
             var file = model.importedBookings;
             var cacheKey = "bookings";
-
-            if (!ModelState.IsValid)
-            {
-                return View("Index", new CreatePostViewModel() { bookinglist = this.bookings });
-            }
 
             _memoryCache.TryGetValue(cacheKey, out bookings);
             if (!_memoryCache.TryGetValue(cacheKey, out bookings))

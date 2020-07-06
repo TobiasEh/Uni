@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Models;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.AspNetCore.Mvc;
 using WebApplication1.ViewModel;
 
 namespace WebApplication1.Controllers
@@ -19,6 +18,8 @@ namespace WebApplication1.Controllers
         {
             _memoryCache = memoryCache;
         }
+
+        
 
         public IActionResult Index()
         {
@@ -71,12 +72,23 @@ namespace WebApplication1.Controllers
                 evaluationData.Add(new ConnectorTypeEvaluationViewModel()
                 {
                     connectorType = c,
-                    percentageBooking = Math.Round((double)plugs[(int)c] / (double)total * 100, 2)
-                });
-            }
+                    percentageBooking = calcpercentage(plugs, c, total)
+                }); ;
+            } 
+            
 
             return View(evaluationData);
         }
+        public double calcpercentage(int[] plugs, ConnectorType c, int total)
+        {
+            return onlycalc(plugs[(int)c], total);
+        }
+
+        public double onlycalc(int plugs, int total)
+        {
+            return Math.Round((double)plugs / (double)total * 100, 2);
+        }
+        
     }
 
 }

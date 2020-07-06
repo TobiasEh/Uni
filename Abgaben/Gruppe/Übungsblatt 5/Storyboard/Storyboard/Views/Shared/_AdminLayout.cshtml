@@ -1,5 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Storyboard.Extensions
+
+<!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,55 +11,38 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/sidebar.css" />
 </head>
+
 <body>
 
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header text-center">
-                <a href="https://www.mhp.com/de/home">
-                    <img src="~/icons/MHP.svg" alt="MHP Logo" width="125" />
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" id="navlink">
+                    <img src="~/icons/MHP.svg" alt="MHP Logo" width="150" />
                 </a>
+            </div>
+            <div class="text-center">
+                <img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" /><small>example@mail.de</small>
             </div>
 
             <ul class="list-unstyled components">
-                <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Benutzer</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" id="navlink">Home</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Dashboard" id="navlink">Buchungsübersicht</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard" id="navlink">Verwaltung</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Help" id="navlink">Hilfe</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Imprint" id="navlink">Impressum</a>
-                        </li>
-                    </ul>
+                <li class="@Html.IsSelected(actions: "Dashboard", controllers: "Admin")">
+                    <a href="@Url.Action("Dashboard", "Admin")">Übersicht</a>
                 </li>
-                <li class="active">
-                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Dashboard" id="navlink">Übersicht</a>
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Simulation")">
+                    <a href="@Url.Action("Index", "Simulation")">Simulation</a>
                 </li>
-                <li>
-                    <a class="nav-link" asp-area="" asp-controller="Simulation" asp-action="Index" id="navlink">Simulation</a>
+                <li class="@Html.IsSelected(actions: "History", controllers: "Simulation")">
+                    <a href="@Url.Action("History", "Simulation")">Historie</a>
                 </li>
-                <li>
-                    <a class="nav-link" asp-area="" asp-controller="Simulation" asp-action="History" id="navlink">Historie</a>
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Infrastructure")">
+                    <a href="@Url.Action("Index", "Infrastructure")">Infrastruktur</a>
                 </li>
-                <li>
-                    <a class="nav-link" asp-area="" asp-controller="Simulation" asp-action="Index" id="navlink">Infrastruktur</a>
-                </li>
-                <li>
-                    <a class="nav-link" asp-area="" asp-controller="Simulation" asp-action="Cartemplates" id="navlink">Fahrzeuge</a>
+                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Simulation")">
+                    <a href="@Url.Action("Cartemplates", "Simulation")">Fahrzeuge</a>
                 </li>
             </ul>
         </nav>
-
 
         <div>
             <button type="button" id="sidebarCollapse" class="btn btn-mhp m-3">
@@ -66,13 +52,11 @@
 
         </div>
 
-
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
         </div>
-
     </div>
 
     <footer class="border-top footer text-muted">
@@ -80,9 +64,12 @@
             &copy; 2020 Uni-Augsburg SoPro Team 17
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+

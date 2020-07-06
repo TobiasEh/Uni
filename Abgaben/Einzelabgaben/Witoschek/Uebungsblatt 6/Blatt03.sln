@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blatt03", "Blatt03.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestProject", "..\NUnitTestProject\NUnitTestProject.csproj", "{D9CB8AE4-1FA7-4F74-A482-21CE286B4EF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "..\UITests\UITests.csproj", "{1950201A-A844-4101-B81D-AB0363685F23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomatedUITests", "..\UITests\AutomatedUITests.csproj", "{1950201A-A844-4101-B81D-AB0363685F23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

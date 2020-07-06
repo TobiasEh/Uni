@@ -19,12 +19,20 @@ namespace TestProjekt.Validation
         }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string test = value.ToString();
-            DateTime d = DateTime.Parse(test);
-            if(d == null)
+            try
             {
-                return new ValidationResult("wrong date");
+                string test = value.ToString();
+                DateTime d = DateTime.Parse(test);
+                if (d == null)
+                {
+                    return new ValidationResult("no date");
+                }
+            } 
+            catch (System.NullReferenceException)
+            {
+                return new ValidationResult("null date");
             }
+            
             return ValidationResult.Success;
         }
     }

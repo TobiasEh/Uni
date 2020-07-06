@@ -79,7 +79,6 @@ namespace Website.Controllers
                 b4
             };
             */
-            Debug.WriteLine("test");
             return View(bookings);
         }
 
@@ -90,18 +89,24 @@ namespace Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult newBooking(Booking booking)
         {
-            string cacheKey = "bookings";
-            if (!_memoryCache.TryGetValue(cacheKey, out bookings))
-            {
-                bookings = new List<Booking>();
+            if (TryValidateModel(booking))
+                { 
+                string cacheKey = "bookings";
+                if (!_memoryCache.TryGetValue(cacheKey, out bookings))
+                {
+                    bookings = new List<Booking>();
+                }
+                bookings.Add(booking);
+                _memoryCache.Set(cacheKey, bookings);
+                return View("Index", bookings);
             }
-
-            bookings.Add(booking);
-            _memoryCache.Set(cacheKey, bookings);
-            Debug.WriteLine("test1");
-            return View("Index", bookings);
+            else
+            {
+                return RedirectToAction(nameof(Create));
+            }
         }
 
         public IActionResult Auswertung()
