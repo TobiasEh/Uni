@@ -2,6 +2,7 @@
 using sopro2020_abgabe.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,7 +13,9 @@ namespace sopro2020_abgabe.Models
         public String id { get; set; }
         [ListMinLength(0)]
         public List<Zone> zones { get; set; }
+        [Required]
         public string name { get; set; }
+        [Range(0, int.MaxValue)]
         public double emergency { get; set; }
 
         public bool addZone(Zone zone)
