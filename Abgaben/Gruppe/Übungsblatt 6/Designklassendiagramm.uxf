@@ -277,7 +277,7 @@ bg=#1E90FF
 - id: string {unique}
 - capacity: int {&gt; 0}
 - plugs: PlugType [1..*] {no duplicates}
-- socEnd: int {1 &lt;= socEnd &lt;= 100}
+- socEnd: int {socStart &lt;= socEnd &lt;= 100}
 - socStart: int {&gt;= 0}
 - user: string
 - startTime: date {&gt; DateTime.now()}
