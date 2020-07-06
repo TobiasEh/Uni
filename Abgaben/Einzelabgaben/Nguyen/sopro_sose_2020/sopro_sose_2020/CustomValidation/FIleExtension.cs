@@ -13,6 +13,8 @@ namespace sopro_sose_2020.CustomValidation
         public string extension;
         public string GetErrorMessage() =>
        $"File extension not allowed.";
+        public string GetErrorMessage2() =>
+       $"File is empty";
         public FileExtensionAttribute(string _extension) 
         {
             extension = _extension;
@@ -27,9 +29,11 @@ namespace sopro_sose_2020.CustomValidation
                 {
                     return new ValidationResult(GetErrorMessage());
                 }
+                return ValidationResult.Success;
             }
 
-            return ValidationResult.Success;
+            return new ValidationResult(GetErrorMessage2());
+
         }
 
     }

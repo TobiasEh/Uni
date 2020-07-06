@@ -56,19 +56,6 @@ namespace sopro_sose_2020.Controllers
             }
             return Content("Error - incorrect input");
         }
-        [HttpPost]
-        public IActionResult postBookingTEST(Booking _booking) //modelbind post from html
-        {
-            if (ModelState.IsValid)
-            {
-                
-                bookingList = new List<Booking>();
-                bookingList.Add(_booking);
-                return View("Index", bookingList);
-            }
-            return Content("Error - incorrect input");
-        }
-
         public IActionResult Evaluation()
         {
             var cacheKey = "bookingList";
