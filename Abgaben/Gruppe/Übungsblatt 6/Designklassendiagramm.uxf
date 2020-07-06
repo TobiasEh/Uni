@@ -27,7 +27,7 @@ fontsize=10
 - capacity: int {&gt; 0}
 - socStart: int {&gt;= 0}
 - socEnd: int {1 &lt;= socEnd &lt;= 100}
-- plugs: Plug[0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2600</x><y>1800</y><w>180</w><h>110</h></coordinates><panel_attributes>+ Location
+- plugs: Plug[0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2600</x><y>1800</y><w>180</w><h>120</h></coordinates><panel_attributes>+ Location
 --
 - zones:Zone [0..*]
 - id:string {unique}
@@ -36,7 +36,7 @@ fontsize=10
 --
 + addZone(zone: Zone) : bool
 + deleteZone(zone: Zone) : bool
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2600</x><y>1960</y><w>180</w><h>110</h></coordinates><panel_attributes>+ Zone
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2600</x><y>1960</y><w>180</w><h>120</h></coordinates><panel_attributes>+ Zone
 --
 - stations: Station [1..*]
 - id:string {unique}
@@ -44,7 +44,7 @@ fontsize=10
 - maxPower: int
 --
 + addStation(station: Station) : bool
-+ deleteStation(station: Station): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2600</x><y>2130</y><w>180</w><h>130</h></coordinates><panel_attributes>+ Station
++ deleteStation(station: Station): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2600</x><y>2130</y><w>180</w><h>140</h></coordinates><panel_attributes>+ Station
 --
 - plugs: Plug [1...*]
 - id: string {unique}
@@ -65,10 +65,10 @@ fontsize=10
 + run() : bool
 - calculateLocationworkload() : double 
 - calculateStation() : double
-- startGenerator(scenario: ExecutedScenario) : double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2680</x><y>2250</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>2680</x><y>2060</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>2680</x><y>1900</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3540</x><y>550</y><w>230</w><h>60</h></coordinates><panel_attributes>+ Suggestion
+- startGenerator(scenario: ExecutedScenario) : double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2680</x><y>2260</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>2680</x><y>2070</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>2680</x><y>1910</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3540</x><y>550</y><w>230</w><h>60</h></coordinates><panel_attributes>+ Suggestion
 --
 suggestion: string
 score: int {&gt;= 0}</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4110</x><y>1260</y><w>110</w><h>70</h></coordinates><panel_attributes>lt=-&gt;
@@ -184,7 +184,7 @@ bg=#4169E1</panel_attributes><additional_attributes></additional_attributes></el
 + ToggleCheck(): IActionResult</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1980</x><y>1330</y><w>240</w><h>50</h></coordinates><panel_attributes>+ AdminController
 --
 + Index(): IActionResult
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1980</x><y>640</y><w>240</w><h>80</h></coordinates><panel_attributes>+ HomeController
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1980</x><y>640</y><w>240</w><h>90</h></coordinates><panel_attributes>+ HomeController
 --
 + Help(): IActionResult
 + Imprint(): IActionResult
@@ -283,53 +283,50 @@ bg=#1E90FF
 - startTime: date {&gt; DateTime.now()}
 - endTime: date {&gt; start}
 - station: Station
-- active: bool=false</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3740</x><y>2210</y><w>210</w><h>80</h></coordinates><panel_attributes>+ Schedule
+- active: bool=false</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3740</x><y>2210</y><w>210</w><h>90</h></coordinates><panel_attributes>+ Schedule
 --
 - bookings: Booking[0..*]
 --
 + addBooking(booking: Booking): bool
 + removeBooking(booking: Booking): bool
-+ clean(date: DateTime): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>4090</x><y>2040</y><w>160</w><h>120</h></coordinates><panel_attributes>+ Distributor
++ clean(date: DateTime): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>4090</x><y>2040</y><w>180</w><h>120</h></coordinates><panel_attributes>+ Distributor
 --
 - schedule: Schedule
-- strategy: DistributionStrategy
--puffer: int
+- strategy: IDistributionStrategy
+- puffer: int
 --
 + run(now: DateTime): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3870</x><y>1990</y><w>250</w><h>40</h></coordinates><panel_attributes>+ AdHoc
 --
 + triggerBookingDistribution(now: DateTime): bool
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>3840</x><y>1960</y><w>50</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;30;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4810</x><y>2040</y><w>180</w><h>60</h></coordinates><panel_attributes>+ Messenger
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>3840</x><y>1960</y><w>50</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;30;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4800</x><y>2190</y><w>270</w><h>60</h></coordinates><panel_attributes>+ Messenger
 --
 - emailClient: SmtpClient
 --
-+ update(message: string, user: string)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4240</x><y>2040</y><w>240</w><h>50</h></coordinates><panel_attributes>lt=-&gt;
-- distributor
-m1=1..1
-m2=1..1</panel_attributes><additional_attributes>220;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>4630</x><y>2050</y><w>200</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;180;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4460</x><y>2040</y><w>180</w><h>60</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
-+ IEventListener
++ sendMessage(message: string, user: string)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4670</x><y>2050</y><w>150</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4460</x><y>2040</y><w>220</w><h>60</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
++ IPropertyChange
 --
-+ update(message: string, user: string)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>4780</x><y>2000</y><w>240</w><h>120</h></coordinates><panel_attributes>Communication
++ update(user: string, booking: Booking, eventName:string)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>4780</x><y>1980</y><w>420</w><h>300</h></coordinates><panel_attributes>Communication
 --
-bg=#ffcd74</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>3720</x><y>1750</y><w>580</w><h>630</h></coordinates><panel_attributes>Administration
+bg=#ffcd74</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>3700</x><y>1750</y><w>610</w><h>670</h></coordinates><panel_attributes>Administration
 --
 bg=#ffca7b</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3950</x><y>1860</y><w>240</w><h>60</h></coordinates><panel_attributes>+ Timer
 --
 - distributionTime: DateTime
 --
 + triggerBookingDistribution(now: DateTime): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>3740</x><y>1960</y><w>370</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
-distributes ^</panel_attributes><additional_attributes>10;10;10;100;350;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3960</x><y>2210</y><w>280</w><h>50</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+distributes ^</panel_attributes><additional_attributes>10;10;10;100;350;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3960</x><y>2210</y><w>280</w><h>60</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
 + IDistributionStrategy
 --
-_+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4160</x><y>2150</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>4230</x><y>2220</y><w>70</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;50;10;50;120;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>4230</x><y>2240</y><w>50</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;30;10;30;50;10;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3960</x><y>2270</y><w>280</w><h>40</h></coordinates><panel_attributes>+ StandardDistribution
+_+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4160</x><y>2150</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>4230</x><y>2220</y><w>70</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;50;10;50;130;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>4230</x><y>2240</y><w>50</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;30;10;30;60;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3960</x><y>2280</y><w>280</w><h>40</h></coordinates><panel_attributes>+ StandardDistribution
 --
-_+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3960</x><y>2320</y><w>280</w><h>40</h></coordinates><panel_attributes>+ AdHocDistribution
+_+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3960</x><y>2330</y><w>280</w><h>40</h></coordinates><panel_attributes>+ AdHocDistribution
 --
-_+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4080</x><y>1630</y><w>30</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>3810</x><y>1650</y><w>80</w><h>160</h></coordinates><panel_attributes>lt=-&gt;
+_+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4080</x><y>1630</y><w>30</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>3810</x><y>1650</y><w>80</w><h>120</h></coordinates><panel_attributes>lt=-&gt;
 creates v
 m1=1..1
-m2=0..*</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>4230</x><y>1630</y><w>110</w><h>430</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=0..*</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>4230</x><y>1630</y><w>110</w><h>430</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 - distributor 1..*</panel_attributes><additional_attributes>10;10;10;410</additional_attributes></element><element><id>Relation</id><coordinates><x>2810</x><y>1240</y><w>950</w><h>610</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;520;10;520;590;930;590</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1930</x><y>570</y><w>340</w><h>980</h></coordinates><panel_attributes>Controller
 --
 
@@ -370,4 +367,13 @@ _+ isAdmin(email: string) :bool_</panel_attributes><additional_attributes></addi
 - location: Location
 - timespan: int=30 {&gt;= 0}
 --
-+ filter(bookings: Booking[1..*], date: DateTime): Booking[1..*]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4010</x><y>2120</y><w>100</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>80;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>4110</x><y>1630</y><w>120</w><h>390</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>100;10;100;370;10;370</additional_attributes></element></diagram>
++ filter(bookings: Booking[1..*], date: DateTime): Booking[1..*]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4010</x><y>2120</y><w>100</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>80;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>4110</x><y>1630</y><w>120</w><h>390</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>100;10;100;370;10;370</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4800</x><y>2020</y><w>370</w><h>110</h></coordinates><panel_attributes>+ BookingPropertyChange
+--
+- messageAccepted: string
+- messageDeclined: string
+-messageCheckIn: string
+-messageCheckOut: string
+--
++ update(user: string, booking: Booking, eventName: string)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4910</x><y>2120</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>3830</x><y>2090</y><w>760</w><h>330</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;
+</panel_attributes><additional_attributes>740;10;740;310;10;310;10;210</additional_attributes></element><element><id>Relation</id><coordinates><x>4260</x><y>2050</y><w>220</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;10</additional_attributes></element></diagram>
