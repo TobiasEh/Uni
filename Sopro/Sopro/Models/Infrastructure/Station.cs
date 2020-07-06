@@ -7,11 +7,11 @@ namespace sopro2020_abgabe.Models
 {
     public class Station
     {
-        private String id { get; set; }
-        private List<Plug> plugs { get; set; }
-        private String manufacturer { get; set; }
-        private String name { get; set; }
-        private int maxPowerStation { get; set; }
+        public string id { get; set; }
+        public List<Plug> plugs { get; set; }
+        public string manufacturer { get; set; }
+        public string name { get; set; }
+        public int maxPowerStation { get; set; }
 
         public bool addStation(Plug plug)
         {

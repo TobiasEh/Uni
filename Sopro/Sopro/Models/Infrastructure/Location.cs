@@ -10,7 +10,7 @@ namespace sopro2020_abgabe.Models
     {
         private String id { get; set; }
         private List<Zone> zones { get; set; }
-        private String name { get; set; }
+        private string name { get; set; }
         private double emergencyReserve { get; set; }
 
         public bool addZone(Zone zone)

@@ -7,7 +7,7 @@ namespace sopro2020_abgabe.Models
 {
     public class Zone
     {
-        private String id { get; set; }
+        private string id { get; set; }
         private List<Station> stations { get; set; }
         private char site { get; set; }
         private int maxPowerZone { get; set; }
