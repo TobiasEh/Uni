@@ -10,6 +10,7 @@ namespace Sopro.Models.User
         GUEST,
         VIP,
         ASSISTANCE,
-        EMPLOYEE
+        EMPLOYEE,
+        PLANER
     }
 }

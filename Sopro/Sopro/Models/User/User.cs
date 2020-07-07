@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Models.User
 {
-    public class User
+    struct User
     {
         public string email { get; set; }
         public UserType usertype { get; set; }

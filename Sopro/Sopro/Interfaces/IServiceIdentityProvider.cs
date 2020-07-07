@@ -9,6 +9,5 @@ namespace Sopro.Interfaces
     interface IServiceIdentityProvider
     {
         UserType getUserPriority(string email);
-        bool isAdmin(string email);
     }
 }

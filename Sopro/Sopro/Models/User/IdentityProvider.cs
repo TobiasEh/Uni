@@ -17,7 +17,7 @@ namespace Sopro.Models.User
 
         public UserType getUserPriority(string email)
         {
-            List < User > userList = new List<User>();
+            List <User> userList = new List<User>();
             JsonSerializerOptions options;
             options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
@@ -31,16 +31,6 @@ namespace Sopro.Models.User
             return UserType.GUEST;
         }
 
-        public bool isAdmin(string email)
-        {
-            List<User> userList = new List<User>();
-            JsonSerializerOptions options;
-            options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.WriteIndented = true;
-            string json = File.ReadAllText(path);
-            userList = JsonSerializer.Deserialize<List<User>>(json, options);
-            return userList.Find(x => x.email.Contains(email)).usertype == UserType.ASSISTANCE;
-        }
+       
     }
 }
