@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Foolproof" Version="0.9.4518" />
+  </ItemGroup>
+
 
 
 </Project>

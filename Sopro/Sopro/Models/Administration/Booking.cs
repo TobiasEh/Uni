@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FoolProof.Core;
 using System.ComponentModel.Design;
 using Sopro.Models.Infrastructure;
+using Foolproof;
 
 namespace Sopro.Models.Administration
 {
