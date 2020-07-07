@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Sopro.Models.Administration;
+using Sopro.Models.Infrastructure;
 using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace UnitTests
             {
                 id = "abc",
                 capacity = 20,
-                plugs = new List<plugType> { plugType.CCS },
+                plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 10,
                 socEnd = 100,
                 user = "example@email.de",
@@ -38,7 +39,7 @@ namespace UnitTests
             {
                 id = "abc",
                 capacity = 20,
-                plugs = new List<plugType> { plugType.CCS },
+                plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 10,
                 socEnd = 100,
                 user = "example@email.de",
