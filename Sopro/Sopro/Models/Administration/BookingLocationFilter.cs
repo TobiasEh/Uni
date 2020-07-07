@@ -37,8 +37,6 @@ namespace Sopro.Models.Administration
 
         /* Filters the List of bookings on Location and a period of time  
          * between [date, date+timespan].
-         * Throws exception, when date is in the past.
-         * Throws exception, when List of bookings is empty.
          * Throws exception, when after filtering no booking is found.
          */
         public List<Booking> filter(List<Booking> bookings, DateTime date)
