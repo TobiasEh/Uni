@@ -1,10 +1,10 @@
-﻿using sopro2020_abgabe.Models;
+﻿using Sopro.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sopro2020_abgabe.Interfaces
+namespace SoPro.Interfaces
 {
     interface ILocation
     {
