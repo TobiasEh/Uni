@@ -73,7 +73,7 @@ namespace Sopro.Models.Administration
                     {
                         removeBooking(item);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         return false;
                     }

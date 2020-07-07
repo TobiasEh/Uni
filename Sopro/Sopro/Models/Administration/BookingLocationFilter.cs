@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Sopro.Models.Infrastructure;
 
 namespace Sopro.Models.Administration
 {
@@ -42,16 +43,6 @@ namespace Sopro.Models.Administration
          */
         public List<Booking> filter(List<Booking> bookings, DateTime date)
         {
-            //steht zwar nicht in den Kontrakten macht aber für mich sinn (Kommentar löschen wenn gesehen)
-            if (date < DateTime.Now)
-                throw new Exception("Datum muss in der Zukunft liegen.");
-
-            //gleiches gilt hier
-            else if (bookings.Count == 0)
-                throw new Exception("Es wurden keine Buchungen übergeben.");
-
-            else
-            {
                 DateTime end = date.AddDays(timespan);
                 foreach (Booking item in bookings)
                 {
@@ -68,7 +59,6 @@ namespace Sopro.Models.Administration
                 {
                     return bookings;
                 }
-            }
         }
     }
 }
