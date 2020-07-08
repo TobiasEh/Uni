@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using FoolProof.Core;
+//using FoolProof.Core;
 using System.ComponentModel.Design;
 using Sopro.Models.Infrastructure;
 using Foolproof;
@@ -20,7 +20,9 @@ namespace Sopro.Models.Administration
         public int capacity { get; set; }
         [Required]
         [BookingPlugsValidation]
-        public PlugType[] plugs { get; set; }
+        public List<PlugType> plugs { get; set; }
+
+        //public PlugType[] plugs { get; set; }
         [Required]
         [BookingSocStartValidation]
         public int socStart { get; set; }
@@ -43,6 +45,8 @@ namespace Sopro.Models.Administration
             get { return active; }
             set { active = false; }
         }
+        [Required]
+        public Location location { get; set; }
 
     }
 }
