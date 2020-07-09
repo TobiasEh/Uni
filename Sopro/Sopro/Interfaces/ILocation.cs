@@ -8,6 +8,8 @@ namespace sopro2020_abgabe.Interfaces
 {
     interface ILocation
     {
+        Schedule schedule { get; set; }
+        Distributer distributer { get; set; }
         bool addZone(Zone zone);
         bool deleteZone(Zone zone);
     }

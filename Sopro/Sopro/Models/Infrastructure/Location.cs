@@ -17,6 +17,15 @@ namespace sopro2020_abgabe.Models
         public string name { get; set; }
         [Range(0, int.MaxValue)]
         public double emergency { get; set; }
+        public Schedule schedule { get; set; }
+        public Distributer distributer { get; set; }
+
+        public Location()
+        {
+            schedule = new Schedule();
+            distributer = new Distributer(schedule,this);
+           
+        }
 
         public bool addZone(Zone zone)
         {
