@@ -14,21 +14,16 @@ namespace Sopro.Models.Administration
     public class Booking
     {
         [Required]
-        public string id { get; set; }
-        [Required]
-        [BookingCapacityValidation]
+        [Range(1, Int32.MaxValue)]
         public int capacity { get; set; }
         [Required]
         [BookingPlugsValidation]
         public List<PlugType> plugs { get; set; }
-
-        //public PlugType[] plugs { get; set; }
         [Required]
-        [BookingSocStartValidation]
+        [Range(0, 100)]
         public int socStart { get; set; }
         [Required]
         [BookingSocEndValidation]
-        [GreaterThan("socStart")]
         public int socEnd { get; set; }
         [Required]
         public string user { get; set; }
@@ -36,15 +31,15 @@ namespace Sopro.Models.Administration
         [BookingStartTimeValidation]
         public DateTime startTime { get; set; }
         [Required]
-        [GreaterThan("startTime")]
+        [BookingEndTimeValidation]
         public DateTime endTime { get; set; }
-        [Required]
         public Station station { get; set; }
         [Required]
         public bool active { get; set; }
 
         [Required]
         public Location location { get; set; }
+        public UserType priority { get; set; }
 
     }
 }

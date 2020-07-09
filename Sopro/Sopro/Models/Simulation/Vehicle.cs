@@ -14,19 +14,15 @@ namespace Sopro.Models.Simulation
         [Required]
         public string model { get; set; }
         [Required]
-        [BookingCapacityValidation]
+        [Range(1,int.MaxValue]
         public int capacity { get; set; }
-        [Required]
-        [BookingPlugsValidation]
-        public List<PlugType> plugs { get; set; }
+        public Plug plugs { get; set; }
 
-        //public PlugType[] plugs { get; set; }
         [Required]
-        [BookingSocStartValidation]
+        [Range(0, 100)]
         public int socStart { get; set; }
         [Required]
-        [BookingSocEndValidation]
-        [GreaterThan("socStart")]
+        [VehicleSocEndValidation]
         public int socEnd { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sopro.Models.Administration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace Sopro.ValidationAttributes
 {
-    public class BookingSocStartValidation : ValidationAttribute
+    public class BookingEndTimeValidation : ValidationAttribute
     {
+        private Booking booking;
         public override bool IsValid(object value)
         {
-            int temp = Convert.ToInt16(value);
-            if (temp >= 0)
+            var starttime = booking.startTime;
+            DateTime time = Convert.ToDateTime(value);
+            if (time > starttime)
+            {
                 return true;
+            }
             else
                 return false;
         }
