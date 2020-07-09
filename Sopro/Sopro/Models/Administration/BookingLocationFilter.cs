@@ -3,36 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Sopro.Models.Infrastructure;
+using SoPro.Interfaces;
 
 namespace Sopro.Models.Administration
 {
     public class BookingLocationFilter
     {
-        private Location location { get; }
-        private int timespan = 30;
+        private ILocation location { get; set; }
+        private int timespan { get; set; } = 30;
 
-        public BookingLocationFilter(Location _location, int _timespan)
+        public BookingLocationFilter(ILocation _location, int _timespan)
         {
             location = _location;
-            if (!checkTimespan(_timespan))
-                throw new Exception("Zeitraum darf nicht negativ sein");
-            else
-                timespan = _timespan;
+            timespan = _timespan;
         }
-        public BookingLocationFilter(Location _location)
+        public BookingLocationFilter(ILocation _location)
         {
             location = _location;
-        }
-
-        /* Check if timespan in non-negativ.
-         */
-        private bool checkTimespan(int timespan)
-        {
-            if (timespan >= 0)
-                return true;
-            else
-                return false;
         }
 
         /* Filters the List of bookings on Location and a period of time  
