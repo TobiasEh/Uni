@@ -9,6 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using sopro2020_abgabe.Interfaces;
 using sopro2020_abgabe.Models;
+using System.Diagnostics.Eventing.Reader;
+using
+using Microsoft.AspNetCore.Http;
 
 namespace Sopro.Controllers
 {
@@ -16,7 +19,6 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
-        List<Location> locations;
 
         public BookingController(IMemoryCache _cache)
         {
@@ -29,8 +31,10 @@ namespace Sopro.Controllers
          * Else the Booking.Index view with all bookings is returned.
          */
         public IActionResult Index()
-        { 
-            if (/*rolle Planer*/true)
+        {
+            //Session for the role of the User
+            var userID = this.HttpContext.Session.GetString("ID");
+            if (userID.Equals(UserType.PLANER.ToString))
             {
                 List<Booking> unscheduledBookings = new List<Booking>();
                 List<Booking> scheduledBookings = new List<Booking>();
@@ -47,7 +51,7 @@ namespace Sopro.Controllers
                 }
                 return RedirectToAction("Dashboard", "Admin", new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
-            else /*nicht rolle Planer*/
+            else
             {
                 return View("Index", bookings);
             }
@@ -58,7 +62,7 @@ namespace Sopro.Controllers
         public IActionResult Create()
         {
             var cacheKey = CacheKeys.LOCATION;
-            locations = cache.Get(cacheKey);
+            List<Location> locations = cache.Get(cacheKey);
             return View("Create", new BookingCreateViewModel(locations, new Booking()));           
         }
 
