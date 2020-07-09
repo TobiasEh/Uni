@@ -62,17 +62,17 @@ namespace Sopro.Models.Communication
             }
             else if (eventName.Equals(NotificationEvent.DECLINDED))
             {
-                message = generateMessageAccepted(booking);
+                message = generateMessageDeclined(booking);
                 messenger.sendMessage(message, booking.user);
             }
             else if (eventName.Equals(NotificationEvent.CHECKIN))
             {
-                message = generateMessageAccepted(booking);
+                message = generateMessageCheckIn(booking);
                 messenger.sendMessage(message, booking.user);
             }
             else if (eventName.Equals(NotificationEvent.CHECKOUT))
             {
-                message = generateMessageAccepted(booking);
+                message = generateMessageCheckOut(booking);
             }
         }
 
