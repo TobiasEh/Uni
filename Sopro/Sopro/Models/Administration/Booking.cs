@@ -33,6 +33,7 @@ namespace Sopro.Models.Administration
         [Required]
         public string user { get; set; }
         [Required]
+        [BookingStartTimeValidation]
         public DateTime startTime { get; set; }
         [Required]
         [GreaterThan("startTime")]
@@ -40,11 +41,8 @@ namespace Sopro.Models.Administration
         [Required]
         public Station station { get; set; }
         [Required]
-        public bool active
-        {
-            get { return active; }
-            set { active = false; }
-        }
+        public bool active { get; set; }
+
         [Required]
         public Location location { get; set; }
 
