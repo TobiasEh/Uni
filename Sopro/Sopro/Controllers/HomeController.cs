@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sopro.Models.User;
 
@@ -23,7 +24,10 @@ namespace Sopro.Controllers
         }      
         public IActionResult Login(string email)
         {
-            if(IdentityProvider.getUserPriority(email) != UserType.PLANER)
+            var role = IdentityProvider.getUserPriority(email);
+            HttpContext.Session.SetString("email", email);
+            HttpContext.Session.SetString("role", role.toString());
+            if (role != UserType.PLANER)
             {
                 return RedirectToAction("Index", "Booking");
             }
