@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using sopro2020_abgabe.Interfaces.IBooking;
+using sopro2020_abgabe.Interfaces;
+using sopro2020_abgabe.Models;
 
 namespace Sopro.Controllers
 {
@@ -15,6 +16,7 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
+        List<Location> locations;
 
         public BookingController(IMemoryCache _cache)
         {
@@ -22,17 +24,28 @@ namespace Sopro.Controllers
         }
 
         /* Method to show Index or Dashobard.
-         * If the User has the role "Planer", then Admin.Dashboard view is returned.
-         * Else the Booking.Index view.
+         * If the User has the role "Planer", then Admin.Dashboard view is returned,
+         * with scheduled and unscheduled bookings.
+         * Else the Booking.Index view with all bookings is returned.
          */
         public IActionResult Index()
-        {
-            var cacheKey = "bookings";
-            cache.TryGetValue(cacheKey, out bookings);
-
-            if (/*rolle Planer*/)
+        { 
+            if (/*rolle Planer*/true)
             {
-                return View("Admin.Dashboard", new DashboardViewModel());
+                List<Booking> unscheduledBookings = new List<Booking>();
+                List<Booking> scheduledBookings = new List<Booking>();
+                foreach (Booking item in bookings)
+                {
+                    if (item.station == null)
+                    {
+                        unscheduledBookings.Add(item);
+                    }
+                    else if (item.station != null)
+                    {
+                        scheduledBookings.Add(item);
+                    }
+                }
+                return RedirectToAction("Dashboard", "Admin", new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
             else /*nicht rolle Planer*/
             {
@@ -44,7 +57,9 @@ namespace Sopro.Controllers
          */
         public IActionResult Create()
         {
-            return View("Booking.Create", new BookingCreateViewModel());           
+            var cacheKey = CacheKeys.LOCATION;
+            locations = cache.Get(cacheKey);
+            return View("Create", new BookingCreateViewModel(locations, new Booking()));           
         }
 
         /* Method to show all bookings in UI.
@@ -57,7 +72,7 @@ namespace Sopro.Controllers
         [HttpPost]
         public IActionResult Post(IBooking booking)
         {
-            var cacheKey = "bookings";
+            var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
@@ -77,9 +92,9 @@ namespace Sopro.Controllers
          */
         public IActionResult Edit(IBooking booking)
         {
-            var cacheKey = "bookings";
+            var cacheKey = CacheKeys.BOOKING;
             bookings.Remove(booking);
-            cache.Set(cacheKey, booking);
+            cache.Set(cacheKey, bookings);
 
             return View("Create", booking);
         }
@@ -90,17 +105,25 @@ namespace Sopro.Controllers
          */
         public IActionResult Delete(IBooking booking)
         {
-            var cacheKey = "bookings";
+            var cacheKey = CacheKey.BOOKING;
+        
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
         }
         
-        /* 
+        /* Method takes care about Check-In/-Out.
+         * Therefore it changes the attribute active of given booking to the opposite boolean.
+         * Returns Booking.Index view, with bookinglist.
          */
-        public IActionResult ToggleCheck()
+        public IActionResult ToggleCheck(IBooking booking)
         {
-
+            var cacheKey = CacheKey.BOOKING;
+            
+            bookings.Find(booking).active = !bookings.Find(booking).active;
+            
+            cache.Set(cacheKey, bookings);
+            return View("Index", bookings);
         }
     }
 }
