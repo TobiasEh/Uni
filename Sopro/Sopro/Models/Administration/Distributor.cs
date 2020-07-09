@@ -8,10 +8,11 @@ namespace Sopro.Models.Administration
     public class Distributor
     {
         public List<Booking> bookings;
-        private Schedule schedule { get; }
-        private IDistributionStrategy strategy;
-        private BookingLocationFilter filter { get; }
-        private int puffer = 15;
+        private Schedule schedule { get; set; }
+        private IDistributionStrategy strategy { get; set; }
+        private BookingLocationFilter filter { get; set; }
+        private int puffer {get; set; } = 15;
+        private NotificationManager notificationManager;
 
         public Distributor(IDistributionStrategy _strategy, List<Booking> _bookings, Schedule _schedule, int _puffer)
         {
