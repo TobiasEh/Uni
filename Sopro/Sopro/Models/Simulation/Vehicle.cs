@@ -1,5 +1,4 @@
-﻿using Foolproof;
-using Sopro.ValidationAttributes;
+﻿using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +13,7 @@ namespace Sopro.Models.Simulation
         [Required]
         public string model { get; set; }
         [Required]
-        [Range(1,int.MaxValue]
+        [Range(1,int.MaxValue)]
         public int capacity { get; set; }
         public Plug plugs { get; set; }
 

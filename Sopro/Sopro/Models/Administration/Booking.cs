@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Foolproof;
 using System.ComponentModel.Design;
 using Sopro.Models.Infrastructure;
-using Foolproof;
 
 namespace Sopro.Models.Administration
 {
