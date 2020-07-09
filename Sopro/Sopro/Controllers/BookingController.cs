@@ -83,7 +83,7 @@ namespace Sopro.Controllers
             }
             if (!ModelState.IsValid)
             {
-                //Ausnahme
+                throw new Exception("Buchung ist nicht valide!");
             }
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
