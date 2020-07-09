@@ -9,6 +9,10 @@ namespace Sopro.Models.Communication
     public class Messenger
     {
         private SmtpClient emailClient;
+        public Messenger()
+        {
+            emailClient = new SmtpClient();
+        }
         public void sendMessage(String message, String user)
         {
 
