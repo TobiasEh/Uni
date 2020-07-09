@@ -9,7 +9,6 @@ namespace sopro2020_abgabe.Models
 {
     public class Station
     {
-        public string id { get; set; }
         [ListMinLength(1)]
         public List<Plug> plugs { get; set; }
         public string manufacturer { get; set; }
