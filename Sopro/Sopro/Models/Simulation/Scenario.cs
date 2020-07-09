@@ -10,12 +10,10 @@ namespace Sopro.Models.Simulation
     public class Scenario
     {
         [Required]
-        public string id { get; set; }
-        [Required]
-        [BookingCapacityValidation]
+        [Range(1,100)]
         public int duration { get; set; }
         [Required]
-        [BookingCapacityValidation]
+        [Range(1, 100)]
         public int bookingCount { get; set; }
         [Required]
         public List<Vehicle> vehicles { get; set; }
