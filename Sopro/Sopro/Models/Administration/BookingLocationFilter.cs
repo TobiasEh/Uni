@@ -36,14 +36,12 @@ namespace Sopro.Models.Administration
                         bookings.Remove(item);
                     }
                 }
-                if (bookings.Count() == 0)
-                {
-                    throw new Exception("Es wurde keine Buchung gefunden die in " + location + ", zwischen " + date + "und " + end + "liegt");
-                }
-                else
-                {
-                    return bookings;
-                }
+            if (bookings.Count() == 0 || bookings == null)
+                return bookings;
+            else
+            {
+                return bookings;
+            }
         }
     }
 }

@@ -52,23 +52,12 @@ namespace Sopro.Models.Administration
         {
             List<Booking> bookings;
             bookings = cache.Get<List<Booking>>(CacheKey.BOOKING);
-            try
-            {
-                bookings = filter.filter(bookings, DateTime.Now);
-            }
-            catch (Exception)
-            {
+
+            bookings = filter.filter(bookings, now);
+            if (bookings == null || bookings.Count() == 0)
                 return false;
-            }
-            try
-            {
-                if (!strategy.distribute(bookings, schedule, puffer))
-                    return false;
-            }
-            catch (Exception)
-            {
+            if (!strategy.distribute(bookings, schedule, puffer))
                 return false;
-            }
             return true;
         }
     }

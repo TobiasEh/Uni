@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Server.IIS.Core;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Sopro.Models.Administration
             foreach (Booking item in bookings)
             {
                 if (item.id == booking.id)
-                    throw new Exception("Buchung existiert bereits!");
+                    return false;
             };
 
             int checkCount = bookings.Count();
@@ -47,7 +48,7 @@ namespace Sopro.Models.Administration
             foreach (Booking item in bookings)
             {
                 if (item.id != booking.id)
-                    throw new Exception("Buchung existiert nicht im Scheduler!");
+                    return false;
             };
 
             int checkCount = bookings.Count();
