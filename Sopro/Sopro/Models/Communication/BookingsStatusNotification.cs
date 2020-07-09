@@ -73,6 +73,7 @@ namespace Sopro.Models.Communication
             else if (eventName.Equals(NotificationEvent.CHECKOUT))
             {
                 message = generateMessageCheckOut(booking);
+                messenger.sendMessage(message, booking.user);
             }
         }
 
