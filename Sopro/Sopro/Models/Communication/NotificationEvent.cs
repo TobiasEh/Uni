@@ -7,9 +7,9 @@ namespace Sopro.Models.Communication
 {
     public static class NotificationEvent
     {
-        public static String ACCEPTED;
-        public static String DECLINDED;
-        public static String CHECKIN;
-        public static String CHECKOUT;
+        public static String ACCEPTED = "acceptedBooking";
+        public static String DECLINDED = "declinedBooking";
+        public static String CHECKIN = "checkInBooking";
+        public static String CHECKOUT = "checkOutBooking";
     }
 }
