@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sopro2020_abgabe.Interfaces
+namespace Sopro.Interfaces
 {
-    interface ILocation
+    public interface ILocation
     {
         Schedule schedule { get; set; }
         Distributer distributer { get; set; }

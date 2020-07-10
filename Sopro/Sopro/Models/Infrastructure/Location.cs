@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sopro2020_abgabe.Models
+namespace Sopro.Models.Infrastructure
 {
     public class Location : ILocation
     {

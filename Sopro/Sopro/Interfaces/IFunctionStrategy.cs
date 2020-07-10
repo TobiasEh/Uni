@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces
 {
-    interface IFunctionStrategy
+    public interface IFunctionStrategy
     {
         List<DateTime> generateDateTimeValues(DateTime start, DateTime end, int bookings);
     }
