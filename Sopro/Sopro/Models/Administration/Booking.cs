@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.Design;
 using Sopro.Models.Infrastructure;
+using Sopro.Models.User;
 
 namespace Sopro.Models.Administration
 {

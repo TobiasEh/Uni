@@ -1,4 +1,5 @@
 ﻿using Sopro.Interfaces.CommunicationAdministration;
+using Sopro.Models.Administration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace Sopro.Models.Communication
 
         /* Method sends message to user if booking was acceped, declined, checkedIn or checkedOut.
          */
-        public void update(Booking booking, String eventName)
+        public void update(Booking booking, string eventName)
         {
             String message;
             if (eventName.Equals(NotificationEvent.ACCEPTED))
@@ -60,7 +61,7 @@ namespace Sopro.Models.Communication
                 message = generateMessageAccepted(booking);
                 messenger.sendMessage(message, booking.user);
             }
-            else if (eventName.Equals(NotificationEvent.DECLINDED))
+            else if (eventName.Equals(NotificationEvent.DECLINED))
             {
                 message = generateMessageDeclined(booking);
                 messenger.sendMessage(message, booking.user);

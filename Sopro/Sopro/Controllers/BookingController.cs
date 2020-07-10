@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Diagnostics.Eventing.Reader;
 using Sopro.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Sopro.Models.User;
 
 namespace Sopro.Controllers
 {

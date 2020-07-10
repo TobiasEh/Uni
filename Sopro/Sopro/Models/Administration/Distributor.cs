@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using Microsoft.Extensions.Caching.Memory;
-using SoPro.Interfaces;
+using Sopro.Interfaces;
 using Sopro.Controllers;
-
+using Sopro.Models.Communication;
 
 namespace Sopro.Models.Administration
 {
@@ -44,7 +44,7 @@ namespace Sopro.Models.Administration
             foreach(Booking item in bookings)
             {
                 if (item.station == null)
-                    notificationManager.notify(item, NotivicationEvent.DECLINED);
+                    notificationManager.notify(item, NotificationEvent.DECLINED);
             }
             return true;
         }

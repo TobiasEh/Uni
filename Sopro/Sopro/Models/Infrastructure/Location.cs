@@ -1,5 +1,6 @@
 ﻿using Sopro.CustomValidationAttributes;
 using Sopro.Interfaces;
+using Sopro.Models.Administration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
