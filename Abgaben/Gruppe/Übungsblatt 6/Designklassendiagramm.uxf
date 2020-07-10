@@ -78,7 +78,7 @@ fontsize=10
 --
 + addStation(station: Station) : bool
 + deleteStation(station: Station): bool
-+ CompareTo(object obj): int</panel_attributes>
++ CompareTo(zone: Zone): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -742,7 +742,7 @@ fontsize=80</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>4420</x>
+      <x>4440</x>
       <y>1190</y>
       <w>280</w>
       <h>120</h>
@@ -2023,7 +2023,8 @@ bg=#1E90FF
 - puffer: int {&gt;= 0}
 - filter: BookingLocationFilter
 --
-+ run(): bool</panel_attributes>
++ run(): bool
++ run(bookings: Booking [0..*]): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2152,7 +2153,7 @@ distributes ^</panel_attributes>
     <coordinates>
       <x>3960</x>
       <y>2210</y>
-      <w>280</w>
+      <w>340</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
@@ -2175,31 +2176,31 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4230</x>
+      <x>4290</x>
       <y>2220</y>
-      <w>70</w>
+      <w>80</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;10.0;50.0;130.0;10.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;130.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4230</x>
+      <x>4290</x>
       <y>2240</y>
-      <w>50</w>
+      <w>60</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;30.0;10.0;30.0;60.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;60.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>3960</x>
       <y>2280</y>
-      <w>280</w>
+      <w>340</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>+ StandardDistribution
@@ -2212,7 +2213,7 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
     <coordinates>
       <x>3960</x>
       <y>2330</y>
-      <w>280</w>
+      <w>340</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>+ AdHocDistribution
