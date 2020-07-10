@@ -121,11 +121,10 @@ namespace Sopro.Controllers
         public IActionResult ToggleCheck(IBooking booking)
         {
             var cacheKey = CacheKey.BOOKING;
-            int index = bookings.IndexOf(booking);
 
-            booking = booking.location.schedule.toggleCheck(booking);
-            bookings.RemoveAt(index);
-            bookings.Insert(index, booking);
+            int index = bookings.IndexOf(booking);
+            booking.location.schedule.toggleCheck(booking);
+            bookings[index].active = !bookings[index].active;
 
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
