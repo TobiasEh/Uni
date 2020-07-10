@@ -5,41 +5,39 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NCrontab;
 using Sopro.Interfaces;
 
 namespace Sopro.Models.Administration
 {
     //TODO
-    public class DistributionTimer : ITrigger, IHostedService, IDisposable
+    public class DistributionTimer : IHostedService, IDisposable
     {
+        private readonly ILogger<DistributionTimer> _logger;
         private DateTime distributionTime;
         private List<Distributor> distributor;
         private Timer _timer;
-        private readonly ILogger<DistributionTimer> _logger;
+
+        private CrontabSchedule _schedule;
+        private DateTime _nextRun;
+
 
         public DistributionTimer(DateTime distributionTime, ILogger<DistributionTimer> logger)
         {
-            this.distributionTime = distributionTime;
-            this._logger = logger;
+
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Distribution timer is running.");
-            _timer = new Timer(triggerBookingDistribution, )
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
+        public void Dispose()
         {
             throw new NotImplementedException();
         }
 
-        public bool triggerBookingDistribution()
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
-        public void Dispose()
+        public Task StopAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
