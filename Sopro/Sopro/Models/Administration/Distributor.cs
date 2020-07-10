@@ -9,7 +9,7 @@ using Sopro.Controllers;
 
 
 namespace Sopro.Models.Administration
-{   //jede location hat ein distributer und einen schedule
+{
     public class Distributor
     {
         private Schedule schedule { get; set; }
@@ -29,6 +29,9 @@ namespace Sopro.Models.Administration
             notificationManager = new NotificationManager();
         }
 
+        /* Method calls other method to distribute booking.
+         * If a booking is not distributed, the user will be notified.
+         */
         public bool run()
         {
             List<Booking> bookings;
@@ -38,6 +41,11 @@ namespace Sopro.Models.Administration
                 return false;
             if (!strategy.distribute(bookings, schedule, puffer))
                 return false;
+            foreach(Booking item in bookings)
+            {
+                if (item.station == null)
+                    notificationManager.notify(item, NotivicationEvent.DECLINED);
+            }
             return true;
         }
     }
