@@ -16,12 +16,12 @@ namespace Sopro.Models.Infrastructure
         [Range(0, int.MaxValue)]
         public double emergency { get; set; }
         public Schedule schedule { get; set; }
-        public Distributer distributer { get; set; }
+        public Distributor distributor { get; set; }
 
         public Location()
         {
             schedule = new Schedule();
-            distributer = new Distributer(schedule,this);
+            distributor = new Distributor(schedule,this);
            
         }
 
