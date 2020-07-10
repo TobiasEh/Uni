@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
+﻿/*
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
 using System;
@@ -135,7 +136,7 @@ namespace Sopro.Models.Administration
                                     //go to next booking
                                     continue;
                                 }
-                            }*/
+                            }*/ /*
                         }
                     }
                 }
@@ -192,3 +193,4 @@ namespace Sopro.Models.Administration
         }
     }
 }
+*/
