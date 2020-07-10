@@ -7,10 +7,10 @@ namespace Sopro.Controllers
 {
     public static class CacheKeys
     {
-        static string BOOKING = "bookingKey";
-        static string VEHICLE = "vehicleKey";
-        static string HISTORY = "historyKey";
-        static string SCENARIO = "scenarioKey";
-        static string LOCATION = "locationKey";
+        public static string BOOKING = "bookingKey";
+        public static string VEHICLE = "vehicleKey";
+        public static string HISTORY = "historyKey";
+        public static string SCENARIO = "scenarioKey";
+        public static string LOCATION = "locationKey";
     }
 }
