@@ -1,8 +1,4 @@
-﻿using sopro2020_abgabe.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Sopro.Models.Infrastructure;
 
 namespace Sopro.Interfaces
 {
