@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewData["Title"] = "Buchungsübersicht";
+}
+
+<div class="d-flex">
+    <h1 class="pb-5 display-4">Buchungsübersicht</h1>
+    <form methode="post" class="ml-auto mt-3">
+        <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp btn-lg">Neue Buchung</button>
+    </form>
+</div>
+
+
+<div class="mb-4">
+    <div class="d-inline-flex flex-wrap pb-2">
+        <! für max 4 Buchungen danach neues div>
+
+
+        <div class="col-sm shadow rounded m-2">
+            <h4 class="text-center p-2 text-white rounded bg-dark mt-3">Buchung</h4>
+            <div class="p-3 text-nowrap">
+                <p><b>Standort</b> München</p>
+                <p><b>Zone</b> A</p>
+                <p><b>Start</b> 08.06.2020 13:00</p>
+                <p><b>Ende</b> 08.06.2020 17:00</p>
+                <p><b>Ladestand</b> 30%</p>
+                <p><b>Benötigte Kilometer</b> 100</p>
+            </div>
+            <div> <button class="w-100 btn btn-primary btn-mhp mb-3">Check-In</button></div>
+        </div>
+
+        <div class="col-sm shadow rounded m-2">
+            <h4 class="text-center p-2 text-white rounded bg-dark mt-3">Buchung</h4>
+            <div class="p-3 text-nowrap">
+                <p><b>Standort</b> Berlin</p>
+                <p><b>Zone</b> B</p>
+                <p><b>Start</b> 10.06.2020 16:00</p>
+                <p><b>Ende</b> 10.06.2020 20:00</p>
+                <p><b>Ladestand</b> 10%</p>
+                <p><b>Benötigte Kilometer</b> 200</p>
+            </div>
+            <div> <button class="w-100 btn btn-primary btn-mhp mb-3">Check-In</button></div>
+        </div>
+    </div>
+</div>
+<h2 class="mb-4"> Ausstehende Buchungsanfragen</h2>
+<div class="table-responsive rounded">
+    <table class="table table-striped table-borderless table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Standort</th>
+                <th>Zone</th>
+                <th>Start</th>
+                <th>Ende</th>
+                <th>Ladestand</th>
+                <th>Benötigte Kilometer</th>
+                <th class="text-center">Bearbeiten</th>
+            </tr>
+
+        </thead>
+        <tr>
+            <td>München</td>
+            <td>A</td>
+            <td>08.06.2020 13:00</td>
+            <td>08.06.2020 17:00</td>
+            <td>30%</td>
+            <td>100</td>
+            <td class="text-center">
+                <div>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                    </a>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>München</td>
+            <td>A</td>
+            <td>08.06.2020 13:00</td>
+            <td>08.06.2020 17:00</td>
+            <td>30%</td>
+            <td>100</td>
+            <td class="text-center">
+                <div>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                    </a>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>München</td>
+            <td>A</td>
+            <td>08.06.2020 13:00</td>
+            <td>08.06.2020 17:00</td>
+            <td>30%</td>
+            <td>100</td>
+            <td class="text-center">
+                <div>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                    </a>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>München</td>
+            <td>A</td>
+            <td>08.06.2020 13:00</td>
+            <td>08.06.2020 17:00</td>
+            <td>30%</td>
+            <td>100</td>
+            <td class="text-center">
+                <div>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                    </a>
+                    <a asp-controller="" asp-action="">
+                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <form methode="post">
+        <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp">Neue Buchung</button>
+    </form>
+</div>
+
