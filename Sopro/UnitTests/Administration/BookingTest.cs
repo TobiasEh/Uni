@@ -56,7 +56,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 10,
@@ -78,7 +77,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = -20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 10,
@@ -102,7 +100,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { },
                 socStart = 10,
@@ -126,7 +123,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = -5,
@@ -150,7 +146,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 10,
@@ -170,7 +165,6 @@ namespace UnitTests
 
             Booking booking2 = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 10,
@@ -194,7 +188,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 5,
@@ -218,7 +211,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 5,
@@ -242,7 +234,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 5,
@@ -266,7 +257,6 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                id = "abc",
                 capacity = 20,
                 plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 5,
