@@ -7,6 +7,6 @@ namespace Sopro.Interfaces
 {
     public interface ITrigger
     {
-        public bool triggerBookingDistribution(DateTime now);
+        public bool triggerBookingDistribution();
     }
 }
