@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Extensions.DependencyInjection;
+using Sopro.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Sopro.Models.Administration
     {
         private NotificationManager notificationManager { get; set; }
 
-        private List<Booking> bookings { get; set; } = null;
+        private List<Booking> bookings { get; set; }
 
         public Schedule()
         {
@@ -40,7 +41,7 @@ namespace Sopro.Models.Administration
             return true;
         }
 
-        /* Removes a new booking to the schedule.
+        /* Removes a booking from the schedule.
          * Returns true if and only if the specific booking is succsessfully removed from the booking list.
          * Thorws exception, when booking does not exists in bookings.
          */
@@ -74,6 +75,19 @@ namespace Sopro.Models.Administration
                 }
             };
             return true;
+        }
+
+        /* Sets active attribute of booking to the opposite boolean and notifys user.
+         */
+        public void toggleCheck(Booking booking)
+        {
+            booking.active = !booking.active;
+
+            if (booking.active)
+                notificationManager.notify(booking, NotificationEvent.CHECKIN);
+
+            else
+                notificationManager.notify(booking, NotificationEvent.CHECKOUT);
         }
     }
 }

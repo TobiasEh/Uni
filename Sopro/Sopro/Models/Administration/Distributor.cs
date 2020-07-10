@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using Microsoft.Extensions.Caching.Memory;
 using SoPro.Interfaces;
+using Sopro.Controllers;
+
 
 namespace Sopro.Models.Administration
 {   //jede location hat ein distributer und einen schedule
@@ -27,19 +29,15 @@ namespace Sopro.Models.Administration
             notificationManager = new NotificationManager();
         }
 
-        public bool run(DateTime now)
+        public bool run()
         {
             List<Booking> bookings;
             bookings = cache.Get<List<Booking>>(CacheKeys.BOOKING);
-            bookings = filter.filter(bookings, now);
+            bookings = filter.filter(bookings);
             if (bookings == null || bookings.Count() == 0)
                 return false;
             if (!strategy.distribute(bookings, schedule, puffer))
                 return false;
-            foreach (Booking item in bookings)
-            {
-                if(sch)
-            }
             return true;
         }
     }

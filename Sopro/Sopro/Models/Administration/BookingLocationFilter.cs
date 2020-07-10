@@ -22,16 +22,15 @@ namespace Sopro.Models.Administration
             location = _location;
         }
 
-        /* Filters the List of bookings on Location and a period of time  
-         * between [date, date+timespan].
-         * Throws exception, when after filtering no booking is found.
+        /* Filters the List of bookings on Location and 
+         * if the startime is in range [now, now + timespan).
          */
-        public List<Booking> filter(List<Booking> bookings, DateTime date)
+        public List<Booking> filter(List<Booking> bookings)
         {
-                DateTime end = date.AddDays(timespan);
+                DateTime time = DateTime.Now.AddDays(timespan);
                 foreach (Booking item in bookings)
                 {
-                    if (item.location != location && item.startTime >= date && item.startTime <= end)
+                    if (item.location != location || item.startTime >= time && item.startTime < DateTime.Now)
                     {
                         bookings.Remove(item);
                     }
