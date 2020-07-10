@@ -29,7 +29,7 @@ namespace Sopro.Models.Administration
         public bool run(DateTime now)
         {
             List<Booking> bookings;
-            bookings = cache.Get<List<Booking>>(CacheKey.BOOKING);
+            bookings = cache.Get<List<Booking>>(CacheKeys.BOOKING);
             bookings = filter.filter(bookings, now);
             if (bookings == null || bookings.Count() == 0)
                 return false;

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces
 {
-    interface ITrigger
+    public interface ITrigger
     {
         public bool triggerBookingDistribution(DateTime now);
     }
