@@ -361,7 +361,7 @@ bg=#0000CC</panel_attributes><additional_attributes></additional_attributes></el
 style=wordwrap
 fontsize=80</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1820</x><y>140</y><w>180</w><h>1120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>160;1100;10;1100;10;10;160;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1840</x><y>220</y><w>160</w><h>890</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>140;870;10;870;10;10;140;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1860</x><y>320</y><w>140</w><h>1040</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>120;1020;10;1020;10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1880</x><y>340</y><w>120</w><h>940</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>100;920;10;920;10;10;100;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>3070</x><y>240</y><w>240</w><h>270</h></coordinates><panel_attributes>User
 --
-bg=#ffBB99</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3090</x><y>280</y><w>200</w><h>60</h></coordinates><panel_attributes>+ IdentityProvider
+bg=#ffBB99</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3090</x><y>280</y><w>200</w><h>60</h></coordinates><panel_attributes>_+ IdentityProvider_
 --
 _- path: string_
 --
