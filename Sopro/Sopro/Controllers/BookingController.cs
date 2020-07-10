@@ -107,7 +107,7 @@ namespace Sopro.Controllers
          */
         public IActionResult Delete(IBooking booking)
         {
-            var cacheKey = CacheKey.BOOKING;
+            var cacheKey = CacheKeys.BOOKING;
         
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
@@ -120,7 +120,7 @@ namespace Sopro.Controllers
          */
         public IActionResult ToggleCheck(IBooking booking)
         {
-            var cacheKey = CacheKey.BOOKING;
+            var cacheKey = CacheKeys.BOOKING;
 
             int index = bookings.IndexOf(booking);
             booking.location.schedule.toggleCheck(booking);
