@@ -12,7 +12,7 @@ namespace Sopro.Models.Administration
     public class Booking
     {
         [Required]
-        [Range(1, Int32.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int capacity { get; set; }
         [Required]
         [BookingPlugsValidation]
