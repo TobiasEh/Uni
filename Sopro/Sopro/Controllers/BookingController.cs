@@ -11,6 +11,7 @@ using System.Diagnostics.Eventing.Reader;
 using Sopro.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
+using Sopro.Models.Administration;
 
 namespace Sopro.Controllers
 {
