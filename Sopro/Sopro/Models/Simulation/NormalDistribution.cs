@@ -16,19 +16,35 @@ namespace Sopro.Models.Simulation
             Random rand = new Random();
 
             // Box-Muller algorithm   https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
-            for (int i = 0; i< bookings; i++) 
+            for (int i = 0; i < bookings; i++) 
             {
-                DateTime dt = new DateTime();
-                Double u1 = 1.0 - rand.NextDouble();
-                Double u2 = 1.0 - rand.NextDouble();
-                double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
-                // since 3*std includes 99.73% of results dif of Hours from start to stop (difH) /2 equals Median and max dev from middle /3 equals max dev
-                //https://en.wikipedia.org/wiki/Normal_distribution 
-                // and difH / 2 equals middle
-                double randNormal = difH/2 + difH/6 * randStdNormal;
-                DTList.Add(dt.AddHours(randNormal)); // start + randNormal
+                DateTime dt = start;
+                DTList.Add(dt.AddHours(boxmuller((double)difH)));
             }
             return DTList;
+        }
+        private double boxmuller(double interval)
+        {
+            Random rand = new Random();
+            DateTime dt = new DateTime();
+            Double u1 = 1.0 - rand.NextDouble();
+            Double u2 = 1.0 - rand.NextDouble();
+            double randStdNormal1 = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
+            double randStdNormal2 = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+            double randNormal1 = interval / 2 + interval / 6 * randStdNormal1;
+            double randNormal2 = interval / 2 + interval / 6 * randStdNormal2;
+            if (randNormal1 <= (double)interval)
+            {
+                return randNormal1;
+            }
+            else
+            {
+                if (randNormal2 <= (double)interval)
+                {
+                    return randNormal2;
+                }
+            }
+            return boxmuller(interval);
         }
     }
 }
