@@ -5,13 +5,18 @@ using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
 {
-    public class NotificatioinManager
+    public class NotificationManager
     {
         private INotificationListener listener { get; set; }
 
-        public notifiy(Booking booking, String eventName)
+        public NotificationManager()
         {
-                
+
+        }
+
+        public void notify(Booking booking, String eventName)
+        {
+            listener.update(booking, eventName);
         }
     }
 }

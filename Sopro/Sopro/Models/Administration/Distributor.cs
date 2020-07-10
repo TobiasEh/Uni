@@ -17,24 +17,29 @@ namespace Sopro.Models.Administration
         private int timespan { get; set; }
         private NotificationManager notificationManager;
         private ILocation location;
-        IMemoryCache cache;
+        private IMemoryCache cache;
 
         public Distributor(Schedule _schedule, ILocation _location)
         {
             schedule = _schedule;
             location = _location;
             filter = new BookingLocationFilter(location, timespan);
+            notificationManager = new NotificationManager();
         }
 
         public bool run(DateTime now)
         {
             List<Booking> bookings;
-            bookings = cache.Get<List<Booking>>(CacheKey.BOOKING);
+            bookings = cache.Get<List<Booking>>(CacheKeys.BOOKING);
             bookings = filter.filter(bookings, now);
             if (bookings == null || bookings.Count() == 0)
                 return false;
             if (!strategy.distribute(bookings, schedule, puffer))
                 return false;
+            foreach (Booking item in bookings)
+            {
+                if(sch)
+            }
             return true;
         }
     }
