@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces
 {
-    interface IServiceIdentityProvider
+    public interface IServiceIdentityProvider
     {
         UserType getUserPriority(string email);
     }
