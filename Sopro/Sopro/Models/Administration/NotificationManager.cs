@@ -9,9 +9,14 @@ namespace Sopro.Models.Administration
     {
         private INotificationListener listener { get; set; }
 
-        public NotificationManager(Booking booking, String eventName)
+        public NotificationManager()
         {
-                
+
+        }
+
+        public void notify(Booking booking, String eventName)
+        {
+            listener.update(booking, eventName);
         }
     }
 }

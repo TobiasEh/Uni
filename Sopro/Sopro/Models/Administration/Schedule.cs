@@ -9,10 +9,12 @@ namespace Sopro.Models.Administration
 {
     public class Schedule
     {
+        private NotificationManager notificationManager;
         private List<Booking> bookings = null;
 
         public Schedule()
         {
+            notificationManager = new NotificationManager();
             if (bookings == null)
                 bookings = new List<Booking>();
         }
@@ -22,11 +24,8 @@ namespace Sopro.Models.Administration
          */
         public bool addBooking(Booking booking)
         {
-            foreach (Booking item in bookings)
-            {
-                if (item.id == booking.id)
-                    return false;
-            };
+            if (bookings.Contains(booking))
+                return false;
 
             int checkCount = bookings.Count();
             bookings.Add(booking);
@@ -35,21 +34,19 @@ namespace Sopro.Models.Administration
             {
                 return false;
             }
+            notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
         }
 
-        /* Adds a new booking to the schedule.
+        /* Removes a new booking to the schedule.
          * Returns true if and only if the specific booking is succsessfully removed from the booking list.
          * Thorws exception, when booking does not exists in bookings.
          */
         public bool removeBooking(Booking booking)
         {
-            foreach (Booking item in bookings)
-            {
-                if (item.id != booking.id)
-                    return false;
-            };
+            if (!bookings.Contains(booking))
+                return false;
 
             int checkCount = bookings.Count();
             bookings.Remove(booking);
@@ -70,14 +67,10 @@ namespace Sopro.Models.Administration
             foreach (Booking item in bookings)
             {
                 if (item.endTime < now)
-                    try
-                    {
-                        removeBooking(item);
-                    }
-                    catch (Exception)
-                    {
+                {
+                    if (!removeBooking(item))
                         return false;
-                    }
+                }
             };
             return true;
         }
