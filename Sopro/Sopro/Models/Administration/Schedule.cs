@@ -81,9 +81,10 @@ namespace Sopro.Models.Administration
          */
         public void toggleCheck(Booking booking)
         {
-            booking.active = !booking.active;
+            int index = bookings.IndexOf(booking);
+            bookings[index].active = !bookings[index].active;
 
-            if (booking.active)
+            if (bookings[index].active)
                 notificationManager.notify(booking, NotificationEvent.CHECKIN);
 
             else
