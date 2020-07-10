@@ -36,6 +36,10 @@ namespace Sopro.Models.Administration
                 return false;
             if (!strategy.distribute(bookings, schedule, puffer))
                 return false;
+            foreach (Booking item in bookings)
+            {
+                if(sch)
+            }
             return true;
         }
     }

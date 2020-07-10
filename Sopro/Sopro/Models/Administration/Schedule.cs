@@ -9,8 +9,8 @@ namespace Sopro.Models.Administration
 {
     public class Schedule
     {
-        private NotificationManager notificationManager;
-        private List<Booking> bookings = null;
+        private NotificationManager notificationManager { get; set; }
+        private List<Booking> bookings { get; set; } = null;
 
         public Schedule()
         {
