@@ -9,7 +9,6 @@ namespace Sopro.Models.Infrastructure
 {
     public class Plug
     {
-        public string id { get; set; }
         [Range(0, int.MaxValue)]
         public int power { get; set; }
         public PlugType type { get; set; }

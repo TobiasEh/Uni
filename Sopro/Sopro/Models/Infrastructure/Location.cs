@@ -1,11 +1,8 @@
 ﻿using Sopro.CustomValidationAttributes;
-using Sopro.Models.Infrastructure;
-using SoPro.Interfaces;
+using Sopro.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Infrastructure
 {
@@ -18,6 +15,15 @@ namespace Sopro.Models.Infrastructure
         public string name { get; set; }
         [Range(0, int.MaxValue)]
         public double emergency { get; set; }
+        public Schedule schedule { get; set; }
+        public Distributor distributor { get; set; }
+
+        public Location()
+        {
+            schedule = new Schedule();
+            distributor = new Distributor(schedule,this);
+           
+        }
 
         public bool addZone(Zone zone)
         {

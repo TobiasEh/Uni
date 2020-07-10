@@ -9,7 +9,6 @@ namespace Sopro.Models.Infrastructure
 {
     public class Zone
     {
-        public string id { get; set; }
         [ListMinLength(1)]
         public List<Station> stations { get; set; }
         public char site { get; set; }
@@ -40,6 +39,10 @@ namespace Sopro.Models.Infrastructure
             {
                 return false;
             }
+        }
+        public bool compareTo(Zone zone)
+        {
+            return zone.site == this.site;
         }
     }
 }
