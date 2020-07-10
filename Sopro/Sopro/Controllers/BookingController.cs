@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using sopro2020_abgabe.Interfaces;
-using sopro2020_abgabe.Models;
 using System.Diagnostics.Eventing.Reader;
-using
+using Sopro.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace Sopro.Controllers
@@ -34,11 +32,11 @@ namespace Sopro.Controllers
         {
             //Session for the role of the User
             var userID = this.HttpContext.Session.GetString("ID");
-            if (userID.Equals(UserType.PLANER.ToString))
+            if (userID.Equals(UserType.PLANER))
             {
-                List<Booking> unscheduledBookings = new List<Booking>();
-                List<Booking> scheduledBookings = new List<Booking>();
-                foreach (Booking item in bookings)
+                List<IBooking> unscheduledBookings = new List<IBooking>();
+                List<IBooking> scheduledBookings = new List<IBooking>();
+                foreach (IBooking item in bookings)
                 {
                     if (item.station == null)
                     {
@@ -62,7 +60,7 @@ namespace Sopro.Controllers
         public IActionResult Create()
         {
             var cacheKey = CacheKeys.LOCATION;
-            List<Location> locations = cache.Get(cacheKey);
+            List<ILocation> locations = cache.Get(cacheKey);
             return View("Create", new BookingCreateViewModel(locations, new Booking()));           
         }
 
@@ -123,9 +121,12 @@ namespace Sopro.Controllers
         public IActionResult ToggleCheck(IBooking booking)
         {
             var cacheKey = CacheKey.BOOKING;
-            
-            bookings.Find(booking).active = !bookings.Find(booking).active;
-            
+            int index = bookings.IndexOf(booking);
+
+            booking = booking.location.schedule.toggleCheck(booking);
+            bookings.RemoveAt(index);
+            bookings.Insert(index, booking);
+
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
         }

@@ -1,15 +1,15 @@
-﻿using sopro2020_abgabe.Models;
+﻿using Sopro.Models;
+using SoPro.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using sopro2020_abgabe.Interfaces;
 
 namespace Sopro.ViewModels
 {
     public class BookingCreateViewModel
     {
-        private List<Location> locations { get; set; }
+        private List<ILocation> locations { get; set; }
         private Booking booking { get; set; }
 
         public BookingCreateViewModel(List<Location> _locations, Booking _booking)
