@@ -1996,7 +1996,7 @@ bg=#1E90FF
       <x>3740</x>
       <y>2210</y>
       <w>210</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>+ Schedule
 --
@@ -2004,7 +2004,8 @@ bg=#1E90FF
 --
 + addBooking(booking: Booking): bool
 + removeBooking(booking: Booking): bool
-+ clean(date: DateTime): bool</panel_attributes>
++ clean(date: DateTime): bool
++ toggleCheck(booking: IBooking)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2611,7 +2612,7 @@ _+ getUserPriority(email: string) :UserType_</panel_attributes>
     </coordinates>
     <panel_attributes>lt=-&gt;
 - notificationManager</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;240.0;680.0;240.0;680.0;10.0</additional_attributes>
+    <additional_attributes>10.0;160.0;10.0;240.0;680.0;240.0;680.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
