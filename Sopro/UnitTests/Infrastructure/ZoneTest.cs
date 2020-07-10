@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Sopro.Models.Infrastructure;
-using sopro2020_abgabe.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
