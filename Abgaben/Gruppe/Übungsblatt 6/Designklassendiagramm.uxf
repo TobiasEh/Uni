@@ -125,7 +125,7 @@ fontsize=10
 --
 - tickLength: Timespan = new Timespan(1, 0, 0, 0, 0) {&gt; new Timespan(0, 0, 0, 0, 0)}
 --
-+ triggerBookingDistribution(now: DateTime): bool
++ triggerBookingDistribution(): bool
 + run() : bool
 - calculateLocationWorkload() : double 
 - calculateStationWorkload() : double</panel_attributes>
@@ -305,7 +305,7 @@ bg=#ffedbf</panel_attributes>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ITrigger
 --
-+ triggerBookingDistribution(now: DateTime): bool
++ triggerBookingDistribution(): bool
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -2036,7 +2036,7 @@ bg=#1E90FF
     </coordinates>
     <panel_attributes>+ AdHoc
 --
-+ triggerBookingDistribution(now: DateTime): bool
++ triggerBookingDistribution(): bool
 
 </panel_attributes>
     <additional_attributes/>
