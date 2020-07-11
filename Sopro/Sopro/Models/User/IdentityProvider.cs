@@ -44,8 +44,9 @@ namespace Sopro.Models.User
     {
         public UserMap()
         {
-            Map(m => m.email);
-            Map(m => m.usertype).ConvertUsing(row => Enum.Parse<UserType>(row.GetField("usertype")));
+            Map(m => m.email).Name("User email");
+            Map(m => m.usertype).Name("Role").ConvertUsing(row => Enum.Parse<UserType>(row.GetField("Role")));
+
         }
     }
 
