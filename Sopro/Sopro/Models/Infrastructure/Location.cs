@@ -18,6 +18,7 @@ namespace Sopro.Models.Infrastructure
         public double emergency { get; set; }
         public Schedule schedule { get; set; }
         public Distributor distributor { get; set; }
+        public DateTime normalizedDistributionTime { get; set; }
 
         public Location()
         {
