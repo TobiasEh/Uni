@@ -22,9 +22,41 @@ namespace Sopro.Models.Simulation
 
         public bool addVehicle(Vehicle vehicle)
         {
+            if (vehicles == null)
+            {
+                return false;
+            }
             vehicles.Add(vehicle);
             return true;
         }
+        public bool deleteVehicle(Vehicle vehicle)
+        {
+            if (!vehicles.Any())
+                return false;
+            if (!vehicles.Contains(vehicle))
+                return false;
+            vehicles.Remove(vehicle);
+            return true;
+        }
 
+        public bool addRushhour(Rushhour rushhour)
+        {
+            if (rushhours == null)
+            {
+                return false;
+            }
+            rushhours.Add(rushhour);
+            return true;
+        }
+
+        public bool deleteRushhour(Rushhour rushhour)
+        {
+            if (!rushhours.Any())
+                return false;
+            if (!rushhours.Contains(rushhour))
+                return false;
+            rushhours.Remove(rushhour);
+            return true;
+        }
     }
 }
