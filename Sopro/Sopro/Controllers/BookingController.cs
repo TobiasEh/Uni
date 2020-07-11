@@ -34,11 +34,23 @@ namespace Sopro.Controllers
         public IActionResult Index()
         {
             //Session for the role of the User
-            var userID = this.HttpContext.Session.GetString("ID");
+            var userID = this.HttpContext.Session.GetString("role");
+            if (userID == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Booking> unscheduledBookings = new List<Booking>();
+            List<Booking> scheduledBookings = new List<Booking>();
+            var cacheKey = CacheKeys.BOOKING;
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
             if (userID.Equals(UserType.PLANER))
             {
-                List<Booking> unscheduledBookings = new List<Booking>();
-                List<Booking> scheduledBookings = new List<Booking>();
+               
+                
+
                 foreach (IBooking item in bookings)
                 {
                     if (item.station == null)
@@ -54,7 +66,19 @@ namespace Sopro.Controllers
             }
             else
             {
-                return View("Index", bookings);
+                foreach (IBooking item in bookings)
+                    if (item.user == this.HttpContext.Session.GetString("email"))
+                    {
+                        if (item.station == null)
+                        {
+                            unscheduledBookings.Add((Booking)item);
+                        }
+                        else if (item.station != null)
+                        {
+                            scheduledBookings.Add((Booking)item);
+                        }
+                    }
+                return View(new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
         }
 
@@ -64,7 +88,7 @@ namespace Sopro.Controllers
         {
             var cacheKey = CacheKeys.LOCATION;
             List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
-            return View("Create", new BookingCreateViewModel(locations, new Booking()));           
+            return View("Create", new BookingCreateViewModel(locations,(IBooking) new Booking()));           
         }
 
         /* Method to show all bookings in UI.
@@ -75,8 +99,15 @@ namespace Sopro.Controllers
          * Returns Booking.Index view, with bookinglist.
          */
         [HttpPost]
-        public IActionResult Post(IBooking booking)
+        public IActionResult Post(BookingCreateViewModel viewmodel)
         {
+            var userID = this.HttpContext.Session.GetString("email");
+            IBooking booking = viewmodel.booking;
+            
+            if(booking.user == null)
+            {
+                booking.user = userID;
+            }
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
@@ -84,11 +115,12 @@ namespace Sopro.Controllers
             }
             if (!ModelState.IsValid)
             {
+                return RedirectToAction("Create", "Booking");
                 throw new Exception("Buchung ist nicht valide!");
             }
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
-            return View("Index", bookings);
+            return RedirectToAction("Index", "Booking");
         }
 
         /* Method to edit already existing bookings.

@@ -24,14 +24,18 @@ namespace Sopro.Controllers
         }      
         public IActionResult Login(string email)
         {
+            if(email != null) {
             var role = IdentityProvider.getUserPriority(email);
             HttpContext.Session.SetString("email", email);
             HttpContext.Session.SetString("role", role.ToString());
             if (role != UserType.PLANER)
             {
                 return RedirectToAction("Index", "Booking");
+            } 
+            
+            return RedirectToAction("Dashboard", "Admin");
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

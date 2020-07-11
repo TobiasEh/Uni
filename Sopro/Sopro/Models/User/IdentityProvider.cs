@@ -17,7 +17,7 @@ namespace Sopro.Models.User
 
         public static UserType getUserPriority(string email)
         {
-            List <User> userList = new List<User>();
+            /*List <User> userList = new List<User>();
             JsonSerializerOptions options;
             options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
@@ -27,7 +27,7 @@ namespace Sopro.Models.User
             {
                 userList = JsonSerializer.Deserialize<List<User>>(json,options);
                 return userList.Find(x => x.email.Contains(email)).usertype;
-            }
+            }*/
             return UserType.GUEST;
         }
 
