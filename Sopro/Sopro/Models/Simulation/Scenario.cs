@@ -18,7 +18,6 @@ namespace Sopro.Models.Simulation
         [Required]
         public List<Vehicle> vehicles { get; set; }
         [Required]
-        public List<Rushhour> rushours { get; set; }
         public List<Rushhour> rushhours { get; set; }
 
         public bool addVehicle(Vehicle vehicle)
