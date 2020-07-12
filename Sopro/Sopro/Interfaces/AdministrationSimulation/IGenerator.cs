@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces.AdministrationSimulation
 {
-    public class IGenerator
+    public interface IGenerator
     {
         List<Booking> generateBookings(Scenario scenario);
     }
