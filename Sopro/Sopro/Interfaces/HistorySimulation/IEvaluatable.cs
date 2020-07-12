@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces.HistorySimulation
 {
-    public class IEvaluatable
+    public interface IEvaluatable
     {
         List<double> getLocationWorkload();
-        double[][] getStationWorkload();
+        List<List<double>> getStationWorkload();
         int getFulfilledRequests();
     }
 }

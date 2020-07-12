@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces.Simulation
 {
-    public class IRunnable
+    public interface IRunnable
     {
         bool updateWorkload(double location, List<double> station);
     }
