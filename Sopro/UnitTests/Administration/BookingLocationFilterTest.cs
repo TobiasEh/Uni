@@ -26,8 +26,8 @@ namespace UnitTests.Administration
         static Booking booking1 = new Booking()
         {
             capacity = 23,
-            startTime = DateTime.Now.AddDays(2),
-            endTime = DateTime.Now.AddDays(2.5),
+            startTime = DateTime.Now.AddDays(2.5),
+            endTime = DateTime.Now.AddDays(3),
             location = location,
         };
 
@@ -47,14 +47,14 @@ namespace UnitTests.Administration
             location = location2,
         };
 
-        static List<Booking> bookings = new List<Booking>() { booking1, booking2, booking3};
+        static List<Booking> bookings = new List<Booking>() { booking1, booking2, booking3 };
 
         [Test]
         public void filterWithoutTimespan()
         {
             BookingLocationFilter locFilter = new BookingLocationFilter(location);
             List<Booking> result = locFilter.filter(bookings);
-            Assert.IsTrue(result.Contains(booking1) && result.Contains(booking2) && result.Count ==2);
+            Assert.IsTrue(result.Contains(booking1) && result.Contains(booking2) && result.Count == 2);
         }
 
         [Test]
@@ -62,14 +62,14 @@ namespace UnitTests.Administration
         {
             BookingLocationFilter locFilter = new BookingLocationFilter(location, 2);
             List<Booking> result = locFilter.filter(bookings);
-            Assert.IsTrue(result.Contains(booking1) && result.Count == 1);
+            Assert.IsTrue(result.Contains(booking2) && result.Count == 1);
         }
         [Test]
         public void returnNull()
         {
             BookingLocationFilter locFilter = new BookingLocationFilter(new Location() { name = "Hamburg"});
             List<Booking> result = locFilter.filter(bookings);
-            Assert.IsTrue(result.Count == 0 && result.Equals(null));
+            Assert.IsTrue(result.Count == 0);
         }
     }
 }
