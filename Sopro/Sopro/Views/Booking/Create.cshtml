@@ -3,55 +3,57 @@
     ViewData["Title"] = "Buchungsanfrage anlegen";
 }
 @model Sopro.ViewModels.BookingCreateViewModel
-
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 
 <h1 class="display-4">Buchungsanfrage anlegen</h1>
+<h1>@httpContextAccessor.HttpContext.Session.GetString("email")</h1>
 <form asp-controller="Booking" asp-action="Post" method="post">
     <div>
         @*
-        <div class="form-group">
-            <label>Firmenstandort wählen</label>
-            <select class="form-control" id="@Model.booking.location">
-                @foreach (Sopro.Models.Infrastructure.Location location in Model.locations)
-                {
-                    if (location == Model.booking.location)
+            <div class="form-group">
+                <label>Firmenstandort wählen</label>
+                <select class="form-control" id="@Model.booking.location">
+                    @foreach (Sopro.Models.Infrastructure.Location location in Model.locations)
                     {
-                        <option value="@location" selected="selected">@location.name </option>
-                    } else
-                    {
-                        <option value="@location">@location.name </option>
+                        if (location == Model.booking.location)
+                        {
+                            <option value="@location" selected="selected">@location.name </option>
+                        } else
+                        {
+                            <option value="@location">@location.name </option>
+                        }
+
                     }
+                </select>
+                <small></small>
+            </div> *@
 
-                }
-            </select>
-            <small></small>
-        </div> *@
-
-        <div class="form-group" id="@Model.booking.plugs">
-            <label>Steckertyp des Fahrzeugs</label>
+        <div class="form-group">
+            <label for="@Model.booking.plugs">Steckertyp des Fahrzeugs</label>
             <div class="flex-column pl-4">
                 <div>
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.CCS }; }">CCS
+                        <input type="radio" class="form-check-input" id="@Model.booking.plugs" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.CCS }; }">CCS
                     </label>
                 </div>
                 <div>
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.TYPE2 }; }">Type-2 Plug
+                        <input type="radio" class="form-check-input" id="@Model.booking.plugs" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.TYPE2 }; }">Type-2 Plug
                     </label>
                 </div>
                 <div>
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.TYPE2, Sopro.Models.Infrastructure.PlugType.CCS }; }">Type-2 Plug und CCS
+                        <input type="radio" class="form-check-input" id="@Model.booking.plugs" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.TYPE2, Sopro.Models.Infrastructure.PlugType.CCS }; }">Type-2 Plug und CCS
                     </label>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label>Ladestand des Fahrzeugs</label>
+            <label for="@Model.booking.socStart">Ladestand des Fahrzeugs</label>
             <div class="input-group">
-                <input class="form-control" form="complete" placeholder="@Model.booking.socStart" id="@Model.booking.socStart" />
+                <input class="form-control" placeholder="@Model.booking.socStart" id="@Model.booking.socStart" />
                 <div class="input-group-append">
                     <span class="input-group-text"> % </span>
                 </div>
@@ -60,9 +62,9 @@
         </div>
 
         <div class="form-group">
-            <label>Kilometeranzahl</label>
+            <label for="@Model.booking.socEnd">Kilometeranzahl</label>
             <div class="input-group">
-                <input class="form-control" form="complete" placeholder="@Model.booking.socEnd" id="@Model.booking.socEnd" />
+                <input  placeholder="@Model.booking.socEnd" id="@Model.booking.socEnd" />
                 <div class="input-group-append">
                     <span class="input-group-text"> % </span>
                 </div>
@@ -71,13 +73,13 @@
         </div>
 
         <div class="form-group input-append date form_datetime">
-            <label>Startzeit der Buchung</label>
+            <label for="@Model.booking.startTime">Startzeit der Buchung</label>
             <input form="createBooking" type="datetime-local" class="form-control" value="@Model.booking.startTime" id="@Model.booking.startTime" min="@DateTime.Now" />
             <small></small>
         </div>
 
         <div class="form-group input-append date form_datetime">
-            <label>Endzeit der Buchung</label>
+            <label for="@Model.booking.endTime ">Endzeit der Buchung</label>
             <input form="createBooking" type="datetime-local" class="form-control" value="@Model.booking.endTime" id="@Model.booking.endTime" min="@Model.booking.startTime" />
             <small></small>
         </div>

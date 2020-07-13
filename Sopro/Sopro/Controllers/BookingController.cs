@@ -66,8 +66,9 @@ namespace Sopro.Controllers
             }
             else
             {
+                var email = this.HttpContext.Session.GetString("email");
                 foreach (IBooking item in bookings)
-                    if (item.user == this.HttpContext.Session.GetString("email"))
+                    if (item.user == email)
                     {
                         if (item.station == null)
                         {
@@ -101,12 +102,11 @@ namespace Sopro.Controllers
         [HttpPost]
         public IActionResult Post(BookingCreateViewModel viewmodel)
         {
-            var userID = this.HttpContext.Session.GetString("email");
+            var email = HttpContext.Session.GetString("email");
             IBooking booking = viewmodel.booking;
-            
-            if(booking.user == null)
+            if (booking.user == null)
             {
-                booking.user = userID;
+                booking.user = email;
             }
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
@@ -116,7 +116,7 @@ namespace Sopro.Controllers
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Create", "Booking");
-                throw new Exception("Buchung ist nicht valide!");
+                //throw new Exception("Buchung ist nicht valide!");
             }
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
