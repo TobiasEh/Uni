@@ -17,21 +17,45 @@ namespace Sopro.Models.Simulation
         private List<Booking> pendingBookings { get; set; }
         private IGenerator generator;
         private ExecutedScenario exScenario;
-        private Distributor distributor;
 
         public bool triggerBookingDistribution()
         {
             DateTime start = tickCount * tickLength + exScenario.start;
             DateTime end = start.AddDays(30);
             List<Booking> toBeDistributed = new List<Booking>();
-            //TODO
+
+            List<int> indices = new List<int>();
+
+            int count = pendingBookings.Count();
+
+            //calculates indices for bookings in penigbookings list, which will be added to toBeDistributed
+            for(int i = 1; i <= count; ++i)
+            {
+                int l = (int)(Math.Round(1 / Math.Sqrt(i), 4) * 1000) % count;
+                if(!indices.Contains(l) && l % 2 == 1)
+                {
+                    îndices.Add(l);
+                }
+            }
+
             foreach(Booking item in pendingBookings)
             {
-                //if (startTime the next day) || 
-                if((item.startTime >= start && item.startTime <= start.AddDays(1)))
+                //bookings in range [start, start+next 30 Days] 
+                if (item.startTime >= start && item.endTime <= end)
                 {
-                    toBeDistributed.Add(item);
-                    pendingBookings.Remove(item);
+                    //all bookings for the next day
+                    if (item.startTime >= start && item.startTime <= start.AddDays(1))
+                    {
+                        toBeDistributed.Add(item);
+                        pendingBookings.Remove(item);
+                    }
+
+                    //booking with an index that exists in list help
+                    if (indices.Contains(pendingBookings.IndexOf(item)))
+                    {
+                        toBeDistributed.Add(item);
+                        pendingBookings.Remove(item);
+                    }
                 }
             }
 
@@ -41,6 +65,9 @@ namespace Sopro.Models.Simulation
             return true;
         }
 
+        /* Gerenates bookings, calls triggerBookingDistribution.
+         * While bookings exists in pendingBookings list, the method will call triggerBookingDistrtibution and calculates workloads
+         */
         public bool run()
         {
             List<Booking> tempBookings;
@@ -69,11 +96,13 @@ namespace Sopro.Models.Simulation
                 }
             }
 
-            exScenario.fulfilledRequests = exScenario.getFulfilledRequests() + exScenario.bookings.Count(e => e.station != null);
+            exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
             
             return true;
         }
         
+        /* Calculates workload for whole loaction, per tick
+         */
         private double calculateLocationWorkload()
         {
             DateTime time = tickCount * tickLength + exScenario.start;
@@ -93,6 +122,8 @@ namespace Sopro.Models.Simulation
             return workload;
         }
 
+        /* Calculates workload for every Station in one tick
+         */
         private List<double> calculateStationWorkload()
         {
             DateTime time = tickCount * tickLength + exScenario.start;
