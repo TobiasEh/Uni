@@ -3,7 +3,7 @@
     ViewData["Title"] = "Buchungsübersicht";
     Layout = "_AdminLayout";
 }
-
+@model Sopro.ViewModels.DashboardViewModel
 <h1 class="pb-5 pt-5 display-4">Buchungsübersicht</h1>
 <h2 class="pb-3"> Laufende Buchungen</h2>
 <div class="table-responsive rounded">
@@ -22,74 +22,32 @@
             </tr>
 
         </thead>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td><img src="~/bootstrap-icons/square.svg" width="20" /></td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td><img src="~/bootstrap-icons/square.svg" width="20" /></td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td><img src="~/bootstrap-icons/check-square.svg" width="20" /></td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td><img src="~/bootstrap-icons/check-square.svg" width="20" /></td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
+        @foreach (Sopro.Models.Administration.Booking b in Model.scheduledBookings)
+        {
+            <tr align="center">
+                <td>@b.user</td>
+                <td>@b.location</td>
+                <td>
+                    @foreach (Sopro.Models.Infrastructure.Zone z in b.location.zones)
+                    {
+                        if (z.stations.Contains(b.station))
+                        {<p>@z.site</p>}
+                }
+                </td>
+                <td>@b.startTime</td>
+                <td>@b.endTime</td>
+                <td>@b.socStart %</td>
+                <td>@b.socEnd %</td>
+                <td><img src="~/bootstrap-icons/square.svg" width="20" /></td>
+                <td class="text-center">
+                    <div>
+                        <a asp-controller="" asp-action="">
+                            <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
     </table>
 </div>
 <h2 class="mb-4"> Ausstehende Buchungsanfragen</h2>
@@ -99,7 +57,6 @@
             <tr>
                 <th>Benutzer</th>
                 <th>Standort</th>
-                <th>Zone</th>
                 <th>Start</th>
                 <th>Ende</th>
                 <th>Ladestand</th>
@@ -108,82 +65,29 @@
             </tr>
 
         </thead>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        <tr align="center">
-            <td>bsp.email@email.com</td>
-            <td>München</td>
-            <td>A</td>
-            <td>08.06.2020 13:00</td>
-            <td>08.06.2020 17:00</td>
-            <td>30%</td>
-            <td>100</td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
-                    </a>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
+        @foreach (Sopro.Models.Administration.Booking b in Model.unscheduledBookings)
+        {
+            <tr align="center">
+                <td>@b.user</td>
+                <td>@b.location</td>
+
+                <td>@b.startTime</td>
+                <td>@b.endTime</td>
+                <td>@b.socStart %</td>
+                <td>@b.socEnd %</td>
+                <td><img src="~/bootstrap-icons/square.svg" width="20" /></td>
+                <td class="text-center">
+                    <div>
+                        <a asp-controller="" asp-action="">
+                            <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                        </a>
+                        <a asp-controller="" asp-action="">
+                            <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
     </table>
 </div>
 <div class="d-flex">
@@ -197,5 +101,3 @@
     </div>
 
 </div>
-
-
