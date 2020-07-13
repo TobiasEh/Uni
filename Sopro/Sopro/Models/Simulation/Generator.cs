@@ -42,7 +42,7 @@ namespace Sopro.Models.Simulation
                                     station = null,
                                     active = false,
                                     priority = User.UserType.ASSISTANCE,
-                                    location = (Location) scenario.location
+                                    location = scenario.location
                                 }
                                 );
                         }
@@ -81,7 +81,7 @@ namespace Sopro.Models.Simulation
                     station = null,
                     active = false,
                     priority = User.UserType.ASSISTANCE,
-                    location = (Location) scenario.location
+                    location = scenario.location
                 }
                 );
             }
