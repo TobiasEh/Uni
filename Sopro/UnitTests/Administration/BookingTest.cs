@@ -14,21 +14,21 @@ namespace UnitTests
     {
         static Plug p1 = new Plug
         {
-            id = "abc",
+            //id = "abc",
             power = 20,
             type = PlugType.CCS
         };
 
         static Plug p2 = new Plug
         {
-            id = "abcd",
+            //id = "abcd",
             power = 40,
             type = PlugType.TYPE2
         };
 
         static Station s1 = new Station
         {
-            id = "abc",
+            //id = "abc",
             plugs = new List<Plug> { p1, p2 },
             maxPower = 200,
             manufacturer = "hi",
@@ -38,7 +38,7 @@ namespace UnitTests
         static Zone z1 = new Zone
         {
             stations = new List<Station> { s1 },
-            id = "abc",
+            //id = "abc",
             site = 'A',
             maxPower = 1000
         };

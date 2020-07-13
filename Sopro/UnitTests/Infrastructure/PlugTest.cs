@@ -17,7 +17,7 @@ namespace UnitTests.Infrastructure
         {
             Plug plug = new Plug
             {
-                id = "abc",
+                //id = "abc",
                 power = 20,
                 type = PlugType.CCS
             };
@@ -32,7 +32,7 @@ namespace UnitTests.Infrastructure
         {
             Plug plug = new Plug
             {
-                id = "abc",
+                //id = "abc",
                 power = -20,
                 type = PlugType.CCS
             };
