@@ -1,4 +1,5 @@
-﻿using Sopro.ValidationAttributes;
+﻿using Sopro.Interfaces.ControllerSimulation;
+using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Models.Simulation
 {
-    public class Scenario
+    public class Scenario : IScenario
     {
         [Required]
         [Range(1, 100)]
