@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.Design;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
+using Sopro.Interfaces;
 
 namespace Sopro.Models.Administration
 {
@@ -37,7 +38,7 @@ namespace Sopro.Models.Administration
         public bool active { get; set; }
 
         [Required]
-        public Location location { get; set; }
+        public ILocation location { get; set; }
         public UserType priority { get; set; }
 
     }
