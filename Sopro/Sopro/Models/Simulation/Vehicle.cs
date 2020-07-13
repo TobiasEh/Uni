@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Sopro.Models.Infrastructure;
-using sopro2020_abgabe.Models;
+using Sopro.Interfaces.ControllerSimulation;
 
 namespace Sopro.Models.Simulation
 {
-    public class Vehicle
+    public class Vehicle : IVehicle
     {
         [Required]
         public string model { get; set; }
