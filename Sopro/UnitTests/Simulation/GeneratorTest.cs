@@ -2,7 +2,6 @@
 using Sopro.Models.Simulation;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Sopro.Models.Administration;
 using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
@@ -22,7 +21,7 @@ namespace UnitTests.Simulation
         };
 
         private DateTime start = DateTime.Now.AddDays(2).AddHours(1).AddMinutes(4);
-        private Generator generator = new Generator(0.05, 0.05);
+        private Generator generator = new Generator();
         private int bookingsCountPerDay = 20;
         private int duration = 30;
 
