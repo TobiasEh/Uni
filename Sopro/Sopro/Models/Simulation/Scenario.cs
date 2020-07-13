@@ -12,9 +12,10 @@ namespace Sopro.Models.Simulation
     public class Scenario : IScenario
     {
         [Required]
-        [Range(1, 100)]
+        [Range(1, int.MaxValue)]
         public int duration { get; set; }
         [Required]
+        [Range(1, int.MaxValue)]
         public int bookingCountPerDay { get; set; }
         [Required]
         public List<Vehicle> vehicles { get; set; }
