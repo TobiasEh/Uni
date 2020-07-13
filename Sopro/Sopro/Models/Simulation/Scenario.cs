@@ -1,4 +1,5 @@
-﻿using Sopro.Interfaces.ControllerSimulation;
+﻿using Sopro.Interfaces;
+using Sopro.Interfaces.ControllerSimulation;
 using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,13 @@ namespace Sopro.Models.Simulation
         [Range(1, 100)]
         public int duration { get; set; }
         [Required]
-        [Range(1, 100)]
-        public int bookingCount { get; set; }
+        public int bookingCountPerDay { get; set; }
         [Required]
         public List<Vehicle> vehicles { get; set; }
         [Required]
         public List<Rushhour> rushhours { get; set; }
+        public DateTime start { get; set; }
+        public ILocation location { get; set; }
 
         public bool addVehicle(Vehicle vehicle)
         {

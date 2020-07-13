@@ -6,6 +6,7 @@ using Sopro.Interfaces;
 using Sopro.Models.Administration;
 using System.Reflection.Emit;
 using Sopro.Models.Infrastructure;
+using Sopro.Interfaces.AdministrationSimulation;
 
 namespace Sopro.Models.Simulation
 {
@@ -33,7 +34,7 @@ namespace Sopro.Models.Simulation
                 int l = (int)(Math.Round(1 / Math.Sqrt(i), 4) * 1000) % count;
                 if(!indices.Contains(l) && l % 2 == 1)
                 {
-                    îndices.Add(l);
+                    indices.Add(l);
                 }
             }
 
