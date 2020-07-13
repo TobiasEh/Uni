@@ -34,7 +34,7 @@ namespace Sopro.Models.Administration
         public DateTime endTime { get; set; }
         public Station station { get; set; }
         [Required]
-        public bool active { get; set; }
+        public bool active { get; set; } = false;
 
         [Required]
         public Location location { get; set; }

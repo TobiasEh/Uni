@@ -22,7 +22,6 @@ namespace Sopro.Models.Infrastructure
         {
             schedule = new Schedule();
             distributor = new Distributor(schedule,this);
-           
         }
 
         public bool addZone(Zone zone)

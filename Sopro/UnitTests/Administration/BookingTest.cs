@@ -26,7 +26,7 @@ namespace UnitTests
 
         static Station s1 = new Station
         {
-            plugs = new List<Plug> { p1, p2 },
+            plugs = new List<Plug>() { p1, p2 },
             maxPower = 200,
             manufacturer = "hi",
             maxParallelUseable = 4
@@ -34,16 +34,16 @@ namespace UnitTests
 
         static Zone z1 = new Zone
         {
-            stations = new List<Station> { s1 },
+            stations = new List<Station>() { s1 },
             site = 'A',
             maxPower = 1000
         };
 
-        static Location lTest = new Location
+        static Location lTest = new Location()
         {
             name = "TestLocation",
             emergency = 1,
-            zones = { z1 }
+            zones = new List<Zone>() { z1 }
         };
 
         [Test]
@@ -51,14 +51,14 @@ namespace UnitTests
         {
             Booking booking = new Booking
             {
-                capacity = 20,
+                capacity = 120,
+                socStart = 22,
+                socEnd = 44,
+                user = "User@userexample.com",
+                startTime = DateTime.Now.AddDays(1).AddHours(3),
+                endTime = DateTime.Now.AddDays(1).AddHours(6),
+                location = lTest,
                 plugs = new List<PlugType>() { PlugType.CCS },
-                socStart = 10,
-                socEnd = 100,
-                user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
-                location = lTest
             };
 
             var validationResults = new List<ValidationResult>();
@@ -156,7 +156,7 @@ namespace UnitTests
             Assert.AreEqual(1, validationResults.Count);
 
             var msg = validationResults[0];
-            Assert.AreEqual("socEnd", msg.MemberNames.ElementAt(0));
+            Assert.AreEqual("ErrorSocEnd", msg.ErrorMessage);
 
             Booking booking2 = new Booking
             {
@@ -175,7 +175,7 @@ namespace UnitTests
             Assert.AreEqual(1, validationResults.Count);
 
             msg = validationResults[0];
-            Assert.AreEqual("socEnd", msg.MemberNames.ElementAt(0));
+            Assert.AreEqual("ErrorSocEnd", msg.ErrorMessage);
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace UnitTests
             Assert.AreEqual(1, validationResults.Count);
 
             var msg = validationResults[0];
-            Assert.AreEqual("endTime", msg.MemberNames.ElementAt(0));
+            Assert.AreEqual("ErrorEndTime", msg.ErrorMessage);
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace UnitTests
                 socEnd = 20,
                 user = "example@email.de",
                 startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(-1),
+                endTime = DateTime.Now.AddDays(1).AddHours(3),
                 location = null
             };
 
