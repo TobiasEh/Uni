@@ -14,21 +14,18 @@ namespace UnitTests
     {
         static Plug p1 = new Plug
         {
-            //id = "abc",
             power = 20,
             type = PlugType.CCS
         };
 
         static Plug p2 = new Plug
         {
-            //id = "abcd",
             power = 40,
             type = PlugType.TYPE2
         };
 
         static Station s1 = new Station
         {
-            //id = "abc",
             plugs = new List<Plug> { p1, p2 },
             maxPower = 200,
             manufacturer = "hi",
@@ -38,14 +35,12 @@ namespace UnitTests
         static Zone z1 = new Zone
         {
             stations = new List<Station> { s1 },
-            //id = "abc",
             site = 'A',
             maxPower = 1000
         };
 
         static Location lTest = new Location
         {
-            id = "abc",
             name = "TestLocation",
             emergency = 1,
             zones = { z1 }
@@ -75,7 +70,7 @@ namespace UnitTests
         [Test]
         public void BookingCreateInvalidCapacity()
         {
-            Booking booking = new Booking
+            Booking booking = new Booking ()
             {
                 capacity = -20,
                 plugs = new List<PlugType>() { PlugType.CCS },

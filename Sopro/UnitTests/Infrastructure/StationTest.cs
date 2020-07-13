@@ -14,7 +14,6 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                //id = "abc",
                 plugs = new List<Plug>{ new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
@@ -31,7 +30,6 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                //id = "abc",
                 plugs = new List<Plug>{ },
                 maxPower = 200,
                 manufacturer = "hi",
@@ -51,7 +49,6 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                //id = "abc",
                 plugs = new List<Plug> { new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = -200,
                 manufacturer = "hi",
@@ -71,7 +68,6 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                //id = "abc",
                 plugs = new List<Plug> { new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
@@ -91,7 +87,6 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                //id = "abc",
                 plugs = new List<Plug> { new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
@@ -109,7 +104,6 @@ namespace UnitTests.Infrastructure
             Plug p = new Plug { power = 10 };
             Station station = new Station
             {
-                
                 plugs = new List<Plug> { p, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",

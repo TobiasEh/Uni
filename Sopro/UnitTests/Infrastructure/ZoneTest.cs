@@ -12,28 +12,24 @@ namespace UnitTests.Infrastructure
     {
         static Plug p1 = new Plug
         {
-            
             power = 20,
             type = PlugType.CCS
         };
 
         static Plug p2 = new Plug
-        {
-            
+        {   
             power = 40,
             type = PlugType.TYPE2
         };
 
         static Plug p3 = new Plug
         {
-            
             power = 50,
             type = PlugType.TYPE2
         };
 
         static Station s = new Station
         {
-            
             plugs = new List<Plug>{ p1, p2 },
             maxPower = 200,
             manufacturer = "hi",
@@ -42,7 +38,6 @@ namespace UnitTests.Infrastructure
 
         static Station s2 = new Station
         {
-            
             plugs = new List<Plug> { p3 },
             maxPower = 200,
             manufacturer = "hi",
@@ -55,7 +50,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station> { s },
-                
                 site = 'A',
                 maxPower = 1000
             };
@@ -71,7 +65,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station>(){ },
-                
                 site = 'A',
                 maxPower = 1000
             };
@@ -90,7 +83,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station> { s },
-                
                 site = 'A',
                 maxPower = -1000
             };
@@ -109,7 +101,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station>{ s },
-                
                 site = 'A',
                 maxPower = 1000
             };
@@ -125,7 +116,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station> { s, s2 },
-                
                 site = 'A',
                 maxPower = 1000
             };
