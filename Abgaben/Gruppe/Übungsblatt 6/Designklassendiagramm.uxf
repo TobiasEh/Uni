@@ -31,14 +31,14 @@ fontsize=10
       <x>3480</x>
       <y>1150</y>
       <w>210</w>
-      <h>110</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>+ Vehicle
 --
 - model: string
 - capacity: int {&gt; 0}
-- socStart: int {&gt;= 0}
-- socEnd: int {1 &lt;= socEnd &lt;= 100}
+- socStart: int {0 &lt;= socStart &lt;= 100}
+- socEnd: int {socStart &lt;= socEnd &lt;= 100}
 - plugs: Plug[0..1]</panel_attributes>
     <additional_attributes/>
   </element>
@@ -47,15 +47,15 @@ fontsize=10
     <coordinates>
       <x>2600</x>
       <y>1800</y>
-      <w>180</w>
+      <w>200</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>+ Location
 --
-- zones:Zone [0..*]
+- zones:Zone [0..*] {no duplicates}
 - id:string {unique}
 - name:string 
-- emergency:double {0 &lt;= emergency &lt;=1}
+- emergency:double {0 &lt;= emergency &lt;= 1}
 --
 + addZone(zone: Zone) : bool
 + deleteZone(zone: Zone) : bool
@@ -67,18 +67,18 @@ fontsize=10
     <coordinates>
       <x>2600</x>
       <y>1960</y>
-      <w>180</w>
+      <w>200</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>+ Zone
 --
 - stations: Station [1..*]
-- id:string {unique}
-- site: char 
+- site: char
 - maxPower: int {&lt; 0}
 --
 + addStation(station: Station) : bool
-+ deleteStation(station: Station): bool</panel_attributes>
++ deleteStation(station: Station): bool
++ CompareTo(zone: Zone): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -86,15 +86,14 @@ fontsize=10
     <coordinates>
       <x>2600</x>
       <y>2130</y>
-      <w>180</w>
-      <h>140</h>
+      <w>200</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>+ Station
 --
 - plugs: Plug [1..*]
-- id: string {unique}
 - maxPower: int {&gt; 0}
-- maxParallelUsable: int {&gt; 0}
+- maxParallelUsable: int {&gt;= 0}
 - manufacturer: string
 --
 + addPlug(plug: Plug):  bool
@@ -104,14 +103,13 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2630</x>
+      <x>2600</x>
       <y>2320</y>
-      <w>120</w>
-      <h>70</h>
+      <w>200</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>+ Plug
 --
-- id: string {unique}
 - power: int {&gt; 0}</panel_attributes>
     <additional_attributes/>
   </element>
@@ -120,37 +118,37 @@ fontsize=10
     <coordinates>
       <x>3990</x>
       <y>1310</y>
-      <w>260</w>
-      <h>120</h>
+      <w>390</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>+ Simulator
 --
-- tickLength: int = 24 {&gt; 0}
+- tickLength: Timespan = new Timespan(1, 0, 0, 0, 0) {&gt; new Timespan(0, 0, 0, 0, 0)}
+- tickCount: int = -1
+- pendingBookings: Booking [0..*]
 --
-+ triggerBookingDistribution(now: DateTime): bool
-+ triggerAdHocDistribution(now: DateTime): bool
++ triggerBookingDistribution(): bool
 + run() : bool
-- calculateLocationworkload() : double 
-- calculateStation() : double
-- startGenerator(scenario: ExecutedScenario) : double</panel_attributes>
+- calculateLocationWorkload() : double 
+- calculateStationWorkload() : double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
-      <y>2260</y>
+      <x>2690</x>
+      <y>2230</y>
       <w>30</w>
-      <h>80</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
+      <x>2690</x>
       <y>2070</y>
       <w>30</w>
       <h>80</h>
@@ -162,7 +160,7 @@ fontsize=10
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
+      <x>2690</x>
       <y>1910</y>
       <w>30</w>
       <h>70</h>
@@ -202,13 +200,13 @@ score: int {&gt;= 0}</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>3580</x>
-      <y>1250</y>
+      <y>1230</y>
       <w>30</w>
-      <h>70</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 </panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -219,7 +217,7 @@ score: int {&gt;= 0}</panel_attributes>
       <h>560</h>
     </coordinates>
     <panel_attributes>lt=-
-- location</panel_attributes>
+</panel_attributes>
     <additional_attributes>10.0;10.0;490.0;10.0;490.0;540.0;930.0;540.0</additional_attributes>
   </element>
   <element>
@@ -254,19 +252,19 @@ m2=1..1</panel_attributes>
       <x>3930</x>
       <y>1370</y>
       <w>80</w>
-      <h>110</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 &lt; calls</panel_attributes>
-    <additional_attributes>60.0;20.0;10.0;20.0;10.0;90.0</additional_attributes>
+    <additional_attributes>60.0;20.0;10.0;20.0;10.0;230.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
       <x>3430</x>
       <y>920</y>
-      <w>870</w>
-      <h>610</h>
+      <w>980</w>
+      <h>650</h>
     </coordinates>
     <panel_attributes>Simulation
 --
@@ -278,7 +276,7 @@ bg=#9b2948</panel_attributes>
     <coordinates>
       <x>3430</x>
       <y>240</y>
-      <w>880</w>
+      <w>990</w>
       <h>530</h>
     </coordinates>
     <panel_attributes>History
@@ -291,7 +289,7 @@ bg=#ff7251</panel_attributes>
     <coordinates>
       <x>2560</x>
       <y>1750</y>
-      <w>270</w>
+      <w>280</w>
       <h>780</h>
     </coordinates>
     <panel_attributes>Infrastructure
@@ -301,15 +299,15 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4060</x>
-      <y>1580</y>
+      <x>4080</x>
+      <y>1600</y>
       <w>240</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ITrigger
 --
-+ triggerBookingDistribution(now: DateTime): bool
++ triggerBookingDistribution(): bool
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -323,13 +321,12 @@ bg=#ffedbf</panel_attributes>
     </coordinates>
     <panel_attributes>+ Rushhour
 --
-- start: DateTime {&gt; DateTime.now()}
+- start: DateTime
 - end: DateTime {&gt; start}
 - bookings: int {&gt; 0}
 - strategy: IFunctionStrategy
 --
-+ run(): bool
-
++ run(): DateTime [1..*]
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -342,7 +339,6 @@ bg=#ffedbf</panel_attributes>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-
 </panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
@@ -350,9 +346,9 @@ bg=#ffedbf</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>3990</x>
-      <y>1020</y>
-      <w>260</w>
-      <h>120</h>
+      <y>970</y>
+      <w>290</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>+ ExecutedScenario
 --
@@ -364,6 +360,7 @@ bg=#ffedbf</panel_attributes>
 + getLocationWorkload(): double [1..*]
 + getStationWorkload(): double [[1..*][1..*]]
 + getFulfilledRequests(): int
++ updateWorkload(location: double, station: double [1..*]) : bool
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -371,18 +368,18 @@ bg=#ffedbf</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>3900</x>
-      <y>1070</y>
+      <y>1020</y>
       <w>110</w>
-      <h>300</h>
+      <h>350</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;280.0;60.0;280.0;60.0;10.0;90.0;10.0</additional_attributes>
+    <additional_attributes>10.0;330.0;60.0;330.0;60.0;10.0;90.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4120</x>
-      <y>1420</y>
+      <x>4200</x>
+      <y>1440</y>
       <w>30</w>
       <h>180</h>
     </coordinates>
@@ -393,12 +390,12 @@ bg=#ffedbf</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>4110</x>
-      <y>360</y>
+      <y>370</y>
       <w>30</w>
-      <h>460</h>
+      <h>450</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;440.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;430.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -472,9 +469,11 @@ bg=#ffedbf</panel_attributes>
       <x>3910</x>
       <y>310</y>
       <w>250</w>
-      <h>60</h>
+      <h>70</h>
     </coordinates>
     <panel_attributes>+ Evaluation
+--
+- suggestions: Suggestion [0..*]
 --
 + addSuggestion(suggestion: Suggestion) : bool
 + removeSuggestion(suggestion: Suggestion) : bool</panel_attributes>
@@ -484,12 +483,12 @@ bg=#ffedbf</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>3760</x>
-      <y>360</y>
+      <y>370</y>
       <w>240</w>
-      <h>230</h>
+      <h>220</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>220.0;10.0;220.0;210.0;10.0;210.0</additional_attributes>
+    <additional_attributes>220.0;10.0;220.0;200.0;10.0;200.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -519,14 +518,17 @@ creates v</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3530</x>
+      <x>3480</x>
       <y>1460</y>
-      <w>580</w>
-      <h>40</h>
+      <w>350</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>+ Generator
 --
-+ createBooking(capactiy: int, plugs: Plug[1..*], socEnd: int, socStart: int, user: string, startTime: DateTime, endTime: DateTime))</panel_attributes>
+probabilityVIP: double = 0.05 {0 &lt;= probabilityVIP&lt;=1}
+probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
+--
++ generateBookings(scenario: ExecutedScenario)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -541,29 +543,15 @@ creates v</panel_attributes>
     <additional_attributes>10.0;10.0;460.0;10.0;460.0;700.0;1280.0;700.0</additional_attributes>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>3720</x>
-      <y>1600</y>
-      <w>220</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-+ IBookingSource
---
-+ createBooking(capactiy: int, plugs: Plug[1..*], socEnd: int, socStart: int, user: string, startTime: DateTime, endTime: DateTime))</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
-      <x>3810</x>
-      <y>1490</y>
-      <w>30</w>
-      <h>130</h>
+      <x>3820</x>
+      <y>1470</y>
+      <w>110</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+    <additional_attributes>90.0;130.0;90.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -588,17 +576,17 @@ creates v</panel_attributes>
       <x>4110</x>
       <y>880</y>
       <w>30</w>
-      <h>160</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>3990</x>
       <y>1180</y>
-      <w>260</w>
+      <w>290</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
@@ -611,19 +599,19 @@ creates v</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>4110</x>
-      <y>1130</y>
+      <y>1100</y>
       <w>30</w>
-      <h>70</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2630</x>
+      <x>2600</x>
       <y>2430</y>
-      <w>120</w>
+      <w>200</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>&lt;&lt;enum&gt;&gt;
@@ -636,14 +624,14 @@ TYPE2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
-      <y>2380</y>
+      <x>2690</x>
+      <y>2350</y>
       <w>100</w>
-      <h>70</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 - type:PlugType</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -651,13 +639,15 @@ TYPE2</panel_attributes>
       <x>3480</x>
       <y>1300</y>
       <w>430</w>
-      <h>120</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>+ Scenario
 --
-- id: string {unique}
 - duration: int {&gt; 0}
-- bookingCount: int {&gt; 0}
+- bookingCountPerDay: int {&gt; 0}
+- vehicles: Vehicle [1..*]
+- rushhours: Rushhour [0..*] {rushhour.start &gt;= start, rushhour.end &lt;= start + duration}
+- start: DateTime
 --
 + addVehicle(vehicle: Vehicle): bool
 + deleteVehicle(vehicle: Vehicle): bool
@@ -700,7 +690,8 @@ _+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTi
       <w>30</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -743,8 +734,8 @@ fontsize=80</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1930</x>
-      <y>1570</y>
+      <x>1920</x>
+      <y>1720</y>
       <w>410</w>
       <h>100</h>
     </coordinates>
@@ -756,8 +747,8 @@ fontsize=80</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>4360</x>
-      <y>1120</y>
+      <x>4440</x>
+      <y>1190</y>
       <w>280</w>
       <h>120</h>
     </coordinates>
@@ -1141,16 +1132,18 @@ bg=#4169E1</panel_attributes>
       <x>1980</x>
       <y>1180</y>
       <w>240</w>
-      <h>100</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>+ BookingController
 --
+- cache: IMemoryCache
+--
 + Create(): IActionResult
-+ Post(booking: Booking): IActionResult
-+ Edit(booking: Booking): IActionResult
-+ Delete(booking: Booking): IActionResult
++ Post(booking: IBooking): IActionResult
++ Edit(booking: IBooking): IActionResult
++ Delete(booking: IBooking): IActionResult
 + Index(): IActionResult
-+ ToggleCheck(): IActionResult</panel_attributes>
++ ToggleCheck(booking: IBooking): IActionResult</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1190,13 +1183,15 @@ bg=#4169E1</panel_attributes>
       <x>1980</x>
       <y>1430</y>
       <w>240</w>
-      <h>70</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>+ InfrastructureController
 --
+- cache: IMemoryCache
+--
 + Index(): IActionResult
 + EditZone(): IActionResult
-+ Post(location: Location): IActionResult
++ Post(location: ILocation): IActionResult
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -1206,12 +1201,14 @@ bg=#4169E1</panel_attributes>
       <x>1980</x>
       <y>910</y>
       <w>240</w>
-      <h>60</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>+ VehicleController
 --
+- cache: IMemoryCache
+--
 + Cartemplates(): IActionResult
-+ Post(vehicle: Vehicle): IActionResult</panel_attributes>
++ Post(vehicle: IVehicle): IActionResult</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1220,14 +1217,16 @@ bg=#4169E1</panel_attributes>
       <x>1980</x>
       <y>760</y>
       <w>240</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>+ EvaluationController
 --
+- cache: IMemoryCache
+--
 + Evaluation(): IActionResult
 + History(): IActionResult
-+ Post(evaluation: Evaluation): IActionResult
-+ Analyze(evaluation: Evaluation): IActionResult</panel_attributes>
++ Post(evaluation: IEvaluation): IActionResult
++ Analyze(evaluation: IEvaluation): IActionResult</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1236,12 +1235,14 @@ bg=#4169E1</panel_attributes>
       <x>1980</x>
       <y>1030</y>
       <w>240</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>+ SimulationController
 --
+- cache: IMemoryCache
+--
 + Create(): IActionResult
-+ Post(scenario: Scenario): IActionResult
++ Post(scenario: IScenario): IActionResult
 + Index(): IActionResult
 + Simulate(): IActionResult</panel_attributes>
     <additional_attributes/>
@@ -1976,20 +1977,22 @@ bg=#1E90FF
       <x>3740</x>
       <y>1790</y>
       <w>220</w>
-      <h>180</h>
+      <h>190</h>
     </coordinates>
     <panel_attributes>+ Booking
 --
-- id: string {unique}
 - capacity: int {&gt; 0}
 - plugs: PlugType [1..*] {no duplicates}
 - socEnd: int {socStart &lt;= socEnd &lt;= 100}
-- socStart: int {&gt;= 0}
+- socStart: int {0 &lt;= socStart &lt;= 100}
 - user: string
 - startTime: date {&gt; DateTime.now()}
 - endTime: date {&gt; start}
-- station: Station
-- active: bool=false</panel_attributes>
+- station: Station [0..1]
+- active: bool=false
+- priority: UserType
+- location: Location
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1998,7 +2001,7 @@ bg=#1E90FF
       <x>3740</x>
       <y>2210</y>
       <w>210</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>+ Schedule
 --
@@ -2006,7 +2009,8 @@ bg=#1E90FF
 --
 + addBooking(booking: Booking): bool
 + removeBooking(booking: Booking): bool
-+ clean(date: DateTime): bool</panel_attributes>
++ clean(date: DateTime): bool
++ toggleCheck(booking: IBooking)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2015,28 +2019,30 @@ bg=#1E90FF
       <x>4090</x>
       <y>2040</y>
       <w>180</w>
-      <h>120</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>+ Distributor
 --
 - schedule: Schedule
 - strategy: IDistributionStrategy
-- puffer: int
+- puffer: int {&gt;= 0}
+- filter: BookingLocationFilter
 --
-+ run(now: DateTime): bool</panel_attributes>
++ run(): bool
++ run(bookings: Booking [0..*]): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3870</x>
-      <y>1990</y>
+      <x>4030</x>
+      <y>1790</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>+ AdHoc
 --
-+ triggerBookingDistribution(now: DateTime): bool
++ triggerBookingDistribution(): bool
 
 </panel_attributes>
     <additional_attributes/>
@@ -2044,20 +2050,20 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3840</x>
-      <y>1960</y>
-      <w>50</w>
-      <h>60</h>
+      <x>3950</x>
+      <y>1800</y>
+      <w>100</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;40.0;30.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4800</x>
-      <y>2190</y>
-      <w>270</w>
+      <x>5040</x>
+      <y>2150</y>
+      <w>370</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>+ Messenger
@@ -2071,34 +2077,34 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4580</x>
-      <y>2050</y>
-      <w>240</w>
+      <x>4960</x>
+      <y>2010</y>
+      <w>100</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4370</x>
-      <y>2040</y>
-      <w>220</w>
+      <x>4690</x>
+      <y>1990</y>
+      <w>280</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-+ IPropertyChange
++ INotificationListener
 --
-+ update(user: string, booking: Booking, eventName:string)</panel_attributes>
++ update(booking: Booking, event:NotficactionEvent)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>4780</x>
-      <y>1980</y>
-      <w>420</w>
+      <x>5020</x>
+      <y>1940</y>
+      <w>710</w>
       <h>300</h>
     </coordinates>
     <panel_attributes>Communication
@@ -2111,7 +2117,7 @@ bg=#ffcd74</panel_attributes>
     <coordinates>
       <x>3700</x>
       <y>1750</y>
-      <w>630</w>
+      <w>940</w>
       <h>670</h>
     </coordinates>
     <panel_attributes>Administration
@@ -2122,36 +2128,37 @@ bg=#ffca7b</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3980</x>
+      <x>4030</x>
       <y>1860</y>
-      <w>210</w>
-      <h>60</h>
+      <w>250</w>
+      <h>120</h>
     </coordinates>
-    <panel_attributes>+ Timer
+    <panel_attributes>+ DistributionTimer
 --
 - distributionTime: DateTime
+- timer: Timer
 --
-+ triggerBookingDistribution(now: DateTime): bool</panel_attributes>
++ triggerBookingDistribution(): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3740</x>
-      <y>1960</y>
-      <w>370</w>
-      <h>120</h>
+      <x>3840</x>
+      <y>1970</y>
+      <w>270</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 distributes ^</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0;350.0;100.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;250.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>3960</x>
       <y>2210</y>
-      <w>280</w>
+      <w>340</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
@@ -2164,41 +2171,41 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
     <id>Relation</id>
     <coordinates>
       <x>4160</x>
-      <y>2150</y>
+      <y>2170</y>
       <w>30</w>
-      <h>80</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4230</x>
+      <x>4290</x>
       <y>2220</y>
-      <w>70</w>
+      <w>80</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;10.0;50.0;130.0;10.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;130.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4230</x>
+      <x>4290</x>
       <y>2240</y>
-      <w>50</w>
+      <w>60</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;30.0;10.0;30.0;60.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;60.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>3960</x>
       <y>2280</y>
-      <w>280</w>
+      <w>340</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>+ StandardDistribution
@@ -2211,7 +2218,7 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
     <coordinates>
       <x>3960</x>
       <y>2330</y>
-      <w>280</w>
+      <w>340</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>+ AdHocDistribution
@@ -2222,39 +2229,27 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4080</x>
-      <y>1630</y>
-      <w>30</w>
-      <h>250</h>
+      <x>4270</x>
+      <y>1620</y>
+      <w>130</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
+    <additional_attributes>50.0;10.0;110.0;10.0;110.0;290.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3810</x>
+      <x>3840</x>
       <y>1650</y>
-      <w>70</w>
-      <h>120</h>
+      <w>80</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-creates v
+generates v
 m1=1..1
 m2=0..*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>4230</x>
-      <y>1630</y>
-      <w>100</w>
-      <h>430</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
-- distributor 1..*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;410.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -2273,7 +2268,7 @@ m2=0..*</panel_attributes>
       <x>1930</x>
       <y>570</y>
       <w>340</w>
-      <h>980</h>
+      <h>1120</h>
     </coordinates>
     <panel_attributes>Controller
 --
@@ -2376,8 +2371,8 @@ bg=#0000CC</panel_attributes>
     </coordinates>
     <panel_attributes>DashboardViewModel
 --
-- activeBookings: List&lt;Booking&gt;
-- scheduledBookings: List&lt;Booking&gt;</panel_attributes>
+- scheduledBookings: List&lt;Booking&gt;
+- unscheduledBookings: List&lt;Booking&gt;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2453,8 +2448,8 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>3070</x>
-      <y>250</y>
+      <x>2460</x>
+      <y>270</y>
       <w>240</w>
       <h>270</h>
     </coordinates>
@@ -2466,23 +2461,23 @@ bg=#ffBB99</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3090</x>
-      <y>280</y>
+      <x>2480</x>
+      <y>310</y>
       <w>200</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>+ IdentityProvider
+    <panel_attributes>_+ IdentityProvider_
 --
 _- path: string_
 --
-_+ getUserPriority(email: string) :UserType_</panel_attributes>
+_+ getUserType(email: string) :UserType_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3130</x>
-      <y>400</y>
+      <x>2520</x>
+      <y>430</y>
       <w>130</w>
       <h>100</h>
     </coordinates>
@@ -2490,17 +2485,17 @@ _+ getUserPriority(email: string) :UserType_</panel_attributes>
 UserType
 --
 GUEST
+EMPLOYEE
 VIP
 ASSISTANCE
-EMPLOYEE
 PLANER</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3190</x>
-      <y>330</y>
+      <x>2580</x>
+      <y>360</y>
       <w>30</w>
       <h>90</h>
     </coordinates>
@@ -2510,45 +2505,8 @@ PLANER</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>620</y>
-      <w>270</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-+ IServiceIdentityProvider
---
-_+ getUserPriority(email: string) :UserType_
-_+ isAdmin(email: string) :bool_</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>2810</x>
-      <y>310</y>
-      <w>300</w>
-      <h>370</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;350.0;190.0;350.0;190.0;10.0;280.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>2210</x>
-      <y>650</y>
-      <w>360</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;340.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>3740</x>
-      <y>2110</y>
+      <y>2100</y>
       <w>280</w>
       <h>80</h>
     </coordinates>
@@ -2557,7 +2515,7 @@ _+ isAdmin(email: string) :bool_</panel_attributes>
 - location: Location
 - timespan: int=30 {&gt;= 0}
 --
-+ filter(bookings: Booking[1..*], date: DateTime): Booking[1..*]</panel_attributes>
++ filter(bookings: Booking[1..*]): Booking[1..*]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2574,65 +2532,142 @@ _+ isAdmin(email: string) :bool_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4110</x>
-      <y>1630</y>
-      <w>120</w>
-      <h>390</h>
+      <x>4140</x>
+      <y>1650</y>
+      <w>30</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>100.0;10.0;100.0;370.0;10.0;370.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4800</x>
-      <y>2020</y>
+      <x>5040</x>
+      <y>1980</y>
       <w>370</w>
-      <h>110</h>
+      <h>120</h>
     </coordinates>
-    <panel_attributes>+ BookingPropertyChange
+    <panel_attributes>+ BookingStatusNotification
 --
-- messageAccepted: string
-- messageDeclined: string
--messageCheckIn: string
--messageCheckOut: string
+- commands: string [0..*]
 --
-+ update(user: string, booking: Booking, eventName: string)
++ update(booking: Booking, eventName: string)
+- generateMessageAccepted(booking: Booking): string
+- generateMessageDeclined(booking: Booking): string
+- generateMessageCheckIn(booking: Booking): string
+- generateMessageCheckOut(booking: Booking): string
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4910</x>
-      <y>2120</y>
-      <w>30</w>
-      <h>90</h>
+      <x>5220</x>
+      <y>2090</y>
+      <w>80</w>
+      <h>80</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+- messenger</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3830</x>
-      <y>2090</y>
-      <w>670</w>
-      <h>330</h>
+      <x>3850</x>
+      <y>2150</y>
+      <w>700</w>
+      <h>260</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;&gt;&gt;&gt;
+    <panel_attributes>lt=-&gt;
+- notificationManager</panel_attributes>
+    <additional_attributes>10.0;160.0;10.0;240.0;680.0;240.0;680.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4520</x>
+      <y>2010</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4390</x>
+      <y>2080</y>
+      <w>220</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>+ NotificationManager
+--
+- listener: INotificationListener
+--
++ notify(booking: Booking, eventName: string)
 </panel_attributes>
-    <additional_attributes>650.0;10.0;650.0;310.0;10.0;310.0;10.0;210.0</additional_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>4260</x>
-      <y>2050</y>
-      <w>130</w>
-      <h>30</h>
+      <y>2080</y>
+      <w>150</w>
+      <h>40</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+- notificationManager</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1980</x>
+      <y>1560</y>
+      <w>240</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>_+ CacheKeys_
+--
+_+ Booking: string_
+_+ Vehicle: string_
+_+ History: string_
+_+ Scenario: string_
+_+ Location: string_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3800</x>
+      <y>1600</y>
+      <w>260</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
++ IGenerator
+--
++ generateBookings(scenario: Scenario): Booking [1..*]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5430</x>
+      <y>1980</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>_+ NotificationEvent_
+--
+_+ ACCEPTED: string_
+_+ DECLINED: string_
+_+ CHECKIN: string_
+_+ CHECKOUT: string_</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
