@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
 using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
+using Sopro.Models.Infrastructure;
 
 namespace Sopro.Controllers
 {
@@ -89,7 +90,11 @@ namespace Sopro.Controllers
         {
             var cacheKey = CacheKeys.LOCATION;
             List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
-            return View("Create", new BookingCreateViewModel(locations,(IBooking) new Booking()));           
+            if (locations == null)
+            {
+                new List<ILocation>();
+            }
+            return View("Create", new BookingCreateViewModel(locations,(IBooking) new Booking(), false, false));           
         }
 
         /* Method to show all bookings in UI.
@@ -108,6 +113,18 @@ namespace Sopro.Controllers
             {
                 booking.user = email;
             }
+            if(viewmodel.ccs && viewmodel.type_2)
+            {
+                booking.plugs = new List<PlugType> {PlugType.CCS, PlugType.TYPE2 };
+            } else if (viewmodel.type_2)
+            {
+                booking.plugs = new List<PlugType> {  PlugType.TYPE2 };
+            }
+            else
+            {
+                booking.plugs = new List<PlugType> { PlugType.CCS };
+            }
+
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
@@ -127,13 +144,34 @@ namespace Sopro.Controllers
          * Booking is removed from bookinglist and cache.
          * Returns Booking.Create view with already filled fields.
          */
-        public IActionResult Edit(IBooking booking)
+        public IActionResult Edit(Booking booking)
         {
             var cacheKey = CacheKeys.BOOKING;
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations =new List<ILocation>();
+            }
+            
+            
+            BookingCreateViewModel viewmodel = new BookingCreateViewModel(locations, booking, false, false);
+            if (booking.plugs.Contains(PlugType.CCS))
+            {
+                viewmodel.ccs = true;
+            }
 
-            return View("Create", booking);
+
+            if (booking.plugs.Contains(PlugType.TYPE2))
+            {
+                viewmodel.type_2 = true;
+            }
+            return View("Create", viewmodel);
         }
 
         /* Method to delete existing booking.
@@ -146,6 +184,7 @@ namespace Sopro.Controllers
         
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
+
             return View("Index", bookings);
         }
         

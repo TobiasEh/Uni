@@ -7,7 +7,6 @@
 @inject IHttpContextAccessor httpContextAccessor
 
 <h1 class="display-4">Buchungsanfrage anlegen</h1>
-<h1>@httpContextAccessor.HttpContext.Session.GetString("email")</h1>
 @{ Sopro.Interfaces.AdministrationController.IBooking booking = Model.booking;}
 <form asp-controller="Booking" asp-action="Post" method="post">
     <div>
@@ -31,24 +30,18 @@
             </div> *@
 
         <div class="form-group">
-            <label for="@booking.plugs">Steckertyp des Fahrzeugs</label>
+            <label>Steckertyp des Fahrzeugs</label>
             <div class="flex-column pl-4">
                 <div>
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input" asp-for="@booking.plugs" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.CCS }; }">CCS
-                    </label>
+                    <label for="@Model.ccs">CCS-Stecker</label>
+                    <input type="checkbox" asp-for="@Model.ccs" checked="@Model.ccs" />
                 </div>
                 <div>
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input" asp-for="@booking.plugs" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.TYPE2 }; }">Type-2 Plug
-                    </label>
-                </div>
-                <div>
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input" asp-for="@Model.booking.plugs" name="optradio" value="@{ new List<Sopro.Models.Infrastructure.PlugType>() { Sopro.Models.Infrastructure.PlugType.TYPE2, Sopro.Models.Infrastructure.PlugType.CCS }; }">Type-2 Plug und CCS
-                    </label>
+                    <label for="@Model.type_2">Typ-2-Stecker</label>
+                    <input type="checkbox" asp-for="@Model.type_2" checked="@Model.type_2" />
                 </div>
             </div>
+            <small>Wähle die / den kompatiblen Stecker.</small>
         </div>
 
         <div class="form-group">
@@ -84,8 +77,23 @@
             <input type="datetime-local" class="form-control" placeholder="@booking.startTime" asp-for="@booking.endTime" />
             <small></small>
         </div>
+        @if (httpContextAccessor.HttpContext.Session.GetString("role")== Sopro.Models.User.UserType.ASSISTANCE.ToString())
+        {
+            <div class="form-group">
+            <label for="@booking.user ">E-Mail des Gastes</label>
+            <input type="email" class="form-control" placeholder="@booking.user" asp-for="@booking.user" />
+            <small></small>
 
-        <div class="form-group float-right mt-4">
+            </div>
+            <div class="form-group">
+                <label for="@booking.priority">Art des Anschlusses</label>
+                <select class="form-control" asp-for="@booking.priority">
+                    <option value="GUEST">Gast</option>
+                    <option value="VIP">VIP</option>
+                </select>
+            </div>
+        }
+        <div class="form-group float-right mt-4 mb-5">
             <button type="reset" class="btn btn-secondary">Abbrechen</button>
             <button type="submit" class="btn btn-primary btn-mhp">Buchen</button>
         </div>

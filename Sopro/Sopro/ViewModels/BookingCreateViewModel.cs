@@ -14,12 +14,18 @@ namespace Sopro.ViewModels
     {
         public List<ILocation> locations { get; set; }
         public IBooking booking { get; set; }
+        public bool ccs { get; set; }
+        public bool type_2 { get; set; }
 
-        public BookingCreateViewModel(List<ILocation> _locations, IBooking _booking)
+        public BookingCreateViewModel(List<ILocation> _locations, IBooking _booking, bool _ccs, bool _type_2)
         {
             locations = _locations;
 
             booking = _booking;
+
+            ccs = _ccs;
+
+            type_2 = _type_2;
         }
 
         public BookingCreateViewModel()
@@ -27,6 +33,10 @@ namespace Sopro.ViewModels
             locations = new List<ILocation>();
 
             booking = (IBooking)new Booking();
+
+            ccs = false;
+
+            type_2 = false;
         }
     }
     

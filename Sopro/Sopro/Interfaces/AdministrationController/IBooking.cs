@@ -20,5 +20,6 @@ namespace Sopro.Interfaces.AdministrationController
         public bool active { get; set; }
         public Location location { get; set; }
         public UserType priority { get; set; }
+
     }
 }

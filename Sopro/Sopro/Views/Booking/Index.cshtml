@@ -80,8 +80,8 @@ else
             <td>@booking.plugs</td>
             <td class="text-center">
                 <div>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                    <a asp-controller="Booking" asp-action="Edit" >
+                           <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2"  value="@booking"/>
                     </a>
                     <a asp-controller="" asp-action="">
                         <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
@@ -94,7 +94,7 @@ else
 
 
                 <form methode="post">
-                    <button asp-controller="Booking" asp-action="CreateBooking" class="btn btn-primary btn-mhp">Neue Buchung</button>
+                    <button asp-controller="Booking" asp-action="Create" class="btn btn-primary btn-mhp">Neue Buchung</button>
                 </form>
             </div>
         }
