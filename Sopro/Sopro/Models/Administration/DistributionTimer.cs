@@ -13,7 +13,6 @@ using Sopro.Models.Infrastructure;
 
 namespace Sopro.Models.Administration
 {
-    //TODO
     public class DistributionTimer : IHostedService, IDisposable
     {
         private readonly ILogger<DistributionTimer> _logger;
@@ -32,7 +31,7 @@ namespace Sopro.Models.Administration
             List<ILocation> locations = (List<ILocation>)_cache.Get(cacheKey);
             foreach (Location l in locations)
             {
-                if (l.normalizedDistributionTime.Compare(time))
+                if (l.normalizedDistributionTime.Hour == DateTime.Now.Hour)
                 {
                     l.distributor.run();
                 }
