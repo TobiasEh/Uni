@@ -9,15 +9,18 @@ namespace Sopro.ValidationAttributes
 {
     public class VehicleSocEndValidation : ValidationAttribute
     {
-        private Vehicle vehicle;
-        public override bool IsValid(object value)
+        private int socStart;
+        private int socEnd;
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var soc = vehicle.socStart;
-            int soc2 = Convert.ToInt16(value);
-            if (soc <= soc2 && soc2 <= 100)
-                return true;
+            var property = validationContext.ObjectType.GetProperty("socStart");
+            socStart = Convert.ToInt16(property.GetValue(validationContext.ObjectInstance, null));
+            socEnd = Convert.ToInt16(value);
+            if (socEnd >= socStart && socEnd <= 100 && socEnd >= 0)
+                return ValidationResult.Success;
             else
-                return false;
+                return new ValidationResult("ErrorSocEnd", new List<string>() { "socEnd" });
         }
     }
 }
