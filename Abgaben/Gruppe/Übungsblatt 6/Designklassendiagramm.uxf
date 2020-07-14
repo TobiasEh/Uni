@@ -24,14 +24,14 @@ fontsize=10
 
 
 // This text will be stored with each diagram;  use it for notes.</help_text>
-  <zoom_level>10</zoom_level>
+  <zoom_level>11</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3480</x>
-      <y>1150</y>
-      <w>210</w>
-      <h>90</h>
+      <x>3828</x>
+      <y>1265</y>
+      <w>231</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>+ Vehicle
 --
@@ -45,10 +45,10 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2600</x>
-      <y>1800</y>
-      <w>200</w>
-      <h>120</h>
+      <x>2860</x>
+      <y>1980</y>
+      <w>220</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ Location
 --
@@ -65,10 +65,10 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2600</x>
-      <y>1960</y>
-      <w>200</w>
-      <h>120</h>
+      <x>2860</x>
+      <y>2156</y>
+      <w>220</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ Zone
 --
@@ -84,10 +84,10 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2600</x>
-      <y>2130</y>
-      <w>200</w>
-      <h>110</h>
+      <x>2860</x>
+      <y>2343</y>
+      <w>220</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>+ Station
 --
@@ -103,10 +103,10 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2600</x>
-      <y>2320</y>
-      <w>200</w>
-      <h>40</h>
+      <x>2860</x>
+      <y>2552</y>
+      <w>220</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>+ Plug
 --
@@ -116,30 +116,32 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3990</x>
-      <y>1310</y>
-      <w>390</w>
-      <h>140</h>
+      <x>4389</x>
+      <y>1441</y>
+      <w>429</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>+ Simulator
 --
 - tickLength: Timespan = new Timespan(1, 0, 0, 0, 0) {&gt; new Timespan(0, 0, 0, 0, 0)}
 - tickCount: int = -1
 - pendingBookings: Booking [0..*]
+- adhocBookings: AdHoc [0..*]
 --
 + triggerBookingDistribution(): bool
-+ run() : bool
-- calculateLocationWorkload() : double 
-- calculateStationWorkload() : double</panel_attributes>
++ init(): bool
++ run(): bool
+- calculateLocationWorkload(): double
+- calculateStationWorkload(): double [1..*]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2690</x>
-      <y>2230</y>
-      <w>30</w>
-      <h>110</h>
+      <x>2959</x>
+      <y>2453</y>
+      <w>33</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -148,10 +150,10 @@ fontsize=10
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2690</x>
-      <y>2070</y>
-      <w>30</w>
-      <h>80</h>
+      <x>2959</x>
+      <y>2277</y>
+      <w>33</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -160,10 +162,10 @@ fontsize=10
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2690</x>
-      <y>1910</y>
-      <w>30</w>
-      <h>70</h>
+      <x>2959</x>
+      <y>2101</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -172,24 +174,25 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3540</x>
-      <y>550</y>
-      <w>230</w>
-      <h>60</h>
+      <x>3894</x>
+      <y>682</y>
+      <w>385</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>+ Suggestion
 --
 suggestion: string
-score: int {&gt;= 0}</panel_attributes>
+--
++ Suggestion(stations: int, zones: int)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4110</x>
-      <y>1260</y>
-      <w>90</w>
-      <h>70</h>
+      <x>4521</x>
+      <y>1386</y>
+      <w>99</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 - scenario[1..1]
@@ -199,10 +202,10 @@ score: int {&gt;= 0}</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3580</x>
-      <y>1230</y>
-      <w>30</w>
-      <h>90</h>
+      <x>3938</x>
+      <y>1353</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -211,10 +214,10 @@ score: int {&gt;= 0}</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1360</y>
-      <w>950</w>
-      <h>560</h>
+      <x>3091</x>
+      <y>1496</y>
+      <w>1045</w>
+      <h>616</h>
     </coordinates>
     <panel_attributes>lt=-
 </panel_attributes>
@@ -223,10 +226,10 @@ score: int {&gt;= 0}</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1420</y>
-      <w>950</w>
-      <h>830</h>
+      <x>3091</x>
+      <y>1562</y>
+      <w>1045</w>
+      <h>913</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -235,10 +238,10 @@ score: int {&gt;= 0}</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1320</y>
-      <w>690</w>
-      <h>40</h>
+      <x>3091</x>
+      <y>1452</y>
+      <w>759</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 &lt; simulates at
@@ -249,10 +252,10 @@ m2=1..1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3930</x>
-      <y>1370</y>
-      <w>80</w>
-      <h>250</h>
+      <x>4323</x>
+      <y>1507</y>
+      <w>88</w>
+      <h>275</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 &lt; calls</panel_attributes>
@@ -261,10 +264,10 @@ m2=1..1</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>3430</x>
-      <y>920</y>
-      <w>980</w>
-      <h>650</h>
+      <x>3773</x>
+      <y>1012</y>
+      <w>1089</w>
+      <h>715</h>
     </coordinates>
     <panel_attributes>Simulation
 --
@@ -274,10 +277,10 @@ bg=#9b2948</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>3430</x>
-      <y>240</y>
-      <w>990</w>
-      <h>530</h>
+      <x>3773</x>
+      <y>264</y>
+      <w>1089</w>
+      <h>583</h>
     </coordinates>
     <panel_attributes>History
 --
@@ -287,10 +290,10 @@ bg=#ff7251</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>2560</x>
-      <y>1750</y>
-      <w>280</w>
-      <h>780</h>
+      <x>2816</x>
+      <y>1925</y>
+      <w>308</w>
+      <h>858</h>
     </coordinates>
     <panel_attributes>Infrastructure
 bg=#ffedbf</panel_attributes>
@@ -299,10 +302,10 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4080</x>
-      <y>1600</y>
-      <w>240</w>
-      <h>60</h>
+      <x>4488</x>
+      <y>1760</y>
+      <w>264</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ITrigger
@@ -314,10 +317,10 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3710</x>
-      <y>1150</y>
-      <w>200</w>
-      <h>110</h>
+      <x>4081</x>
+      <y>1265</y>
+      <w>220</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>+ Rushhour
 --
@@ -333,10 +336,10 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3800</x>
-      <y>1250</y>
-      <w>30</w>
-      <h>70</h>
+      <x>4180</x>
+      <y>1375</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -345,10 +348,10 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3990</x>
-      <y>970</y>
-      <w>290</w>
-      <h>140</h>
+      <x>4389</x>
+      <y>1067</y>
+      <w>429</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>+ ExecutedScenario
 --
@@ -367,10 +370,10 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3900</x>
-      <y>1020</y>
-      <w>110</w>
-      <h>350</h>
+      <x>4290</x>
+      <y>1122</y>
+      <w>121</w>
+      <h>385</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;330.0;60.0;330.0;60.0;10.0;90.0;10.0</additional_attributes>
@@ -378,155 +381,123 @@ bg=#ffedbf</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4200</x>
-      <y>1440</y>
-      <w>30</w>
-      <h>180</h>
+      <x>4620</x>
+      <y>1595</y>
+      <w>33</w>
+      <h>187</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4110</x>
-      <y>370</y>
-      <w>30</w>
-      <h>450</h>
+      <x>4521</x>
+      <y>473</y>
+      <w>33</w>
+      <h>429</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;430.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;370.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3470</x>
-      <y>720</y>
-      <w>100</w>
-      <h>30</h>
+      <x>3894</x>
+      <y>792</y>
+      <w>187</w>
+      <h>22</h>
     </coordinates>
-    <panel_attributes>+ ZoneSuggestion</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>3610</x>
-      <y>720</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>+ StationSuggestion</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>3750</x>
-      <y>720</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>+ PowerSuggestion</panel_attributes>
+    <panel_attributes>+ ExpandInfrastructureSuggestion</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3650</x>
-      <y>600</y>
-      <w>30</w>
-      <h>140</h>
+      <x>3971</x>
+      <y>737</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>3510</x>
-      <y>600</y>
-      <w>110</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>90.0;10.0;90.0;70.0;10.0;70.0;10.0;120.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>3710</x>
-      <y>600</y>
-      <w>110</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;90.0;70.0;90.0;120.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3910</x>
-      <y>310</y>
-      <w>250</w>
-      <h>70</h>
+      <x>4301</x>
+      <y>341</y>
+      <w>286</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>+ Evaluation
 --
-- suggestions: Suggestion [0..*]
---
-+ addSuggestion(suggestion: Suggestion) : bool
-+ removeSuggestion(suggestion: Suggestion) : bool</panel_attributes>
+- suggestions: Suggestion [0..1]
+- bookingSuccesRate: double
+- unnecessaryWorkload: double
+- necessaryWorkload: double
+- plugDistributionAccepted: double[1..plugType.Count()]
+- plugDistributionDeclined: double[1..plugType.Count()]
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3760</x>
-      <y>370</y>
-      <w>240</w>
-      <h>220</h>
+      <x>4268</x>
+      <y>473</y>
+      <w>132</w>
+      <h>253</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>220.0;10.0;220.0;200.0;10.0;200.0</additional_attributes>
+    <additional_attributes>100.0;10.0;100.0;210.0;10.0;210.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3540</x>
-      <y>430</y>
-      <w>230</w>
-      <h>40</h>
+      <x>3894</x>
+      <y>473</y>
+      <w>385</w>
+      <h>154</h>
     </coordinates>
-    <panel_attributes>+ Analyzer
+    <panel_attributes>_+ Analyzer_
 --
-+ createSuggestion(evaluation: IEvaluation) : bool</panel_attributes>
+_- evaluation: Evaluation_
+--
+_+ analyze(scenario: IEvaluatable): Evaluation_
+_- createSuggestion() : Suggestion [0..1]_
+_- calcBookingSuccessRate(): double_
+_- calcUnnecessaryWorkload(): double_
+_- calcNecessaryWorkload(): double_
+_- calcPlugDistributionAccepted(): double[1..plugType.Count()]_
+_- calcPlugDistributionDeclined(): double[1..plugType.Count()]_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3640</x>
-      <y>460</y>
-      <w>70</w>
-      <h>110</h>
+      <x>4004</x>
+      <y>616</y>
+      <w>77</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=-
 creates v</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3480</x>
-      <y>1460</y>
-      <w>350</w>
-      <h>90</h>
+      <x>3828</x>
+      <y>1606</y>
+      <w>385</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>+ Generator
 --
-probabilityVIP: double = 0.05 {0 &lt;= probabilityVIP&lt;=1}
-probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
+probabilityVIP: double=0.05 {0 &lt;= probabilityVIP&lt;=1}
+probabilityGuest: double=0.05 {0 &lt;= probabilityGuest &lt;= 1}
+probabilityAdhoc: double=0.10 {0 &lt;= probabilityAdhoc &lt;= 1}
 --
 + generateBookings(scenario: ExecutedScenario)</panel_attributes>
     <additional_attributes/>
@@ -534,10 +505,10 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1390</y>
-      <w>1300</w>
-      <h>720</h>
+      <x>3091</x>
+      <y>1529</y>
+      <w>1430</w>
+      <h>792</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;460.0;10.0;460.0;700.0;1280.0;700.0</additional_attributes>
@@ -545,10 +516,10 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3820</x>
-      <y>1470</y>
-      <w>110</w>
-      <h>150</h>
+      <x>4202</x>
+      <y>1617</y>
+      <w>121</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>90.0;130.0;90.0;10.0;10.0;10.0</additional_attributes>
@@ -556,16 +527,17 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3990</x>
-      <y>800</y>
-      <w>260</w>
-      <h>90</h>
+      <x>4389</x>
+      <y>880</y>
+      <w>286</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IEvaluatable
 --
 + getLocationWorkload(): double [1..*]
 + getStationWorkload(): double [[1..*][1..*]]
++ getBookings(): Booking [1..*]
 + getFulfilledRequests(): int
 </panel_attributes>
     <additional_attributes/>
@@ -573,10 +545,10 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4110</x>
-      <y>880</y>
-      <w>30</w>
-      <h>110</h>
+      <x>4521</x>
+      <y>968</y>
+      <w>33</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
@@ -584,10 +556,10 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3990</x>
-      <y>1180</y>
-      <w>290</w>
-      <h>90</h>
+      <x>4389</x>
+      <y>1298</y>
+      <w>429</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IRunnable
@@ -598,10 +570,10 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4110</x>
-      <y>1100</y>
-      <w>30</w>
-      <h>100</h>
+      <x>4521</x>
+      <y>1210</y>
+      <w>33</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
@@ -609,10 +581,10 @@ probabilityGuest: double =0.05 {0 &lt;= probabilityGuest &lt;= 1}
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2600</x>
-      <y>2430</y>
-      <w>200</w>
-      <h>70</h>
+      <x>2860</x>
+      <y>2673</y>
+      <w>220</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;enum&gt;&gt;
 PlugType
@@ -624,10 +596,10 @@ TYPE2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2690</x>
-      <y>2350</y>
-      <w>100</w>
-      <h>100</h>
+      <x>2959</x>
+      <y>2585</y>
+      <w>110</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 - type:PlugType</panel_attributes>
@@ -636,10 +608,10 @@ TYPE2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3480</x>
-      <y>1300</y>
-      <w>430</w>
-      <h>140</h>
+      <x>3828</x>
+      <y>1430</y>
+      <w>473</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>+ Scenario
 --
@@ -648,6 +620,7 @@ TYPE2</panel_attributes>
 - vehicles: Vehicle [1..*]
 - rushhours: Rushhour [0..*] {rushhour.start &gt;= start, rushhour.end &lt;= start + duration}
 - start: DateTime
+- location: ILocation
 --
 + addVehicle(vehicle: Vehicle): bool
 + deleteVehicle(vehicle: Vehicle): bool
@@ -658,10 +631,10 @@ TYPE2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3480</x>
-      <y>1050</y>
-      <w>430</w>
-      <h>60</h>
+      <x>3828</x>
+      <y>1155</y>
+      <w>473</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IFunctionStrategy
@@ -672,10 +645,10 @@ _+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTi
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3480</x>
-      <y>970</y>
-      <w>430</w>
-      <h>50</h>
+      <x>3828</x>
+      <y>1067</y>
+      <w>473</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>+ NormalDistribution
 --
@@ -685,10 +658,10 @@ _+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTi
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3800</x>
-      <y>1100</y>
-      <w>30</w>
-      <h>70</h>
+      <x>4180</x>
+      <y>1210</y>
+      <w>33</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -697,10 +670,10 @@ _+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTi
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3680</x>
-      <y>1010</y>
-      <w>30</w>
-      <h>60</h>
+      <x>4048</x>
+      <y>1111</y>
+      <w>33</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -708,10 +681,10 @@ _+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTi
   <element>
     <id>Text</id>
     <coordinates>
-      <x>840</x>
-      <y>2220</y>
-      <w>510</w>
-      <h>120</h>
+      <x>924</x>
+      <y>2442</y>
+      <w>561</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>Persistence
 style=wordwrap
@@ -722,9 +695,9 @@ fontsize=80</panel_attributes>
     <id>Text</id>
     <coordinates>
       <x>0</x>
-      <y>260</y>
-      <w>270</w>
-      <h>140</h>
+      <y>286</y>
+      <w>297</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>Views
 style=wordwrap
@@ -734,10 +707,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1920</x>
-      <y>1720</y>
-      <w>410</w>
-      <h>100</h>
+      <x>2112</x>
+      <y>1892</y>
+      <w>451</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>Controller
 style=wordwrap
@@ -747,23 +720,23 @@ fontsize=80</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>4440</x>
-      <y>1190</y>
-      <w>280</w>
-      <h>120</h>
+      <x>5654</x>
+      <y>1265</y>
+      <w>968</w>
+      <h>605</h>
     </coordinates>
     <panel_attributes>Model
 style=wordwrap
-fontsize=80</panel_attributes>
+fontsize=200</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1110</y>
-      <w>690</w>
-      <h>230</h>
+      <x>3091</x>
+      <y>1221</y>
+      <w>759</w>
+      <h>253</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;550.0;10.0;550.0;210.0;670.0;210.0</additional_attributes>
@@ -771,10 +744,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>320</y>
-      <w>1120</w>
-      <h>460</h>
+      <x>3091</x>
+      <y>352</y>
+      <w>1232</w>
+      <h>506</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;440.0;550.0;440.0;550.0;10.0;1100.0;10.0</additional_attributes>
@@ -782,32 +755,21 @@ fontsize=80</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1000</y>
-      <w>690</w>
-      <h>210</h>
+      <x>3091</x>
+      <y>1100</y>
+      <w>759</w>
+      <h>231</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;580.0;10.0;580.0;190.0;670.0;190.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>2810</x>
-      <y>440</y>
-      <w>750</w>
-      <h>450</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;430.0;580.0;430.0;580.0;10.0;730.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>550</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Dashboard
 </panel_attributes>
@@ -816,10 +778,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>330</y>
-      <w>100</w>
-      <h>30</h>
+      <x>737</x>
+      <y>363</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>CreateBooking</panel_attributes>
     <additional_attributes/>
@@ -827,10 +789,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>737</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Dashboard</panel_attributes>
     <additional_attributes/>
@@ -838,10 +800,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1380</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1518</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Help
 </panel_attributes>
@@ -850,10 +812,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1380</x>
-      <y>330</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1518</x>
+      <y>363</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Imprint</panel_attributes>
     <additional_attributes/>
@@ -861,10 +823,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1380</x>
-      <y>380</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1518</x>
+      <y>418</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Index</panel_attributes>
     <additional_attributes/>
@@ -872,10 +834,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>330</x>
-      <y>330</y>
-      <w>100</w>
-      <h>30</h>
+      <x>363</x>
+      <y>363</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>EditZone</panel_attributes>
     <additional_attributes/>
@@ -883,10 +845,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1020</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1122</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Cartemplates</panel_attributes>
     <additional_attributes/>
@@ -894,10 +856,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>330</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1298</x>
+      <y>363</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Create</panel_attributes>
     <additional_attributes/>
@@ -905,10 +867,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>850</x>
-      <y>330</y>
-      <w>100</w>
-      <h>30</h>
+      <x>935</x>
+      <y>363</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Evaluation</panel_attributes>
     <additional_attributes/>
@@ -916,10 +878,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>850</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>935</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>History</panel_attributes>
     <additional_attributes/>
@@ -927,10 +889,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1298</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Index</panel_attributes>
     <additional_attributes/>
@@ -938,10 +900,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>490</x>
-      <y>240</y>
-      <w>140</w>
-      <h>90</h>
+      <x>539</x>
+      <y>264</y>
+      <w>154</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>Admin
 --
@@ -951,10 +913,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>650</x>
-      <y>240</y>
-      <w>160</w>
-      <h>140</h>
+      <x>715</x>
+      <y>264</y>
+      <w>176</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>Booking
 --
@@ -964,10 +926,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>330</x>
-      <y>280</y>
-      <w>100</w>
-      <h>30</h>
+      <x>363</x>
+      <y>308</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>Index</panel_attributes>
     <additional_attributes/>
@@ -975,10 +937,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>280</x>
-      <y>190</y>
-      <w>1270</w>
-      <h>260</h>
+      <x>308</x>
+      <y>209</y>
+      <w>1397</w>
+      <h>286</h>
     </coordinates>
     <panel_attributes>Views
 --
@@ -988,10 +950,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1360</x>
-      <y>240</y>
-      <w>160</w>
-      <h>190</h>
+      <x>1496</x>
+      <y>264</y>
+      <w>176</w>
+      <h>209</h>
     </coordinates>
     <panel_attributes>Home
 --
@@ -1001,10 +963,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>830</x>
-      <y>240</y>
-      <w>510</w>
-      <h>140</h>
+      <x>913</x>
+      <y>264</y>
+      <w>561</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>Simulation
 --
@@ -1014,10 +976,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>310</x>
-      <y>240</y>
-      <w>160</w>
-      <h>140</h>
+      <x>341</x>
+      <y>264</y>
+      <w>176</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>Infrastructure
 --
@@ -1027,10 +989,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>300</y>
-      <w>1460</w>
-      <h>1080</h>
+      <x>594</x>
+      <y>330</y>
+      <w>1606</w>
+      <h>1188</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>1440.0;1060.0;10.0;1060.0;10.0;10.0</additional_attributes>
@@ -1038,10 +1000,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
-      <y>280</y>
-      <w>1240</w>
-      <h>940</h>
+      <x>836</x>
+      <y>308</y>
+      <w>1364</w>
+      <h>1034</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>1220.0;920.0;30.0;920.0;30.0;10.0;10.0;10.0</additional_attributes>
@@ -1049,10 +1011,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
-      <y>330</y>
-      <w>50</w>
-      <h>30</h>
+      <x>836</x>
+      <y>363</y>
+      <w>55</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;30.0;10.0</additional_attributes>
@@ -1060,10 +1022,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1470</x>
-      <y>280</y>
-      <w>530</w>
-      <h>400</h>
+      <x>1617</x>
+      <y>308</y>
+      <w>583</w>
+      <h>440</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>510.0;380.0;30.0;380.0;30.0;10.0;10.0;10.0</additional_attributes>
@@ -1071,10 +1033,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1470</x>
-      <y>330</y>
-      <w>50</w>
-      <h>30</h>
+      <x>1617</x>
+      <y>363</y>
+      <w>55</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>30.0;10.0;10.0;10.0</additional_attributes>
@@ -1082,10 +1044,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1470</x>
-      <y>380</y>
-      <w>50</w>
-      <h>30</h>
+      <x>1617</x>
+      <y>418</y>
+      <w>55</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>30.0;10.0;10.0;10.0</additional_attributes>
@@ -1093,10 +1055,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
-      <y>330</y>
-      <w>50</w>
-      <h>30</h>
+      <x>462</x>
+      <y>363</y>
+      <w>55</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>30.0;10.0;10.0;10.0</additional_attributes>
@@ -1104,10 +1066,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
-      <y>280</y>
-      <w>1580</w>
-      <h>1200</h>
+      <x>462</x>
+      <y>308</y>
+      <w>1738</w>
+      <h>1320</h>
     </coordinates>
     <panel_attributes>lt=-
 </panel_attributes>
@@ -1116,10 +1078,10 @@ bg=#220088</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1930</x>
-      <y>110</y>
-      <w>340</w>
-      <h>340</h>
+      <x>2123</x>
+      <y>121</y>
+      <w>374</w>
+      <h>374</h>
     </coordinates>
     <panel_attributes>ViewModels
 --
@@ -1129,10 +1091,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>1180</y>
-      <w>240</w>
-      <h>140</h>
+      <x>2178</x>
+      <y>1298</y>
+      <w>264</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>+ BookingController
 --
@@ -1149,10 +1111,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>1330</y>
-      <w>240</w>
-      <h>50</h>
+      <x>2178</x>
+      <y>1463</y>
+      <w>264</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>+ AdminController
 --
@@ -1163,10 +1125,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>640</y>
-      <w>240</w>
-      <h>90</h>
+      <x>2178</x>
+      <y>704</y>
+      <w>264</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>+ HomeController
 --
@@ -1180,10 +1142,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>1430</y>
-      <w>240</w>
-      <h>100</h>
+      <x>2178</x>
+      <y>1573</y>
+      <w>264</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>+ InfrastructureController
 --
@@ -1198,10 +1160,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>910</y>
-      <w>240</w>
-      <h>90</h>
+      <x>2178</x>
+      <y>1001</y>
+      <w>264</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>+ VehicleController
 --
@@ -1214,10 +1176,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>760</y>
-      <w>240</w>
-      <h>100</h>
+      <x>2178</x>
+      <y>836</y>
+      <w>264</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>+ EvaluationController
 --
@@ -1232,10 +1194,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>1030</y>
-      <w>240</w>
-      <h>100</h>
+      <x>2178</x>
+      <y>1133</y>
+      <w>264</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>+ SimulationController
 --
@@ -1250,10 +1212,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>1090</y>
-      <w>270</w>
-      <h>100</h>
+      <x>2805</x>
+      <y>1199</y>
+      <w>297</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IScenario
@@ -1267,10 +1229,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>730</y>
-      <w>270</w>
-      <h>70</h>
+      <x>2805</x>
+      <y>803</y>
+      <w>297</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IEvaluation
@@ -1282,10 +1244,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>950</y>
-      <w>270</w>
-      <h>100</h>
+      <x>2805</x>
+      <y>1045</y>
+      <w>297</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IVehicle</panel_attributes>
@@ -1294,10 +1256,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>1230</y>
-      <w>270</w>
-      <h>40</h>
+      <x>2805</x>
+      <y>1353</y>
+      <w>297</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IBooking</panel_attributes>
@@ -1306,24 +1268,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>840</y>
-      <w>270</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-+ IAnalyser
---
-+ createSuggestion(evaluation: Evaluation) : bool</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1350</x>
-      <y>2020</y>
-      <w>150</w>
-      <h>70</h>
+      <x>1485</x>
+      <y>2222</y>
+      <w>165</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IBookingRepository
@@ -1335,10 +1283,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>770</x>
-      <y>2020</y>
-      <w>140</w>
-      <h>70</h>
+      <x>847</x>
+      <y>2222</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IVehicleRepository
@@ -1350,10 +1298,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1060</x>
-      <y>2020</y>
-      <w>140</w>
-      <h>70</h>
+      <x>1166</x>
+      <y>2222</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IScenarioRepository
@@ -1365,10 +1313,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
-      <y>2020</y>
-      <w>140</w>
-      <h>70</h>
+      <x>528</x>
+      <y>2222</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IHistoryRepository
@@ -1380,10 +1328,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1360</x>
-      <y>1800</y>
-      <w>150</w>
-      <h>70</h>
+      <x>1496</x>
+      <y>1980</y>
+      <w>165</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IBookingService
@@ -1395,10 +1343,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>770</x>
-      <y>1800</y>
-      <w>140</w>
-      <h>70</h>
+      <x>847</x>
+      <y>1980</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IVehicleService
@@ -1410,10 +1358,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1060</x>
-      <y>1800</y>
-      <w>140</w>
-      <h>70</h>
+      <x>1166</x>
+      <y>1980</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IScenarioService
@@ -1425,10 +1373,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
-      <y>1800</y>
-      <w>140</w>
-      <h>70</h>
+      <x>528</x>
+      <y>1980</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IHistoryService
@@ -1440,10 +1388,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1430</x>
-      <y>1860</y>
-      <w>30</w>
-      <h>180</h>
+      <x>1573</x>
+      <y>2046</y>
+      <w>33</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
@@ -1451,10 +1399,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
-      <y>1860</y>
-      <w>30</w>
-      <h>180</h>
+      <x>924</x>
+      <y>2046</y>
+      <w>33</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
@@ -1462,10 +1410,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1130</x>
-      <y>1860</y>
-      <w>30</w>
-      <h>180</h>
+      <x>1243</x>
+      <y>2046</y>
+      <w>33</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
@@ -1473,10 +1421,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>550</x>
-      <y>1860</y>
-      <w>30</w>
-      <h>180</h>
+      <x>605</x>
+      <y>2046</y>
+      <w>33</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
@@ -1484,10 +1432,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1220</x>
-      <y>2020</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1342</x>
+      <y>2222</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ BookingRepository</panel_attributes>
     <additional_attributes/>
@@ -1495,10 +1443,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1310</x>
-      <y>2020</y>
-      <w>60</w>
-      <h>30</h>
+      <x>1441</x>
+      <y>2222</y>
+      <w>66</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
@@ -1506,10 +1454,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1230</x>
-      <y>1930</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1353</x>
+      <y>2123</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ BookingService</panel_attributes>
     <additional_attributes/>
@@ -1517,10 +1465,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1320</x>
-      <y>1860</y>
-      <w>120</w>
-      <h>100</h>
+      <x>1452</x>
+      <y>2046</y>
+      <w>132</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;100.0;80.0;10.0;80.0</additional_attributes>
@@ -1528,10 +1476,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1260</x>
-      <y>1950</y>
-      <w>30</w>
-      <h>90</h>
+      <x>1386</x>
+      <y>2145</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1539,10 +1487,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>2020</y>
-      <w>100</w>
-      <h>30</h>
+      <x>704</x>
+      <y>2222</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ VehicleRepository</panel_attributes>
     <additional_attributes/>
@@ -1550,10 +1498,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>730</x>
-      <y>2020</y>
-      <w>60</w>
-      <h>30</h>
+      <x>803</x>
+      <y>2222</y>
+      <w>66</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
@@ -1561,10 +1509,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>1930</y>
-      <w>100</w>
-      <h>30</h>
+      <x>704</x>
+      <y>2123</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ VehicleService</panel_attributes>
     <additional_attributes/>
@@ -1572,10 +1520,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>680</x>
-      <y>1950</y>
-      <w>30</w>
-      <h>90</h>
+      <x>748</x>
+      <y>2145</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1583,10 +1531,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>2020</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1023</x>
+      <y>2222</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ ScenarioRepository</panel_attributes>
     <additional_attributes/>
@@ -1594,10 +1542,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1020</x>
-      <y>2020</y>
-      <w>60</w>
-      <h>30</h>
+      <x>1122</x>
+      <y>2222</y>
+      <w>66</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
@@ -1605,10 +1553,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
-      <y>1950</y>
-      <w>30</w>
-      <h>90</h>
+      <x>1067</x>
+      <y>2145</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1616,10 +1564,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>1930</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1023</x>
+      <y>2123</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ ScenarioService</panel_attributes>
     <additional_attributes/>
@@ -1627,10 +1575,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>730</x>
-      <y>1860</y>
-      <w>120</w>
-      <h>100</h>
+      <x>803</x>
+      <y>2046</y>
+      <w>132</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;100.0;80.0;10.0;80.0</additional_attributes>
@@ -1638,10 +1586,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1020</x>
-      <y>1860</y>
-      <w>120</w>
-      <h>100</h>
+      <x>1122</x>
+      <y>2046</y>
+      <w>132</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;100.0;80.0;10.0;80.0</additional_attributes>
@@ -1649,10 +1597,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>2020</y>
-      <w>100</w>
-      <h>30</h>
+      <x>385</x>
+      <y>2222</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ HistoryRepository</panel_attributes>
     <additional_attributes/>
@@ -1660,10 +1608,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>2020</y>
-      <w>60</w>
-      <h>30</h>
+      <x>484</x>
+      <y>2222</y>
+      <w>66</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
@@ -1671,10 +1619,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>1930</y>
-      <w>100</w>
-      <h>30</h>
+      <x>385</x>
+      <y>2123</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ HistoryService</panel_attributes>
     <additional_attributes/>
@@ -1682,10 +1630,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>1860</y>
-      <w>120</w>
-      <h>100</h>
+      <x>484</x>
+      <y>2046</y>
+      <w>132</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;100.0;80.0;10.0;80.0</additional_attributes>
@@ -1693,10 +1641,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
-      <y>1950</y>
-      <w>30</w>
-      <h>90</h>
+      <x>429</x>
+      <y>2145</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1704,10 +1652,10 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>270</x>
-      <y>1900</y>
-      <w>1550</w>
-      <h>240</h>
+      <x>297</x>
+      <y>2090</y>
+      <w>1705</w>
+      <h>264</h>
     </coordinates>
     <panel_attributes>Storage
 --
@@ -1718,10 +1666,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
-      <y>1950</y>
-      <w>30</w>
-      <h>90</h>
+      <x>1716</x>
+      <y>2145</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1729,10 +1677,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1520</x>
-      <y>2020</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1672</x>
+      <y>2222</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ LocationRepository</panel_attributes>
     <additional_attributes/>
@@ -1740,10 +1688,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1520</x>
-      <y>1930</y>
-      <w>100</w>
-      <h>30</h>
+      <x>1672</x>
+      <y>2123</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>+ LocationService</panel_attributes>
     <additional_attributes/>
@@ -1751,10 +1699,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1610</x>
-      <y>1860</y>
-      <w>120</w>
-      <h>100</h>
+      <x>1771</x>
+      <y>2046</y>
+      <w>132</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;100.0;80.0;10.0;80.0</additional_attributes>
@@ -1762,10 +1710,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1650</x>
-      <y>1800</y>
-      <w>140</w>
-      <h>70</h>
+      <x>1815</x>
+      <y>1980</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ILocationService
@@ -1777,10 +1725,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1720</x>
-      <y>1860</y>
-      <w>30</w>
-      <h>180</h>
+      <x>1892</x>
+      <y>2046</y>
+      <w>33</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
@@ -1788,10 +1736,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1650</x>
-      <y>2020</y>
-      <w>140</w>
-      <h>70</h>
+      <x>1815</x>
+      <y>2222</y>
+      <w>154</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ILocationRepository
@@ -1803,10 +1751,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1610</x>
-      <y>2020</y>
-      <w>60</w>
-      <h>30</h>
+      <x>1771</x>
+      <y>2222</y>
+      <w>66</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
@@ -1814,10 +1762,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2210</x>
-      <y>1040</y>
-      <w>360</w>
-      <h>130</h>
+      <x>2431</x>
+      <y>1144</y>
+      <w>396</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
     <additional_attributes>340.0;110.0;280.0;110.0;280.0;10.0;10.0;10.0</additional_attributes>
@@ -1825,10 +1773,21 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2210</x>
-      <y>790</y>
-      <w>360</w>
-      <h>100</h>
+      <x>2431</x>
+      <y>825</y>
+      <w>396</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>340.0;10.0;280.0;10.0;280.0;50.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2431</x>
+      <y>1012</y>
+      <w>396</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
     <additional_attributes>340.0;80.0;280.0;80.0;280.0;10.0;10.0;10.0</additional_attributes>
@@ -1836,21 +1795,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2210</x>
-      <y>920</y>
-      <w>360</w>
-      <h>100</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
-    <additional_attributes>340.0;80.0;280.0;80.0;280.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>2210</x>
-      <y>1230</y>
-      <w>300</w>
-      <h>140</h>
+      <x>2431</x>
+      <y>1353</y>
+      <w>330</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
     <additional_attributes>280.0;10.0;280.0;120.0;10.0;120.0</additional_attributes>
@@ -1858,10 +1806,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2210</x>
-      <y>1190</y>
-      <w>360</w>
-      <h>70</h>
+      <x>2431</x>
+      <y>1309</y>
+      <w>396</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;280.0;10.0;280.0;50.0;340.0;50.0</additional_attributes>
@@ -1869,21 +1817,21 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2480</x>
-      <y>750</y>
-      <w>90</w>
-      <h>70</h>
+      <x>2673</x>
+      <y>748</y>
+      <w>99</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>70.0;10.0;20.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2210</x>
-      <y>1410</y>
-      <w>360</w>
-      <h>60</h>
+      <x>2431</x>
+      <y>1551</y>
+      <w>396</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
     <additional_attributes>340.0;10.0;280.0;10.0;280.0;40.0;10.0;40.0</additional_attributes>
@@ -1891,10 +1839,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2550</x>
-      <y>1300</y>
-      <w>270</w>
-      <h>150</h>
+      <x>2805</x>
+      <y>1430</y>
+      <w>297</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ILocation
@@ -1908,10 +1856,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1120</x>
-      <y>1060</y>
-      <w>880</w>
-      <h>760</h>
+      <x>1232</x>
+      <y>1166</y>
+      <w>968</w>
+      <h>836</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;740.0;10.0;680.0;560.0;680.0;560.0;10.0;860.0;10.0</additional_attributes>
@@ -1919,10 +1867,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>780</y>
-      <w>1460</w>
-      <h>1040</h>
+      <x>594</x>
+      <y>858</y>
+      <w>1606</w>
+      <h>1144</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;1020.0;10.0;920.0;1100.0;920.0;1100.0;10.0;1440.0;10.0</additional_attributes>
@@ -1930,10 +1878,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>830</x>
-      <y>940</y>
-      <w>1170</w>
-      <h>880</h>
+      <x>913</x>
+      <y>1034</y>
+      <w>1287</w>
+      <h>968</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;860.0;10.0;780.0;830.0;780.0;830.0;10.0;1150.0;10.0</additional_attributes>
@@ -1941,10 +1889,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1710</x>
-      <y>1460</y>
-      <w>290</w>
-      <h>360</h>
+      <x>1881</x>
+      <y>1606</y>
+      <w>319</w>
+      <h>396</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;340.0;10.0;10.0;270.0;10.0</additional_attributes>
@@ -1952,10 +1900,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1430</x>
-      <y>1360</y>
-      <w>570</w>
-      <h>460</h>
+      <x>1573</x>
+      <y>1496</y>
+      <w>627</w>
+      <h>506</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;440.0;10.0;400.0;270.0;400.0;270.0;10.0;550.0;10.0</additional_attributes>
@@ -1963,10 +1911,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
-      <y>1440</y>
-      <w>30</w>
-      <h>380</h>
+      <x>2948</x>
+      <y>1584</y>
+      <w>33</w>
+      <h>418</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;360.0</additional_attributes>
@@ -1974,10 +1922,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3740</x>
-      <y>1790</y>
-      <w>220</w>
-      <h>190</h>
+      <x>4114</x>
+      <y>1969</y>
+      <w>242</w>
+      <h>209</h>
     </coordinates>
     <panel_attributes>+ Booking
 --
@@ -1991,17 +1939,17 @@ bg=#1E90FF
 - station: Station [0..1]
 - active: bool=false
 - priority: UserType
-- location: Location
+- location: ILocation
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3740</x>
-      <y>2210</y>
-      <w>210</w>
-      <h>100</h>
+      <x>4114</x>
+      <y>2431</y>
+      <w>231</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>+ Schedule
 --
@@ -2016,16 +1964,16 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4090</x>
-      <y>2040</y>
-      <w>180</w>
-      <h>140</h>
+      <x>4499</x>
+      <y>2244</y>
+      <w>198</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>+ Distributor
 --
 - schedule: Schedule
 - strategy: IDistributionStrategy
-- puffer: int {&gt;= 0}
+- buffer: int {&gt;= 0}
 - filter: BookingLocationFilter
 --
 + run(): bool
@@ -2035,13 +1983,15 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4030</x>
-      <y>1790</y>
-      <w>250</w>
-      <h>40</h>
+      <x>4433</x>
+      <y>1969</y>
+      <w>275</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>+ AdHoc
 --
++ AdHoc()
++ AdHoc(distribute: bool)
 + triggerBookingDistribution(): bool
 
 </panel_attributes>
@@ -2050,10 +2000,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3950</x>
-      <y>1800</y>
-      <w>100</w>
-      <h>30</h>
+      <x>4345</x>
+      <y>1980</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -2061,10 +2011,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>5040</x>
-      <y>2150</y>
-      <w>370</w>
-      <h>60</h>
+      <x>5544</x>
+      <y>2365</y>
+      <w>407</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>+ Messenger
 --
@@ -2077,10 +2027,10 @@ bg=#1E90FF
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4960</x>
-      <y>2010</y>
-      <w>100</w>
-      <h>30</h>
+      <x>5456</x>
+      <y>2211</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -2088,10 +2038,10 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4690</x>
-      <y>1990</y>
-      <w>280</w>
-      <h>60</h>
+      <x>5159</x>
+      <y>2189</y>
+      <w>308</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + INotificationListener
@@ -2102,10 +2052,10 @@ bg=#1E90FF
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>5020</x>
-      <y>1940</y>
-      <w>710</w>
-      <h>300</h>
+      <x>5522</x>
+      <y>2134</y>
+      <w>781</w>
+      <h>330</h>
     </coordinates>
     <panel_attributes>Communication
 --
@@ -2115,10 +2065,10 @@ bg=#ffcd74</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>3700</x>
-      <y>1750</y>
-      <w>940</w>
-      <h>670</h>
+      <x>4070</x>
+      <y>1925</y>
+      <w>1034</w>
+      <h>737</h>
     </coordinates>
     <panel_attributes>Administration
 --
@@ -2128,10 +2078,10 @@ bg=#ffca7b</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4030</x>
-      <y>1860</y>
-      <w>250</w>
-      <h>120</h>
+      <x>4433</x>
+      <y>2079</y>
+      <w>275</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ DistributionTimer
 --
@@ -2144,10 +2094,10 @@ bg=#ffca7b</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3840</x>
-      <y>1970</y>
-      <w>270</w>
-      <h>110</h>
+      <x>4224</x>
+      <y>2167</y>
+      <w>297</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 distributes ^</panel_attributes>
@@ -2156,10 +2106,10 @@ distributes ^</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3960</x>
-      <y>2210</y>
-      <w>340</w>
-      <h>60</h>
+      <x>4356</x>
+      <y>2431</y>
+      <w>374</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IDistributionStrategy
@@ -2170,10 +2120,10 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4160</x>
-      <y>2170</y>
-      <w>30</w>
-      <h>60</h>
+      <x>4576</x>
+      <y>2387</y>
+      <w>33</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
@@ -2181,10 +2131,10 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4290</x>
-      <y>2220</y>
-      <w>80</w>
-      <h>150</h>
+      <x>4719</x>
+      <y>2442</y>
+      <w>88</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;60.0;10.0;60.0;130.0;10.0;130.0</additional_attributes>
@@ -2192,10 +2142,10 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4290</x>
-      <y>2240</y>
-      <w>60</w>
-      <h>80</h>
+      <x>4719</x>
+      <y>2464</y>
+      <w>66</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;40.0;10.0;40.0;60.0;10.0;60.0</additional_attributes>
@@ -2203,10 +2153,10 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3960</x>
-      <y>2280</y>
-      <w>340</w>
-      <h>40</h>
+      <x>4356</x>
+      <y>2508</y>
+      <w>374</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>+ StandardDistribution
 --
@@ -2216,10 +2166,10 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3960</x>
-      <y>2330</y>
-      <w>340</w>
-      <h>40</h>
+      <x>4356</x>
+      <y>2563</y>
+      <w>374</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>+ AdHocDistribution
 --
@@ -2229,21 +2179,21 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4270</x>
-      <y>1620</y>
-      <w>130</w>
-      <h>310</h>
+      <x>4697</x>
+      <y>1782</y>
+      <w>143</w>
+      <h>374</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>50.0;10.0;110.0;10.0;110.0;290.0;10.0;290.0</additional_attributes>
+    <additional_attributes>50.0;10.0;110.0;10.0;110.0;320.0;10.0;320.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3840</x>
-      <y>1650</y>
-      <w>80</w>
-      <h>160</h>
+      <x>4224</x>
+      <y>1815</y>
+      <w>99</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 generates v
@@ -2254,10 +2204,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2810</x>
-      <y>1240</y>
-      <w>950</w>
-      <h>610</h>
+      <x>3091</x>
+      <y>1364</y>
+      <w>1045</w>
+      <h>671</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;520.0;10.0;520.0;590.0;930.0;590.0</additional_attributes>
@@ -2265,10 +2215,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1930</x>
-      <y>570</y>
-      <w>340</w>
-      <h>1120</h>
+      <x>2123</x>
+      <y>627</y>
+      <w>374</w>
+      <h>1232</h>
     </coordinates>
     <panel_attributes>Controller
 --
@@ -2279,10 +2229,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>940</x>
-      <y>280</y>
-      <w>1060</w>
-      <h>800</h>
+      <x>1034</x>
+      <y>308</y>
+      <w>1166</w>
+      <h>880</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>1040.0;780.0;30.0;780.0;30.0;10.0;10.0;10.0</additional_attributes>
@@ -2290,10 +2240,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1110</x>
-      <y>280</y>
-      <w>890</w>
-      <h>680</h>
+      <x>1221</x>
+      <y>308</y>
+      <w>979</w>
+      <h>748</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>870.0;660.0;30.0;660.0;30.0;10.0;10.0;10.0</additional_attributes>
@@ -2301,10 +2251,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1270</x>
-      <y>280</y>
-      <w>730</w>
-      <h>520</h>
+      <x>1397</x>
+      <y>308</y>
+      <w>803</w>
+      <h>572</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>710.0;500.0;30.0;500.0;30.0;10.0;10.0;10.0</additional_attributes>
@@ -2312,10 +2262,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>940</x>
-      <y>330</y>
-      <w>50</w>
-      <h>30</h>
+      <x>1034</x>
+      <y>363</y>
+      <w>55</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;30.0;10.0</additional_attributes>
@@ -2323,10 +2273,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1270</x>
-      <y>330</y>
-      <w>50</w>
-      <h>30</h>
+      <x>1397</x>
+      <y>363</y>
+      <w>55</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;30.0;10.0</additional_attributes>
@@ -2334,10 +2284,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>140</y>
-      <w>240</w>
-      <h>60</h>
+      <x>2178</x>
+      <y>154</y>
+      <w>264</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>BookingCreateViewModel
 --
@@ -2349,10 +2299,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>220</y>
-      <w>240</w>
-      <h>80</h>
+      <x>2178</x>
+      <y>242</y>
+      <w>264</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>ScenraioCreateViewModel
 --
@@ -2364,10 +2314,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>320</y>
-      <w>240</w>
-      <h>50</h>
+      <x>2178</x>
+      <y>352</y>
+      <w>264</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>DashboardViewModel
 --
@@ -2378,10 +2328,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>390</y>
-      <w>240</w>
-      <h>40</h>
+      <x>2178</x>
+      <y>429</y>
+      <w>264</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>FileViewModel
 --
@@ -2391,10 +2341,10 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1900</x>
+      <x>2090</x>
       <y>0</y>
-      <w>470</w>
-      <h>160</h>
+      <w>517</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>ViewModel
 style=wordwrap
@@ -2404,10 +2354,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1820</x>
-      <y>140</y>
-      <w>180</w>
-      <h>1120</h>
+      <x>2002</x>
+      <y>154</y>
+      <w>198</w>
+      <h>1232</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>160.0;1100.0;10.0;1100.0;10.0;10.0;160.0;10.0</additional_attributes>
@@ -2415,10 +2365,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1840</x>
-      <y>220</y>
-      <w>160</w>
-      <h>890</h>
+      <x>2024</x>
+      <y>242</y>
+      <w>176</w>
+      <h>979</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>140.0;870.0;10.0;870.0;10.0;10.0;140.0;10.0</additional_attributes>
@@ -2426,10 +2376,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1860</x>
-      <y>320</y>
-      <w>140</w>
-      <h>1040</h>
+      <x>2046</x>
+      <y>352</y>
+      <w>154</w>
+      <h>1144</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>120.0;1020.0;10.0;1020.0;10.0;10.0;120.0;10.0</additional_attributes>
@@ -2437,10 +2387,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1880</x>
-      <y>340</y>
-      <w>120</w>
-      <h>940</h>
+      <x>2068</x>
+      <y>374</y>
+      <w>132</w>
+      <h>1034</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>100.0;920.0;10.0;920.0;10.0;10.0;100.0;10.0</additional_attributes>
@@ -2448,10 +2398,10 @@ fontsize=80</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>2460</x>
-      <y>270</y>
-      <w>240</w>
-      <h>270</h>
+      <x>2706</x>
+      <y>297</y>
+      <w>264</w>
+      <h>297</h>
     </coordinates>
     <panel_attributes>User
 --
@@ -2461,10 +2411,10 @@ bg=#ffBB99</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2480</x>
-      <y>310</y>
-      <w>200</w>
-      <h>60</h>
+      <x>2728</x>
+      <y>341</y>
+      <w>220</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>_+ IdentityProvider_
 --
@@ -2476,10 +2426,10 @@ _+ getUserType(email: string) :UserType_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2520</x>
-      <y>430</y>
-      <w>130</w>
-      <h>100</h>
+      <x>2772</x>
+      <y>473</y>
+      <w>143</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>&lt;&lt;enum&gt;&gt;
 UserType
@@ -2494,10 +2444,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2580</x>
-      <y>360</y>
-      <w>30</w>
-      <h>90</h>
+      <x>2838</x>
+      <y>396</y>
+      <w>33</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -2505,10 +2455,10 @@ PLANER</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3740</x>
-      <y>2100</y>
-      <w>280</w>
-      <h>80</h>
+      <x>4114</x>
+      <y>2310</y>
+      <w>308</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>+ BookingLocationFilter
 --
@@ -2521,10 +2471,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4010</x>
-      <y>2120</y>
-      <w>100</w>
-      <h>30</h>
+      <x>4411</x>
+      <y>2332</y>
+      <w>110</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
@@ -2532,10 +2482,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4140</x>
-      <y>1650</y>
-      <w>30</w>
-      <h>160</h>
+      <x>4554</x>
+      <y>1815</y>
+      <w>33</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
@@ -2543,10 +2493,10 @@ PLANER</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>5040</x>
-      <y>1980</y>
-      <w>370</w>
-      <h>120</h>
+      <x>5544</x>
+      <y>2178</y>
+      <w>407</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ BookingStatusNotification
 --
@@ -2563,10 +2513,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>5220</x>
-      <y>2090</y>
-      <w>80</w>
-      <h>80</h>
+      <x>5742</x>
+      <y>2299</y>
+      <w>88</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 - messenger</panel_attributes>
@@ -2575,10 +2525,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3850</x>
-      <y>2150</y>
-      <w>700</w>
-      <h>260</h>
+      <x>4235</x>
+      <y>2365</y>
+      <w>770</w>
+      <h>286</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 - notificationManager</panel_attributes>
@@ -2587,10 +2537,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4520</x>
-      <y>2010</y>
-      <w>190</w>
-      <h>90</h>
+      <x>4972</x>
+      <y>2211</y>
+      <w>209</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0;170.0;10.0</additional_attributes>
@@ -2598,10 +2548,10 @@ PLANER</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4390</x>
-      <y>2080</y>
-      <w>220</w>
-      <h>80</h>
+      <x>4829</x>
+      <y>2288</y>
+      <w>242</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>+ NotificationManager
 --
@@ -2614,10 +2564,10 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4260</x>
-      <y>2080</y>
-      <w>150</w>
-      <h>40</h>
+      <x>4686</x>
+      <y>2288</y>
+      <w>165</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 - notificationManager</panel_attributes>
@@ -2626,10 +2576,10 @@ PLANER</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1980</x>
-      <y>1560</y>
-      <w>240</w>
-      <h>100</h>
+      <x>2178</x>
+      <y>1716</y>
+      <w>264</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>_+ CacheKeys_
 --
@@ -2643,10 +2593,10 @@ _+ Location: string_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3800</x>
-      <y>1600</y>
-      <w>260</w>
-      <h>60</h>
+      <x>4180</x>
+      <y>1760</y>
+      <w>286</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IGenerator
@@ -2657,10 +2607,10 @@ _+ Location: string_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>5430</x>
-      <y>1980</y>
-      <w>250</w>
-      <h>80</h>
+      <x>5973</x>
+      <y>2178</y>
+      <w>275</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>_+ NotificationEvent_
 --
@@ -2669,5 +2619,233 @@ _+ DECLINED: string_
 _+ CHECKIN: string_
 _+ CHECKOUT: string_</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>4895</x>
+      <y>286</y>
+      <w>363</w>
+      <h>187</h>
+    </coordinates>
+    <panel_attributes>*Hinweise zur Implementierung der Historie-Komponente*
+bg=green
+-
+
+*1. Eingabedaten*
+(Aus IEvaluatable)
+
+- Location workload		[LW]
+- Station workload
+- Fulfilled requests		[FR]
+- Declined requests		[DR]
+- Bookings
+- Location
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>4895</x>
+      <y>1034</y>
+      <w>407</w>
+      <h>341</h>
+    </coordinates>
+    <panel_attributes>*Zu AdHoc Buchungen in der Simulation...*
+bg=green
+-
+
+-	Eventuell die Simulation mit Adhoc Buchungen
+	vertraut machen. 
+
+	1. Generieren von Adhoc Buchungen
+		Lösung: 	Bei VIPs wird gewürfelt, ob es sich um eine
+					Adhoc Buchung handelt.
+*Generator kriegt Variable probabilityAdhoc*
+
+	2. Check-In/Out müssten entsprechend behandelt werden
+		Lösung:	Buchungen auf active setzen.
+*Buchungen auf active setzen.*
+*Buchungen auf active setzen!*
+*BUCHUNGEN AUF ACTIVE SETZEN!!!*
+
+	3. Wie werden Adhoc Buchungen verteilt?
+		Lösung:	Werden rausgefiltert und am entsprechenden
+		Tag mit triggerAdHocDistribution() verteilt.
+
+	4. Adhoc Buchung darf sich im Simulationfall nicht verteilen
+		Lösung: Adhoc Buchung braucht, Parameter ob sie 
+		automatisch verteilt werden soll</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>4895</x>
+      <y>495</y>
+      <w>363</w>
+      <h>385</h>
+    </coordinates>
+    <panel_attributes>*3. Ausgabedaten*
+bg=green
+-
+
+- Booking Success Rate [BS] in [%]
+  BS = FR / (FR + DR) * 100
+  Typ: Balkendiagramm
+
+- Unnecessary Workload [UW] in [%]    // Entfernbar
+  UW = (100 - max(LW))
+  Typ: Balkendiagramm
+
+- Necessary Workload [NW] in [%]    // Erweiterung
+  NW = (1 - BS) 
+  Typ: Balkendiagramm
+
+- CCS-Buchungen / Type-2-Buchungen
+  Typ: Kreisdiagramm
+
+- Abgelehnte CCS Buchungen / Abgelehnte Type-2 Buchungen
+  Typ: Kreisdiagramm
+
+- Expand Infracstructure Suggestion [0..1]
+- Condense Infrastructure Suggestion [0..1]
+
+- Station workload
+  Typ: Graph
+- Location workload
+  Typ: Graph
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>5291</x>
+      <y>286</y>
+      <w>374</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>*2. Vorschläge generieren*
+bg=green
+-
+
+Schwellenwert - Untere Schranke [US] - Obere Schranke [OS]
+
+*Analyzer*
+Fall 1:	BS &lt; US =&gt; Mehr Ladeinfrastruktur
+	Workload wird ausgegeben
+	
+Fall 2:	BS &gt; OS =&gt; Weniger Ladeinfrastruktur
+	Unnecessary Workload wird ausgegeben
+
+Fall 3:	US &lt;= BS &lt;= OS =&gt; Ladeinfrastruktur passt
+	Keine Details werden angegeben
+
+*Erstelle Expand Infrastructure Suggestion*
+	1. Zusätzliche Stationen: Stationen * NW
+	2. Verteile zustätzlich Stationen auf bestehende Zonen, 
+		bis die Leistung nich mehr genügt
+	3. Verteile die restlichen Stationen auf neue Zone/n
+
+*Erstelle Condense Infrastructure Suggestion*
+	Gegenteil von dem davor [Wir können nicht alles für euch machen]
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>5291</x>
+      <y>638</y>
+      <w>363</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>*TO-DO*
+bg=green
+-
+- Vorschläge für Adhoc-Buchungen</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4092</x>
+      <y>792</y>
+      <w>187</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>+ CondenseInfrastructureSuggestion</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4180</x>
+      <y>737</y>
+      <w>33</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3828</x>
+      <y>528</y>
+      <w>583</w>
+      <h>418</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+analyzes</panel_attributes>
+    <additional_attributes>510.0;360.0;10.0;360.0;10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>3894</x>
+      <y>385</y>
+      <w>253</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=green
+-
+Die ganzen Felder z. B. DR, FR, LW, UW usw.
+sind lokale Felder der analyze()-Methode.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>4895</x>
+      <y>1452</y>
+      <w>220</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>*Zu Punkt 3*
+bg=green
+-
+Pseudocode zu Simulation.init()
+
+1. if scenario.bookings.Count() == 0:
+2.    generate...\
+3. adhoc = scenario.bookings.filterAdhoc()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5104</x>
+      <y>1276</y>
+      <w>154</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;120.0;10.0;120.0;180.0;10.0;180.0</additional_attributes>
   </element>
 </diagram>
