@@ -40,7 +40,7 @@ namespace Sopro.Models.Administration
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Booking distribution service is running.");
-            DateTime nextHour = new DateTime(0, 0, 0, DateTime.Now.Hour + 1, 0, 0);
+            DateTime nextHour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour + 1, 0, 0);
             TimeSpan startTime = nextHour.Subtract(DateTime.Now);
             _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromHours(1));
 
