@@ -40,6 +40,7 @@ namespace UnitTests.Simulation
             {
                 Console.Out.WriteLine(item);
             }
+            
             Assert.IsTrue(result.Count() == result.Distinct().Count());
         }
 
