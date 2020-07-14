@@ -26,7 +26,7 @@ namespace Sopro.Controllers
         {
             var role = IdentityProvider.getUserPriority(email);
             HttpContext.Session.SetString("email", email);
-            HttpContext.Session.SetString("role", role.ToString);
+            HttpContext.Session.SetString("role", role.ToString());
             if (role != UserType.PLANER)
             {
                 return RedirectToAction("Index", "Booking");

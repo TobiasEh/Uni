@@ -16,7 +16,7 @@ namespace Sopro.Models.Communication
         }
         /* Method for sending an Email to spezific user
          */
-        public void sendMessage(String message, String user)
+        public void sendMessage(string message, string user)
         {
             var finalMessage = new MimeMessage();
             finalMessage.From.Add(new MailboxAddress("Ladesäulensystem MHP", "SoProSender@outlook.de"));

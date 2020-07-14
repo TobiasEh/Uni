@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Sopro.Models.User
 {
-    public class IdentityProvider : IServiceIdentityProvider
+    public static class IdentityProvider
     {
-        public string path { get; set; }
+        public static string path { get; set; }
 
 
-        public UserType getUserPriority(string email)
+        public static UserType getUserPriority(string email)
         {
             List <User> userList = new List<User>();
             JsonSerializerOptions options;

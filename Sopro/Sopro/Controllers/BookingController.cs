@@ -11,6 +11,8 @@ using System.Diagnostics.Eventing.Reader;
 using Sopro.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
+using Sopro.Models.Administration;
+using Sopro.Interfaces.AdministrationController;
 
 namespace Sopro.Controllers
 {
@@ -35,17 +37,17 @@ namespace Sopro.Controllers
             var userID = this.HttpContext.Session.GetString("ID");
             if (userID.Equals(UserType.PLANER))
             {
-                List<IBooking> unscheduledBookings = new List<IBooking>();
-                List<IBooking> scheduledBookings = new List<IBooking>();
+                List<Booking> unscheduledBookings = new List<Booking>();
+                List<Booking> scheduledBookings = new List<Booking>();
                 foreach (IBooking item in bookings)
                 {
                     if (item.station == null)
                     {
-                        unscheduledBookings.Add(item);
+                        unscheduledBookings.Add((Booking)item);
                     }
                     else if (item.station != null)
                     {
-                        scheduledBookings.Add(item);
+                        scheduledBookings.Add((Booking)item);
                     }
                 }
                 return RedirectToAction("Dashboard", "Admin", new DashboardViewModel(scheduledBookings, unscheduledBookings));
@@ -61,7 +63,7 @@ namespace Sopro.Controllers
         public IActionResult Create()
         {
             var cacheKey = CacheKeys.LOCATION;
-            List<ILocation> locations = cache.Get(cacheKey);
+            List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
             return View("Create", new BookingCreateViewModel(locations, new Booking()));           
         }
 
@@ -124,7 +126,7 @@ namespace Sopro.Controllers
             var cacheKey = CacheKeys.BOOKING;
 
             int index = bookings.IndexOf(booking);
-            booking.location.schedule.toggleCheck(booking);
+            booking.location.schedule.toggleCheck((Booking)booking);
             bookings[index].active = !bookings[index].active;
 
             cache.Set(cacheKey, bookings);

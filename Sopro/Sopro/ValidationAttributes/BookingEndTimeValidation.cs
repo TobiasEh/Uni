@@ -9,17 +9,18 @@ namespace Sopro.ValidationAttributes
 {
     public class BookingEndTimeValidation : ValidationAttribute
     {
-        private Booking booking;
-        public override bool IsValid(object value)
+        private DateTime startTime;
+        private DateTime endTime;
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var starttime = booking.startTime;
-            DateTime time = Convert.ToDateTime(value);
-            if (time > starttime)
-            {
-                return true;
-            }
+            var property = validationContext.ObjectType.GetProperty("startTime");
+            startTime = Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null));
+            endTime = Convert.ToDateTime(value);
+            if (endTime > startTime)
+                return ValidationResult.Success;
             else
-                return false;
+                return new ValidationResult("ErrorEndTime", new List<string>() { "endTime" });
         }
     }
 }

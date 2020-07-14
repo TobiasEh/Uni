@@ -1,5 +1,6 @@
 ﻿using Sopro.Interfaces.CommunicationAdministration;
 using Sopro.Models.Administration;
+using Sopro.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,12 @@ namespace Sopro.Models.Communication
 {
     public class BookingsStatusNotification : INotificationListener
     {
-        private List<String> commands { get; set; }
+        private List<string> commands { get; set; }
         private Messenger messenger;
         public BookingsStatusNotification()
         {
             messenger = new Messenger();
-            commands = new List<String>();
+            commands = new List<string>();
             //Indize:
             //0
             commands.Add("Ihre Buchung im Büro {0} mit den Daten:" +
@@ -55,7 +56,7 @@ namespace Sopro.Models.Communication
          */
         public void update(Booking booking, string eventName)
         {
-            String message;
+            string message;
             if (eventName.Equals(NotificationEvent.ACCEPTED))
             {
                 message = generateMessageAccepted(booking);
@@ -80,31 +81,36 @@ namespace Sopro.Models.Communication
 
         /* Methode gererates String message for accepting a booking.
          */
-        private String generateMessageAccepted(Booking booking)
+        private string generateMessageAccepted(Booking booking)
         {
-            String message = String.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(1) + 
-                String.Format(commands.ElementAt(5), booking.startTime.ToString("dd.MM.yyyy"), booking.startTime.ToString("HH:mm:ss"), 
-                booking.endTime.ToString("dd.MM.yyyy"), booking.endTime.ToString("HH:mm:ss"), booking.station.id);
+            string site = "";
+            foreach (Zone item in booking.location.zones)
+            {
+                if (item.stations.Contains(booking.station))
+                    site = item.site.ToString();
+            } 
+            string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(1) + 
+                string.Format(commands.ElementAt(5), booking.startTime.ToString("dd.MM.yyyy"), booking.startTime.ToString("HH:mm:ss"), 
+                booking.endTime.ToString("dd.MM.yyyy"), booking.endTime.ToString("HH:mm:ss"), site);
             return message;
-
         }
 
         /* Methode gererates String message for declining a booking.
          */
-        private String generateMessageDeclined(Booking booking)
+        private string generateMessageDeclined(Booking booking)
         {
-            String message = String.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(2) +
-                String.Format(commands.ElementAt(6), booking.socStart, booking.socEnd, booking.startTime.ToString("dd.MM.yyyy HH:mm:ss"), 
+            string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(2) +
+                string.Format(commands.ElementAt(6), booking.socStart, booking.socEnd, booking.startTime.ToString("dd.MM.yyyy HH:mm:ss"), 
                 booking.endTime.ToString("dd.MM.yyyy HH:mm:ss"), booking.capacity);
             return message;
         }
 
         /* Methode gererates String message for checking in a booking.
          */
-        private String generateMessageCheckIn(Booking booking)
+        private string generateMessageCheckIn(Booking booking)
         {
-            String message = String.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3) +
-                String.Format(commands.ElementAt(7), booking.endTime.ToString("dd.MM.yyyy"), booking.endTime.ToString("HH:mm:ss"));
+            string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3) +
+                string.Format(commands.ElementAt(7), booking.endTime.ToString("dd.MM.yyyy"), booking.endTime.ToString("HH:mm:ss"));
             return message;
         }
 

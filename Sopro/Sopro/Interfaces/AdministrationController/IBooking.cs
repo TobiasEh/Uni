@@ -1,6 +1,10 @@
 ﻿using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
 using System;
+<<<<<<< HEAD
+=======
+using System;
+>>>>>>> dev
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
