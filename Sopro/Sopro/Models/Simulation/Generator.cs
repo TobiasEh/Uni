@@ -1,18 +1,31 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using Sopro.Models.Administration;
+﻿using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
+using Sopro.Models.User;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Sopro.Interfaces.AdministrationSimulation;
+using System.Data;
 
 namespace Sopro.Models.Simulation
 {
     public class Generator : IGenerator
     {
+        [Range(0,1)]
+        public double probabilityVIP { get; set; }
+        [Range(0, 1)]
+        public double probabilityGUEST { get; set; }
+
+        public Generator()
+        {
+            probabilityGUEST = 0.05;
+            probabilityVIP = 0.05;
+        }
         public List<Booking> generateBookings(Scenario scenario) 
         {
             List<Booking> bookingList = new List<Booking>();
-            for(int i = 0; i< scenario.duration; i++) //days
+            for(int i = 0; i < scenario.duration; i++) //days
             {
                 bool exists = false;
                 if (scenario.rushhours.Count != 0)
@@ -24,27 +37,58 @@ namespace Sopro.Models.Simulation
                         if (rh.bookings > scenario.bookingCountPerDay)
                         {
                             startTimes.RemoveRange(scenario.bookingCountPerDay - 1, rh.run().Count - scenario.bookingCountPerDay);
+                            foreach (DateTime start in startTimes)
+                            {
+                                int r = new Random().Next(scenario.vehicles.Count);
+                                bookingList.Add(
+                                    new Booking
+                                    {
+                                        capacity = scenario.vehicles[r].capacity,
+                                        plugs = new List<PlugType>() { scenario.vehicles[r].plugs.type },
+                                        socEnd = scenario.vehicles[r].socEnd,
+                                        socStart = scenario.vehicles[r].socStart,
+                                        user = "megarandombookinggeneratorduud",
+                                        startTime = start,
+                                        endTime = start.AddHours(new Random().Next(1, 8)),
+                                        station = null,
+                                        active = false,
+                                        priority = setPrio(),
+                                        location = scenario.location
+                                    }
+                                    ); ;
+                            }
                         }
-                        foreach (DateTime start in startTimes)
+                        else
                         {
-                            int r = new Random().Next(scenario.vehicles.Count);
-                            bookingList.Add(
-                                new Booking
+                            if (rh.start.Day == rh.end.Day)
+                            {
+                                LinearDist(bookingList, scenario, i);
+                                bookingList.RemoveRange(bookingList.FindIndex(x => x.startTime >= rh.start),rh.bookings);
+                                foreach (DateTime start in startTimes)
                                 {
-                                    capacity = scenario.vehicles[r].capacity,
-                                    plugs = new List<PlugType>() { scenario.vehicles[r].plugs.type },
-                                    socEnd = scenario.vehicles[r].socEnd,
-                                    socStart = scenario.vehicles[r].socStart,
-                                    user = "megarandombookinggeneratorduud",
-                                    startTime = start,
-                                    endTime = start.AddHours(new Random().Next(1, 8)),
-                                    station = null,
-                                    active = false,
-                                    priority = User.UserType.ASSISTANCE,
-                                    location = scenario.location
+                                    int r = new Random().Next(scenario.vehicles.Count);
+                                    bookingList.Add(
+                                        new Booking
+                                        {
+                                            capacity = scenario.vehicles[r].capacity,
+                                            plugs = new List<PlugType>() { scenario.vehicles[r].plugs.type },
+                                            socEnd = scenario.vehicles[r].socEnd,
+                                            socStart = scenario.vehicles[r].socStart,
+                                            user = "megarandombookinggeneratorduud",
+                                            startTime = start,
+                                            endTime = start.AddHours(new Random().Next(1, 8)),
+                                            station = null,
+                                            active = false,
+                                            priority = setPrio(),
+                                            location = scenario.location
+                                        }
+                                        ); ;
                                 }
-                                );
+
+                            }
                         }
+                       
+                       
                         
                     }
                     if(exists == false)
@@ -54,18 +98,39 @@ namespace Sopro.Models.Simulation
                 else
                 {
                     LinearDist(bookingList,scenario,i);
-                    
-
-                    // fill with bookings linear
                 }
             }
-            
+                
 
-            return new List<Booking>();
+            return bookingList;
         }
+
+      
+
+        private UserType setPrio()
+        {
+            double prob = new Random().NextDouble();
+            if (prob > probabilityVIP + probabilityGUEST)
+            {
+                return UserType.EMPLOYEE;
+            }
+            else
+            {
+                if (prob > probabilityGUEST)
+                {
+                    return UserType.VIP;
+                }
+                else
+                {
+                    return UserType.GUEST;
+                }
+            }
+        }
+
         public void LinearDist(List<Booking> bookingList, Scenario scenario, int i)
         {
             int r = new Random().Next(scenario.vehicles.Count);
+
             for (int j = 0; j < scenario.bookingCountPerDay; j++)
             {
                 bookingList.Add(new Booking
@@ -79,13 +144,14 @@ namespace Sopro.Models.Simulation
                     endTime = scenario.start.AddDays(i).AddHours(j).AddHours(new Random().Next(1, 8)),
                     station = null,
                     active = false,
-                    priority = User.UserType.ASSISTANCE,
+                    priority = setPrio(),
                     location = scenario.location
                 }
                 );
+         
             }
-            
         }
+        
 
     }
 }

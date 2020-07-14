@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.Design;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
+using Sopro.Interfaces;
 
 namespace Sopro.Models.Administration
 {
@@ -34,10 +35,10 @@ namespace Sopro.Models.Administration
         public DateTime endTime { get; set; }
         public Station station { get; set; }
         [Required]
-        public bool active { get; set; }
+        public bool active { get; set; } = false;
 
         [Required]
-        public Location location { get; set; }
+        public ILocation location { get; set; }
         public UserType priority { get; set; }
 
     }

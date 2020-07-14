@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
+﻿/*
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
 using System;
@@ -24,7 +25,7 @@ namespace Sopro.Models.Administration
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
             //Sort Bookinglist into new one (priority needed)
-            List<Booking> b = bookings.OrderBy(o => o.id).ToList();
+            List<Booking> b = bookings.OrderBy(o => o.priority).ToList();
 
             //Save location
             Location l = b.First().location;
@@ -69,7 +70,7 @@ namespace Sopro.Models.Administration
                             u.used.Add(temp);
                             schedule.addBooking(bo);
                             //go to next booking
-                            break;
+                            continue;
                         } else
                         {
                             for(int offset = 0; bo.startTime.AddMinutes(offset + dur) < bo.endTime; offset+=15)
@@ -85,7 +86,7 @@ namespace Sopro.Models.Administration
                                     u.used.Add(temp);
                                     schedule.addBooking(bo);
                                     //go to next booking
-                                    break;
+                                    continue;
                                 }
                             }
                             /*
@@ -135,7 +136,7 @@ namespace Sopro.Models.Administration
                                     //go to next booking
                                     continue;
                                 }
-                            }*/
+                            }*/ /*
                         }
                     }
                 }
@@ -192,3 +193,4 @@ namespace Sopro.Models.Administration
         }
     }
 }
+*/
