@@ -19,16 +19,17 @@ namespace Sopro.Models.Simulation
         [Range(1, int.MaxValue)]
         public int bookingCountPerDay { get; set; }
         [Required]
-        [ListMinLengthAttribute(1)]
+        [ListMinLength(1)]
         public List<Vehicle> vehicles { get; set; }
         [Required]
         public List<Rushhour> rushhours { get; set; }
         public DateTime start { get; set; }
+        [Required]
         public ILocation location { get; set; }
 
         public bool addVehicle(Vehicle vehicle)
         {
-            if (vehicles == null)
+            if (vehicle == null)
             {
                 return false;
             }
@@ -47,7 +48,7 @@ namespace Sopro.Models.Simulation
 
         public bool addRushhour(Rushhour rushhour)
         {
-            if (rushhours == null)
+            if (rushhour == null)
                 return false;
             if (rushhours.Contains(rushhour))
                 return false;
