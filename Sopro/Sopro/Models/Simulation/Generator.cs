@@ -24,10 +24,10 @@ namespace Sopro.Models.Simulation
         public List<Booking> generateBookings(Scenario scenario) 
         {
             List<Booking> bookingList = new List<Booking>();
-            for(int i = 0; i< scenario.duration; i++) //days
+            for(int i = 0; i < scenario.duration; i++) //days
             {
                 bool exists = false;
-                if (scenario.rushhours.Count != 0)
+                if (scenario.rushhours != null && scenario.rushhours.Count != 0)
                 {
                     foreach (Rushhour rh in scenario.rushhours.Where(x => x.start.Day >= scenario.start.Day && x.start.Day == scenario.start.AddDays(i).Day))
                     {
@@ -69,7 +69,6 @@ namespace Sopro.Models.Simulation
                 }
             }
             
-
             return new List<Booking>();
         }
 
@@ -109,7 +108,7 @@ namespace Sopro.Models.Simulation
                     endTime = scenario.start.AddDays(i).AddHours(j).AddHours(new Random().Next(1, 8)),
                     station = null,
                     active = false,
-                    priority = User.UserType.ASSISTANCE,
+                    priority = setPrio(),
                     location = scenario.location
                 }
                 );
