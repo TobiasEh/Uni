@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NCrontab;
 using Sopro.Controllers;
 using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
