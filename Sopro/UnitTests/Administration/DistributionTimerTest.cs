@@ -8,17 +8,19 @@ using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Administration;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using NUnit.Framework.Constraints;
 
 namespace UnitTests.Administration
 {
     [TestFixture]
     class DistributionTimerTest
     {
-        private IMemoryCache cache;
+        private IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
         private string cacheKey = CacheKeys.LOCATION;
         private List<ILocation> locations;
-        private Location location1 = new Location();
-        private ILogger<DistributionTimer> logger;
+        
+        private ILogger<DistributionTimer> logger = new Logger<DistributionTimer>(new LoggerFactory());
         
         private static Plug plug1 = new Plug()
         {
@@ -46,23 +48,38 @@ namespace UnitTests.Administration
             stations = new List<Station>() { station }
         };
 
+        private Location location1 = new Location()
+        {
+            emergency = 120,
+            name = "Ludwigsburg",
+            zones = new List<Zone>() { zone },
+
+        };
 
         [SetUp]
         public void setUp()
         {
-            location1.emergency = 120;
-            location1.name = "Ludwigsburg";
-            location1.addZone(zone);
             locations = new List<ILocation>() { location1 };
             cache.Set(locations, cacheKey);
         }
 
         [Test]
-        private void asyncTest()
+        public void distributionTimerStartTest()
         {
             setUp();
             DistributionTimer timer = new DistributionTimer(cache, logger);
-            t
+            Task task = timer.StartAsync(new System.Threading.CancellationToken());
+            Assert.IsTrue(task.Equals(Task.CompletedTask));
+        }
+
+        [Test]
+        public void distributionTimerEndTest()
+        {
+            setUp();
+            DistributionTimer timer = new DistributionTimer(cache, logger);
+            Task task = timer.StartAsync(new System.Threading.CancellationToken());
+            task = timer.StopAsync(new System.Threading.CancellationToken());
+            Assert.IsTrue(task.Equals(Task.CompletedTask));
         }
     }
 }
