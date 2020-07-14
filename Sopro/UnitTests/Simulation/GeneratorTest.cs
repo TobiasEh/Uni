@@ -50,23 +50,31 @@ namespace UnitTests.Simulation
         private Generator generator = new Generator();
         private int bookingsCountPerDay = 20;
         private int duration = 30;
-        private Rushhour rushhour = new Rushhour() { start = DateTime.Now.AddDays(1), end = DateTime.Now.AddDays(1).AddHours(3), bookings = 10, strategy = new NormalDistribution() };
+        private Rushhour rushhour = new Rushhour() { start = DateTime.Now.AddDays(3), end = DateTime.Now.AddDays(3).AddHours(3), bookings = 10, strategy = new NormalDistribution() };
 
         [Test]
         public void generateBookingsBAttributesNotNullTest()
         {
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
-            ExecutedScenario scenario = new ExecutedScenario() { bookingCountPerDay = bookingsCountPerDay, duration = duration,
-                location = location, start = start, vehicles = vehicles };
+            ExecutedScenario scenario = new ExecutedScenario()
+            {
+                bookingCountPerDay = bookingsCountPerDay, 
+                duration = duration,
+                location = location, 
+                start = start,
+                vehicles = vehicles,
+                rushhours = new List<Rushhour>()
+            };
             result = generator.generateBookings(scenario);
-            Assert.IsTrue(result.All<Booking>(e => e.socEnd > 0 && e.socStart > 100 && e.plugs != null
+            Assert.IsTrue(result.All<Booking>(e => e.socEnd > 0 && e.socStart < 100 && e.plugs != null
                 && e.startTime != null && e.endTime != null && e.user != null && e.capacity > 0 && e.location == location));
         }
 
         [Test]
         public void generateBookingsBAttributesNotNullTestWithRushhour()
         {
+            List<Rushhour> rushhours = new List<Rushhour>() { rushhour };
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
             ExecutedScenario scenario = new ExecutedScenario()
@@ -75,10 +83,11 @@ namespace UnitTests.Simulation
                 duration = duration,
                 location = location,
                 start = start,
-                vehicles = vehicles
+                vehicles = vehicles,
+                rushhours = rushhours
             };
             result = generator.generateBookings(scenario);
-            Assert.IsTrue(result.All<Booking>(e => e.socEnd > 0 && e.socStart > 100 && e.plugs != null
+            Assert.IsTrue(result.All<Booking>(e => e.socEnd > 0 && e.socStart < 100 && e.plugs != null
                 && e.startTime != null && e.endTime != null && e.user != null && e.capacity > 0 && e.location == location));
         }
 
@@ -88,7 +97,7 @@ namespace UnitTests.Simulation
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
             ExecutedScenario scenario = new ExecutedScenario() { bookingCountPerDay = bookingsCountPerDay, duration = duration, 
-                location = location, start = start, vehicles = vehicles, };
+                location = location, start = start, vehicles = vehicles, rushhours = new List<Rushhour>()};
             result = generator.generateBookings(scenario);
             Assert.IsTrue(result.Count == bookingsCountPerDay * duration);
         }
@@ -123,16 +132,26 @@ namespace UnitTests.Simulation
                 duration = duration, 
                 location = location, 
                 start = start, 
-                vehicles = vehicles 
+                vehicles = vehicles,
+                rushhours = new List<Rushhour>()
             };
             result = generator.generateBookings(scenario);
-            int numberOfBooking = bookingsCountPerDay * duration;
-            int countEmployee = result.Count(e => e.priority.Equals(UserType.EMPLOYEE));
-            int countVIP = result.Count(e => e.priority.Equals(UserType.VIP));
-            int countGuest = result.Count(e => e.priority.Equals(UserType.GUEST));
-            double percentageEmployee = countEmployee * 1 / numberOfBooking;
-            double percentageVIP = countVIP * 1 / numberOfBooking;
-            double percentageGuest = 1 - percentageEmployee - percentageVIP;
+            double numberOfBooking = bookingsCountPerDay * duration;
+            double countEmployee = result.Count(e => e.priority.Equals(UserType.EMPLOYEE));
+            double countVIP = result.Count(e => e.priority.Equals(UserType.VIP));
+            double countGuest = result.Count(e => e.priority.Equals(UserType.GUEST));
+            double percentageEmployee = countEmployee / numberOfBooking;
+            double percentageVIP = countVIP  / numberOfBooking;
+            double percentageGuest = countGuest / numberOfBooking;
+            /*
+            Console.WriteLine("Total Bookings: " + numberOfBooking + "\n");
+            Console.WriteLine("Employee Count : " + countEmployee);
+            Console.WriteLine("Employee Percentage : " + percentageEmployee);
+            Console.WriteLine("Guest Count : " + countGuest);
+            Console.WriteLine("Guest Percentage : " + percentageGuest);
+            Console.WriteLine("VIP Count : " + countVIP);
+            Console.WriteLine("VIP Percentage : " + percentageVIP);
+            */
             Assert.IsTrue(percentageEmployee > percentageGuest + percentageVIP && percentageEmployee > 0.1);
         }
 
@@ -152,13 +171,13 @@ namespace UnitTests.Simulation
                 rushhours = rushhours,
             };
             result = generator.generateBookings(scenario);
-            int numberOfBooking = bookingsCountPerDay * duration;
-            int countEmployee = result.Count(e => e.priority.Equals(UserType.EMPLOYEE));
-            int countVIP = result.Count(e => e.priority.Equals(UserType.VIP));
-            int countGuest = result.Count(e => e.priority.Equals(UserType.GUEST));
-            double percentageEmployee = countEmployee * 1 / numberOfBooking;
-            double percentageVIP = countVIP * 1 / numberOfBooking;
-            double percentageGuest = 1 - percentageEmployee - percentageVIP;
+            double numberOfBooking = bookingsCountPerDay * duration;
+            double countEmployee = result.Count(e => e.priority.Equals(UserType.EMPLOYEE));
+            double countVIP = result.Count(e => e.priority.Equals(UserType.VIP));
+            double countGuest = result.Count(e => e.priority.Equals(UserType.GUEST));
+            double percentageEmployee = countEmployee / numberOfBooking;
+            double percentageVIP = countVIP / numberOfBooking;
+            double percentageGuest = countGuest / numberOfBooking;
             Assert.IsTrue(percentageEmployee > percentageGuest + percentageVIP && percentageEmployee > 0.1);
         }
 
