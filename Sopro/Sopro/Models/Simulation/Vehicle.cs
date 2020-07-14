@@ -22,7 +22,7 @@ namespace Sopro.Models.Simulation
         [Range(0, 100)]
         public int socStart { get; set; }
         [Required]
-        //[VehicleSocEndValidation]
+        [VehicleSocEndValidation]
         public int socEnd { get; set; }
     }
 }
