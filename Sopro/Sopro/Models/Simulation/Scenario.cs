@@ -1,4 +1,5 @@
-﻿using Sopro.Interfaces;
+﻿using Sopro.CustomValidationAttributes;
+using Sopro.Interfaces;
 using Sopro.Interfaces.ControllerSimulation;
 using Sopro.ValidationAttributes;
 using System;
@@ -18,6 +19,7 @@ namespace Sopro.Models.Simulation
         [Range(1, int.MaxValue)]
         public int bookingCountPerDay { get; set; }
         [Required]
+        [ListMinLengthAttribute(1)]
         public List<Vehicle> vehicles { get; set; }
         [Required]
         public List<Rushhour> rushhours { get; set; }
@@ -46,9 +48,9 @@ namespace Sopro.Models.Simulation
         public bool addRushhour(Rushhour rushhour)
         {
             if (rushhours == null)
-            {
                 return false;
-            }
+            if (rushhours.Contains(rushhour))
+                return false;
             rushhours.Add(rushhour);
             return true;
         }
