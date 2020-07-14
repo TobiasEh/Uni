@@ -43,13 +43,14 @@ namespace Sopro.Models.Administration
             DateTime nextHour = new DateTime(0, 0, 0, DateTime.Now.Hour + 1, 0, 0);
             TimeSpan startTime = nextHour.Subtract(DateTime.Now);
             _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromHours(1));
-
+            Console.Out.WriteLine("startAsync");
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Booking distribution service is stopping.");
+            Console.Out.WriteLine("stopAsync");
 
             _timer?.Change(Timeout.Infinite, 0);
 
