@@ -20,7 +20,7 @@ namespace Sopro.Models.Simulation
 
         public bool triggerBookingDistribution()
         {
-            DateTime start = tickCount * tickLength + exScenario.start;
+            DateTime start = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = start.AddDays(30);
             List<Booking> toBeDistributed = new List<Booking>();
 
@@ -105,7 +105,7 @@ namespace Sopro.Models.Simulation
          */
         private double calculateLocationWorkload()
         {
-            DateTime time = tickCount * tickLength + exScenario.start;
+            DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = time + tickLength;
             int numberOfStations = 0;
 
@@ -126,16 +126,16 @@ namespace Sopro.Models.Simulation
          */
         private List<double> calculateStationWorkload()
         {
-            DateTime time = tickCount * tickLength + exScenario.start;
+            DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = time + tickLength;
             List<double> workload = new List<double>();
             int k = 0;
 
             for(int i = 0; i <= exScenario.location.zones.Count(); ++i)
             {
-                for(int j = 0; j <= exScenario.location.zone[i].Count(); ++j)
+                for(int j = 0; j <= exScenario.location.zones.Count(); ++j)
                 {
-                    Station station = exScenario.location.zone[i].station[j];
+                    Station station = exScenario.location.zones[i].stations[j];
                     int plugs = station.maxParallelUseable;
                     int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
                     workload[k++] = usedPlugs * 100 / plugs;

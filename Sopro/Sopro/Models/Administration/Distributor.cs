@@ -48,5 +48,10 @@ namespace Sopro.Models.Administration
             }
             return true;
         }
+
+        public bool run(List<Booking> toBeDistributed)
+        {
+            return false;
+        }
     }
 }
