@@ -31,5 +31,17 @@ namespace UnitTests.Simulation
             Assert.IsTrue(result.All<DateTime>(e => e >= start && e <= end));
         }
 
+        [Test]
+        public void generateDateTimeValuesUnique()
+        {
+            NormalDistribution distribution = new NormalDistribution();
+            List<DateTime> result = distribution.generateDateTimeValues(start, end, bookings);
+            foreach (DateTime item in result)
+            {
+                Console.Out.WriteLine(item);
+            }
+            Assert.IsTrue(result.Count() == result.Distinct().Count());
+        }
+
     }
 }
