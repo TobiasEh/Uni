@@ -1,5 +1,5 @@
-﻿using Sopro.Interfaces.Persistence;
-using Sopro.Models.Administration;
+﻿using Sopro.Interfaces.AdministrationController;
+using Sopro.Interfaces.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace Sopro.Interfaces.PersistenceController
 {
     public interface IBookingService : IBookingRepository
     {
-        public List<Booking> import();
-        public void emport(List<Booking> list);
+        public List<IBooking> import(string path);
+        public void export(List<IBooking> list, string path);
     }
 }
