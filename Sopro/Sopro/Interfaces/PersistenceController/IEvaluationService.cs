@@ -6,10 +6,10 @@ using Sopro.Interfaces.Persistence;
 
 namespace Sopro.Interfaces.PersistenceController
 {
-    public interface IHistroyService : IHistroyRepository
+    public interface IEvaluationService : IEvaluationRepository
     {
-        public List<History> import();
+        public List<IEvaluation> import(string path);
 
-        public void export(List<History> list);
+        public void export(List<IEvaluation> list, string path);
     }
 }

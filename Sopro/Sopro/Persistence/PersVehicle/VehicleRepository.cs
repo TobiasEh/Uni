@@ -8,12 +8,12 @@ namespace Sopro.Persistence.PersVehicle
 {
     public class VehicleRepository : IVehicleRepository
     {
-        public List<Vehicle> import()
+        public List<IVehicle> import(string path)
         {
-            return new List<Vehicle>();
+            return new List<IVehicle>();
         }
 
-        public void emport(List<Vehicle> list)
+        public void export(List<IVehicle> list, string path)
         {
 
         }

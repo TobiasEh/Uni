@@ -7,8 +7,8 @@ namespace Sopro.Interfaces.Persistence
 {
     public interface IScenarioRepository
     {
-        public List<Scenario> import();
+        public List<IScenario> import();
 
-        public void emport(List<Scenario> list);
+        public void export(List<IScenario> list, string path);
     }
 }

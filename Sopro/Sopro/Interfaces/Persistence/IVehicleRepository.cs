@@ -7,7 +7,7 @@ namespace Sopro.Interfaces.Persistence
 {
     public interface IVehicleRepository
     {
-        public List<Vehicle> import();
-        public void emport(List<Vehicle> list);
+        public List<IVehicle> import(string path);
+        public void export(List<IVehicle> list, string path);
     }
 }

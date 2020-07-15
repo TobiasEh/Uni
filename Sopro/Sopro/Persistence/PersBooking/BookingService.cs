@@ -32,9 +32,19 @@ namespace Sopro.Persistence.PersBooking
 
             var data = JsonSerializer.Serialize(list, options);
             byte[] bytes = Encoding.UTF8.GetBytes(data);
-            string filename = string.Concat("Bookings", DateTime.Now.ToString("yyyy-MM-dd-HH-mm"), ".json");
 
-            File.WriteAllBytes($"{filename}", bytes);
+            string extension = Path.GetExtension(path);
+            if(extension == null || extension == string.Empty)
+            {
+                path = string.Concat(path, ".json");
+            }
+
+            if (!extension.Equals(".json"))
+            {
+                Path.ChangeExtension(path, ".json");
+            }
+
+            File.WriteAllBytes(path, bytes);
 
         }
     }

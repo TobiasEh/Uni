@@ -1,35 +1,31 @@
 ﻿using Sopro.Interfaces.PersistenceController;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Sopro.Models.Infrastructure;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.IO;
-using System.Text;
-using Sopro.Interfaces;
+using System.Threading.Tasks;
 
-namespace Sopro.Persistence.PersLocation
+namespace Sopro.Persistence.PersEvaluation
 {
-    public class LocationService : LocationRepository, ILocationService
+    public class EvaluationService : EvaluationRepository, IEvaluationService
     {
         private JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
-        private JsonStringEnumConverter stringEnumConverter = new JsonStringEnumConverter();
 
-        public List<ILocation> import(string path)
+        public List<IEvaluation> import(string path)
         {
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             byte[] bytes = File.ReadAllBytes(path);
             var data = Encoding.UTF8.GetString(bytes);
-            List<ILocation> importedBookings = JsonSerializer.Deserialize<List<ILocation>>(data, options);
+            List<IEvaluation> importedBookings = JsonSerializer.Deserialize<List<IEvaluation>>(data, options);
 
             return importedBookings;
         }
 
-        public void export(List<ILocation> list, string path)
+        public void export(List<IEvaluation> list, string path)
         {
-            options.Converters.Add(stringEnumConverter);
 
             var data = JsonSerializer.Serialize(list, options);
             byte[] bytes = Encoding.UTF8.GetBytes(data);
@@ -50,3 +46,4 @@ namespace Sopro.Persistence.PersLocation
         }
     }
 }
+

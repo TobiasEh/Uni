@@ -8,8 +8,8 @@ namespace Sopro.Interfaces.Persistence
 {
     public interface ILocationRepository
     {
-        public List<Location> import();
+        public List<ILocation> import();
 
-        public void emport(List<Location> list);
+        public void export(List<ILocation> list);
     }
 }

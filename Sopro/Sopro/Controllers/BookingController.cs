@@ -22,7 +22,6 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
-        private IBookingService bookingService;
 
         public BookingController(IMemoryCache _cache)
         {
@@ -38,10 +37,6 @@ namespace Sopro.Controllers
         {
             //Session for the role of the User
             var userID = this.HttpContext.Session.GetString("ID");
-            if (userID == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
             if (userID.Equals(UserType.PLANER))
             {
                 List<Booking> unscheduledBookings = new List<Booking>();
@@ -123,7 +118,7 @@ namespace Sopro.Controllers
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
         }
-        
+
         /* Method takes care about Check-In/-Out.
          * Therefore it changes the attribute active of given booking to the opposite boolean.
          * Returns Booking.Index view, with bookinglist.
@@ -138,40 +133,7 @@ namespace Sopro.Controllers
 
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm] FileViewModel model)
-        {
-            IFormFile file = model.importedFile;
-            string cacheKey = CacheKeys.BOOKING;
-
-            if(!cache.TryGetValue(cacheKey, out bookings))
-            {
-                bookings = new List<IBooking>();
-            }
-
-            string path = Path.GetFullPath(file.Name);
-
-            List<IBooking> importedBookings = bookingService.import(path);
-
-            foreach(IBooking item in importedBookings)
-            {
-                bookings.Add(item);
-            }
-
-            cache.Set(cacheKey, bookings);
-
-            return View("Index", bookings);
-        }
-
-        [HttpGet]
-        public IActionResult exoprt()
-        {
-
-            
-            return View("Index", bookings);
         }
     }
 }
