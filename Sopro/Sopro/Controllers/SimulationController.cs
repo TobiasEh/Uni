@@ -15,8 +15,9 @@ namespace Sopro.Controllers
     public class SimulationController : Controller
     {
         private IMemoryCache cache;
-        private List<IScenario> scenarios;
         private IScenarioService service;
+        private List<IScenario> scenarios;
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
