@@ -12,6 +12,5 @@ namespace Sopro.Interfaces
         public bool addZone(Zone zone);
         public bool deleteZone(Zone zone);
         public List<Zone> zones { get; set; }
-        public Guid guid { get; set; }
     }
 }

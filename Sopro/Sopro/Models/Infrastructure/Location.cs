@@ -9,7 +9,6 @@ namespace Sopro.Models.Infrastructure
 {
     public class Location : ILocation
     {
-        public Guid guid { get; set; } = new Guid();
         [ListMinLength(0)]
         public List<Zone> zones { get; set; }
         [Required]

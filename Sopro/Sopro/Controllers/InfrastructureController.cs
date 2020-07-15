@@ -32,7 +32,7 @@ namespace Sopro.Controllers
             
             foreach(ILocation loc in importedLocations)
             {
-                if (locations.All(e => e.guid != loc.guid))
+                if (!locations.Contains(loc))
                 {
                     locations.Add(loc);
                 }
