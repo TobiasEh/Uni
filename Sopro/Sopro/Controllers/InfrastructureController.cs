@@ -38,7 +38,7 @@ namespace Sopro.Controllers
                 }
                     
             }
-            cache.Set(locations, CacheKeys.LOCATION);
+            cache.Set(CacheKeys.LOCATION, locations);
             return View("Index", locations);
         }
 
