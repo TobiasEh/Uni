@@ -8,9 +8,12 @@ namespace Sopro.Interfaces.ControllerSimulation
 {
     public interface IScenario
     {
-        bool addVehicle(Vehicle vehicle);
-        bool deleteVehicle(Vehicle vehicle);
-        bool addRushhour(Rushhour rushhour);
-        bool deleteRushhour(Rushhour rushhour);
+        public bool addVehicle(Vehicle vehicle);
+        public bool deleteVehicle(Vehicle vehicle);
+        public bool addRushhour(Rushhour rushhour);
+        public bool deleteRushhour(Rushhour rushhour);
+        ILocation location { get; set; }
+        public List<Vehicle> vehicles { get; set; }
+
     }
 }
