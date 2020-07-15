@@ -28,7 +28,7 @@ namespace Sopro.Controllers
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
                 vehicles = importedVehicles;
-                cache.Set(vehicles, CacheKeys.SCENARIO);
+                cache.Set(CacheKeys.SCENARIO, vehicles);
                 return View("Index", vehicles);
             }
 
@@ -40,7 +40,7 @@ namespace Sopro.Controllers
                 }
             }
 
-            cache.Set(vehicles, CacheKeys.VEHICLE);
+            cache.Set(CacheKeys.VEHICLE, vehicles);
             return View("Index", vehicles);
         }
 

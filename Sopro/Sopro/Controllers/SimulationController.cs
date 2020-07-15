@@ -60,9 +60,9 @@ namespace Sopro.Controllers
                 }
             }
 
-            cache.Set(locations, CacheKeys.LOCATION);
-            cache.Set(vehicles, CacheKeys.VEHICLE);
-            cache.Set(scenarios, CacheKeys.SCENARIO);
+            cache.Set(CacheKeys.LOCATION, locations);
+            cache.Set(CacheKeys.VEHICLE, vehicles);
+            cache.Set(CacheKeys.SCENARIO, scenarios);
             return View("Index", scenarios);
         }
 
