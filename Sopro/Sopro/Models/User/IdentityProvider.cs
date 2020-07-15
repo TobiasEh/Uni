@@ -22,21 +22,28 @@ namespace Sopro.Models.User
 
         public UserType getUserPriority(string email)
         {
-            List <User> userList = new List<User>();
-            using (var reader = new StreamReader(path))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                csv.Configuration.Delimiter = ";";
-                csv.Configuration.RegisterClassMap<UserMap>();
-                userList = csv.GetRecords<User>().ToList<User>();
-            }
+            List <User> userList = loadCSV(path);
             if (userList.Exists(x => x.email.Equals(email)))
             {
                 return userList.Find(x => x.email.Contains(email)).usertype;
             }
             return UserType.GUEST;
         }
-        
+        public List<User> loadCSV(String path)
+        {
+            List<User> userList = new List<User>();
+            Console.WriteLine("loadCSV called! \n path : " + path );
+            using (var reader = new StreamReader(path))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                Console.WriteLine("hello");
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.RegisterClassMap<UserMap>();
+                userList = csv.GetRecords<User>().ToList<User>();
+                Console.WriteLine("User List Count : " + userList.Count);
+            }
+            return userList;
+        }
 
     }
     
