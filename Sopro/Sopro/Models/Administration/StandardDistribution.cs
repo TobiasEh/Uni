@@ -51,6 +51,7 @@ namespace Sopro.Models.Administration
             public UsedTimeSlots(Station _station)
             {
                 station = _station;
+                used = new List<List<DateTime>>();
             }
         }
 
