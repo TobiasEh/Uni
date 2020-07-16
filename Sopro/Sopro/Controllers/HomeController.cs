@@ -24,7 +24,7 @@ namespace Sopro.Controllers
         }      
         public IActionResult Login(string email)
         {
-            var role = IdentityProvider.getUserPriority(email);
+            var role = new IdentityProvider().getUserPriority(email);
             HttpContext.Session.SetString("email", email);
             HttpContext.Session.SetString("role", role.ToString());
             if (role != UserType.PLANER)
