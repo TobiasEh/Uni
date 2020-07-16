@@ -58,11 +58,14 @@ namespace Sopro.Controllers
 
             if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
             {
-                evaluations = importedLocations;
+                evaluations = importedEvaluations;
+                cache.Set(CacheKeys.EVALUATION, evaluations);
+                return View("Evaluation", evaluations);
             }
+
             foreach(IEvaluation eva in importedEvaluations)
             {
-                if (evaluations.Contains())
+                if (!evaluations.Contains(eva))
                 {
                     evaluations.Add(eva);
                 }
