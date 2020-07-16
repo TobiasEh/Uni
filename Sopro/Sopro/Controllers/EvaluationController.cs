@@ -15,6 +15,27 @@ namespace Sopro.Controllers
         private IEvaluationService service;
         private List<IEvaluation> evaluations;
 
+        public IActionResult Evaluation(IEvaluation evaluation)
+        {
+            return View(evaluation);
+        }
+
+        public IActionResult History()
+        {
+
+        }
+        [HttpPost]
+        public IActionResult Post()
+        {
+            return View();
+        }
+        public IActionResult Analyze(IEvaluatable scenario)
+        {
+            Analyzer analyzer = new Analyzer();
+            IEvaluation evaluation = analyzer.analyze(scenario);
+            return View()
+        } 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult import([FromForm]FileViewModel model)
