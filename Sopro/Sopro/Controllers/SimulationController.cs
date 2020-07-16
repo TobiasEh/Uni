@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Sopro.Models.Simulation;
 using Sopro.Interfaces;
+using System.Runtime.InteropServices;
+using Sopro.ViewModels;
 
 namespace Sopro.Controllers
 {
@@ -18,6 +20,52 @@ namespace Sopro.Controllers
         private IScenarioService service;
         private List<IScenario> scenarios;
         
+        public IActionResult Create()
+        {
+            List<ILocation> locations;
+            if(!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            List<IVehicle> vehicles;
+            if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+
+            return View(new ScenarioCreateViewModel(new Scenario(), locations, vehicles));
+        }
+        [HttpPost]
+        public IActionResult Post(IScenario scenario)
+        {
+            if(cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            {
+                scenarios = new List<IScenario>();
+            }
+            if (!ModelState.IsValid)
+            {
+                throw new Exception("Szenario ist nicht valide!");
+            }
+
+            scenarios.Add(scenario);
+            cache.Set(CacheKeys.SCENARIO, scenarios);
+            return View("Index", scenarios);
+        }
+
+        public IActionResult Index()
+        {
+            cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
+
+            return View(scenarios);
+        }
+
+        public IActionResult Simulate(ISimulator simulator)
+        {
+            simulator.init();
+            simulator.run();
+
+            return RedirectToAction("Evaluation", "EvaluationController");
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
