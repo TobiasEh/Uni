@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
 using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
+using System.IO;
+using Sopro.Interfaces.PersistenceController;
 
 namespace Sopro.Controllers
 {
@@ -116,7 +118,7 @@ namespace Sopro.Controllers
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
         }
-        
+
         /* Method takes care about Check-In/-Out.
          * Therefore it changes the attribute active of given booking to the opposite boolean.
          * Returns Booking.Index view, with bookinglist.
@@ -131,6 +133,7 @@ namespace Sopro.Controllers
 
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
+
         }
     }
 }
