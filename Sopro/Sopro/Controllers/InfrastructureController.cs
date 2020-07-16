@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Net.Http.Headers;
 using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
 using System;
@@ -16,6 +17,40 @@ namespace Sopro.Controllers
         private IMemoryCache cache;
         private List<ILocation> locations;
         private ILocationService service;
+
+
+        public IActionResult Index()
+        {
+
+            return View(locations);
+        }
+
+        public IActionResult EditZone(Zone zone)
+        {
+            locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
+            locations.ForEach(e => { if (e.zones.Contains(zone)) { e.zones.Remove(zone); }; });
+            cache.Set(CacheKeys.LOCATION, locations);
+
+            return View("CreateZone", zone);
+        }
+
+        [HttpPost]
+        public IActionResult Post(ILocation location)
+        {
+            if(!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            if (!ModelState.IsValid)
+            {
+                throw new Exception("Standort ist nicht valide");
+            }
+            locations.Add(location);
+            cache.Set(CacheKeys.LOCATION, locations);
+            return View("Index", locations);
+        }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -40,6 +75,14 @@ namespace Sopro.Controllers
             }
             cache.Set(CacheKeys.LOCATION, locations);
             return View("Index", locations);
+        }
+
+        [HttpGet]
+        public IActionResult CreateZone(Zone zone)
+        {
+            if(zone != null)
+                return View(zone);
+            return View(new Zone());
         }
 
         [HttpGet]
