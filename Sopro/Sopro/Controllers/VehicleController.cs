@@ -5,6 +5,7 @@ using Sopro.Interfaces.ControllerSimulation;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Simulation;
 using Sopro.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -73,7 +74,7 @@ namespace Sopro.Controllers
             cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
-            service.exportFile(vehicles, path);
+            service.export(vehicles, path);
 
             return View("Index", vehicles);
         }

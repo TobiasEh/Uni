@@ -11,6 +11,7 @@ using Sopro.Models.Simulation;
 using Sopro.Interfaces;
 using System.Runtime.InteropServices;
 using Sopro.ViewModels;
+using Sopro.Interfaces.PersistenceController;
 
 namespace Sopro.Controllers
 {
@@ -59,11 +60,15 @@ namespace Sopro.Controllers
             return View(scenarios);
         }
 
-        public IActionResult Simulate(ISimulator simulator)
+        public async Task<IActionResult> Simulate(ISimulator simulator)
         {
-            simulator.init();
-            simulator.run();
-
+            // Simulation muss asynchron ausgeführt werden, da die Website sonst nicht navigierbar ist
+            await Task.Run(() =>
+            {
+                simulator.init();
+                simulator.run();
+            });
+            
             return RedirectToAction("Analyze", "EvaluationController", simulator.scenario);
         }
 
@@ -120,7 +125,7 @@ namespace Sopro.Controllers
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
-            service.exportFile(scenarios, path);
+            service.export(scenarios, path);
 
             return View("Index", scenarios);
         }
