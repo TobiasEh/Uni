@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace Sopro.Interfaces.HistorySimulation
 {
     public interface IEvaluatable

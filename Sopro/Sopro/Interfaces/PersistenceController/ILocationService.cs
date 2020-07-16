@@ -6,7 +6,6 @@ namespace Sopro.Interfaces.PersistenceController
     public interface ILocationService : ILocationRepository
     {
         public List<ILocation> import();
-
         public void export(List<ILocation> list);
     }
 }

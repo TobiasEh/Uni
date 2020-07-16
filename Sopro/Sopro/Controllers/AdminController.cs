@@ -23,7 +23,6 @@ namespace Sopro.Controllers
         }
         public IActionResult Index()
         {
-
             //Session for the role of the User
             var userID = HttpContext.Session.GetString("ID");
             if (userID.Equals(UserType.PLANER))
