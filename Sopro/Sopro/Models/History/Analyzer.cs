@@ -1,9 +1,7 @@
-﻿using MimeKit.Encodings;
-using Sopro.Models.Infrastructure;
+﻿using Sopro.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.History
 {
