@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sopro.Models.User;
 
@@ -24,7 +20,7 @@ namespace Sopro.Controllers
         }      
         public IActionResult Login(string email)
         {
-            var role = new IdentityProvider().getUserPriority(email);
+            var role = IdentityProvider.getUserPriority(email);
             HttpContext.Session.SetString("email", email);
             HttpContext.Session.SetString("role", role.ToString());
             if (role != UserType.PLANER)

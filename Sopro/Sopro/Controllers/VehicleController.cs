@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces.ControllerSimulation;
+using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Simulation;
-using System;
+using Sopro.ViewModels;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {

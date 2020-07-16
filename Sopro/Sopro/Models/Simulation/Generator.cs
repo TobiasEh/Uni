@@ -44,7 +44,7 @@ namespace Sopro.Models.Simulation
                                     new Booking
                                     {
                                         capacity = scenario.vehicles[r].capacity,
-                                        plugs = new List<PlugType>() { scenario.vehicles[r].plugs.type },
+                                        plugs = scenario.vehicles[r].plugs,
                                         socEnd = scenario.vehicles[r].socEnd,
                                         socStart = scenario.vehicles[r].socStart,
                                         user = "megarandombookinggeneratorduud",
@@ -71,7 +71,7 @@ namespace Sopro.Models.Simulation
                                         new Booking
                                         {
                                             capacity = scenario.vehicles[r].capacity,
-                                            plugs = new List<PlugType>() { scenario.vehicles[r].plugs.type },
+                                            plugs = scenario.vehicles[r].plugs,
                                             socEnd = scenario.vehicles[r].socEnd,
                                             socStart = scenario.vehicles[r].socStart,
                                             user = "megarandombookinggeneratorduud",
@@ -136,10 +136,10 @@ namespace Sopro.Models.Simulation
                 bookingList.Add(new Booking
                 {
                     capacity = scenario.vehicles[r].capacity,
-                    plugs = new List<PlugType>() { scenario.vehicles[r].plugs.type },
+                    plugs = scenario.vehicles[r].plugs,
                     socEnd = scenario.vehicles[r].socEnd,
                     socStart = scenario.vehicles[r].socStart,
-                    user = "megarandombookinggeneratorduud",
+                    user = "",
                     startTime = scenario.start.AddDays(i).AddMinutes((24 * 60) / scenario.bookingCountPerDay),
                     endTime = scenario.start.AddDays(i).AddHours(j).AddHours(new Random().Next(1, 8)),
                     station = null,

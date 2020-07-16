@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace UnitTests.Administration
 {
     [TestFixture]
-    class DistributionTimerTest : IDistributionStrategy
+    class DistributionTimerTest
     {
         private MemoryCache cache = new MemoryCache(new MemoryCacheOptions());
         private List<ILocation> locations;
@@ -104,7 +104,7 @@ namespace UnitTests.Administration
             location.schedule = new Schedule();
             location.distributor = new Distributor(location.schedule, location)
             {
-                strategy = this
+                strategy = new DummyDistribution()
             };
             
             bookings = new List<Booking>() { booking1, booking2 };
@@ -122,17 +122,6 @@ namespace UnitTests.Administration
 
             Assert.IsTrue(location.schedule.bookings.Count > 0);
         }
-      
-        public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
-        {
-            foreach (Booking item in bookings)
-            {
-                schedule.addBooking(item);
-            }
-            return true;
-        }
-
-
     }
 }
 

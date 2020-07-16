@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
@@ -28,10 +27,9 @@ namespace UnitTests.Simulation
                     {
                         capacity = 1000,
                         model = "model",
-                        plugs = new Plug()
+                        plugs = new List<PlugType>()
                         {
-                            power = 100,
-                            type = PlugType.CCS
+                            PlugType.CCS
                         },
                     socStart = 20,
                     socEnd = 40,
@@ -42,10 +40,9 @@ namespace UnitTests.Simulation
         {
             capacity = 1000,
             model = "model2",
-            plugs = new Plug()
+            plugs = new List<PlugType>()
             {
-                power = 100,
-                type = PlugType.CCS
+                PlugType.CCS
             },
             socStart = 20,
             socEnd = 40,

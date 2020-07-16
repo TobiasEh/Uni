@@ -1,10 +1,7 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Sopro.Models.Infrastructure;
 using System.ComponentModel.DataAnnotations;
-using MailKit;
 using System.Linq;
 using Sopro.Models.Simulation;
 
@@ -13,12 +10,6 @@ namespace UnitTests.Simulation
     [TestFixture]
     class VehicleTest
     {
-        static Plug plug = new Plug
-        {
-            power = 20,
-            type = PlugType.CCS
-        };
-
         [Test]
         public void testVehicleCreate()
         {
@@ -26,7 +17,7 @@ namespace UnitTests.Simulation
             {
                 capacity = 120,
                 model = "newModel",
-                plugs = plug,
+                plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = 44,
                 socEnd = 99,
             };
@@ -55,14 +46,13 @@ namespace UnitTests.Simulation
             {
                 capacity = _capacity,
                 model = _model,
-                plugs = plug,
+                plugs = new List<PlugType>() { PlugType.CCS },
                 socStart = _socStart,
                 socEnd = _socEnd,
             };
 
             var validationResults = new List<ValidationResult>();
             Validator.TryValidateObject(vehicle, new ValidationContext(vehicle), validationResults, true);
-            //Assert.AreEqual(1, validationResults.Count);
 
             var msg = validationResults[0];
             if (_expected == "socEnd")

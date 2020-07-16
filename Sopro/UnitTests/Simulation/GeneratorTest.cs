@@ -26,10 +26,9 @@ namespace UnitTests.Simulation
             model = "model",
             socStart = 24,
             socEnd = 50,
-            plugs = new Plug()
+            plugs = new List<PlugType>()
             {
-                power = 60,
-                type = PlugType.CCS,
+                PlugType.CCS
             }
         };
 
@@ -39,10 +38,9 @@ namespace UnitTests.Simulation
             model = "model2",
             socStart = 60,
             socEnd = 100,
-            plugs = new Plug()
+            plugs = new List<PlugType>()
             {
-                power = 30,
-                type = PlugType.CCS,
+                PlugType.CCS
             }
         };
 
@@ -143,15 +141,7 @@ namespace UnitTests.Simulation
             double percentageEmployee = countEmployee / numberOfBooking;
             double percentageVIP = countVIP  / numberOfBooking;
             double percentageGuest = countGuest / numberOfBooking;
-            /*
-            Console.WriteLine("Total Bookings: " + numberOfBooking + "\n");
-            Console.WriteLine("Employee Count : " + countEmployee);
-            Console.WriteLine("Employee Percentage : " + percentageEmployee);
-            Console.WriteLine("Guest Count : " + countGuest);
-            Console.WriteLine("Guest Percentage : " + percentageGuest);
-            Console.WriteLine("VIP Count : " + countVIP);
-            Console.WriteLine("VIP Percentage : " + percentageVIP);
-            */
+
             Assert.IsTrue(percentageEmployee > percentageGuest + percentageVIP && percentageEmployee > 0.1);
         }
 

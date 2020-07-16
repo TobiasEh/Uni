@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Sopro.Interfaces;
 using Sopro.Models.Administration;
-using System.Reflection.Emit;
 using Sopro.Models.Infrastructure;
 using Sopro.Interfaces.AdministrationSimulation;
 

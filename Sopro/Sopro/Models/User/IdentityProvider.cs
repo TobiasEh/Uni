@@ -1,17 +1,11 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using CsvHelper.TypeConversion;
-using Org.BouncyCastle.Math.EC.Rfc7748;
-using Sopro.Interfaces;
-using Sopro.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace Sopro.Models.User
 {
@@ -29,7 +23,7 @@ namespace Sopro.Models.User
             }
             return UserType.GUEST;
         }
-        public List<User> loadCSV(String path)
+        public static List<User> loadCSV(String path)
         {
             List<User> userList = new List<User>();
             Console.WriteLine("loadCSV called! \n path : " + path );
@@ -53,7 +47,6 @@ namespace Sopro.Models.User
         {
             Map(m => m.email).Name("User email");
             Map(m => m.usertype).Name("Role").ConvertUsing(row => Enum.Parse<UserType>(row.GetField("Role")));
-
         }
     }
 

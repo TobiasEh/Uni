@@ -1,9 +1,5 @@
 ﻿using Sopro.Interfaces.Persistence;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Sopro.Models.Infrastructure;
 using Sopro.Interfaces;
 
 namespace Sopro.Persistence.PersLocation

@@ -1,11 +1,9 @@
 ﻿using Sopro.ValidationAttributes;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Sopro.Models.Infrastructure;
 using Sopro.Interfaces.ControllerSimulation;
+using System.Collections.Generic;
 
 namespace Sopro.Models.Simulation
 {
@@ -16,7 +14,6 @@ namespace Sopro.Models.Simulation
         [Required]
         [Range(1, int.MaxValue)]
         public int capacity { get; set; }
-        public Plug plugs { get; set; }
 
         [Required]
         [Range(0, 100)]
@@ -24,5 +21,7 @@ namespace Sopro.Models.Simulation
         [Required]
         [VehicleSocEndValidation]
         public int socEnd { get; set; }
+        [Required]
+        public List<PlugType> plugs { get; set; }
     }
 }

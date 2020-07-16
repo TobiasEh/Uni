@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Server.IIS.Core;
-using Microsoft.Extensions.DependencyInjection;
-using Sopro.Controllers;
-using Sopro.Models.Communication;
+﻿using Sopro.Models.Communication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
 {

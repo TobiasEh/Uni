@@ -2,8 +2,6 @@
 using Sopro.Models.User;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Interfaces.AdministrationController
 {
@@ -18,7 +16,7 @@ namespace Sopro.Interfaces.AdministrationController
         public DateTime endTime { get; set; }
         public Station station { get; set; }
         public bool active { get; set; }
-        public Location location { get; set; }
+        public ILocation location { get; set; }
         public UserType priority { get; set; }
     }
 }

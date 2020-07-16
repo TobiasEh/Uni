@@ -1,13 +1,10 @@
-﻿using Sopro.Interfaces.PersistenceController;
-using Sopro.Persistence.PersLocation;
-using System;
+﻿using Sopro.Interfaces.ControllerSimulation;
+using Sopro.Interfaces.PersistenceController;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Sopro.Persistence.PersScenario
 {
@@ -49,4 +46,4 @@ namespace Sopro.Persistence.PersScenario
         }
     }
 }
-}
+

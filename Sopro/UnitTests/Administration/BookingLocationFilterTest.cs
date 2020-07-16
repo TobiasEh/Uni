@@ -3,8 +3,6 @@ using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace UnitTests.Administration
 {

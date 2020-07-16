@@ -1,8 +1,6 @@
 ﻿using Sopro.Models.Infrastructure;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sopro.Interfaces.ControllerSimulation
 {
@@ -12,6 +10,6 @@ namespace Sopro.Interfaces.ControllerSimulation
         public int capacity { get; set; }
         public int socStart { get; set; }
         public int socEnd { get; set; }
-        public List<Plug> plugs { get; set; }
+        public List<PlugType> plugs { get; set; }
     }
 }

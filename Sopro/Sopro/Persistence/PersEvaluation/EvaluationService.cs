@@ -1,12 +1,10 @@
-﻿using Sopro.Interfaces.PersistenceController;
-using System;
+﻿using Sopro.Interfaces.ControllerHistory;
+using Sopro.Interfaces.PersistenceController;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Sopro.Persistence.PersEvaluation
 {

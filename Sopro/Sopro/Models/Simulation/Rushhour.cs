@@ -3,8 +3,6 @@ using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Simulation
 {
@@ -19,7 +17,6 @@ namespace Sopro.Models.Simulation
 
         public List<DateTime> run()
         {
-
             return strategy.generateDateTimeValues(start,end,bookings);
         }
     }

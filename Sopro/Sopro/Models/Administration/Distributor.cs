@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces;
 using Sopro.Controllers;
-using Sopro.Models.Communication;
 
 namespace Sopro.Models.Administration
 {

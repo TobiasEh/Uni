@@ -1,10 +1,8 @@
 ﻿using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.Simulation;
 using Sopro.Models.Administration;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Simulation
 {
