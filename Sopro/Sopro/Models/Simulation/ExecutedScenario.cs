@@ -16,7 +16,7 @@ namespace Sopro.Models.Simulation
 
         public ExecutedScenario()
         {
-
+            stationWorkload = new List<List<double>>();
         }
 
         public List<double> getLocationWorkload()
