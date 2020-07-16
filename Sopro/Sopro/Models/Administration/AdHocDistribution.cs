@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
 {
-    public class StandardDistribution : IDistributionStrategy
+    public class AdHocDistribution : IDistributionStrategy
     {
-        public StandardDistribution()
+        public AdHocDistribution()
         {
 
         }
@@ -58,15 +58,15 @@ namespace Sopro.Models.Administration
 
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
-            
+
             //Sort Bookinglist into new one (priority needed)
             List<Booking> b = bookings.OrderBy(o => o.priority).ToList();
 
-            //Save location, backup capacity
+            //Save location
             Location l = (Location)b.First().location;
             double backup = l.emergency;
             List<Workload> wl = new List<Workload>();
-            int concurrentCount = 0; //total count of concurrent bookings of location
+            int concurrentCount = 0;
 
             //Create new UsedTimeSlot object
             List<UsedTimeSlots> usedTimeSlots = new List<UsedTimeSlots>();
@@ -81,7 +81,7 @@ namespace Sopro.Models.Administration
                 }
             }
 
-            //Init all existing bookings in schedule into the workload wl/UsedTimeSlots
+            //Init all existing bookings
             foreach (Booking bo in schedule.bookings)
             {
                 foreach (UsedTimeSlots u in usedTimeSlots)
@@ -92,21 +92,25 @@ namespace Sopro.Models.Administration
                         temp.Add(bo.startTime);
                         temp.Add(bo.endTime);
                         u.used.Add(temp);
-                        if(bo.startTime.Day.Equals(bo.endTime.Day))
+                        if (bo.startTime.Day.Equals(bo.endTime.Day))
                         {
                             TimeSpan span = bo.endTime.Subtract(bo.startTime);
-                            if(wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
+                            if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
                             {
                                 wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).used += (int)span.TotalMinutes;
-                            } else
+                            }
+                            else
                             {
                                 Workload w = new Workload(bo.startTime, concurrentCount, (int)span.TotalMinutes);
                                 wl.Add(w);
                             }
-                        } 
+                        }
                         else
                         {
                             DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
+                            /*bo.startTime.AddDays(1);
+                        d = d.AddHours(-bo.startTime.Hour);
+                        d = d.AddMinutes(-bo.startTime.Minute);*/
                             TimeSpan spanStart = d.Subtract(bo.startTime);
                             TimeSpan spanEnd = bo.endTime.Subtract(d);
                             if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
@@ -154,9 +158,9 @@ namespace Sopro.Models.Administration
                         int dur = calculateDuration(bo.socStart, bo.socEnd, bo.capacity, u.station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
                         //capNeeded / power * 60;
                         //Check capacity cap
-                        if(wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
+                        if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
                         {
-                            if((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
+                            if ((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
                             {
                                 break;
                             }
@@ -165,7 +169,6 @@ namespace Sopro.Models.Administration
                         //no Booking -> Add booking
                         if (!u.used.Any())
                         {
-                            //Add booking
                             bo.station = u.station;
                             bo.endTime = bo.startTime.AddMinutes(dur);
                             bo.plugs.Clear();
@@ -188,13 +191,10 @@ namespace Sopro.Models.Administration
                         }
                         else
                         {
-                            //Find free spot for current booking
                             for (int offset = 0; bo.startTime.AddMinutes(offset + dur) < bo.endTime; offset += 15)
                             {
-                                //Check if there is a free sport
                                 if (spotFree(u.used, bo.startTime.AddMinutes(offset), bo.startTime.AddMinutes(offset + dur), u.station))
                                 {
-                                    //Add booking
                                     bo.station = u.station;
                                     bo.startTime = bo.startTime.AddMinutes(offset);
                                     bo.endTime = bo.startTime.AddMinutes(offset + dur);
@@ -221,8 +221,7 @@ namespace Sopro.Models.Administration
                             }
                         }
                     }
-                    //if booking was inserted dont look for another fiting station
-                    if(inserted)
+                    if (inserted)
                     {
                         break;
                     }
@@ -231,7 +230,6 @@ namespace Sopro.Models.Administration
             return true;
         }
 
-        //Checks if station has the requested PlugType
         private bool hasRequestedPlugs(Booking b, Station s)
         {
             foreach (PlugType pt in b.plugs)
@@ -262,7 +260,6 @@ namespace Sopro.Models.Administration
             return false;
         }
 
-        //Looks if the current booking defined by start/end can be inserted in the station
         private bool spotFree(List<List<DateTime>> spots, DateTime start, DateTime end, Station station)
         {
             int concurrent = 0;
@@ -297,7 +294,6 @@ namespace Sopro.Models.Administration
             return duration + 15 - remainder;
         }
 
-        //Selects first Plug
         private PlugType selectPlug(List<PlugType> plugs)
         {
             return plugs.First();
