@@ -116,7 +116,7 @@ namespace UnitTests.Simulation
                 rushhours = rushhours
             };
             result = generator.generateBookings(scenario);
-            Assert.IsTrue(result.Count == bookingsCountPerDay * duration);
+            Assert.IsTrue(result.Count() == bookingsCountPerDay * duration);
         }
 
         [Test]
