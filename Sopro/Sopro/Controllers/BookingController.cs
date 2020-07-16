@@ -21,6 +21,7 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
+        private IBookingService service;
 
         public BookingController(IMemoryCache _cache)
         {
@@ -203,5 +204,54 @@ namespace Sopro.Controllers
             cache.Set(cacheKey, bookings);
             return View("Index", bookings);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult import([FromForm]FileViewModel model)
+        {
+            IFormFile file = model.importedFile;
+            string path = Path.GetFullPath(file.Name);
+            List<IBooking> importedBookings = service.import(path);
+
+            if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
+            {
+                bookings = importedBookings;
+            }
+
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            foreach (IBooking boo in importedBookings)
+            {
+                if (!bookings.Contains(boo))
+                {
+                    bookings.Add(boo);
+
+                    if (!locations.Contains(boo.location))
+                    {
+                        locations.Add(boo.location);
+                    }
+
+                }
+            }
+
+            cache.Set(CacheKeys.LOCATION, locations);
+            cache.Set(CacheKeys.BOOKING, bookings);
+            return View("Index", bookings);
+        }
+
+        public IActionResult export([FromForm]FileViewModel model)
+        {
+            cache.TryGetValue(CacheKeys.BOOKING, out bookings);
+            IFormFile file = model.exportedFile;
+            string path = Path.GetFullPath(file.Name);
+            service.exportFile(bookings, path);
+
+            return View("Index", bookings);
+        }
     }
+
 }
