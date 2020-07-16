@@ -21,7 +21,7 @@ namespace Sopro.Controllers
 
         public IActionResult Index()
         {
-
+            locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
             return View(locations);
         }
 
