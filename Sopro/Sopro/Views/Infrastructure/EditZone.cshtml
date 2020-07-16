@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewData["Title"] = "Zone Bearbeiten";
+    Layout = "_AdminLayout";
+}
+<h1 class="display-4 pb-5 pt-5">Zone A</h1>
+<div class="form-row">
+
+    <div class="form-group col">
+        <label>Standort</label>
+        <input form="addStation" class="form-control" />
+        <small></small>
+    </div>
+    <div class="form-group col">
+        <label>Leistung der Zone</label>
+        <div class="input-group">
+            <input form="addStation" class="form-control" placeholder="0" />
+            <div class="input-group-append">
+                <span class="input-group-text"> kW </span>
+            </div>
+        </div>
+        <small></small>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap mt-2">
+    <div class="text-nowrap mr-auto">
+        <form asp-controller="" asp-action="" method="post" id="addStation" />
+        <h2>Station bearbeiten</h2>
+        <div class="form-group">
+            <label>Name</label>
+            <input form="addStation" class="form-control" />
+            <small></small>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label>CCS plug</label>
+                <input form="addStation" class="form-control" />
+                <small></small>
+            </div>
+            <div class="form-group col">
+                <label>Parallel nutzbar</label>
+                <input form="addStation" class="form-control" />
+                <small></small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Type-2-plug</label>
+                <input form="addStation" class="form-control" />
+                <small></small>
+            </div>
+            <div class="form-group col">
+                <label>Parallel nutzbar</label>
+                <input form="addStation" class="form-control" />
+                <small></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Gleichzeitig benutzbare Stecker</label>
+            <input form="addStation" class="form-control" />
+            <small></small>
+        </div>
+        <div class="form-group">
+            <label>Leistung</label>
+            <div class="input-group">
+                <input form="addStation" class="form-control" placeholder="0" />
+                <div class="input-group-append">
+                    <span class="input-group-text"> kW </span>
+                </div>
+            </div>
+            <small></small>
+        </div>
+
+        <div>
+            <button form="addStation" type="submit" class="btn btn-primary float-right btn-mhp">Hinzufügen</button>
+        </div>
+
+    </div>
+
+    <div class="text-nowrap">
+        <h2>Stationsübersicht</h2>
+        <div class="overflow-auto pr-4" style="height: 450px">
+            <table class="table table-sm ">
+                <tbody>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        var stationName = string.Concat("Station", " ", (i + 1).ToString());
+                        <tr>
+                            <th class="align-middle"><h4>@stationName</h4></th>
+                            <td class="px-4">
+                                <div class="d-inline-flex">
+                                    <div class="flex-column">
+                                        <div>CCS</div>
+                                        <div class="mb-3">Type-2-plugs</div>
+                                        <div>Maximal Parallele CCS</div>
+                                        <div>Maximal Parallele Type-2-Plug</div>
+                                        <div class="mb-3">Gleichzeitig nutzbar</div>
+                                        <div>Leistung</div>
+                                    </div>
+                                    <div class="flex-column ml-4">
+                                        <div>4</div>
+                                        <div class="mb-3">4</div>
+                                        <div>2</div>
+                                        <div>2</div>
+                                        <div class="mb-3">4</div>
+                                        <div>1000 kW</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">
+                                <button class="btn btn-link"><img src="~/bootstrap-icons/pencil-square.svg" width="20" class="filter-blue" /></button>
+                                <button class="btn btn-link"><img src="~/bootstrap-icons/trash.svg" width="20" /></button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<div class="d-flex mt-2">
+    <div class="ml-auto">
+        <form methode="post">
+            <button asp-controller="Infrastruktur" asp-action="Index" class="btn btn-secondary">Abbrechen</button>
+        </form>
+    </div>
+    <div class="ml-2">
+        <form methode="post">
+            <button asp-controller="Infrastruktur" asp-action="Index" class="btn btn-primary btn-mhp">Bestätigen</button>
+        </form>
+    </div>
+</div>
+

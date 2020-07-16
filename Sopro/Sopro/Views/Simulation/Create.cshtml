@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_AdminLayout";
+}
+
+<h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
+<div class="flex-column">
+    <div class="form-group mb-4">
+        <h6>Name</h6>
+        <input form="" class="form-control" />
+        <small></small>
+    </div>
+    <div class="form-group mb-4">
+        <h6>Dauer</h6>
+        <input form="" class="form-control" />
+        <small></small>
+    </div>
+
+
+
+    <div class="form-group mb-4">
+        <h6>Firmenstandort</h6>
+        <select form="" class="form-control">
+            <option disabled selected>Wählen</option>
+            <option>München</option>
+            <option>Berlin</option>
+            <option>Bsp Location 1</option>
+            <!-- [...] -->
+        </select>
+
+        <div class="mb-2 pt-2">
+            <button form="" type="submit" class="btn btn-primary btn-mhp">Erstellen</button>
+        </div>
+
+    </div>
+
+    <div class="form-group mb-2">
+        <h6>Stoßzeiten</h6>
+        <div>Anzahl</div>
+        <small></small>
+    </div>
+    <div class="d-inline-flex mb-2">
+        <button id="plus" class="btn btn-primary btn-mhp mr-2">Plus</button>
+        <button id="minus" class="btn btn-secondary">Minus</button>
+    </div>
+    <div id="peak">
+        <div class="flex-column mb-3">
+
+            <div>Peak 1</div>
+            <div class="form-group mb-2 ml-5">
+                <div>Zeitpunkt</div>
+                <input form="" type="datetime-local" class="form-control" />
+                <small></small>
+            </div>
+            <div class="form-group mb-2 ml-5">
+                <div>Dauer</div>
+                <input form="" class="form-control" />
+                <small></small>
+            </div>
+            <div class="form-group mb-2 ml-5">
+                <div>Spread</div>
+                <input form="" type="datetime-local" class="form-control" />
+                <small></small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group d-inline-flex mb-2">
+        <div class="mr-3">
+            <h6>Autos</h6>
+            <table class="table table-striped table-borderless table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            Modell
+                        </th>
+                        <th>
+                            Stecker
+                        </th>
+                        <th>
+                            Kapazität
+                        </th>
+                        <th>
+                            SoC-start
+                        </th>
+                        <th>
+                            SoC-end
+                        </th>
+
+                    </tr>
+                </thead>
+                @for (var i = 0; i < 3; i++)
+                {
+                    <tr>
+                        <td>
+                            example
+                        </td>
+                        <td>
+                            example
+                        </td>
+                        <td>
+                            example
+                        </td>
+                        <td>
+                            example
+                        </td>
+                        <td>
+                            example
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <small></small>
+        </div>
+        <div class="align-self-end mr-3 mb-3">
+
+            <select form="" class="form-control">
+                <option>Auto1</option>
+                <option>Auto2</option>
+                <option>Auto3</option>
+                <!-- [...] -->
+            </select>
+        </div>
+        <button form="" type="submit" class="btn btn-primary btn-mhp align-self-end mb-3">Hinzufügen</button>
+    </div>
+    <div class="d-flex mt-4">
+        <button form="" type="reset" class="btn btn-secondary ml-auto mr-3">Abbrechen</button>
+        <button form="" type="submit" class="btn btn-primary btn-mhp">Erstellen</button>
+    </div>
+</div>
