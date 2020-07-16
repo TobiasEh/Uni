@@ -1,11 +1,6 @@
-﻿using Sopro.Models;
-using Sopro.Interfaces;
-using System;
+﻿using Sopro.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Sopro.Models.Administration;
-using Sopro.Models.Infrastructure;
 
 namespace Sopro.ViewModels
 {

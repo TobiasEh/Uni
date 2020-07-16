@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Server.IIS.Core;
-using Microsoft.Extensions.DependencyInjection;
-using Sopro.Controllers;
-using Sopro.Models.Communication;
+﻿using Sopro.Models.Communication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
 {
@@ -13,7 +9,7 @@ namespace Sopro.Models.Administration
     {
         public NotificationManager notificationManager { get; set; }
 
-        public List<Booking> bookings { get; set; }
+        public List<Booking> bookings { get; private set; }
 
         public Schedule()
         {
@@ -37,7 +33,7 @@ namespace Sopro.Models.Administration
             {
                 return false;
             }
-            notificationManager.notify(booking, NotificationEvent.ACCEPTED);
+            // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
         }
@@ -74,7 +70,7 @@ namespace Sopro.Models.Administration
                     if (!removeBooking(item))
                         return false;
                 }
-            }
+            };
             return true;
         }
 
