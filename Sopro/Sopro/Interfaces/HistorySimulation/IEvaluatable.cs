@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Sopro.Models.Administration;
+using Sopro.Models.Infrastructure;
+using System.Collections.Generic;
 
 namespace Sopro.Interfaces.HistorySimulation
 {
@@ -8,7 +10,7 @@ namespace Sopro.Interfaces.HistorySimulation
         public List<List<double>> getStationWorkload();
         public List<Booking> getBookings();
         public int getFulfilledRequests();
-        public Location location { get; set; }
+        public ILocation location { get; set; }
     }
 }
 

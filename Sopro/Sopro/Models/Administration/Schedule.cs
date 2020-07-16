@@ -11,7 +11,7 @@ namespace Sopro.Models.Administration
 {
     public class Schedule
     {
-        private NotificationManager notificationManager { get; set; }
+        public NotificationManager notificationManager { get; set; }
 
         public List<Booking> bookings { get; set; }
 

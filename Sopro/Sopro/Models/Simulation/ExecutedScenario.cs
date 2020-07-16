@@ -1,6 +1,7 @@
 ﻿using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.Simulation;
 using Sopro.Models.Administration;
+using Sopro.Models.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,6 +48,11 @@ namespace Sopro.Models.Simulation
             if (count == stationWorkload.Count())
                 return false;
             return true;
+        }
+
+        public List<Booking> getBookings()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

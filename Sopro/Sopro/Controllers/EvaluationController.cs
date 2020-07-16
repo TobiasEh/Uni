@@ -6,10 +6,8 @@ using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.History;
 using Sopro.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Sopro.Controllers
 {
@@ -37,7 +35,7 @@ namespace Sopro.Controllers
         }
         public IActionResult Analyze(IEvaluatable scenario)
         {
-            if (!cache.TryGetValue(CacheKeys.EVALUATION))
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
             {
                 evaluations = new List<IEvaluation>();
             }
