@@ -37,7 +37,7 @@ namespace Sopro.Models.Administration
             {
                 return false;
             }
-            notificationManager.notify(booking, NotificationEvent.ACCEPTED);
+            // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
         }
