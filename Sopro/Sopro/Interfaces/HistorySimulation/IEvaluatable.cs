@@ -4,9 +4,11 @@ namespace Sopro.Interfaces.HistorySimulation
 {
     public interface IEvaluatable
     {
-        List<double> getLocationWorkload();
-        List<List<double>> getStationWorkload();
-        int getFulfilledRequests();
+        public List<double> getLocationWorkload();
+        public List<List<double>> getStationWorkload();
+        public List<Booking> getBookings();
+        public int getFulfilledRequests();
+        public Location location { get; set; }
     }
 }
 

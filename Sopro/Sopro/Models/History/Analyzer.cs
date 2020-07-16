@@ -1,4 +1,5 @@
-﻿using Sopro.Models.Infrastructure;
+﻿using Sopro.Interfaces.HistorySimulation;
+using Sopro.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
