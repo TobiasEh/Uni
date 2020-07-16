@@ -13,7 +13,7 @@ namespace Sopro.Models.Administration
     {
         private NotificationManager notificationManager { get; set; }
 
-        private List<Booking> bookings { get; set; }
+        public List<Booking> bookings { get; private set; }
 
         public Schedule()
         {
@@ -37,7 +37,7 @@ namespace Sopro.Models.Administration
             {
                 return false;
             }
-            notificationManager.notify(booking, NotificationEvent.ACCEPTED);
+            // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
         }
