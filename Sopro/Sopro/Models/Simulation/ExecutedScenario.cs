@@ -13,7 +13,6 @@ namespace Sopro.Models.Simulation
         private List<List<double>> stationWorkload { get; set; }
         public int fulfilledRequests { private get; set; } = 0;
         public List<Booking> bookings { get; set; } = new List<Booking>();
-        Location IEvaluatable.location { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public ExecutedScenario()
         {
