@@ -1,4 +1,4 @@
-﻿using Sopro.Models.Administration;
+using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
 using System;
