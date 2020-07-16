@@ -16,6 +16,30 @@ namespace Sopro.Controllers
         private List<IVehicle> vehicles;
         private IVehicleService service;
 
+
+        public IActionResult Cartemplates()
+        {
+            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
+            return View(vehicles);
+        }
+
+        [HttpPost]
+        public IActionResult Post(IVehicle vehilce)
+        {
+            if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+            if (!ModelState.IsValid)
+            {
+                throw new Exception("Fahrzeug nicht valide!");
+            }
+            vehicles.Add(vehilce);
+            cache.Set(CacheKeys.VEHICLE, vehicles);
+            return View("Cartemplates", vehicles);
+
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult import([FromForm] FileViewModel model)
