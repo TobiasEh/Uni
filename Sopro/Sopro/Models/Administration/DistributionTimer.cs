@@ -29,17 +29,20 @@ namespace Sopro.Models.Administration
             await Task.Run(() =>
             {
                 _logger.LogInformation("Running async task distribution...");
-                List<ILocation> locations = (List<ILocation>)_cache.Get(CacheKeys.LOCATION);
-                foreach (ILocation l in locations)
+                List<ILocation> locations; 
+                if(_cache.TryGetValue(CacheKeys.LOCATION, out locations))
                 {
-                    _logger.LogInformation("Distributing locations...");
-                    _logger.LogInformation("Distribution time:" + l.normalizedDistributionTime.Minute.ToString());
-                    _logger.LogInformation("Current time: " + DateTime.Now.Minute.ToString());
-                    if (l.normalizedDistributionTime.Minute == DateTime.Now.Minute)
+                    foreach (ILocation l in locations)
                     {
-                        string s = "Location: " + l.name;
-                        _logger.LogInformation(s);
-                        l.distributor.run(_cache);
+                        _logger.LogInformation("Distributing locations...");
+                        _logger.LogInformation("Distribution time:" + l.normalizedDistributionTime.Minute.ToString());
+                        _logger.LogInformation("Current time: " + DateTime.Now.Minute.ToString());
+                        if (l.normalizedDistributionTime.Minute == DateTime.Now.Minute)
+                        {
+                            string s = "Location: " + l.name;
+                            _logger.LogInformation(s);
+                            l.distributor.run(_cache);
+                        }
                     }
                 }
             });

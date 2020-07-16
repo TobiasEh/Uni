@@ -60,6 +60,7 @@ namespace Sopro.Controllers
             return View(scenarios);
         }
 
+        /*
         public async Task<IActionResult> Simulate(ISimulator simulator)
         {
             // Simulation muss asynchron ausgeführt werden, da die Website sonst nicht navigierbar ist
@@ -71,6 +72,7 @@ namespace Sopro.Controllers
             
             return RedirectToAction("Analyze", "EvaluationController", simulator.scenario);
         }
+        */
 
         [HttpPost]
         [ValidateAntiForgeryToken]

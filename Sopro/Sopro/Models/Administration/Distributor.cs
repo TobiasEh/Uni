@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces;
 using Sopro.Controllers;
+using System;
 
 namespace Sopro.Models.Administration
 {
@@ -11,8 +12,7 @@ namespace Sopro.Models.Administration
         private Schedule schedule { get; set; }
         public IDistributionStrategy strategy { get; set; }
         private BookingLocationFilter filter { get; set; }
-        private int puffer {get; set; } = 15;
-        private int timespan { get; set; }
+        private int buffer {get; set; } = 15;
         private NotificationManager notificationManager;
         private ILocation location;
         private IMemoryCache cache;
@@ -21,7 +21,7 @@ namespace Sopro.Models.Administration
         {
             schedule = _schedule;
             location = _location;
-            filter = new BookingLocationFilter(location, timespan);
+            filter = new BookingLocationFilter(location);
             notificationManager = new NotificationManager();
         }
 
@@ -33,10 +33,12 @@ namespace Sopro.Models.Administration
             List<Booking> bookings;
             if(cache.TryGetValue(CacheKeys.BOOKING, out bookings))
             {
+                Console.WriteLine("Before filter: " + bookings.Count().ToString());
                 bookings = filter.filter(bookings);
+                Console.WriteLine("After filter: " + bookings.Count().ToString());
                 if (bookings == null || bookings.Count() == 0)
                     return false;
-                if (!strategy.distribute(bookings, schedule, puffer))
+                if (!strategy.distribute(bookings, schedule, buffer))
                     return false;
                 /*
                 foreach (Booking item in bookings)
