@@ -26,7 +26,7 @@ namespace Sopro.Controllers
 
         public IActionResult History()
         {
-            cache.TryGetValue(CacheKeys.HISTORY, out evaluations);
+            cache.TryGetValue(CacheKeys.EVALUATION, out evaluations);
             return View(evaluations);
         }
 
@@ -37,14 +37,14 @@ namespace Sopro.Controllers
         }
         public IActionResult Analyze(IEvaluatable scenario)
         {
-            if (!cache.TryGetValue(CacheKeys.HISTORY))
+            if (!cache.TryGetValue(CacheKeys.EVALUATION))
             {
                 evaluations = new List<IEvaluation>();
             }
-            Analyzer analyzer = new Analyzer();
-            IEvaluation evaluation = analyzer.analyze(scenario);
+
+            IEvaluation evaluation = Analyzer.analyze(scenario);
             evaluations.Add(evaluation);
-            cache.Set(CacheKeys.HISTORY, evaluations);
+            cache.Set(CacheKeys.EVALUATION, evaluations);
             return RedirectToAction("Evaluation", evaluation);
         } 
 
@@ -56,7 +56,7 @@ namespace Sopro.Controllers
             string path = Path.GetFullPath(file.Name);
             List<IEvaluation> importedEvaluations = service.import(path);
 
-            if (!cache.TryGetValue(CacheKeys.HISTORY, out evaluations))
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
             {
                 evaluations = importedLocations;
             }
@@ -68,7 +68,7 @@ namespace Sopro.Controllers
                 }
             }
             
-            cache.Set(CacheKeys.HISTORY, evaluations);
+            cache.Set(CacheKeys.EVALUATION, evaluations);
             return View("Evaluation", evaluations);
         }
         [HttpGet]
