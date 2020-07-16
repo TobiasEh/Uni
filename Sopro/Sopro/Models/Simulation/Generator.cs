@@ -1,4 +1,4 @@
-﻿using Sopro.Models.Administration;
+using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
 using System;
@@ -25,7 +25,7 @@ namespace Sopro.Models.Simulation
         public List<Booking> generateBookings(Scenario scenario) 
         {
             List<Booking> bookingList = new List<Booking>();
-            for(int i = 0; i <= scenario.duration; i++) //days
+            for(int i = 0; i < scenario.duration; i++) //days
             {
                 bool exists = false;
                 if (scenario.rushhours.Count != 0)
