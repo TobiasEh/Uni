@@ -1,7 +1,6 @@
 ﻿using Sopro.Interfaces.ControllerSimulation;
 using System.Collections.Generic;
 
-
 namespace Sopro.Interfaces.Persistence
 {
     public interface IScenarioRepository

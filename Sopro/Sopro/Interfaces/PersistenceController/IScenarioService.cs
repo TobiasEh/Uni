@@ -7,7 +7,6 @@ namespace Sopro.Interfaces.PersistenceController
     public interface IScenarioService : IScenarioRepository
     {
         public List<IScenario> import(string path);
-
         public void export(List<IScenario> list, string path);
     }
 }

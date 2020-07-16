@@ -1,7 +1,6 @@
 ﻿using System;
 using Sopro.Models.Administration;
 
-
 namespace Sopro.Interfaces.CommunicationAdministration
 {
     public interface INotificationListener

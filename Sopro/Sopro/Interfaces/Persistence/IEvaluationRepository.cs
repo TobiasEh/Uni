@@ -1,7 +1,6 @@
 ﻿using Sopro.Interfaces.ControllerHistory;
 using System.Collections.Generic;
 
-
 namespace Sopro.Interfaces.Persistence
 {
     public interface IEvaluationRepository

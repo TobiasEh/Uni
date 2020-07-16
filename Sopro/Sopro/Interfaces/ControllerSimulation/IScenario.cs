@@ -1,7 +1,6 @@
 ﻿using Sopro.Models.Simulation;
 using System.Collections.Generic;
 
-
 namespace Sopro.Interfaces.ControllerSimulation
 {
     public interface IScenario

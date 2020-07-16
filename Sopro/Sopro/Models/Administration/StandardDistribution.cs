@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
-using Sopro.Interfaces;
+﻿using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
 {
@@ -53,6 +51,7 @@ namespace Sopro.Models.Administration
             public UsedTimeSlots(Station _station)
             {
                 station = _station;
+                used = new List<List<DateTime>>();
             }
         }
 

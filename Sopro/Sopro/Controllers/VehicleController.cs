@@ -17,7 +17,6 @@ namespace Sopro.Controllers
         private List<IVehicle> vehicles;
         private IVehicleService service;
 
-
         public IActionResult Cartemplates()
         {
             cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
@@ -38,7 +37,6 @@ namespace Sopro.Controllers
             vehicles.Add(vehilce);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             return View("Cartemplates", vehicles);
-
         }
 
         [HttpPost]
@@ -63,7 +61,6 @@ namespace Sopro.Controllers
                     vehicles.Add(veh);
                 }
             }
-
             cache.Set(CacheKeys.VEHICLE, vehicles);
             return View("Index", vehicles);
         }
