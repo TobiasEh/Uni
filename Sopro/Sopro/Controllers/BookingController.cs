@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
 using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
+using System.IO;
 using Sopro.Models.Infrastructure;
 
 namespace Sopro.Controllers
