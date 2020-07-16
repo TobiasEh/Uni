@@ -22,8 +22,10 @@ namespace Sopro.Controllers
 
         public IActionResult History()
         {
-
+            cache.TryGetValue(CacheKeys.HISTORY, out evaluations);
+            return View(evaluations);
         }
+
         [HttpPost]
         public IActionResult Post()
         {
@@ -31,20 +33,26 @@ namespace Sopro.Controllers
         }
         public IActionResult Analyze(IEvaluatable scenario)
         {
+            if (!cache.TryGetValue(CacheKeys.HISTORY))
+            {
+                evaluations = new List<IEvaluation>();
+            }
             Analyzer analyzer = new Analyzer();
             IEvaluation evaluation = analyzer.analyze(scenario);
-            return View()
+            evaluations.Add(evaluation);
+            cache.Set(CacheKeys.HISTORY, evaluations);
+            return RedirectToAction("Evaluation", evaluation);
         } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm]FileViewModel model)
+        public IActionResult Import([FromForm]FileViewModel model)
         {
             IFormFile file = model.importedFile;
             string path = Path.GetFullPath(file.Name);
             List<IEvaluation> importedEvaluations = service.import(path);
 
-            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            if (!cache.TryGetValue(CacheKeys.HISTORY, out evaluations))
             {
                 evaluations = importedLocations;
             }
@@ -56,16 +64,16 @@ namespace Sopro.Controllers
                 }
             }
             
-            cache.Set(CacheKeys.EVALUATION, evaluations);
+            cache.Set(CacheKeys.HISTORY, evaluations);
             return View("Evaluation", evaluations);
         }
         [HttpGet]
-        public IActionResult export([FromForm] FileViewModel model)
+        public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.LOCATION, out evaluations);
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
-            service.exportFile(evaluations, path);
+            service.export(evaluations, path);
 
             return View("Index", evaluations);
         }
