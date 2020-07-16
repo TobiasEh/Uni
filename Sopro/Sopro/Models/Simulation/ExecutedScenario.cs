@@ -1,6 +1,7 @@
 ﻿using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.Simulation;
 using Sopro.Models.Administration;
+using Sopro.Models.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,7 @@ namespace Sopro.Models.Simulation
         private List<List<double>> stationWorkload { get; set; }
         public int fulfilledRequests { private get; set; } = 0;
         public List<Booking> bookings { get; set; } = new List<Booking>();
+        Location IEvaluatable.location { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public ExecutedScenario()
         {
@@ -47,6 +49,11 @@ namespace Sopro.Models.Simulation
             if (count == stationWorkload.Count())
                 return false;
             return true;
+        }
+
+        public List<Booking> getBookings()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
