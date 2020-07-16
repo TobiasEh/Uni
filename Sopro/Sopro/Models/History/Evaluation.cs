@@ -1,4 +1,5 @@
-﻿using Sopro.Models.Infrastructure;
+﻿using Sopro.Interfaces.ControllerHistory;
+using Sopro.Models.Infrastructure;
 using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
