@@ -11,9 +11,9 @@ namespace Sopro.Models.Administration
 {
     public class Schedule
     {
-        private NotificationManager notificationManager { get; set; }
+        public NotificationManager notificationManager { get; set; }
 
-        private List<Booking> bookings { get; set; }
+        public List<Booking> bookings { get; set; }
 
         public Schedule()
         {
@@ -74,7 +74,7 @@ namespace Sopro.Models.Administration
                     if (!removeBooking(item))
                         return false;
                 }
-            };
+            }
             return true;
         }
 
