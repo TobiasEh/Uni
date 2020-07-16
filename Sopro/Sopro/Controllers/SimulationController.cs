@@ -64,7 +64,7 @@ namespace Sopro.Controllers
             simulator.init();
             simulator.run();
 
-            return RedirectToAction("Evaluation", "EvaluationController");
+            return RedirectToAction("Analyze", "EvaluationController", simulator.scenario);
         }
 
         [HttpPost]
