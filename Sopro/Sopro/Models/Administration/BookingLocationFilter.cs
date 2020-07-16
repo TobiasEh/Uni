@@ -27,19 +27,20 @@ namespace Sopro.Models.Administration
          */
         public List<Booking> filter(List<Booking> bookings)
         {
-                DateTime time = DateTime.Now.AddDays(timespan);
-                foreach (Booking item in bookings)
+            DateTime time = DateTime.Now.AddDays(timespan);
+            List<Booking> result = new List<Booking>();
+            foreach (Booking item in bookings)
+            {
+                if (item.location == location && item.startTime < time && item.startTime >= DateTime.Now)
                 {
-                    if (item.location != location || item.startTime >= time && item.startTime < DateTime.Now)
-                    {
-                        bookings.Remove(item);
-                    }
+                    result.Add(item);
                 }
-            if (bookings.Count() == 0 || bookings == null)
-                return bookings;
+            }
+            if (result.Count() == 0 || result == null)
+                return result;
             else
             {
-                return bookings;
+                return result;
             }
         }
     }
