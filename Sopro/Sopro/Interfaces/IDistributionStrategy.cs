@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.Interfaces
 {
-    interface IDistributionStrategy
+    public interface IDistributionStrategy
     {
         bool distribute(List<Booking> bookings, Schedule schedule, int puffer);
     }

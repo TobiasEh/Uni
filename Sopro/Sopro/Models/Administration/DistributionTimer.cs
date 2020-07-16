@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
@@ -8,15 +7,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Sopro.Controllers;
 using Sopro.Interfaces;
-using Sopro.Models.Infrastructure;
 
 namespace Sopro.Models.Administration
 {
     public class DistributionTimer : IHostedService, IDisposable
     {
         private readonly ILogger<DistributionTimer> _logger;
-        private Timer _timer;
         private IMemoryCache _cache;
+        private Timer _timer;
 
         public DistributionTimer(IMemoryCache cache, ILogger<DistributionTimer> logger)
         {
@@ -24,25 +22,38 @@ namespace Sopro.Models.Administration
             _cache = cache;
         }
 
-        private void triggerBookingDistribution(object state)
+        private async void triggerBookingDistribution(object state)
         {
-            var cacheKey = CacheKeys.LOCATION;
-            List<ILocation> locations = (List<ILocation>)_cache.Get(cacheKey);
-            foreach (Location l in locations)
+            _logger.LogInformation("Trying to distribute...");
+
+            await Task.Run(() =>
             {
-                if (l.normalizedDistributionTime.Hour == DateTime.Now.Hour)
+                _logger.LogInformation("Running async task distribution...");
+                List<ILocation> locations = (List<ILocation>)_cache.Get(CacheKeys.LOCATION);
+                foreach (ILocation l in locations)
                 {
-                    l.distributor.run();
+                    _logger.LogInformation("Distributing locations...");
+                    _logger.LogInformation("Distribution time:" + l.normalizedDistributionTime.Minute.ToString());
+                    _logger.LogInformation("Current time: " + DateTime.Now.Minute.ToString());
+                    if (l.normalizedDistributionTime.Minute == DateTime.Now.Minute)
+                    {
+                        string s = "Location: " + l.name;
+                        _logger.LogInformation(s);
+                        l.distributor.run(_cache);
+                    }
                 }
-            }
+            });
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Booking distribution service is running.");
-            DateTime nextHour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour + 1, 0, 0);
-            TimeSpan startTime = nextHour.Subtract(DateTime.Now);
-            _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromHours(1));
+            // Wann die nächste Zeiteinheit startet
+            DateTime nextMinute = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute + 1, DateTime.Now.Second);
+            // Zeit bis zur nächsten Zeiteinheit
+            TimeSpan startTime = nextMinute.Subtract(DateTime.Now);
+            // Timer ab nächster Zeiteinheit für jede folgende Zeitheinheit
+            _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromMinutes(1));
             return Task.CompletedTask;
         }
 

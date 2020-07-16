@@ -1,27 +1,22 @@
 ﻿using System;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Caching.Memory;
 using Sopro.Controllers;
 using Sopro.Interfaces;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Administration;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace UnitTests.Administration
 {
     [TestFixture]
-    class DistributionTimerTest
+    class DistributionTimerTest : IDistributionStrategy
     {
-        private IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
-        private string cacheKeyL = CacheKeys.LOCATION;
-        private string cacheKeyB = CacheKeys.BOOKING;
+        private MemoryCache cache = new MemoryCache(new MemoryCacheOptions());
         private List<ILocation> locations;
         private List<Booking> bookings;
-        
-        private ILogger<DistributionTimer> logger = new Logger<DistributionTimer>(new LoggerFactory());
         
         private static Plug plug1 = new Plug()
         {
@@ -49,20 +44,22 @@ namespace UnitTests.Administration
             stations = new List<Station>() { station }
         };
 
-        private static Location location1 = new Location()
+        private static ILocation location = new Location()
         {
-            emergency = 120,
-            name = "Ludwigsburg",
+            id = "locationidk",
             zones = new List<Zone>() { zone },
-
+            name = "Berlin",
+            emergency = 0.05,
+            // Verteile zur vollen Zeitheinheit
+            normalizedDistributionTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute + 1, DateTime.Now.Second)
         };
 
-        private Booking booking1 = new Booking()
+        private static Booking booking1 = new Booking()
         {
             capacity = 120,
             startTime = DateTime.Now.AddDays(2),
             endTime = DateTime.Now.AddDays(2).AddHours(4),
-            location = location1,
+            location = (Location)location,
             user = "user@me.com",
             plugs = new List<PlugType>() { PlugType.TYPE2 },
             priority = Sopro.Models.User.UserType.EMPLOYEE,
@@ -70,12 +67,12 @@ namespace UnitTests.Administration
             socEnd = 44,
         };
 
-        private Booking booking2 = new Booking()
+        private static Booking booking2 = new Booking()
         {
             capacity = 1000,
             startTime = DateTime.Now.AddDays(2).AddHours(2),
             endTime = DateTime.Now.AddDays(2).AddHours(5),
-            location = location1,
+            location = (Location)location,
             user = "user2@me.com",
             plugs = new List<PlugType>() { PlugType.CCS },
             priority = Sopro.Models.User.UserType.EMPLOYEE,
@@ -83,24 +80,60 @@ namespace UnitTests.Administration
             socEnd = 100,
         };
 
-        [SetUp]
-        public void setUp()
-        {
-            Distributor dis = new Distributor(new Schedule(), location1);
-            location1.distributor = dis;
-            bookings = new List<Booking>() { booking1, booking2};
-            locations = new List<ILocation>() { location1 };
-            cache.Set(locations, cacheKeyL);
-            cache.Set(bookings, cacheKeyB);
-        }
-
 
         [Test]
         public void distributionTimerStartTest()
         {
-            StackTrace stackTrace = new StackTrace();
-            var mockCookieManager = new Mock();
+            // Mock logger
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning)
+                    .AddFilter("LoggingConsoleApp.Program", LogLevel.Debug)
+                    .AddConsole()
+                    .AddEventLog();
+            });
+            var logger = loggerFactory.CreateLogger<DistributionTimer>();
 
+            // Create TimerService
+            DistributionTimer t = new DistributionTimer(cache, logger);
+            t.StartAsync(new System.Threading.CancellationToken());
+
+            // Configure location
+            location.schedule = new Schedule();
+            location.distributor = new Distributor(location.schedule, location)
+            {
+                strategy = this
+            };
+            
+            bookings = new List<Booking>() { booking1, booking2 };
+            locations = new List<ILocation>() { location };
+
+            cache.Set(CacheKeys.LOCATION, locations);
+            cache.Set(CacheKeys.BOOKING, bookings);
+
+            // Es soll ab der nächsten vollen Zeiteinheit jede Zeiteinheit verteilt werden. 
+            // Wir warten also n Zeiteinheiten um sicher zu gehen, dass verteilt wurde.
+            Task.Delay(180000).Wait();
+
+            // Timer Service beenden
+            t.Dispose();
+
+            Assert.IsTrue(location.schedule.bookings.Count > 0);
         }
+      
+        public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
+        {
+            foreach (Booking item in bookings)
+            {
+                schedule.addBooking(item);
+            }
+            return true;
+        }
+
+
     }
 }
+
+

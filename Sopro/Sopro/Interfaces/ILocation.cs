@@ -11,5 +11,6 @@ namespace Sopro.Interfaces
         bool addZone(Zone zone);
         bool deleteZone(Zone zone);
         DateTime normalizedDistributionTime { get; set; }
+        string name { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace Sopro.Models.Infrastructure
         public Location()
         {
             schedule = new Schedule();
-            distributor = new Distributor(schedule,this);
+            distributor = new Distributor(schedule, this);
            
         }
 
