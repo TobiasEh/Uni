@@ -29,13 +29,13 @@ namespace Sopro.Models.Simulation
             double randStdNormal2 = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
             double randNormal1 = interval / 2 + interval / 6 * randStdNormal1;
             double randNormal2 = interval / 2 + interval / 6 * randStdNormal2;
-            if (randNormal1 <= (double)interval)
+            if (randNormal1 <= interval && randNormal1 > 0)
             {
                 return randNormal1;
             }
             else
             {
-                if (randNormal2 <= (double)interval)
+                if (randNormal2 <= interval && randNormal2 > 0)
                 {
                     return randNormal2;
                 }
