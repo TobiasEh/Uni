@@ -15,14 +15,14 @@ namespace UnitTests.History
     [TestFixture]
     class HistoryTest
     {
-        private IEvaluatable scenario = new ExecutedScenario();
+        private IEvaluatable scenario;
         private List<Booking> bookings = new List<Booking>();
         private ILocation location;
         private List<Zone> zones = new List<Zone>();
         private List<Station> stations = new List<Station>();
 
-
-        [SetUp]
+        
+        [OneTimeSetUp]
         public void SetUp()
         {
             List<double> loactionWorkload = new List<double>() { 10.3, 55.3, 86.642, };
@@ -33,6 +33,7 @@ namespace UnitTests.History
                 new List<double>() { 34.1, 99.9, 13.3 }
             };
 
+            scenario = new ExecutedScenario(bookings);
 
             for (int i = 0; i < 3; i++)
             {
@@ -139,6 +140,7 @@ namespace UnitTests.History
         public void evaluationNotNullTest()
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
+
             Assert.IsTrue(evaluation.suggestions != null);
             Assert.IsTrue(evaluation.unneccessaryWorkload <= 100.0 && evaluation.unneccessaryWorkload >= 0.0);
             Assert.IsTrue(evaluation.neccessaryWorkload <= 100.0 && evaluation.neccessaryWorkload >= 0.0);
@@ -149,20 +151,56 @@ namespace UnitTests.History
 
         }
         [Test]
-        public void evaluationRightCalculatedTest()
+        public void evaluationRightCaluclatedBookingSuccessRateTest()
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
-            Assert.IsTrue(evaluation.bookingSuccessRate == 3 / 4 * 100);
-            Assert.IsTrue(evaluation.unneccessaryWorkload == 100 - 86.642);
-            Assert.IsTrue(evaluation.neccessaryWorkload == 100 - (3 / 4 * 100));
-            //Type-2
-            Assert.IsTrue(evaluation.plugDistributionAccepted[0] == 1 / 3);
-            //CSS
-            Assert.IsTrue(evaluation.plugDistributionAccepted[1] == 2 / 3);
-            //Type-2
-            Assert.IsTrue(evaluation.plugDistributionDeclined[0] == 0);
-            //CSS
-            Assert.IsTrue(evaluation.plugDistributionAccepted[0] == 1);
+            Console.WriteLine(evaluation.bookingSuccessRate);
+            Assert.IsTrue(evaluation.bookingSuccessRate == (100.0 * 3.0 / 4.0));
         }
+        [Test]
+        public void evaluationRightCaluclatedUnneccWorkloadTest()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            Assert.IsTrue(evaluation.unneccessaryWorkload == (100 - 86.642));
+        }
+        [Test]
+        public void evaluationRightCaluclatedNeccWorkloadTest()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            Assert.IsTrue(evaluation.neccessaryWorkload == (100 - 75));
+        }
+        [Test]
+        public void evaluationRightCaluclatedPlugDistrAccType2Test()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            Console.WriteLine(evaluation.plugDistributionAccepted[0]);
+            //Type-2
+            Assert.IsTrue(evaluation.plugDistributionAccepted[0] == (1.0 / 3.0));
+        }
+        [Test]
+        public void evaluationRightCaluclatedPlugDistrAccCSSTest()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            //CSS
+            Console.WriteLine(evaluation.plugDistributionAccepted[1]);
+            Assert.IsTrue(evaluation.plugDistributionAccepted[1] == (2.0 / 3.0));
+        }
+        [Test]
+        public void evaluationRightCaluclatedPlugDistrDeclinedType2Test()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            Console.WriteLine(evaluation.plugDistributionDeclined[0]);
+            //Type-2
+            Assert.IsTrue(evaluation.plugDistributionDeclined[0] == 0.0);
+        }
+        [Test]
+        public void evaluationRightCaluclatedPlugDistrDeclinedCSSTest()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            Console.WriteLine(evaluation.plugDistributionDeclined[1]);
+            //CSS
+            Assert.IsTrue(evaluation.plugDistributionDeclined[1] == 1);
+        }
+
     }
 }
