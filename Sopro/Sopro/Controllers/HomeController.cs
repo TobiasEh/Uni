@@ -29,7 +29,7 @@ namespace Sopro.Controllers
                 return RedirectToAction("Index", "Booking");
             } 
             
-            return RedirectToAction("Dashboard", "Admin");
+            return RedirectToAction("Index", "Admin");
             }
             return RedirectToAction("Index", "Home");
         }

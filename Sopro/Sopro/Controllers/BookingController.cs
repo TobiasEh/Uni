@@ -45,23 +45,9 @@ namespace Sopro.Controllers
             {
                 bookings = new List<IBooking>();
             }
-            if (userID.Equals(UserType.PLANER))
+            if (userID.Equals(UserType.PLANER.ToString()))
             {
-               
-                
-
-                foreach (IBooking item in bookings)
-                {
-                    if (item.station == null)
-                    {
-                        unscheduledBookings.Add((Booking)item);
-                    }
-                    else if (item.station != null)
-                    {
-                        scheduledBookings.Add((Booking)item);
-                    }
-                }
-                return RedirectToAction("Dashboard", "Admin", new DashboardViewModel(scheduledBookings, unscheduledBookings));
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
@@ -84,7 +70,7 @@ namespace Sopro.Controllers
 
         /* Returns Booking.Create view.
          */
-        public IActionResult Create()
+        public IActionResult Create(Booking booking)
         {
             var cacheKey = CacheKeys.LOCATION;
             List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
@@ -92,7 +78,12 @@ namespace Sopro.Controllers
             {
                 new List<ILocation>();
             }
-            return View("Create", new BookingCreateViewModel(locations, new Booking(), false, false));           
+            if(booking.startTime==new DateTime() && booking.endTime==new DateTime())
+            {
+                booking.startTime = DateTime.Now;
+                booking.endTime = DateTime.Now;
+            }
+            return View("Create", new BookingCreateViewModel(locations, booking, false, false));           
         }
 
         /* Method to show all bookings in UI.
@@ -128,9 +119,9 @@ namespace Sopro.Controllers
             {
                 bookings = new List<IBooking>();
             }
-            if (!ModelState.IsValid)
+            if (!TryValidateModel(booking))
             {
-                return RedirectToAction("Create", "Booking");
+                return RedirectToAction("Create", "Booking", booking);
                 //throw new Exception("Buchung ist nicht valide!");
             }
             bookings.Add(booking);
@@ -205,7 +196,7 @@ namespace Sopro.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm]FileViewModel model)
+        public IActionResult Import([FromForm]FileViewModel model)
         {
             IFormFile file = model.importedFile;
             string path = Path.GetFullPath(file.Name);
@@ -241,7 +232,7 @@ namespace Sopro.Controllers
             return View("Index", bookings);
         }
 
-        public IActionResult export([FromForm]FileViewModel model)
+        public IActionResult Export([FromForm]FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.BOOKING, out bookings);
             IFormFile file = model.exportedFile;

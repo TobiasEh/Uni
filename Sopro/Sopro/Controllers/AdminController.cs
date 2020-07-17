@@ -24,8 +24,17 @@ namespace Sopro.Controllers
         public IActionResult Index()
         {
             //Session for the role of the User
-            var userID = HttpContext.Session.GetString("ID");
-            if (userID.Equals(UserType.PLANER))
+            var userID = HttpContext.Session.GetString("role");
+            if (userID == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var cacheKey = CacheKeys.BOOKING;
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+            if (userID.Equals(UserType.PLANER.ToString()))
             {
                 List<Booking> unscheduledBookings = new List<Booking>();
                 List<Booking> scheduledBookings = new List<Booking>();
@@ -40,11 +49,11 @@ namespace Sopro.Controllers
                         scheduledBookings.Add((Booking)item);
                     }
                 }
-                return RedirectToAction("Dashboard", "Admin", new DashboardViewModel(scheduledBookings, unscheduledBookings));
+                return View(new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
             else
             {
-                return View("Index", "Booking");
+                return RedirectToAction("Index", "Booking");
             }
         }
 
@@ -75,7 +84,7 @@ namespace Sopro.Controllers
         }
 
         [HttpGet]
-        public IActionResult exoprt([FromForm] FileViewModel model)
+        public IActionResult export([FromForm] FileViewModel model)
         {
             IFormFile file = model.exportedFile;
             cache.TryGetValue(CacheKeys.BOOKING, out bookings);

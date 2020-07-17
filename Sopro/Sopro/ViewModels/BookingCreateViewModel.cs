@@ -18,6 +18,8 @@ namespace Sopro.ViewModels
             ccs = _ccs;
             type2 = _type2;
         }
+
+        public BookingCreateViewModel() { }
     }
     
 }
