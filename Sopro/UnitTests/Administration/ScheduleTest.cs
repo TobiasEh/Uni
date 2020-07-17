@@ -1,11 +1,10 @@
 ﻿using NUnit.Framework;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
-using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+
 namespace UnitTests.Administration
 {
     [TestFixture]
