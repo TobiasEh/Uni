@@ -142,10 +142,44 @@ namespace Sopro.Models.Simulation
             // Generate n bookings for each simulated tick
             for (int i = 0; i < scenario.duration; ++i)
             {
+                if (scenario.rushhours.Count() == 0)
+                {
 
+                }
             }
 
             return generatedBookings;
+        }
+
+        private static UserType rollUserPriority()
+        {
+            UserType rolledUserType;
+
+            double probability = new Random().NextDouble();
+            if (prob > probabilityVIP + probabilityGUEST)
+            {
+                return UserType.EMPLOYEE;
+            }
+            else
+            {
+                if (prob > probabilityGUEST)
+                {
+                    return UserType.VIP;
+                }
+                else
+                {
+                    return UserType.GUEST;
+                }
+            }
+
+            return rolledUserType;
+        }
+
+        private static List<Booking> linearDistribution(Scenario scenario)
+        {
+            List<Booking> linearDistributedBookings = new List<Booking>();
+
+            return linearDistributedBookings;
         }
     }
 
