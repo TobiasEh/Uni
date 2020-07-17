@@ -8,6 +8,7 @@ using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace UnitTests.History
@@ -150,13 +151,31 @@ namespace UnitTests.History
             Assert.IsTrue(evaluation.plugDistributionAccepted.Count == 2);
 
         }
+
+        [Test]
+        public void suggestionTest()
+        {
+            Evaluation evaluation = Analyzer.analyze(scenario);
+            string[] splitted = evaluation.suggestions[0].suggestion.Split(" ");
+            double station;
+            double.TryParse(splitted[7], out station);
+            double zone;
+            double.TryParse(splitted[10], out zone);
+            Console.WriteLine(station + " " + zone);
+            if(splitted[12] == "less")
+            {
+                Assert.IsTrue(station < stations.Count);
+                Assert.IsTrue(zone < zones.Count);
+            }
+            
+        }
         [Test]
         public void evaluationRightCaluclatedBookingSuccessRateTest()
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
-            Console.WriteLine(evaluation.bookingSuccessRate);
             Assert.IsTrue(evaluation.bookingSuccessRate == (100.0 * 3.0 / 4.0));
         }
+
         [Test]
         public void evaluationRightCaluclatedUnneccWorkloadTest()
         {
@@ -173,7 +192,6 @@ namespace UnitTests.History
         public void evaluationRightCaluclatedPlugDistrAccType2Test()
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
-            Console.WriteLine(evaluation.plugDistributionAccepted[0]);
             //Type-2
             Assert.IsTrue(evaluation.plugDistributionAccepted[0] == (1.0 / 3.0));
         }
@@ -182,14 +200,12 @@ namespace UnitTests.History
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
             //CSS
-            Console.WriteLine(evaluation.plugDistributionAccepted[1]);
             Assert.IsTrue(evaluation.plugDistributionAccepted[1] == (2.0 / 3.0));
         }
         [Test]
         public void evaluationRightCaluclatedPlugDistrDeclinedType2Test()
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
-            Console.WriteLine(evaluation.plugDistributionDeclined[0]);
             //Type-2
             Assert.IsTrue(evaluation.plugDistributionDeclined[0] == 0.0);
         }
@@ -197,7 +213,6 @@ namespace UnitTests.History
         public void evaluationRightCaluclatedPlugDistrDeclinedCSSTest()
         {
             Evaluation evaluation = Analyzer.analyze(scenario);
-            Console.WriteLine(evaluation.plugDistributionDeclined[1]);
             //CSS
             Assert.IsTrue(evaluation.plugDistributionDeclined[1] == 1);
         }
