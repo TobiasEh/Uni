@@ -10,6 +10,7 @@ using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
 using System.IO;
 using Sopro.Models.Infrastructure;
+using Sopro.Interfaces.PersistenceController;
 
 namespace Sopro.Controllers
 {
@@ -91,7 +92,7 @@ namespace Sopro.Controllers
             {
                 new List<ILocation>();
             }
-            return View("Create", new BookingCreateViewModel(locations,(IBooking) new Booking(), false, false));           
+            return View("Create", new BookingCreateViewModel(locations, new Booking(), false, false));           
         }
 
         /* Method to show all bookings in UI.
@@ -110,10 +111,10 @@ namespace Sopro.Controllers
             {
                 booking.user = email;
             }
-            if(viewmodel.ccs && viewmodel.type_2)
+            if(viewmodel.ccs && viewmodel.type2)
             {
                 booking.plugs = new List<PlugType> {PlugType.CCS, PlugType.TYPE2 };
-            } else if (viewmodel.type_2)
+            } else if (viewmodel.type2)
             {
                 booking.plugs = new List<PlugType> {  PlugType.TYPE2 };
             }
@@ -166,7 +167,7 @@ namespace Sopro.Controllers
 
             if (booking.plugs.Contains(PlugType.TYPE2))
             {
-                viewmodel.type_2 = true;
+                viewmodel.type2 = true;
             }
             return View("Create", viewmodel);
         }
@@ -245,7 +246,7 @@ namespace Sopro.Controllers
             cache.TryGetValue(CacheKeys.BOOKING, out bookings);
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
-            service.exportFile(bookings, path);
+            service.export(bookings, path);
 
             return View("Index", bookings);
         }

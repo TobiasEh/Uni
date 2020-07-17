@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Net.Http.Headers;
 using Sopro.Interfaces;
+using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Infrastructure;
+using Sopro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +60,7 @@ namespace Sopro.Controllers
         {
             IFormFile file = model.importedFile;
             string path = Path.GetFullPath(file.Name);
-            List<ILocation> importedLocations = service.import(path);
+            List<ILocation> importedLocations = service.import();
 
             if(!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
@@ -91,7 +93,7 @@ namespace Sopro.Controllers
             cache.TryGetValue(CacheKeys.LOCATION, out locations);
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
-            service.exportFile(locations, path);
+            service.export(locations);
 
             return View("Index", locations);
         }
