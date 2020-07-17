@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿/*using NUnit.Framework;
 using NUnit.Framework.Internal;
 using Sopro.Interfaces;
 using Sopro.Interfaces.HistorySimulation;
@@ -219,3 +219,4 @@ namespace UnitTests.History
 
     }
 }
+*/

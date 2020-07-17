@@ -10,19 +10,12 @@ using System.Data;
 
 namespace Sopro.Models.Simulation
 {
-    public class Generator : IGenerator
+    public static class Generator 
     {
-        [Range(0,1)]
-        public double probabilityVIP { get; set; }
-        [Range(0, 1)]
-        public double probabilityGUEST { get; set; }
+        public static double probabilityVIP { get; set; } = 0.05;
+        public static double probabilityGUEST { get; set; } = 0.05;
 
-        public Generator()
-        {
-            probabilityGUEST = 0.05;
-            probabilityVIP = 0.05;
-        }
-        public List<Booking> generateBookings(Scenario scenario) 
+        public static List<Booking> generateBookings(Scenario scenario) 
         {
             List<Booking> bookingList = new List<Booking>();
             for(int i = 0; i < scenario.duration; i++) //days
@@ -53,7 +46,7 @@ namespace Sopro.Models.Simulation
                                     plugs = scenario.vehicles[r].plugs,
                                     socEnd = scenario.vehicles[r].socEnd,
                                     socStart = scenario.vehicles[r].socStart,
-                                    user = "megarandombookinggeneratorduud",
+                                    user = "",
                                     startTime = start,
                                     endTime = start.AddHours(new Random().Next(1, 8)),
                                     station = null,
@@ -88,7 +81,7 @@ namespace Sopro.Models.Simulation
 
       
 
-        private UserType setPrio()
+        private static UserType setPrio()
         {
             double prob = new Random().NextDouble();
             if (prob > probabilityVIP + probabilityGUEST)
@@ -108,7 +101,7 @@ namespace Sopro.Models.Simulation
             }
         }
 
-        public void LinearDist(List<Booking> bookingList, Scenario scenario, int i)
+        public static void LinearDist(List<Booking> bookingList, Scenario scenario, int i)
         {
             int r = new Random().Next(scenario.vehicles.Count);
 
