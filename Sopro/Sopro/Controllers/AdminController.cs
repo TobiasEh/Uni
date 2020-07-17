@@ -8,6 +8,7 @@ using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
 using System.IO;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Persistence.PersBooking;
 
 namespace Sopro.Controllers
 {
@@ -15,7 +16,7 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
-        private IBookingService bookingService;
+        private IBookingService bookingService = new BookingService();
 
         public AdminController(IMemoryCache _cache)
         {
@@ -59,7 +60,7 @@ namespace Sopro.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm] FileViewModel model)
+        public IActionResult Import([FromForm] FileViewModel model)
         {
             IFormFile file = model.importedFile;
             string cacheKey = CacheKeys.BOOKING;
@@ -84,7 +85,7 @@ namespace Sopro.Controllers
         }
 
         [HttpGet]
-        public IActionResult export([FromForm] FileViewModel model)
+        public IActionResult Export([FromForm] FileViewModel model)
         {
             IFormFile file = model.exportedFile;
             cache.TryGetValue(CacheKeys.BOOKING, out bookings);

@@ -5,6 +5,7 @@ using Microsoft.Net.Http.Headers;
 using Sopro.Interfaces;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Infrastructure;
+using Sopro.Persistence.PersLocation;
 using Sopro.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,13 +19,21 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         private List<ILocation> locations;
-        private ILocationService service;
+        private ILocationService service = new LocationService();
 
+        public InfrastructureController(IMemoryCache _cache)
+        {
+            cache = _cache;
+        }
 
         public IActionResult Index()
         {
-            locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
-            return View(locations);
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            return View(new InfrastructureViewModel() { locations = locations });
         }
 
         public IActionResult EditZone(Zone zone)
@@ -52,6 +61,66 @@ namespace Sopro.Controllers
             return View("Index", locations);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NewLocation()
+        {
+            ILocation l = new Location();
+            l.name = "Neu";
+            l.emergency = 0;
+            l.zones = new List<Zone>();
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            int id = -1;
+            bool uniqeId = false;
+            while (!uniqeId)
+            {
+                uniqeId = true;
+                id++;
+                foreach(ILocation location in locations)
+                {
+                    if(location.id == id.ToString())
+                    {
+                        uniqeId = false;
+                        break;
+                    }
+                }
+
+            }
+            l.id = id.ToString();
+            
+            locations.Add(l);
+            cache.Set(CacheKeys.LOCATION, locations);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult EditLocation(InfrastructureViewModel viewmodel) 
+        {
+            
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            foreach(ILocation l in locations)
+            {
+                if(viewmodel.id == l.id)
+                {
+                    if(viewmodel.emergency != null) { 
+                    double emergency = Convert.ToDouble(viewmodel.emergency.Replace(".",","));
+                    l.emergency = emergency;
+                    }
+                    if(viewmodel.name != null)
+                    {
+                        l.name = viewmodel.name;
+                    }
+                    
+                }
+            }
+            cache.Set(CacheKeys.LOCATION, locations);
+            return RedirectToAction("Index");
+        }
 
 
         [HttpPost]

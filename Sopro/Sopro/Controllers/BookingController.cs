@@ -11,6 +11,7 @@ using Sopro.Interfaces.AdministrationController;
 using System.IO;
 using Sopro.Models.Infrastructure;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Persistence.PersBooking;
 
 namespace Sopro.Controllers
 {
@@ -18,7 +19,7 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
-        private IBookingService service;
+        private IBookingService service = new BookingService();
 
         public BookingController(IMemoryCache _cache)
         {
@@ -80,10 +81,17 @@ namespace Sopro.Controllers
             }
             if(booking.startTime==new DateTime() && booking.endTime==new DateTime())
             {
-                booking.startTime = DateTime.Now;
-                booking.endTime = DateTime.Now;
+                DateTime now = DateTime.Now;
+                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute,0);
+                booking.startTime = now;
+                booking.endTime = now;
             }
-            return View("Create", new BookingCreateViewModel(locations, booking, false, false));           
+            var email = HttpContext.Session.GetString("email");
+            if (booking.user == null)
+            {
+                booking.user = email;
+            }
+            return View("Create", new BookingCreateViewModel(locations, booking, booking.plugs.Contains(PlugType.CCS), booking.plugs.Contains(PlugType.TYPE2)));           
         }
 
         /* Method to show all bookings in UI.
@@ -96,30 +104,24 @@ namespace Sopro.Controllers
         [HttpPost]
         public IActionResult Post(BookingCreateViewModel viewmodel)
         {
-            var email = HttpContext.Session.GetString("email");
             IBooking booking = viewmodel.booking;
-            if (booking.user == null)
+            List < PlugType > plugs = new List<PlugType>();
+            if(viewmodel.ccs)
             {
-                booking.user = email;
+                plugs.Add(PlugType.CCS);
+            } 
+            if (viewmodel.type2)
+            {
+                plugs.Add(PlugType.TYPE2);
             }
-            if(viewmodel.ccs && viewmodel.type2)
-            {
-                booking.plugs = new List<PlugType> {PlugType.CCS, PlugType.TYPE2 };
-            } else if (viewmodel.type2)
-            {
-                booking.plugs = new List<PlugType> {  PlugType.TYPE2 };
-            }
-            else
-            {
-                booking.plugs = new List<PlugType> { PlugType.CCS };
-            }
-
+            booking.plugs = plugs;
+            bool test = TryValidateModel(booking, nameof(booking));
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
             }
-            if (!TryValidateModel(booking))
+            if (!TryValidateModel(booking, nameof(booking)))
             {
                 return RedirectToAction("Create", "Booking", booking);
                 //throw new Exception("Buchung ist nicht valide!");

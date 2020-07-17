@@ -17,7 +17,7 @@ namespace Sopro.Models.Administration
 
         [Required]
         [BookingPlugsValidation]
-        public List<PlugType> plugs { get; set; }
+        public List<PlugType> plugs { get; set; } = new List<PlugType>() { PlugType.CCS};
 
         [Required]
         [Range(0, 100)]
@@ -37,12 +37,13 @@ namespace Sopro.Models.Administration
         [Required]
         [BookingEndTimeValidation]
         public DateTime endTime { get; set; }
+
         public Station station { get; set; }
 
         [Required]
         public bool active { get; set; } = false;
 
-        [Required]
+        //[Required]
         public ILocation location { get; set; }
         public UserType priority { get; set; }
 

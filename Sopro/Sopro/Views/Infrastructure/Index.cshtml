@@ -5,21 +5,44 @@
 }
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <h1 class="display-4 pb-5 pt-5">Infrastruktur</h1>
-
+@model Sopro.ViewModels.InfrastructureViewModel
 
 <div class="flex-column">
     @{ int i = 0;}
-    @foreach (Sopro.Models.Infrastructure.Location l in Model)
+    @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
     {
         string colla = string.Concat("collapsible", i.ToString());
+        string collaEdit = string.Concat(colla, "Edit");
+        i++;
         <div name="panel ">
             <div class="d-flex rounded shadow mt-4 pl-2 py-1">
                 <h5 class="ml-2 mr-5 mt-1">@l.name</h5>
-                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="ml-auto mr-2" />
+                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="ml-auto mr-2" data-toggle="collapse" data-target="#@collaEdit " aria-expanded="false" aria-controls="t2" />
                 <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-4" />
                 <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#@colla " aria-expanded="false" aria-controls="t2" width="23" class="mr-2 ml-2 filter-blue float-right" />
             </div>
+            <div id="@collaEdit" class="collapse rounded border p-3 ml-4 flex-column">
+                <form asp-controller="Infrastructure" asp-action="EditLocation" asp-route-id="@l.id">
+                    
+                        <div class="form-group">
+                            <label for="@Model.name">Der Neue Name der Ladestation</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="@l.name" asp-for="@Model.name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
 
+                            <label for="@Model.emergency">Die Neue Notreserve</label>
+                            <div class="input-group">
+                                <input class="form-control" type="number" placeholder="@l.emergency" asp-for="@Model.emergency" max="1" min="0" step="0.001" />
+                            </div>
+                        </div>
+                        <div class="flex-row">
+                            <button type="submit"  class="btn btn-primary btn-mhp ml-auto mt-3" >Übernehmen</button>
+                        </div>
+                    
+                </form>
+            </div>
             <div id="@colla" class="collapse ml-4">
                 <div class="flex-column rounded border p-3">
                     @foreach (Sopro.Models.Infrastructure.Zone z in l.zones)
@@ -102,8 +125,8 @@
         <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
     </div>
     <div class="ml-auto">
-        <form methode="post">
-            <button asp-controller="" asp-action="" class="btn btn-primary btn-mhp">Neuer Standort</button>
+        <form asp-controller="Infrastructure" asp-action="newLocation">
+            <button class="btn btn-primary btn-mhp">Neuer Standort</button>
         </form>
     </div>
 </div>

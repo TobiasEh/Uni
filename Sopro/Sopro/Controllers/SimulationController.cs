@@ -9,13 +9,14 @@ using Sopro.Models.Simulation;
 using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Persistence.PersScenario;
 
 namespace Sopro.Controllers
 {
     public class SimulationController : Controller
     {
         private IMemoryCache cache;
-        private IScenarioService service;
+        private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
         
         public IActionResult Create()

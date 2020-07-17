@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces.ControllerSimulation;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Simulation;
+using Sopro.Persistence.PersVehicle;
 using Sopro.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         private List<IVehicle> vehicles;
-        private IVehicleService service;
+        private IVehicleService service = new VehicleService();
 
         public IActionResult Cartemplates()
         {
