@@ -1,4 +1,5 @@
 ﻿using Sopro.Interfaces.CommunicationAdministration;
+using Sopro.Models.Communication;
 using System;
 
 namespace Sopro.Models.Administration
@@ -9,7 +10,7 @@ namespace Sopro.Models.Administration
 
         public NotificationManager()
         {
-
+            listener = new BookingsStatusNotification();
         }
 
         public void notify(Booking booking, String eventName)

@@ -31,7 +31,7 @@ namespace Sopro.Models.Communication
             commands.Add("ausgecheckt.\n");
             //5
             commands.Add("\nIhre Ladezeit beginnt am {0} um {1} Uhr und endet am {2} um {3} Uhr.\n" +
-                "Bitte begeben Sie sich, kruz bevor Ihre Ladezeit  beginnt, mit Ihrem Auto zur Ladestation mit der Nummer {4}.\n" +
+                "Bitte begeben Sie sich, kurz bevor Ihre Ladezeit  beginnt, mit Ihrem Auto zur Ladestation mit der Nummer {4}.\n" +
                 "Vergessen Sie nicht sich einzuchecken, wenn Sie Ihr Auto angesteckt haben, da ansonsten Ihr Ladeplatz womöglich weitervergeben wird.");
             //6
             commands.Add("\nBitte versuchen Sie erneu eine Buchung zu erstellen.\n" +
