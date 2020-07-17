@@ -15,12 +15,12 @@ namespace Sopro.Models.Communication
         public void sendMessage(string message, string user)
         {
             var finalMessage = new MimeMessage();
-            finalMessage.From.Add(new MailboxAddress("Ladesäulensystem MHP", "SoProSender@outlook.de"));
+            finalMessage.From.Add(new MailboxAddress("Ladesäulensystem MHP", "Saender1324@gmail.com"));
             finalMessage.To.Add(MailboxAddress.Parse(user));
             finalMessage.Subject = "Ladesäulenbuchung MHP";
             finalMessage.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = message };
-            emailClient.Connect("SMTP.office365.com", 587, false);
-            emailClient.Authenticate("SoProSender@outlook.de", "SoPro2020Sender");
+            emailClient.Connect("smtp.gmail.com", 465, true);
+            emailClient.Authenticate("saender1324@gmail.com", "Sander1234");
             emailClient.Send(finalMessage);
             emailClient.Disconnect(true);
 
