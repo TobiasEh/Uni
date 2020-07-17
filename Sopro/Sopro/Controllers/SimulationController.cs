@@ -73,7 +73,7 @@ namespace Sopro.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm] FileViewModel model)
+        public IActionResult Import([FromForm] FileViewModel model)
         {
             IFormFile file = model.importedFile;
             string path = Path.GetFullPath(file.Name);
@@ -119,7 +119,7 @@ namespace Sopro.Controllers
         }
 
         [HttpGet]
-        public IActionResult export([FromForm] FileViewModel model)
+        public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
             IFormFile file = model.exportedFile;

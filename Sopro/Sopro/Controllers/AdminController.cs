@@ -50,7 +50,7 @@ namespace Sopro.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm] FileViewModel model)
+        public IActionResult Import([FromForm] FileViewModel model)
         {
             IFormFile file = model.importedFile;
             string cacheKey = CacheKeys.BOOKING;
@@ -75,7 +75,7 @@ namespace Sopro.Controllers
         }
 
         [HttpGet]
-        public IActionResult exoprt([FromForm] FileViewModel model)
+        public IActionResult Exoprt([FromForm] FileViewModel model)
         {
             IFormFile file = model.exportedFile;
             cache.TryGetValue(CacheKeys.BOOKING, out bookings);
