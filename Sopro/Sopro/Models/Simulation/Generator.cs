@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Sopro.Interfaces.AdministrationSimulation;
 using System.Data;
-
+/*
 namespace Sopro.Models.Simulation
 {
     public static class Generator 
@@ -60,7 +60,7 @@ namespace Sopro.Models.Simulation
                     }
                     if (bpdC != 0 && exists == true)
                     {
-                        List<Booking> linBList = new List<Booking>(); ;
+                        List<Booking> linBList = new List<Booking>();
                         LinearDist(linBList, scenario, i);
                         linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), scenario.bookingCountPerDay-bpdC);
                         bookingList.AddRange(linBList);
@@ -78,8 +78,6 @@ namespace Sopro.Models.Simulation
 
             return bookingList;
         }
-
-      
 
         private static UserType setPrio()
         {
@@ -120,12 +118,35 @@ namespace Sopro.Models.Simulation
                     active = false,
                     priority = setPrio(),
                     location = scenario.location
-                }
-                );
-         
+                });
             }
         }
         
 
     }
+}
+*/
+
+namespace Sopro.Models.Simulation
+{
+    public static class Generator
+    {
+        public static double probabilityVIP { get; set; } = 0.05;
+        public static double probabilityGUEST { get; set; } = 0.05;
+        public static double probabilityADHOC { get; set; } = 0.10;
+
+        public static List<Booking> generateBookings(Scenario scenario)
+        {
+            List<Booking> generatedBookings = new List<Booking>();
+
+            // Generate n bookings for each simulated tick
+            for (int i = 0; i < scenario.duration; ++i)
+            {
+
+            }
+
+            return generatedBookings;
+        }
+    }
+
 }
