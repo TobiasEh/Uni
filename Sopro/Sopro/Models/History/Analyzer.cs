@@ -14,8 +14,9 @@ namespace Sopro.Models.History
         public static double upperGate { get; set; }
 
         
-        public static Evaluation analyze()
+        public static Evaluation analyze(IEvaluatable _scenario)
         {
+            scenario = _scenario;
             evaluation = new Evaluation()
             {
                 suggestions = createSuggestion(),
