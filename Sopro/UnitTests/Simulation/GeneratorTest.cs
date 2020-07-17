@@ -96,7 +96,7 @@ namespace UnitTests.Simulation
             List<Rushhour> rushhours = new List<Rushhour>() { rushhour, rushhour2 };
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
-            ExecutedScenario scenario = new ExecutedScenario()
+            ExecutedScenario scenario = new ExecutedScenario(null)
             {
                 bookingCountPerDay = bookingsCountPerDay,
                 duration = duration,
@@ -116,7 +116,7 @@ namespace UnitTests.Simulation
             List<Rushhour> rushhours = new List<Rushhour>() { rushhour4 };
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
-            ExecutedScenario scenario = new ExecutedScenario()
+            ExecutedScenario scenario = new ExecutedScenario(null)
             {
                 bookingCountPerDay = bookingsCountPerDay,
                 duration = duration,
@@ -166,7 +166,7 @@ namespace UnitTests.Simulation
             List<Rushhour> rushhours = new List<Rushhour>() { rushhour, rushhour2 };
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
-            ExecutedScenario scenario = new ExecutedScenario()
+            ExecutedScenario scenario = new ExecutedScenario(null)
             {
                 bookingCountPerDay = bookingsCountPerDay,
                 duration = duration,
@@ -185,7 +185,7 @@ namespace UnitTests.Simulation
             List<Rushhour> rushhours = new List<Rushhour>() { rushhour, rushhour3 };
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
-            ExecutedScenario scenario = new ExecutedScenario()
+            ExecutedScenario scenario = new ExecutedScenario(null)
             {
                 bookingCountPerDay = bookingsCountPerDay,
                 duration = duration,
@@ -204,7 +204,7 @@ namespace UnitTests.Simulation
             List<Rushhour> rushhours = new List<Rushhour>() { rushhour4 };
             List<Vehicle> vehicles = new List<Vehicle>() { vehicle, vehicle2 };
             List<Booking> result = new List<Booking>();
-            ExecutedScenario scenario = new ExecutedScenario()
+            ExecutedScenario scenario = new ExecutedScenario(null)
             {
                 bookingCountPerDay = bookingsCountPerDay,
                 duration = duration,
