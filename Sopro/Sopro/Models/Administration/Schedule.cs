@@ -5,6 +5,7 @@ using Sopro.Models.Communication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
@@ -54,11 +55,11 @@ namespace Sopro.Models.Administration
             int checkCount = bookings.Count();
             bookings.Remove(booking);
 
-            if (checkCount == bookings.Count())
+            if (checkCount-1 == bookings.Count())
             {
-                return false;
+                return true;                
             }
-            return true;
+            return false;
         }
         /* Removes all booking items from booking, when their endTimes
          * are in the past.
@@ -67,15 +68,27 @@ namespace Sopro.Models.Administration
          */
         public bool clean(DateTime now)
         {
+            
+            bool flag = false;
+            var bookingC = new List<Booking>();
             foreach (Booking item in bookings)
             {
                 if (item.endTime < now)
                 {
-                    if (!removeBooking(item))
-                        return false;
+                    bookingC.Add(item);
                 }
             };
-            return true;
+            if(bookingC.Count != 0) bookingC.ForEach(x => {
+                if (bookings.Contains(x))
+                {
+                    removeBooking(x);
+                }
+                else
+                {
+                    flag = true;
+                }
+                });
+            return bookingC.Count == 0 ? false : !flag;
         }
 
         /* Sets active attribute of booking to the opposite boolean and notifys user.
