@@ -19,8 +19,8 @@ namespace Sopro.Models.Communication
             finalMessage.To.Add(MailboxAddress.Parse(user));
             finalMessage.Subject = "Ladesäulenbuchung MHP";
             finalMessage.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = message };
-            emailClient.Connect("SMTP.office365.com", 587, true);
-            emailClient.Authenticate("soprosender@outlook.de", "SoPro2020Sender");
+            emailClient.Connect("SMTP.office365.com", 587, false);
+            emailClient.Authenticate("SoProSender@outlook.de", "SoPro2020Sender");
             emailClient.Send(finalMessage);
             emailClient.Disconnect(true);
 
