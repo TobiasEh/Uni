@@ -7,10 +7,12 @@ namespace Sopro.Interfaces
 {
     public interface ILocation
     {
-        public Schedule schedule { get; set; }
-        public Distributor distributor { get; set; }
-        public bool addZone(Zone zone);
-        public bool deleteZone(Zone zone);
-        public List<Zone> zones { get; set; }
+        Schedule schedule { get; set; }
+        Distributor distributor { get; set; }
+        bool addZone(Zone zone);
+        bool deleteZone(Zone zone);
+        DateTime normalizedDistributionTime { get; set; }
+        string name { get; set; }
+        List<Zone> zones { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sopro.Models.Administration;
 
 namespace Sopro
 {
@@ -39,6 +40,8 @@ namespace Sopro
             });
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
+            services.AddMemoryCache();
+            services.AddSingleton<IHostedService, DistributionTimer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

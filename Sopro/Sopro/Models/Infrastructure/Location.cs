@@ -9,6 +9,7 @@ namespace Sopro.Models.Infrastructure
 {
     public class Location : ILocation
     {
+        public string id { get; set; }
         [ListMinLength(0)]
         public List<Zone> zones { get; set; }
         [Required]
@@ -17,11 +18,13 @@ namespace Sopro.Models.Infrastructure
         public double emergency { get; set; }
         public Schedule schedule { get; set; }
         public Distributor distributor { get; set; }
+        public DateTime normalizedDistributionTime { get; set; }
 
         public Location()
         {
             schedule = new Schedule();
-            distributor = new Distributor(schedule,this);
+            distributor = new Distributor(schedule, this);
+           
         }
 
         public bool addZone(Zone zone)

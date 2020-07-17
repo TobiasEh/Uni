@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Sopro.Models;
+﻿using System.Collections.Generic;
 using Sopro.Models.Administration;
 
 namespace Sopro.ViewModels
