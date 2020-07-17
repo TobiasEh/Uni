@@ -30,68 +30,50 @@ namespace Sopro.Models.Simulation
                 bool exists = false;
                 if (scenario.rushhours.Count != 0)
                 {
-                    foreach (Rushhour rh in scenario.rushhours.Where(x => x.start.Day >= scenario.start.Day && x.start.Day == scenario.start.AddDays(i).Day))
+                    int bpdC = scenario.bookingCountPerDay;
+                    DateTime minRHstart = new DateTime();
+                    foreach (Rushhour rh in scenario.rushhours.Where(x => x.start.Day == scenario.start.AddDays(i).Day))
                     {
                         exists = true;
+                        minRHstart = minRHstart == new DateTime() ? rh.start : minRHstart > rh.start ? rh.start : minRHstart;
                         var startTimes = rh.run();
-                        if (rh.bookings > scenario.bookingCountPerDay)
+                        if (rh.bookings > bpdC)
                         {
-                            startTimes.RemoveRange(scenario.bookingCountPerDay - 1, rh.run().Count - scenario.bookingCountPerDay);
-                            foreach (DateTime start in startTimes)
-                            {
-                                int r = new Random().Next(scenario.vehicles.Count);
-                                bookingList.Add(
-                                    new Booking
-                                    {
-                                        capacity = scenario.vehicles[r].capacity,
-                                        plugs = scenario.vehicles[r].plugs,
-                                        socEnd = scenario.vehicles[r].socEnd,
-                                        socStart = scenario.vehicles[r].socStart,
-                                        user = "megarandombookinggeneratorduud",
-                                        startTime = start,
-                                        endTime = start.AddHours(new Random().Next(1, 8)),
-                                        station = null,
-                                        active = false,
-                                        priority = setPrio(),
-                                        location = scenario.location
-                                    }
-                                    ); ;
-                            }
+                            startTimes.RemoveRange(bpdC - 1 < 0 ? 0 : bpdC - 1, rh.run().Count - scenario.bookingCountPerDay);
+                            
                         }
-                        else
+                        if(startTimes.Count != 0)
+                        foreach (DateTime start in startTimes)
                         {
-                            if (rh.start.Day == rh.end.Day)
-                            {
-                                LinearDist(bookingList, scenario, i);
-                                bookingList.RemoveRange(bookingList.FindIndex(x => x.startTime >= rh.start),rh.bookings);
-                                foreach (DateTime start in startTimes)
+                            int r = new Random().Next(scenario.vehicles.Count);
+                            bookingList.Add(
+                                new Booking
                                 {
-                                    int r = new Random().Next(scenario.vehicles.Count);
-                                    bookingList.Add(
-                                        new Booking
-                                        {
-                                            capacity = scenario.vehicles[r].capacity,
-                                            plugs = scenario.vehicles[r].plugs,
-                                            socEnd = scenario.vehicles[r].socEnd,
-                                            socStart = scenario.vehicles[r].socStart,
-                                            user = "megarandombookinggeneratorduud",
-                                            startTime = start,
-                                            endTime = start.AddHours(new Random().Next(1, 8)),
-                                            station = null,
-                                            active = false,
-                                            priority = setPrio(),
-                                            location = scenario.location
-                                        }
-                                        ); ;
+                                    capacity = scenario.vehicles[r].capacity,
+                                    plugs = scenario.vehicles[r].plugs,
+                                    socEnd = scenario.vehicles[r].socEnd,
+                                    socStart = scenario.vehicles[r].socStart,
+                                    user = "megarandombookinggeneratorduud",
+                                    startTime = start,
+                                    endTime = start.AddHours(new Random().Next(1, 8)),
+                                    station = null,
+                                    active = false,
+                                    priority = setPrio(),
+                                    location = scenario.location
                                 }
-
-                            }
-                        }
-                       
-                       
+                                ); ;
+                            bpdC--;
+                        };
                         
                     }
-                    if(exists == false)
+                    if (bpdC != 0)
+                    {
+                        List<Booking> linBList = new List<Booking>(); ;
+                        LinearDist(linBList, scenario, i);
+                        linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), bpdC);
+                        bookingList.AddRange(linBList);
+                    }
+                    if (exists == false)
                         LinearDist(bookingList, scenario, i);
 
                 }
