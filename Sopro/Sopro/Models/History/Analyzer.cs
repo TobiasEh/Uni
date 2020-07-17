@@ -13,8 +13,10 @@ namespace Sopro.Models.History
         public static double lowerGate { get; set; }
         public static double upperGate { get; set; }
 
+        
         public static Evaluation analyze(IEvaluatable _scenario)
         {
+            scenario = _scenario;
             evaluation = new Evaluation()
             {
                 suggestions = createSuggestion(),
@@ -54,7 +56,7 @@ namespace Sopro.Models.History
 
             if (calcBookingSuccessRate() < lowerGate)
             {
-                nStation = (int)(nStation * calcNecessaryWorkload());
+                nStation = (int)(nStation * calcNecessaryWorkload() / 100);
                 int nStationC = nStation;
                 foreach (Zone zone in scenario.location.zones)
                 {
@@ -77,7 +79,7 @@ namespace Sopro.Models.History
             }
             else if (calcBookingSuccessRate() > upperGate)
             {
-                nStation = (int)(nStation * calcUnnecessaryWorkload());
+                nStation = (int)(nStation * calcUnnecessaryWorkload() / 100);
                 List<int> stationpZone = new List<int>();
                 scenario.location.zones.ForEach(x => stationpZone.Add(x.stations.Count));
                 if (nStation > stationpZone.Average())
@@ -110,7 +112,7 @@ namespace Sopro.Models.History
             List<double> percPlug = new List<double>();
             foreach (PlugType plug in (PlugType[])Enum.GetValues(typeof(PlugType)))
             {
-                percPlug.Add((double)scenario.getBookings().FindAll(x => x.plugs.Contains(plug) && x.station != null).Count / (double)scenario.getBookings().Count);
+                percPlug.Add((double)scenario.getBookings().FindAll(x => x.plugs.Contains(plug) && x.station != null).Count / (double)scenario.getBookings().FindAll(x => x.station != null).Count);
             }
 
             return percPlug;
@@ -120,7 +122,7 @@ namespace Sopro.Models.History
             List<double> percPlug = new List<double>();
             foreach (PlugType plug in (PlugType[])Enum.GetValues(typeof(PlugType)))
             {
-                percPlug.Add((double)scenario.getBookings().FindAll(x => x.plugs.Contains(plug) && x.station == null).Count / (double)scenario.getBookings().FindAll(x => x.station == null).Count);
+                percPlug.Add((double)scenario.getBookings().FindAll(x => x.plugs.Contains(plug) && (x.station == null )).Count / (double)scenario.getBookings().FindAll(x => x.station == null).Count);
             }
 
             return percPlug;
