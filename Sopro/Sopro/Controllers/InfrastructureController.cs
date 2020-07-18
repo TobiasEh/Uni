@@ -36,13 +36,32 @@ namespace Sopro.Controllers
             return View(new InfrastructureViewModel() { locations = locations });
         }
 
-        public IActionResult EditZone(Zone zone)
+        public IActionResult EditZone(int? id, char site)
         {
-            locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
-            locations.ForEach(e => { if (e.zones.Contains(zone)) { e.zones.Remove(zone); }; });
-            cache.Set(CacheKeys.LOCATION, locations);
-
-            return View("CreateZone", zone);
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            EditZoneViewModel viewmodel;
+            foreach(ILocation l in locations)
+            {
+                if (l.id.Equals(id.ToString()))
+                {
+                    viewmodel = new EditZoneViewModel();
+                    viewmodel.name = l.name;
+                    viewmodel.id = (int) id;
+                    foreach(Zone z in l.zones)
+                    {
+                        if (z.site == site)
+                        {
+                            viewmodel.zone = z;
+                            return View(viewmodel);
+                        }
+                    }
+                    break;
+                }
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -95,6 +114,24 @@ namespace Sopro.Controllers
             cache.Set(CacheKeys.LOCATION, locations);
             return RedirectToAction("Index");
         }
+        public IActionResult DeleteLocation(int ? id)
+        {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            foreach(ILocation l in locations)
+            {
+                if(l.id.Equals(id.ToString()))
+                {
+                    locations.Remove(l);
+                    cache.Set(CacheKeys.LOCATION, locations);
+                    break;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
 
         public IActionResult EditLocation(InfrastructureViewModel viewmodel) 
         {
@@ -152,12 +189,41 @@ namespace Sopro.Controllers
             return View("Index", locations);
         }
 
-        [HttpGet]
-        public IActionResult CreateZone(Zone zone)
+        public IActionResult CreateZone(int? id)
         {
-            if(zone != null)
-                return View(zone);
-            return View(new Zone());
+
+            Zone zone = new Zone();
+            char site = 'A';
+            bool siteValid = false;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            foreach (ILocation l in locations)
+            {
+                if (l.id.Equals(id.ToString()))
+                {
+                    while (!siteValid)
+                    {
+                        siteValid = true;
+                        foreach (Zone z in l.zones)
+                        {
+                            if (z.site == site)
+                            {
+                                siteValid = false;
+                                site++;
+                                break;
+                            }
+                        }
+                    }
+                    zone.site = site;
+                    zone.stations= new List<Station>();
+                    l.addZone(zone);
+                    break;
+                }
+            }
+            //cache.Set(CacheKeys.LOCATION, locations);
+            return RedirectToAction("EditZone",( id, site));
         }
 
         [HttpGet]

@@ -60,42 +60,42 @@ else
             <thead class="thead-dark">
                 <tr>
                     @*<th>Standort</th>*@
-                            <th>Start</th>
-                            <th>Ende</th>
-                            <th>Start Soc</th>
-                            <th>End Soc</th>
-                            <th>Plugs</th>
-                            <th class="text-center">Bearbeiten</th>
-                        </tr>
+                    <th>Start</th>
+                    <th>Ende</th>
+                    <th>Start Soc</th>
+                    <th>End Soc</th>
+                    <th>Plugs</th>
+                    <th class="text-center">Bearbeiten</th>
+                </tr>
 
-                    </thead>
-                    @foreach (Sopro.Models.Administration.Booking booking in Model.unscheduledBookings)
-                    {
-        <tr>
-            @*<td>@booking.location.name</td>*@
-            <td>@booking.startTime</td>
-            <td>@booking.endTime</td>
-            <td>@booking.socStart %</td>
-            <td>@booking.socEnd %</td>
-            <td>@booking.plugs</td>
-            <td class="text-center">
-                <div>
-                    <a asp-controller="Booking" asp-action="Edit">
-                        <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" value="@booking" />
-                    </a>
-                    <a asp-controller="" asp-action="">
-                        <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
-                    </a>
-                </div>
-            </td>
-        </tr>
-        }
-                </table>
+            </thead>
+            @foreach (Sopro.Models.Administration.Booking booking in Model.unscheduledBookings)
+            {
+                <tr>
+                    @*<td>@booking.location.name</td>*@
+                    <td>@booking.startTime</td>
+                    <td>@booking.endTime</td>
+                    <td>@booking.socStart %</td>
+                    <td>@booking.socEnd %</td>
+                    <td>@booking.plugs</td>
+                    <td class="text-center">
+                        <div>
+                            <a asp-controller="Booking" asp-action="Edit">
+                                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" value="@booking" />
+                            </a>
+                            <a asp-controller="" asp-action="">
+                                <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
 
 
-                <form methode="post">
-                    <button asp-controller="Booking" asp-action="Create" class="btn btn-primary btn-mhp">Neue Buchung</button>
-                </form>
-            </div>
-        }
+        <form methode="post">
+            <button asp-controller="Booking" asp-action="Create" class="btn btn-primary btn-mhp">Neue Buchung</button>
+        </form>
+    </div>
+}
 

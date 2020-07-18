@@ -3,6 +3,7 @@
     ViewData["Title"] = "Zone Bearbeiten";
     Layout = "_AdminLayout";
 }
+@model Sopro.ViewModels.EditZoneViewModel
 <h1 class="display-4 pb-5 pt-5">Zone A</h1>
 <div class="form-row">
 
@@ -83,8 +84,21 @@
         <div class="overflow-auto pr-4" style="height: 450px">
             <table class="table table-sm ">
                 <tbody>
-                    @for (int i = 0; i < 5; i++)
+                    @{ int i = 0;}
+                    @foreach (Sopro.Models.Infrastructure.Station s in Model.zone.stations)
                     {
+                        int ccs = 0;
+                        int type2 = 0;
+                        foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
+                        {
+                            if(p.type == Sopro.Models.Infrastructure.PlugType.CCS)
+                            {
+                                ccs++;
+                            } else
+                            {
+                                type2++;
+                            }
+                        }
                         var stationName = string.Concat("Station", " ", (i + 1).ToString());
                         <tr>
                             <th class="align-middle"><h4>@stationName</h4></th>
@@ -93,18 +107,14 @@
                                     <div class="flex-column">
                                         <div>CCS</div>
                                         <div class="mb-3">Type-2-plugs</div>
-                                        <div>Maximal Parallele CCS</div>
-                                        <div>Maximal Parallele Type-2-Plug</div>
                                         <div class="mb-3">Gleichzeitig nutzbar</div>
                                         <div>Leistung</div>
                                     </div>
                                     <div class="flex-column ml-4">
-                                        <div>4</div>
-                                        <div class="mb-3">4</div>
-                                        <div>2</div>
-                                        <div>2</div>
-                                        <div class="mb-3">4</div>
-                                        <div>1000 kW</div>
+                                        <div>@ccs</div>
+                                        <div class="mb-3">@type2</div>
+                                        <div class="mb-3">@s.maxParallelUseable</div>
+                                        <div>@s.maxPower kW</div>
                                     </div>
                                 </div>
                             </td>
