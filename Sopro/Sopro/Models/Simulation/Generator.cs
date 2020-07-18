@@ -189,17 +189,18 @@ namespace Sopro.Models.Simulation
 
         public void LinearDist(List<Booking> bookingList, Scenario scenario, int i)
         {
-            int r = new Random().Next(scenario.vehicles.Count);
+            
 
             for (int j = 0; j < scenario.bookingCountPerDay; j++)
             {
+                int r = new Random().Next(scenario.vehicles.Count);
                 bookingList.Add(new Booking
                 {
                     capacity = scenario.vehicles[r].capacity,
                     plugs = scenario.vehicles[r].plugs,
                     socEnd = scenario.vehicles[r].socEnd,
                     socStart = scenario.vehicles[r].socStart,
-                    user = "",
+                    user = "supermegarandomuserduud",
                     startTime = scenario.start.AddDays(i).AddMinutes(((24 * 60) / scenario.bookingCountPerDay)*j),
                     endTime = scenario.start.AddDays(i).AddHours(j).AddHours(new Random().Next(1, 8)),
                     station = null,
