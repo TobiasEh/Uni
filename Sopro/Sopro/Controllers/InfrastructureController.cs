@@ -285,6 +285,7 @@ namespace Sopro.Controllers
                 viewmodel.type2 = 0;
                 viewmodel.ccsPower = 0;
                 viewmodel.type2Power = 0;
+                station.maxParallelUseable= Math.Min( station.maxParallelUseable, station.plugs.Count);
                 return View("EditZone", viewmodel);
             }
             return View("EditZone", viewmodel);

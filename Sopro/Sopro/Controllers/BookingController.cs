@@ -161,7 +161,22 @@ namespace Sopro.Controllers
             DateTime test = DateTime.Now.Date;
             if(booking.startTime.Date == DateTime.Now.Date)
             {
-
+                Adhoc adhoc = new Adhoc(false) { 
+                    capacity = booking.capacity, 
+                    plugs = booking.plugs, socStart = 
+                    booking.socStart, 
+                    socEnd = booking.socEnd, 
+                    user = booking.user, 
+                    startTime = booking.startTime, 
+                    endTime = booking.endTime,
+                    active = booking.active,
+                    location = booking.location,
+                    priority = booking.priority
+                };
+                bookings.Add(adhoc);
+                cache.Set(cacheKey, bookings);
+                adhoc.triggerBookingDistribution();
+                return RedirectToAction("Index", "Booking");
             }
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
