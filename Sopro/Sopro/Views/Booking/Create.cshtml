@@ -91,7 +91,7 @@
         {
             <div class="form-group">
                 <label for="@booking.user ">E-Mail des Gastes</label>
-                <input type="email" class="form-control" placeholder="@booking.user" asp-for="@booking.user" />
+                <input type="email" class="form-control" placeholder="@httpContextAccessor.HttpContext.Session.GetString("email")" asp-for="@booking.user" />
                 <small></small>
 
             </div>
