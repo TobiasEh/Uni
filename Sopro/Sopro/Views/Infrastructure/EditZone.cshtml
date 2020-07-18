@@ -4,78 +4,84 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.EditZoneViewModel
-<h1 class="display-4 pb-5 pt-5">Zone A</h1>
+<h1 class="display-4 pb-5 pt-5">Zone @Model.site</h1>
 <div class="form-row">
 
     <div class="form-group col">
-        <label>Standort</label>
-        <input form="addStation" class="form-control" />
-        <small></small>
+        <h1>Standort: @Model.name</h1>
     </div>
-    <div class="form-group col">
+    <form class="form-group col" asp-controller="Infrastructure" asp-action="EndEdit" id="EndEdit">
         <label>Leistung der Zone</label>
         <div class="input-group">
-            <input form="addStation" class="form-control" placeholder="0" />
+            <input form="EndEdit" class="form-control" type="number" placeholder="@Model.zone.maxPower" asp-for="@Model.zone.maxPower" min="0" />
             <div class="input-group-append">
                 <span class="input-group-text"> kW </span>
             </div>
         </div>
-        <small></small>
-    </div>
+    </form>
 </div>
 
 <div class="d-flex flex-wrap mt-2">
     <div class="text-nowrap mr-auto">
-        <form asp-controller="" asp-action="" method="post" id="addStation" />
-        <h2>Station bearbeiten</h2>
-        <div class="form-group">
-            <label>Name</label>
-            <input form="addStation" class="form-control" />
-            <small></small>
-        </div>
-        <div class="form-row">
-            <div class="form-group col">
-                <label>CCS plug</label>
-                <input form="addStation" class="form-control" />
+        <form asp-controller="Infrastructure" asp-action="EditStation" asp-route-id="@Model.id" asp-route-site="@Model.zone.site" method="post">
+            <h2>Station bearbeiten</h2>
+            <h4>Station @Model.station.id</h4>
+            <div class="form-group">
+                <label>Hersteller</label>
+                <input class="form-control" placeholder="@Model.station.manufacturer" asp-for="@Model.station.manufacturer" />
                 <small></small>
             </div>
-            <div class="form-group col">
-                <label>Parallel nutzbar</label>
-                <input form="addStation" class="form-control" />
-                <small></small>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col">
-                <label>Type-2-plug</label>
-                <input form="addStation" class="form-control" />
-                <small></small>
-            </div>
-            <div class="form-group col">
-                <label>Parallel nutzbar</label>
-                <input form="addStation" class="form-control" />
-                <small></small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Gleichzeitig benutzbare Stecker</label>
-            <input form="addStation" class="form-control" />
-            <small></small>
-        </div>
-        <div class="form-group">
-            <label>Leistung</label>
-            <div class="input-group">
-                <input form="addStation" class="form-control" placeholder="0" />
-                <div class="input-group-append">
-                    <span class="input-group-text"> kW </span>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>CCS plug</label>
+                    <input class="form-control" type="number" placeholder="@Model.ccs" asp-for="@Model.ccs" />
+                    <small></small>
+                </div>
+                <div class="form-group col">
+                    <label>Leistung</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" placeholder="@Model.ccsPower" asp-for="@Model.ccsPower" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"> kW </span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <small></small>
-        </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Type-2-plug</label>
+                    <input class="form-control" type="number" placeholder="@Model.type2" asp-for="@Model.type2" />
+                </div>
+                <div class="form-group col">
+                    <label>Leistung</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" placeholder="@Model.type2Power" asp-for="@Model.type2Power" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"> kW </span>
+                        </div>
+                    </div>
+                </div>
 
-        <div>
-            <button form="addStation" type="submit" class="btn btn-primary float-right btn-mhp">Hinzufügen</button>
-        </div>
+            </div>
+            <div class="form-group">
+                <label>Gleichzeitig benutzbare Stecker</label>
+                <input class="form-control" type="number" placeholder="@Model.station.maxParallelUseable" asp-for="@Model.station.maxParallelUseable" />
+
+            </div>
+            <div class="form-group">
+                <label>Maximale Leistung der Station</label>
+                <div class="input-group">
+                    <input class="form-control" type="number" placeholder="@Model.station.maxPower" asp-for="@Model.station.maxPower" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"> kW </span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary float-right btn-mhp">Hinzufügen</button>
+            </div>
+        </form>
 
     </div>
 
@@ -84,33 +90,43 @@
         <div class="overflow-auto pr-4" style="height: 450px">
             <table class="table table-sm ">
                 <tbody>
-                    @{ int i = 0;}
                     @foreach (Sopro.Models.Infrastructure.Station s in Model.zone.stations)
                     {
                         int ccs = 0;
                         int type2 = 0;
                         foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
                         {
-                            if(p.type == Sopro.Models.Infrastructure.PlugType.CCS)
+                            if (p.type == Sopro.Models.Infrastructure.PlugType.CCS)
                             {
                                 ccs++;
-                            } else
+                            }
+                            else
                             {
                                 type2++;
                             }
                         }
-                        var stationName = string.Concat("Station", " ", (i + 1).ToString());
+                        var stationName = string.Concat("Station", " ", (s.id).ToString());
                         <tr>
                             <th class="align-middle"><h4>@stationName</h4></th>
                             <td class="px-4">
                                 <div class="d-inline-flex">
                                     <div class="flex-column">
+                                        <div>Hersteller</div>
                                         <div>CCS</div>
                                         <div class="mb-3">Type-2-plugs</div>
                                         <div class="mb-3">Gleichzeitig nutzbar</div>
                                         <div>Leistung</div>
                                     </div>
                                     <div class="flex-column ml-4">
+                                        @{if (s.manufacturer == null)
+                                          {
+                                                <div>Kein Hersteller</div>
+                                          }
+                                          else
+                                          {
+                                                <div>@s.manufacturer</div>
+                                          }
+                                        }
                                         <div>@ccs</div>
                                         <div class="mb-3">@type2</div>
                                         <div class="mb-3">@s.maxParallelUseable</div>
@@ -119,8 +135,12 @@
                                 </div>
                             </td>
                             <td class="align-middle">
-                                <button class="btn btn-link"><img src="~/bootstrap-icons/pencil-square.svg" width="20" class="filter-blue" /></button>
-                                <button class="btn btn-link"><img src="~/bootstrap-icons/trash.svg" width="20" /></button>
+                                <a asp-controller="Infrastructure" asp-action="StartEditStation" asp-route-id="@Model.id" asp-route-site="@Model.site" asp-route-idStation="@s.id">
+                                    <img src="~/bootstrap-icons/pencil-square.svg" width="20" class="filter-blue" />
+                                </a>
+                                <a asp-controller="Infrastructure" asp-action="DeleteStation" asp-route-_id="@Model.id" asp-route-_site="@Model.site" asp-route-idStation="@s.id">
+                                    <img src="~/bootstrap-icons/trash.svg" width="20" />
+                                </a>
                             </td>
                         </tr>
                     }
@@ -134,14 +154,9 @@
 </div>
 <div class="d-flex mt-2">
     <div class="ml-auto">
-        <form methode="post">
-            <button asp-controller="Infrastruktur" asp-action="Index" class="btn btn-secondary">Abbrechen</button>
-        </form>
     </div>
     <div class="ml-2">
-        <form methode="post">
-            <button asp-controller="Infrastruktur" asp-action="Index" class="btn btn-primary btn-mhp">Bestätigen</button>
-        </form>
+        <button class="btn btn-primary btn-mhp" type="submit" form="EndEdit">Bestätigen</button>
     </div>
 </div>
 
