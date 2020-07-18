@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Sopro.Interfaces.AdministrationSimulation;
 using System.Data;
+using Org.BouncyCastle.Utilities;
 
 namespace Sopro.Models.Simulation
 {
@@ -24,8 +25,19 @@ namespace Sopro.Models.Simulation
         }
         public List<Booking> generateBookings(Scenario scenario) 
         {
+            
+            TimeSpan tickLength = new TimeSpan(0,0,1,0);
+
+            Console.WriteLine("duration in days : {0}", (scenario.duration * tickLength.TotalSeconds) / (24 * 60 * 60));
+
+            if ((scenario.duration * tickLength.TotalSeconds) / (24 * 60 * 60) < 1) return nggguu(scenario);
+
+            double totSeconds = scenario.duration * tickLength.TotalSeconds;
+            double totDays = totSeconds / (24*60*60);    
+            int duration = (int)totDays;
+            double leftover = totDays % 1;
             List<Booking> bookingList = new List<Booking>();
-            for(int i = 0; i < scenario.duration; i++) //days
+            for(int i = 0; i < duration; i++) //days
             {
                bool exists = false;
                 if (scenario.rushhours.Count != 0)
@@ -81,12 +93,79 @@ namespace Sopro.Models.Simulation
                     LinearDist(bookingList,scenario,i);
                 }
             }
-                
+            if (leftover != 0 && leftover * 24 * 60 >= (24 * 60) / scenario.bookingCountPerDay)
+            {
+                bookingList.AddRange(nggguu(scenario));
+            }    
 
             return bookingList;
         }
 
-      
+        private List<Booking> nggguu(Scenario scenario)
+        {
+            List<Booking> bookingList = new List<Booking>();
+            
+            TimeSpan tickLength = new TimeSpan(0, 0, 1);
+            bool exists = false;
+            double leftover = (scenario.duration * tickLength.TotalSeconds / 24 * 60 * 60) % 1;
+            int bpdC = (int)(scenario.bookingCountPerDay * leftover);
+            //if (bpdC == 0) return bookingList;
+            if (scenario.rushhours.FindAll(x => x.start >= scenario.start && x.start <= scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds)).Count != 0)
+            {
+                Console.WriteLine("true");
+                DateTime minRHstart = new DateTime();
+                foreach (Rushhour rh in scenario.rushhours.Where(x => x.start >= scenario.start.AddDays((int)(scenario.duration * tickLength.TotalSeconds / 24 * 60 * 60)) && x.start <= scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds)))
+                {
+                    exists = true;
+                    minRHstart = minRHstart == new DateTime() ? rh.start : minRHstart > rh.start ? rh.start : minRHstart;
+                    List<DateTime> startTimes = rh.run();
+                    if (rh.end > scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds))
+                    {
+                        startTimes.RemoveAll(x => x > scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds));
+                    }
+                    if (startTimes.Count != 0)
+                        foreach (DateTime start in startTimes)
+                        {
+                            int r = new Random().Next(scenario.vehicles.Count);
+                            bookingList.Add(
+                                new Booking
+                                {
+                                    capacity = scenario.vehicles[r].capacity,
+                                    plugs = scenario.vehicles[r].plugs,
+                                    socEnd = scenario.vehicles[r].socEnd,
+                                    socStart = scenario.vehicles[r].socStart,
+                                    user = "megarandombookinggeneratorduud",
+                                    startTime = start,
+                                    endTime = start.AddHours(new Random().Next(1, 8)),
+                                    station = null,
+                                    active = false,
+                                    priority = setPrio(),
+                                    location = scenario.location
+                                }
+                                ); ;
+                            bpdC--;
+                            if (bpdC <= 0) break;
+                        };
+                    if (bpdC <= 0) break;
+                }
+                if (bpdC < 0)
+                {
+                    List<Booking> linBList = new List<Booking>(); ;
+                    LinearDist(linBList, scenario, 0);
+                    linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), scenario.bookingCountPerDay - Math.Abs(bpdC));
+                    bookingList.AddRange(linBList);
+                }
+            }
+            else
+            {
+                LinearDist(bookingList, scenario, 0);
+                bookingList.RemoveAll(x => x.startTime > scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds) && x.startTime < scenario.start.AddDays((int)(scenario.duration * tickLength.TotalSeconds / 24 * 60 * 60)));
+                bookingList.RemoveRange(bookingList.Count-1,bookingList.Count-bpdC);
+            }
+            
+
+            return bookingList;
+        }
 
         private UserType setPrio()
         {
