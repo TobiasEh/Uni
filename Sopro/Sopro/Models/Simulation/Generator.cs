@@ -121,7 +121,7 @@ namespace Sopro.Models.Simulation
                     socEnd = scenario.vehicles[r].socEnd,
                     socStart = scenario.vehicles[r].socStart,
                     user = "",
-                    startTime = scenario.start.AddDays(i).AddMinutes((24 * 60) / scenario.bookingCountPerDay),
+                    startTime = scenario.start.AddDays(i).AddMinutes(((24 * 60) / scenario.bookingCountPerDay)*j),
                     endTime = scenario.start.AddDays(i).AddHours(j).AddHours(new Random().Next(1, 8)),
                     station = null,
                     active = false,
