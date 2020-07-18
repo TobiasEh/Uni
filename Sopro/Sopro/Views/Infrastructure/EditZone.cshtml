@@ -4,13 +4,13 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.EditZoneViewModel
-<h1 class="display-4 pb-5 pt-5">Zone @Model.site</h1>
+<h1 class="display-4 pb-5 pt-5">Zone @Model.zone.site</h1>
 <div class="form-row">
 
     <div class="form-group col">
         <h1>Standort: @Model.name</h1>
     </div>
-    <form class="form-group col" asp-controller="Infrastructure" asp-action="EndEdit" id="EndEdit">
+    <form class="form-group col" asp-controller="Infrastructure" asp-action="EndEdit" id="EndEdit" asp-route-id="@Model.id" asp-route-site="@Model.site">
         <label>Leistung der Zone</label>
         <div class="input-group">
             <input form="EndEdit" class="form-control" type="number" placeholder="@Model.zone.maxPower" asp-for="@Model.zone.maxPower" min="0" />

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Net.Http.Headers;
 using Sopro.Interfaces;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Infrastructure;
@@ -10,8 +9,6 @@ using Sopro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {
@@ -38,6 +35,26 @@ namespace Sopro.Controllers
 
         public IActionResult EndEdit(EditZoneViewModel viewmodel)
         {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            foreach (ILocation location in locations)
+            {
+                if (viewmodel.id.ToString().Equals(location.id))
+                {
+                    foreach (Zone z in location.zones)
+                    {
+                        if (viewmodel.site == z.site)
+                        {
+                            z.maxPower = viewmodel.zone.maxPower;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
 
             return RedirectToAction("Index");
         }
@@ -133,6 +150,31 @@ namespace Sopro.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult DeleteZone(int? id, char site)
+        {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            foreach (ILocation l in locations)
+            {
+                if (l.id.Equals(id.ToString()))
+                {
+                    foreach (Zone z in l.zones)
+                    {
+                        if (z.site == site)
+                        {
+                            l.deleteZone(z);
+                            return View("Index",new InfrastructureViewModel() { locations = locations });
+                        }
+                    }
+                    break;
+                }
+            }
+            return View("Index", new InfrastructureViewModel() { locations = locations }); ;
+        }
+
         public IActionResult StartEditStation(int? id, char site, int idStation)
         {
             if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
@@ -152,19 +194,38 @@ namespace Sopro.Controllers
                         if (z.site == site)
                         {
                             viewmodel.zone = z;
+                            viewmodel.site = site;
                             foreach (Station s in z.stations)
                             { 
                                 if (s.id == idStation)
                                 {
                                     viewmodel.station = s;
+                                    viewmodel.zone.deleteStation(s);
+                                    viewmodel.ccs = 0;
+                                    viewmodel.type2 = 0;
+                                    foreach(Plug p in s.plugs)
+                                    {
+                                        if(p.type == PlugType.CCS)
+                                        {
+                                            viewmodel.ccsPower = p.power;
+                                            viewmodel.ccs++;
+                                        }
+                                        else
+                                        {
+                                            viewmodel.type2++;
+                                            viewmodel.type2Power = p.power;
+                                        }
+                                    }
                                     return View("EditZone",viewmodel);
                                 }
                             }
+                            break;
                         }
                     }
+                    break;
                 }
             }
-return RedirectToAction("EditZone",new { id = id, site = site });
+            return RedirectToAction("Index");
         }
 
         public IActionResult DeleteStation(int? _id, char _site, int idStation) 
@@ -173,21 +234,27 @@ return RedirectToAction("EditZone",new { id = id, site = site });
             {
                 locations = new List<ILocation>();
             }
-
+            EditZoneViewModel viewmodel = new EditZoneViewModel();
             foreach (ILocation l in locations)
             {
                 if (l.id.Equals(_id.ToString()))
                 {
+                    viewmodel.name = l.name;
+                    viewmodel.id=(int)_id;
                     foreach (Zone z in l.zones)
                     {
                         if (z.site == _site)
                         {
+                        viewmodel.site = z.site;
+                        viewmodel.zone = z;
+
                             foreach(Station s in z.stations)
                             {
                                 if(s.id == idStation)
                                 {
                                     z.deleteStation(s);
-                                    return RedirectToAction("EditZone", new{ id = _id, site = _site });
+                                    viewmodel.station = new Station();
+                                    return View("EditZone", viewmodel);
                                 }
                             }
                         }
@@ -195,7 +262,7 @@ return RedirectToAction("EditZone",new { id = id, site = site });
                 }
             }
 
-            return RedirectToAction("EditZone", new{ id = _id, site = _site });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -232,6 +299,7 @@ return RedirectToAction("EditZone",new { id = id, site = site });
             cache.Set(CacheKeys.LOCATION, locations);
             return RedirectToAction("Index");
         }
+
         public IActionResult DeleteLocation(int ? id)
         {
             if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
@@ -317,6 +385,7 @@ return RedirectToAction("EditZone",new { id = id, site = site });
             {
                 locations = new List<ILocation>();
             }
+            EditZoneViewModel viewmodel = new EditZoneViewModel();
             foreach (ILocation l in locations)
             {
                 if (l.id.Equals(id.ToString()))
@@ -336,23 +405,22 @@ return RedirectToAction("EditZone",new { id = id, site = site });
                     }
                     zone.site = site;
                     zone.stations= new List<Station>();
-                    Station station = new Station();
-                    station.id = 0;
-                    station.maxPower = 0;
-                    station.maxParallelUseable = 0;
-                    station.plugs = new List<Plug>();
-                    zone.addStation(station);
-                    Plug plug = new Plug();
-                    plug.power = 0;
-                    plug.type = PlugType.CCS;
-                    station.addPlug(plug);
+
                     l.addZone(zone);
-                    break;
+                    
+                    viewmodel.name = l.name;
+                    viewmodel.id = (int) id;
+                    viewmodel.site = site;
+                    viewmodel.zone = zone;
+                    viewmodel.station = new Station();
+                    return View("EditZone", viewmodel);
                 }
             }
             //cache.Set(CacheKeys.LOCATION, locations);
-            return RedirectToAction("EditZone",new { id = id, site = site });
+            return View("Index",new { id = id, site = site });
         }
+
+
 
         [HttpGet]
         public IActionResult export([FromForm]FileViewModel model)

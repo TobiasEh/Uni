@@ -59,7 +59,7 @@
                                 <div class="d-flex">
                                     <h4><b>Zone @z.site</b></h4>
                                     <div class="ml-auto">
-                                        <form methode="post" asp-controller="Infrastructure" asp-action="EditZone"  asp-route-id="@l.id" asp-route-site="@z.site">
+                                        <form methode="post" asp-controller="Infrastructure" asp-action="EditZone" asp-route-id="@l.id" asp-route-site="@z.site">
                                             <button class="btn btn-link"><img src="~/bootstrap-icons/pencil-square.svg" width="20" /></button>
                                         </form>
                                     </div>
@@ -70,51 +70,54 @@
                                     </div>
                                 </div>
                             </div>
-                            @foreach (Sopro.Models.Infrastructure.Station s in z.stations)
-                            {
-                                <div class="card-body d-inline-flex flex-wrap">
-                                    <div class="flex-column border rounded ml-1 mr-2 my-2 py-3 px-2">
-                                        <h4 class="text-sm-center">Station 1</h4>
-                                        <hr />
-                                        <div class="d-inline-flex">
-                                            <div class="flex-column">
-                                                <div>CCS</div>
-                                                <div class="mb-3">Type-2-plugs</div>
-                                                <div class="mb-3">Gleichzeitig nutzbar</div>
-                                                <div>Leistung</div>
-                                            </div>
-                                            <div class="flex-column ml-4">
-                                                @{ int ccs = 0;
-                                                    int type2 = 0;
-                                                }
-                                                @foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
-                                                {
-                                                    if (p.type.Equals(Sopro.Models.Infrastructure.PlugType.CCS))
-                                                    {
-                                                        ccs++;
+                            <div class="d-flex">
+                                @foreach (Sopro.Models.Infrastructure.Station s in z.stations)
+                                {
+                                    <div class="card-body d-inline-flex flex-wrap">
+                                        <div class="flex-column border rounded ml-1 mr-2 my-2 py-3 px-2">
+                                            <h4 class="text-sm-center">Station 1</h4>
+                                            <hr />
+                                            <div class="d-inline-flex">
+                                                <div class="flex-column">
+                                                    <div>CCS</div>
+                                                    <div class="mb-3">Type-2-plugs</div>
+                                                    <div class="mb-3">Gleichzeitig nutzbar</div>
+                                                    <div>Leistung</div>
+                                                </div>
+                                                <div class="flex-column ml-4">
+                                                    @{ int ccs = 0;
+                                                        int type2 = 0;
                                                     }
-                                                    else
+                                                    @foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
                                                     {
-                                                        type2++;
+                                                        if (p.type.Equals(Sopro.Models.Infrastructure.PlugType.CCS))
+                                                        {
+                                                            ccs++;
+                                                        }
+                                                        else
+                                                        {
+                                                            type2++;
+                                                        }
                                                     }
-                                                }
-                                                <div>@ccs</div>
-                                                <div class="mb-3">@type2</div>
-                                                <div class="mb-3">@s.maxParallelUseable</div>
-                                                <div>@s.maxPower kW</div>
+                                                    <div>@ccs</div>
+                                                    <div class="mb-3">@type2</div>
+                                                    <div class="mb-3">@s.maxParallelUseable</div>
+                                                    <div>@s.maxPower kW</div>
+                                                </div>
                                             </div>
                                         </div>
+
+
+
                                     </div>
-
-
-
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     }
-                <form asp-action="CreateZone" asp-controller="Infrastructure" asp-route-id="@l.id">
-                    <button class="btn btn-primary btn-block mt-3 btn-mhp">Neue Zone</button>
-                </form>
+
+                    <form asp-action="CreateZone" asp-controller="Infrastructure" asp-route-id="@l.id">
+                        <button class="btn btn-primary btn-block mt-3 btn-mhp">Neue Zone</button>
+                    </form>
                 </div>
             </div>
         </div>
