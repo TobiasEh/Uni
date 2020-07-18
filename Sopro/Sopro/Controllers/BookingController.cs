@@ -148,7 +148,6 @@ namespace Sopro.Controllers
                 plugs.Add(PlugType.TYPE2);
             }
             booking.plugs = plugs;
-            bool test = TryValidateModel(booking, nameof(booking));
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
@@ -158,6 +157,11 @@ namespace Sopro.Controllers
             {
                 return RedirectToAction("Create", "Booking", booking);
                 //throw new Exception("Buchung ist nicht valide!");
+            }
+            DateTime test = DateTime.Now.Date;
+            if(booking.startTime.Date == DateTime.Now.Date)
+            {
+
             }
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
