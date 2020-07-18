@@ -64,7 +64,7 @@
                                         </form>
                                     </div>
                                     <div class="ml-2">
-                                        <form methode="post">
+                                        <form methode="post" asp-controller="Infrastructure" asp-action="DeleteZone" asp-route-id="@l.id" asp-route-site="@z.site">
                                             <button class="btn btn-link"><img src="~/bootstrap-icons/trash.svg" width="20" /></button>
                                         </form>
                                     </div>

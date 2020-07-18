@@ -50,10 +50,26 @@ namespace Sopro.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
+            else if (userID.Equals(UserType.ASSISTANCE.ToString()))
+                {
+                foreach (IBooking item in bookings)
+                    if (item.priority == UserType.VIP|| item.priority == UserType.GUEST)
+                    {
+                        if (item.station == null)
+                        {
+                            unscheduledBookings.Add((Booking)item);
+                        }
+                        else if (item.station != null)
+                        {
+                            scheduledBookings.Add((Booking)item);
+                        }
+                    }
+                return View(new DashboardViewModel(scheduledBookings, unscheduledBookings));
+            }
             else
             {
                 var email = this.HttpContext.Session.GetString("email");
-                foreach (IBooking item in bookings)
+                foreach (IBooking item in bookings) 
                     if (item.user == email)
                     {
                         if (item.station == null)
@@ -77,7 +93,7 @@ namespace Sopro.Controllers
             List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
             if (locations == null)
             {
-                new List<ILocation>();
+                locations = new List<ILocation>();
             }
             if(booking.startTime==new DateTime() && booking.endTime==new DateTime())
             {
@@ -106,7 +122,24 @@ namespace Sopro.Controllers
         {
             IBooking booking = viewmodel.booking;
             List < PlugType > plugs = new List<PlugType>();
-            if(viewmodel.ccs)
+
+            List<ILocation> locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
+            if (locations == null)
+            {
+                locations = new List<ILocation>();
+            }
+            if(booking.priority == UserType.EMPLOYEE)
+            {
+                booking.user = this.HttpContext.Session.GetString("email");
+            }
+            foreach (ILocation l in locations) 
+            {
+                if(l.id.Equals(viewmodel.locationId))
+                {
+                    booking.location = l;
+                }
+            }
+            if (viewmodel.ccs)
             {
                 plugs.Add(PlugType.CCS);
             } 
