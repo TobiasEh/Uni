@@ -5,6 +5,7 @@ using Sopro.Interfaces.ControllerHistory;
 using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.History;
+using Sopro.Persistence.PersEvaluation;
 using Sopro.ViewModels;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ namespace Sopro.Controllers
     public class EvaluationController : Controller
     {
         private IMemoryCache cache;
-        private IEvaluationService service;
+        private IEvaluationService service = new EvaluationService();
         private List<IEvaluation> evaluations;
 
         public IActionResult Evaluation(IEvaluation evaluation)

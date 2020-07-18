@@ -1,0 +1,75 @@
+﻿@using Sopro.Extensions;
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Storyboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header text-center">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" id="navlink">
+                    <img src="~/icons/MHP.svg" alt="MHP Logo" width="150" />
+                </a>
+            </div>
+            <div class="text-center">
+                <img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" /><small>example@mail.de</small>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="@Html.IsSelected(actions: "Dashboard", controllers: "Admin")">
+                    <a href="@Url.Action("Dashboard", "Admin")">Übersicht</a>
+                </li>
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Simulation")">
+                    <a href="@Url.Action("Index", "Simulation")">Simulation</a>
+                </li>
+                <li class="@Html.IsSelected(actions: "History", controllers: "Simulation")">
+                    <a href="@Url.Action("History", "Simulation")">Historie</a>
+                </li>
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Infrastructure")">
+                    <a href="@Url.Action("Index", "Infrastructure")">Infrastruktur</a>
+                </li>
+                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Simulation")">
+                    <a href="@Url.Action("Cartemplates", "Simulation")">Fahrzeuge</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div>
+            <button type="button" id="sidebarCollapse" class="btn btn-mhp m-3">
+                <i class="fas fa-align-left"></i>
+                <span><</span>
+            </button>
+
+        </div>
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container d-flex justify-content-center">
+            &copy; 2020 Uni-Augsburg SoPro Team 17
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+

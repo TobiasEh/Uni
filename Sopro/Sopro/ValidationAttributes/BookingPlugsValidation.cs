@@ -10,16 +10,15 @@ namespace Sopro.ValidationAttributes
     {
         public override bool IsValid(object value)
         {
-            
             List<PlugType> plugarray = value as List<PlugType>;
-            if (plugarray.Count >= 1 && plugarray.Count() == plugarray.Distinct().Count())
-            {
-                return true;
+            if (plugarray != null) { 
+                
+                if (plugarray.Count >= 1 && plugarray.Count() == plugarray.Distinct().Count())
+                {
+                    return true;
+                } 
             }
-            else
-            {
-                return false;
-            }     
+            return false;
         }
     }
 }
