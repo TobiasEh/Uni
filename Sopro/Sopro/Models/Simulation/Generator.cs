@@ -26,13 +26,13 @@ namespace Sopro.Models.Simulation
         public List<Booking> generateBookings(Scenario scenario) 
         {
             
-            TimeSpan tickLength = new TimeSpan(0,0,1,0);
+            //TimeSpan Simulator.tickLength = new TimeSpan(0,0,1,0);
 
-            Console.WriteLine("duration in days : {0}", (scenario.duration * tickLength.TotalSeconds) / (24 * 60 * 60));
+            Console.WriteLine("duration in days : {0}", (scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60));
 
-            if ((scenario.duration * tickLength.TotalSeconds) / (24 * 60 * 60) < 1) return nggguu(scenario);
+            if ((scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60) < 1) return nggguu(scenario);
 
-            double totSeconds = scenario.duration * tickLength.TotalSeconds;
+            double totSeconds = scenario.duration * Simulator.tickLength.TotalSeconds;
             double totDays = totSeconds / (24*60*60);    
             int duration = (int)totDays;
             double leftover = totDays % 1;
@@ -105,23 +105,23 @@ namespace Sopro.Models.Simulation
         {
             List<Booking> bookingList = new List<Booking>();
             
-            TimeSpan tickLength = new TimeSpan(0, 0, 1);
+            TimeSpan Simulator.tickLength = new TimeSpan(0, 0, 1);
             bool exists = false;
-            double leftover = (scenario.duration * tickLength.TotalSeconds / 24 * 60 * 60) % 1;
+            double leftover = (scenario.duration * Simulator.tickLength.TotalSeconds / 24 * 60 * 60) % 1;
             int bpdC = (int)(scenario.bookingCountPerDay * leftover);
             //if (bpdC == 0) return bookingList;
-            if (scenario.rushhours.FindAll(x => x.start >= scenario.start && x.start <= scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds)).Count != 0)
+            if (scenario.rushhours.FindAll(x => x.start >= scenario.start && x.start <= scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds)).Count != 0)
             {
                 Console.WriteLine("true");
                 DateTime minRHstart = new DateTime();
-                foreach (Rushhour rh in scenario.rushhours.Where(x => x.start >= scenario.start.AddDays((int)(scenario.duration * tickLength.TotalSeconds / 24 * 60 * 60)) && x.start <= scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds)))
+                foreach (Rushhour rh in scenario.rushhours.Where(x => x.start >= scenario.start.AddDays((int)(scenario.duration * Simulator.tickLength.TotalSeconds / 24 * 60 * 60)) && x.start <= scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds)))
                 {
                     exists = true;
                     minRHstart = minRHstart == new DateTime() ? rh.start : minRHstart > rh.start ? rh.start : minRHstart;
                     List<DateTime> startTimes = rh.run();
-                    if (rh.end > scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds))
+                    if (rh.end > scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds))
                     {
-                        startTimes.RemoveAll(x => x > scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds));
+                        startTimes.RemoveAll(x => x > scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds));
                     }
                     if (startTimes.Count != 0)
                         foreach (DateTime start in startTimes)
@@ -159,7 +159,7 @@ namespace Sopro.Models.Simulation
             else
             {
                 LinearDist(bookingList, scenario, 0);
-                bookingList.RemoveAll(x => x.startTime > scenario.start.AddSeconds(scenario.duration * tickLength.TotalSeconds) && x.startTime < scenario.start.AddDays((int)(scenario.duration * tickLength.TotalSeconds / 24 * 60 * 60)));
+                bookingList.RemoveAll(x => x.startTime > scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds) && x.startTime < scenario.start.AddDays((int)(scenario.duration * Simulator.tickLength.TotalSeconds / 24 * 60 * 60)));
                 bookingList.RemoveRange(bookingList.Count-1,bookingList.Count-bpdC);
             }
             
