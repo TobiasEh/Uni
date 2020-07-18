@@ -12,36 +12,6 @@ namespace Sopro.Models.Administration
         {
 
         }
-        class Workload
-        {
-            public int used { get; set; }
-            public int total;
-            public DateTime day;
-
-            public Workload(DateTime _day, int concurrentCount)
-            {
-                day = _day;
-                used = 0;
-                total = concurrentCount * 60 * 24;
-            }
-
-            public Workload(DateTime _day, int concurrentCount, int _used)
-            {
-                day = _day;
-                used = _used;
-                total = concurrentCount * 60 * 24;
-            }
-
-            public double getWorkload()
-            {
-                return used / total;
-            }
-
-            public double getWorkload(int duration)
-            {
-                return (used + duration) / total;
-            }
-        }
 
         class UsedTimeSlots
         {
@@ -63,7 +33,6 @@ namespace Sopro.Models.Administration
             //Save location
             Location l = (Location)b.First().location;
             double backup = l.emergency;
-            List<Workload> wl = new List<Workload>();
             int concurrentCount = 0;
 
             //Create new UsedTimeSlot object
@@ -90,46 +59,6 @@ namespace Sopro.Models.Administration
                         temp.Add(bo.startTime);
                         temp.Add(bo.endTime);
                         u.used.Add(temp);
-                        if (bo.startTime.Day.Equals(bo.endTime.Day))
-                        {
-                            TimeSpan span = bo.endTime.Subtract(bo.startTime);
-                            if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
-                            {
-                                wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).used += (int)span.TotalMinutes;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.startTime, concurrentCount, (int)span.TotalMinutes);
-                                wl.Add(w);
-                            }
-                        }
-                        else
-                        {
-                            DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
-                            /*bo.startTime.AddDays(1);
-                        d = d.AddHours(-bo.startTime.Hour);
-                        d = d.AddMinutes(-bo.startTime.Minute);*/
-                            TimeSpan spanStart = d.Subtract(bo.startTime);
-                            TimeSpan spanEnd = bo.endTime.Subtract(d);
-                            if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
-                            {
-                                wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).used += (int)spanStart.TotalMinutes;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.startTime, concurrentCount, (int)spanStart.TotalMinutes);
-                                wl.Add(w);
-                            }
-                            if (wl.Exists(x => x.day.Day.Equals(bo.endTime.Day)))
-                            {
-                                wl.Find(x => x.day.Day.Equals(bo.endTime.Day)).used += (int)spanEnd.TotalMinutes;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.endTime, concurrentCount, (int)spanEnd.TotalMinutes);
-                                wl.Add(w);
-                            }
-                        }
                     }
                 }
             }
@@ -155,15 +84,6 @@ namespace Sopro.Models.Administration
                         PlugType selected = selectPlug(bo.plugs);
                         int dur = calculateDuration(bo.socStart, bo.socEnd, bo.capacity, u.station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
                         //capNeeded / power * 60;
-                        //Check capacity cap
-                        if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
-                        {
-                            if ((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
-                            {
-                                break;
-                            }
-                        }
-
                         //no Booking -> Add booking
                         if (!u.used.Any())
                         {
@@ -177,15 +97,6 @@ namespace Sopro.Models.Administration
                             u.used.Add(temp);
                             schedule.addBooking(bo);
                             inserted = true;
-                            if (wl.Exists(x => x.day.Day.Equals(bo.endTime.Day)))
-                            {
-                                wl.Find(x => x.day.Day.Equals(bo.endTime.Day)).used += dur;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.endTime, concurrentCount, dur);
-                                wl.Add(w);
-                            }
                         }
                         else
                         {
@@ -204,15 +115,6 @@ namespace Sopro.Models.Administration
                                     u.used.Add(temp);
                                     schedule.addBooking(bo);
                                     inserted = true;
-                                    if (wl.Exists(x => x.day.Day.Equals(bo.endTime.Day)))
-                                    {
-                                        wl.Find(x => x.day.Day.Equals(bo.endTime.Day)).used += dur;
-                                    }
-                                    else
-                                    {
-                                        Workload w = new Workload(bo.endTime, concurrentCount, dur);
-                                        wl.Add(w);
-                                    }
                                     //go to next booking
                                     break;
                                 }
