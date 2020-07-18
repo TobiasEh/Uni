@@ -115,7 +115,11 @@ namespace Sopro.Controllers
                     {
                         l.name = viewmodel.name;
                     }
-                    
+                    if (viewmodel.distributionTime != null)
+                    {
+                        l.normalizedDistributionTime = viewmodel.distributionTime;
+                    }
+                    break;
                 }
             }
             cache.Set(CacheKeys.LOCATION, locations);

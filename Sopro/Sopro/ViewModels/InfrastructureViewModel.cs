@@ -13,5 +13,6 @@ namespace Sopro.ViewModels
         public string name { get; set; }
         public string emergency { get; set; }
         public string id { get; set; }
+        public DateTime distributionTime { get; set; }
     }
 }
