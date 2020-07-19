@@ -87,7 +87,7 @@
             <input type="datetime-local" class="form-control" placeholder="@booking.startTime" asp-for="@booking.endTime" />
             <small></small>
         </div>
-        @if (httpContextAccessor.HttpContext.Session.GetString("role") == Sopro.Models.User.UserType.ASSISTANCE.ToString())
+        @if (httpContextAccessor.HttpContext.Session.GetString("role").Equals(Sopro.Models.User.UserType.ASSISTANCE.ToString()))
         {
             <div class="form-group">
                 <label for="@booking.user ">E-Mail des Gastes</label>
