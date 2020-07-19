@@ -102,11 +102,6 @@ namespace Sopro.Controllers
                 booking.startTime = now;
                 booking.endTime = now;
             }
-            var email = HttpContext.Session.GetString("email");
-            if (booking.user == null)
-            {
-                booking.user = email;
-            }
             return View("Create", new BookingCreateViewModel(locations, booking, booking.plugs.Contains(PlugType.CCS), booking.plugs.Contains(PlugType.TYPE2)));           
         }
 
@@ -187,13 +182,24 @@ namespace Sopro.Controllers
          * Booking is removed from bookinglist and cache.
          * Returns Booking.Create view with already filled fields.
          */
-        public IActionResult Edit(Booking booking)
+        public IActionResult Edit(string bookingID)
         {
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
             }
+            Booking booking = null;
+            foreach (Booking b in bookings)
+            {
+                if (b.id.Equals(bookingID))
+                {
+                    booking = b;
+                    break;
+                }
+
+            }
+            
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
             List<ILocation> locations;
