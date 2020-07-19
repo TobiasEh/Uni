@@ -161,6 +161,11 @@ namespace Sopro.Models.Administration
                                 break;
                             }
                         }
+                        //Check if booking duration is possible in the time periode
+                        if (bo.startTime.AddMinutes(dur) > bo.endTime)
+                        {
+                            break;
+                        }
 
                         //no Booking -> Add booking
                         if (!u.used.Any())
