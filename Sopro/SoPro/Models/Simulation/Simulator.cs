@@ -117,7 +117,7 @@ namespace Sopro.Models.Simulation
                 }
             }
             int count  = exScenario.bookings.Count( e => e.startTime >= time && e.startTime <= end);
-            double workload = count * 100 / numberOfStations;
+            double workload = (double)count * 100.0 / (double)numberOfStations;
 
             return workload;
         }
@@ -140,7 +140,7 @@ namespace Sopro.Models.Simulation
                     station = exScenario.location.zones[i].stations[j];
                     int plugs = station.maxParallelUseable;
                     int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
-                    workload.Add(usedPlugs * 100 / plugs);
+                    workload.Add((double)usedPlugs * 100.0 / (double)plugs);
                 }
             }
             return workload;
