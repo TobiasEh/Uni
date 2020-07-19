@@ -1,4 +1,5 @@
-﻿using Sopro.Interfaces;
+﻿using Microsoft.CodeAnalysis;
+using Sopro.Interfaces;
 using Sopro.Interfaces.ControllerSimulation;
 using Sopro.Models.Simulation;
 using System;
@@ -10,25 +11,25 @@ namespace Sopro.ViewModels
 {
     public class ScenarioCreateViewModel
     {
-        public IScenario scenario { get; set; }
+        public Scenario scenario { get; set; }
         public List<ILocation> locations { get; set; }
-        public List<IVehicle> vehicles { get; set; }
-        public string idChosedLocation { get; set; }
-        public List<DateTime> startRushours { get; set; } = new List<DateTime>() { new DateTime(0) };
-        public List<DateTime> endRushours { get; set; } = new List<DateTime>() { new DateTime(0)};
-        public List<int> bookingsRushours { get; set; } = new List<int>() { -1};
+        public List<Vehicle> vehicles { get; set; }
+        public List<Rushhour> rushhours { get; set; }
+        public int tickLength { get; set; }
 
-        public ScenarioCreateViewModel(IScenario _scenario, List<ILocation> _locations, List<IVehicle> _vehicles)
+        public ScenarioCreateViewModel(List<ILocation> _locations, List<Vehicle> _vehicles)
         {
-            scenario = _scenario;
             locations = _locations;
             vehicles = _vehicles;
+            scenario = new Scenario();
+            rushhours = new List<Rushhour>();
         }
 
         public ScenarioCreateViewModel() 
         {
             locations = new List<ILocation>();
-            vehicles = new List<IVehicle>();
+            vehicles = new List<Vehicle>();
+            rushhours = new List<Rushhour>();
         }
     }
 }

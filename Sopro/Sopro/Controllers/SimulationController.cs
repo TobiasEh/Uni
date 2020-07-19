@@ -10,6 +10,7 @@ using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Persistence.PersScenario;
+using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {
@@ -18,7 +19,7 @@ namespace Sopro.Controllers
         private IMemoryCache cache;
         private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
-        
+
         public SimulationController(IMemoryCache _cache)
         {
             cache = _cache;
@@ -26,36 +27,52 @@ namespace Sopro.Controllers
 
         public IActionResult Create()
         {
+            Console.WriteLine("ay");
             List<ILocation> locations;
-            if(!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
                 locations = new List<ILocation>();
             }
-            List<IVehicle> vehicles;
-            if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            List<Vehicle> vehicles;
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<IVehicle>();
+                vehicles = new List<Vehicle>();
             }
-
-            return View(new ScenarioCreateViewModel(new Scenario(), locations, vehicles));
+            var model = new ScenarioCreateViewModel(locations, vehicles);
+            model.rushhours.Add(new Rushhour());
+            model.scenario = new Scenario();
+            return View(model);
         }
         [HttpPost]
-        public IActionResult Post(IScenario scenario)
+        public IActionResult Create(ScenarioCreateViewModel model)
         {
-            if(cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            var scenario = new Scenario();
+            scenario.duration = model.scenario.duration;
+            scenario.bookingCountPerDay = model.scenario.bookingCountPerDay;
+            scenario.start = model.scenario.start;
+            scenario.location = model.scenario.location;
+            scenario.rushhours = model.rushhours;
+            scenario.vehicles = model.vehicles;
+            if(!cache.TryGetValue(CacheKeys.SCENARIO,out scenarios))
             {
                 scenarios = new List<IScenario>();
             }
-            if (!ModelState.IsValid)
-            {
-                throw new Exception("Szenario ist nicht valide!");
-            }
-
             scenarios.Add(scenario);
-            cache.Set(CacheKeys.SCENARIO, scenarios);
-            return View("Index", scenarios);
-        }
+            cache.Set(CacheKeys.SCENARIO,scenarios);
 
+            return View("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddRushhour(ScenarioCreateViewModel model)
+        {
+            Console.WriteLine("Test");
+            model.rushhours.Add(new Rushhour());
+            return PartialView("_addRushhour", model);
+        }
+       
+       
+       
         public IActionResult Index()
         {
             if (cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
