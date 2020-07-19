@@ -9,7 +9,7 @@ namespace Sopro.Models.Infrastructure
 {
     public class Location : ILocation
     {
-        public string id { get; }
+        public string id { get; set; }
         [ListMinLength(0)]
         public List<Zone> zones { get; set; }
         [Required]

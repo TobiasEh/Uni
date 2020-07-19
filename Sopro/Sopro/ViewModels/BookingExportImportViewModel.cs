@@ -1,5 +1,6 @@
 ﻿
 using Sopro.Interfaces.AdministrationController;
+using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
 using System;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Sopro.ViewModels
 {
-    public class BookingExportInportViewModel
+    public class BookingExportImportViewModel
     {
         public string id { get; set; }
 
@@ -29,16 +30,16 @@ namespace Sopro.ViewModels
 
         public bool active { get; set; } = false;
 
-        public Location location { get; set; } 
+        public LocationExportImportViewModel location { get; set; } 
         public UserType priority { get; set; } 
 
 
-        public BookingExportInportViewModel()
+        public BookingExportImportViewModel()
         {
             id = Guid.NewGuid().ToString();
         }
 
-        public BookingExportInportViewModel(IBooking b)
+        public BookingExportImportViewModel(IBooking b)
         {
             id = b.id;
             capacity = b.capacity;
@@ -50,13 +51,13 @@ namespace Sopro.ViewModels
             endTime = b.endTime;
             station = b.station;
             active = b.active;
-            location = (Location) b.location;
+            location = new LocationExportImportViewModel( b.location);
             priority = b.priority;
         }
 
         public IBooking generateBooking()
         {
-            IBooking b = (IBooking) new BookingCreateViewModel();
+            IBooking b = (IBooking) new Booking();
             b.id = id;
             b.capacity = capacity;
             b.plugs = plugs;
@@ -67,7 +68,7 @@ namespace Sopro.ViewModels
             b.endTime = endTime;
             b.station = station;
             b.active = active;
-            b.location = location;
+            b.location = location.generateLocation();
             b.priority = priority;
             return b;
         }

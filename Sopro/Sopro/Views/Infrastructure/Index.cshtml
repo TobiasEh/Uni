@@ -70,12 +70,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex flex-wrap">
                                 @foreach (Sopro.Models.Infrastructure.Station s in z.stations)
                                 {
-                                    <div class="card-body d-inline-flex flex-wrap">
+                                    <div class="card-body d-inline-flex flex-wrap text-nowrap">
                                         <div class="flex-column border rounded ml-1 mr-2 my-2 py-3 px-2">
-                                            <h4 class="text-sm-center">Station 1</h4>
+                                            <h4 class="text-sm-center">Station @s.id</h4>
                                             <hr />
                                             <div class="d-inline-flex">
                                                 <div class="flex-column">
@@ -126,14 +126,36 @@
 </div>
 
 <div class="d-flex mt-4">
-    <div>
-        <form asp-controller="Booking" asp-action="" class="form-horizontal" method="post" enctype="multipart/form-data">
-            <button type="submit" class="btn btn-primary col-xs-12 btn-mhp">Import</button>
-        </form>
+    <div class="d-flex">
+        <div>
+            <form asp-controller="Infrastructure" asp-action="import" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="importedFile" />
+                    </div>
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-primary col-xs-12 btn-mhp">Import</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
-    <div>
-        <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
-    </div>
+
+    @if (Model.locations.Any())
+    {
+        <div class="ml-2">
+            <form asp-controller="Infrastructure" asp-action="export" method="get" class="form-horizontal">
+                <input class="btn btn-primary btn-mhp" type="submit" name="" value="Export" />
+            </form>
+        </div>
+    }
+    else
+    {
+        <div>
+            <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
+        </div>
+    }
     <div class="ml-auto">
         <form asp-controller="Infrastructure" asp-action="newLocation">
             <button class="btn btn-primary btn-mhp">Neuer Standort</button>

@@ -77,9 +77,6 @@ namespace Sopro.Controllers
         public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.LOCATION, out evaluations);
-            IFormFile file = model.exportedFile;
-            string path = Path.GetFullPath(file.Name);
-            service.export(evaluations, path);
 
             return View("Index", evaluations);
         }

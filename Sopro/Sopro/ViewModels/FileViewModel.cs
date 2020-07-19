@@ -7,6 +7,5 @@ namespace Sopro.ViewModels
     {
         [FileExtensionValidation(".json")]
         public IFormFile importedFile { get; set; }
-        public IFormFile exportedFile { get; set; }
     }
 }

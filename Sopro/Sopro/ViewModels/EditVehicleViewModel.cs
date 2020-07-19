@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sopro.ViewModels
 {
-    public class EditViewModel
+    public class EditVehicleViewModel
     {
         public Vehicle vehicle { get; set; }
         public bool CCS { get; set; }

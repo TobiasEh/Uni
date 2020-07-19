@@ -16,7 +16,7 @@ namespace Sopro.Controllers
     public class VehicleController : Controller
     {
         private IMemoryCache cache;
-        private List<Vehicle> vehicles;
+        private List<IVehicle> vehicles;
         private VehicleViewModel model = new VehicleViewModel();
         private IVehicleService service = new VehicleService();
 
@@ -28,20 +28,19 @@ namespace Sopro.Controllers
         {
             if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<Vehicle>();
+                vehicles = new List<IVehicle>();
             }
             model.vehicles = vehicles;
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Post(VehicleViewModel model)
+        public IActionResult NewVehicle(VehicleViewModel model)
         {
             var vehicle = model.vehicle;
             ModelState.Clear();
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<Vehicle>();
+                vehicles = new List<IVehicle>();
             }
 
             vehicle.plugs = new List<PlugType>();
@@ -67,73 +66,122 @@ namespace Sopro.Controllers
             model.vehicle = new Vehicle();
             return View("Cartemplates", model);
         }
-        /*
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)
         {
             IFormFile file = model.importedFile;
-            string path = Path.GetFullPath(file.Name);
-            List<IVehicle> importedVehicles = service.import(path);
+           
+            List<VehicleExportImportViewModel> importedVehicles = service.import(file);
 
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = importedVehicles;
-                cache.Set(CacheKeys.SCENARIO, vehicles);
-                return View("Index", vehicles);
+                vehicles = new List<IVehicle>();
+                
             }
 
-            foreach (Vehicle veh in importedVehicles)
+            foreach (VehicleExportImportViewModel v in importedVehicles)
             {
-                if (!vehicles.Contains(veh))
+                Vehicle vehicle = (Vehicle) v.generateVehicle();
+
+                bool unique = true;
+                foreach (IVehicle ve in vehicles)
                 {
-                    vehicles.Add(veh);
+                    if (ve.id.Equals(vehicle.id))
+                    {
+                        unique = false;
+                        break;
+                    }
+
+                }
+
+                if (unique)
+                {
+                    vehicles.Add(vehicle);
                 }
             }
+
             cache.Set(CacheKeys.VEHICLE, vehicles);
             this.model.vehicles = vehicles;
             return View("Cartemplates", this.model);
         }
 
         [HttpGet]
-        public IActionResult Export([FromForm] FileViewModel model)
+        public IActionResult Export()
         {
-            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
-            IFormFile file = model.exportedFile;
-            string path = Path.GetFullPath(file.Name);
-            service.export(vehicles, path);
-            this.model.vehicles = vehicles;
-            return View("Cartemplates", this.model);
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+
+            List<VehicleExportImportViewModel> vehiclelist = new List<VehicleExportImportViewModel>();
+            foreach (IVehicle v in vehicles)
+            {
+                vehiclelist.Add(new VehicleExportImportViewModel(v));
+            }
+
+            return service.export(vehiclelist);
         }
-        */
-        public IActionResult Edit(int? id)
+        
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
                 throw new Exception("id null");
             }
-            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
-            EditViewModel model = new EditViewModel() { vehicle = vehicles[(int)id] };
+            if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+            IVehicle modelVehicle = new Vehicle();
+            foreach(IVehicle v in vehicles)
+            {
+                if (v.id.Equals(id))
+                {
+                    modelVehicle = v;
+                }
+            }
+            EditVehicleViewModel model = new EditVehicleViewModel() { vehicle = (Vehicle) modelVehicle };
             return View(model);
         }
-        [HttpPost]
-        public IActionResult Edit(int? id, EditViewModel model)
+        
+        public IActionResult Edit(string id, EditVehicleViewModel model)
         {
             ModelState.Clear();
             var vehicle = model.vehicle;
-            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+            bool contains = true;
+            IVehicle vehicleCache = null;
+
+            foreach(IVehicle v in vehicles)
+            {
+                if (v.id.Equals(vehicle.id))
+                {
+                    vehicleCache = v;
+                }
+            }
+
+            if(vehicleCache==null)
+            {
+                contains = false;
+                vehicleCache = vehicle;
+            }
+            
             if (vehicle.plugs == null) 
             {
                 vehicle.plugs = new List<PlugType>();
             }
             if (model.CCS)
             {
-                
                 vehicle.plugs.Add(PlugType.CCS);
             }
             else
             {
-                if (vehicles[(int)id].plugs.Contains(PlugType.CCS))
+                if (vehicleCache.plugs.Contains(PlugType.CCS))
                 {
                     vehicle.plugs.Remove(PlugType.CCS);
                 }
@@ -145,28 +193,46 @@ namespace Sopro.Controllers
             }
             else
             {
-                if (vehicles[(int)id].plugs.Contains(PlugType.TYPE2))
+                if (vehicleCache.plugs.Contains(PlugType.TYPE2))
                 {
                     vehicle.plugs.Remove(PlugType.TYPE2);
                 }
             }
             if (!TryValidateModel(vehicle))
-                return View(new EditViewModel() { vehicle = vehicles[(int)id] });
-            vehicles[(int)id] = vehicle;
+                return View(new EditVehicleViewModel() { vehicle = (Vehicle) vehicleCache });
+            if (!contains)
+            {
+                vehicles.Add(vehicle);
+            }
             this.model.vehicles = vehicles;
             this.model.vehicle = new Vehicle();
             return RedirectToAction("Cartemplates",this.model);
         }
-        public IActionResult Delete(int? id)
+
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 throw new Exception("id null");
             }
-            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
-            vehicles.RemoveAt((int)id);
+
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+
+            foreach (IVehicle v in vehicles)
+            {
+                if (v.id.Equals(id))
+                {
+                    vehicles.Remove(v);
+                    break;
+                }
+            }
             cache.Set(CacheKeys.VEHICLE, vehicles);
+
             model.vehicles = vehicles;
+
             return View("Cartemplates", model);
         }
     }

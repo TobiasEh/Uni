@@ -9,6 +9,7 @@ namespace Sopro.Models.Simulation
 {
     public class Vehicle : IVehicle
     {
+        public string id { get; set; }
         [Required]
         public string model { get; set; }
         [Required]
@@ -22,7 +23,12 @@ namespace Sopro.Models.Simulation
         [VehicleSocEndValidation]
         public int socEnd { get; set; }
         [Required]
-        [EnumLength(1,typeof(PlugType))]
-        public List<PlugType> plugs { get; set; }
+        [EnumLength(1, typeof(PlugType))]
+        public List<PlugType> plugs { get; set; } = new List<PlugType>();
+
+        public Vehicle()
+        {
+            id = Guid.NewGuid().ToString();
+        }
     }
 }

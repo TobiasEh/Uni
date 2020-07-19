@@ -383,38 +383,58 @@ namespace Sopro.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult import([FromForm]FileViewModel model)
+        public IActionResult Import([FromForm]FileViewModel model)
         {
             IFormFile file = model.importedFile;
-            string path = Path.GetFullPath(file.Name);
-            List<ILocation> importedLocations = service.import();
+            if (file == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<LocationExportImportViewModel> importedLocations = service.import(file);
 
             if(!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
-                locations = importedLocations;
+                locations = new List<ILocation>();
             }
-            
-            foreach(ILocation loc in importedLocations)
+
+            List<ILocation> locationsImported= new List<ILocation>();
+            foreach (LocationExportImportViewModel l in importedLocations)
             {
-                if (!locations.Contains(loc))
-                {
-                    locations.Add(loc);
+                ILocation location = l.generateLocation();
+                bool notIncluded = true;
+                foreach(ILocation loc in locations) { 
+                    if (loc.id.Equals(location.id))
+                    {
+                        notIncluded = false;
+                        break;
+                    }
                 }
-                    
+                if (notIncluded)
+                {
+                    locations.Add(location);
+                }
             }
             cache.Set(CacheKeys.LOCATION, locations);
-            return View("Index", locations);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult export([FromForm]FileViewModel model)
+        public IActionResult Export([FromForm]FileViewModel model)
         {
-            cache.TryGetValue(CacheKeys.LOCATION, out locations);
-            IFormFile file = model.exportedFile;
-            string path = Path.GetFullPath(file.Name);
-            service.export(locations);
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
 
-            return View("Index", locations);
+            List<LocationExportImportViewModel> locationsExport = new List<LocationExportImportViewModel>();
+
+            foreach(ILocation l in locations)
+            {
+                locationsExport.Add(new LocationExportImportViewModel(l));
+            }
+
+            return service.export(locationsExport);
+
         }
     }
 }

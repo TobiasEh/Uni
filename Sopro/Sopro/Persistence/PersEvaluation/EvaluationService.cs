@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Sopro.Persistence.PersEvaluation
 {
-    public class EvaluationService : EvaluationRepository, IEvaluationService
+    public class EvaluationService : IEvaluationService
     {
         private JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
 

@@ -69,7 +69,7 @@ namespace Sopro.Controllers
             {
                 return RedirectToAction("Index");
             }
-            List< BookingExportInportViewModel > importedBookings = bookingService.Import(file);
+            List< BookingExportImportViewModel > importedBookings = bookingService.Import(file);
 
             if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
             {
@@ -82,24 +82,42 @@ namespace Sopro.Controllers
                 locations = new List<ILocation>();
             }
 
-            foreach (BookingExportInportViewModel b in importedBookings)
+            foreach (BookingExportImportViewModel b in importedBookings)
             {
                 IBooking boo = b.generateBooking();
-                if (!bookings.Contains(boo))
+                bool uniqeId = true;
+                foreach(IBooking ib in bookings)
                 {
-                    bookings.Add(boo);
-
-                    if (!locations.Contains(boo.location))
+                    if (ib.id.Equals(b.id))
                     {
-                        locations.Add(boo.location);
+                        uniqeId = false;
                     }
+                }
+                if (uniqeId)
+                {
+                    if (TryValidateModel(boo)) { 
+                        bookings.Add(boo);
 
+                        bool notIncluded = true;
+                        foreach (ILocation loc in locations)
+                        {
+                            if (loc.id.Equals(boo.location.id))
+                            {
+                                notIncluded = false;
+                                break;
+                            }
+                        }
+                        if (notIncluded)
+                        {
+                            locations.Add(boo.location);
+                        }
+                    }
                 }
             }
 
             cache.Set(CacheKeys.LOCATION, locations);
             cache.Set(CacheKeys.BOOKING, bookings);
-            return View("Index", bookings);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -110,10 +128,10 @@ namespace Sopro.Controllers
                 bookings = new List<IBooking>();
             }
 
-            List<BookingExportInportViewModel> bookinglist = new List<BookingExportInportViewModel>();
+            List<BookingExportImportViewModel> bookinglist = new List<BookingExportImportViewModel>();
             foreach(IBooking b in bookings)
             {
-                bookinglist.Add(new BookingExportInportViewModel(b));
+                bookinglist.Add(new BookingExportImportViewModel(b));
             }
 
             return bookingService.export(bookinglist);

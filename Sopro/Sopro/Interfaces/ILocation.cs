@@ -7,7 +7,7 @@ namespace Sopro.Interfaces
 {
     public interface ILocation
     {
-        public string id { get; }
+        public string id { get; set; }
         public List<Zone> zones { get; set; }
         public string name { get; set; }
         public double emergency { get; set; }
