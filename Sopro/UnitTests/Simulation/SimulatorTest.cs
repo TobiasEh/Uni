@@ -136,7 +136,7 @@ namespace UnitTests.SimulationTest
             {
                 string timeDetail = b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t";
                 string chargeDetail = b.plugs[0].ToString() + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString() + "\t";
-                Console.WriteLine(timeDetail + chargeDetail + b.id);
+                Console.WriteLine(timeDetail + chargeDetail + b.id + "\t" + b.priority);
             }
         }
 
