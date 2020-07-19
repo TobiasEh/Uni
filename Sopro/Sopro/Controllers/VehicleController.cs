@@ -57,6 +57,7 @@ namespace Sopro.Controllers
             if (!TryValidateModel(vehicle))
             {
                 model.vehicles = vehicles;
+                model.vehicle = vehicle;
                 return View("Cartemplates", model);
             }
                 
