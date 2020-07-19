@@ -19,6 +19,11 @@ namespace Sopro.Controllers
         private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
         
+        public SimulationController(IMemoryCache _cache)
+        {
+            cache = _cache;
+        }
+
         public IActionResult Create()
         {
             List<ILocation> locations;
@@ -53,7 +58,10 @@ namespace Sopro.Controllers
 
         public IActionResult Index()
         {
-            cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
+            if (cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            {
+                scenarios = new List<IScenario>();
+            }
 
             return View(scenarios);
         }
