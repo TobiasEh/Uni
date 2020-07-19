@@ -78,10 +78,10 @@ else
                     <td>@booking.socEnd %</td>
                     <td class="text-center">
                         <div>
-                            <a asp-controller="Booking" asp-action="Edit">
-                                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" value="@booking" />
+                            <a asp-controller="Booking" asp-action="Edit" asp-route-bookingID="@booking.id">
+                                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2"/>
                             </a>
-                            <a asp-controller="" asp-action="">
+                            <a asp-controller="Booking" asp-action="Delete" asp-route-bookingID="@booking.id">
                                 <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
                             </a>
                         </div>
