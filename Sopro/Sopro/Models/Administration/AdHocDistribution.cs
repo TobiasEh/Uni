@@ -290,7 +290,7 @@ namespace Sopro.Models.Administration
             double perc = soc / 100;
 
             int neededCapacity = Convert.ToInt32(Math.Round(capacity * perc));
-            double dur = (neededCapacity / power) * 60 + puffer;
+            double dur = ((double)neededCapacity / (double)power) * 60 + puffer;
             int duration = Convert.ToInt32(dur);
 
             int remainder = duration % 15;
