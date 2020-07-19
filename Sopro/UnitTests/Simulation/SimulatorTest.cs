@@ -156,10 +156,21 @@ namespace UnitTests.SimulationTest
             location = l3
         };
 
+        private static Scenario scenario3b = new Scenario()
+        {
+            duration = 1,
+            bookingCountPerDay = 15,
+            vehicles = new List<Vehicle>() { v1, v2 },
+            rushhours = new List<Rushhour>() { r1 },
+            start = DateTime.Now.AddDays(1),
+            location = l3
+        };
+
         private static ExecutedScenario executedScenario = new ExecutedScenario(scenario);
         private static ExecutedScenario executedScenariob = new ExecutedScenario(scenariob);
         private static ExecutedScenario executedScenario2 = new ExecutedScenario(scenario2);
         private static ExecutedScenario executedScenario3 = new ExecutedScenario(scenario3);
+        private static ExecutedScenario executedScenario3b = new ExecutedScenario(scenario3b);
 
         [Test]
         public async Task testSimulatorCCSOnlyNoRushhour()
@@ -169,10 +180,10 @@ namespace UnitTests.SimulationTest
                 exScenario = executedScenario
             };
 
-            printDetailedBookingList(executedScenario.generatedBookings);
+            printDetailedBookingList(executedScenario.generatedBookings, 20);
             await sim.run();
-            printDetailedBookingList(l.schedule.bookings);
-            validateResults(l);
+            printDetailedBookingList(l.schedule.bookings, 20);
+            validateResults(l, 20);
         }
 
         [Test]
@@ -183,10 +194,10 @@ namespace UnitTests.SimulationTest
                 exScenario = executedScenariob
             };
 
-            printDetailedBookingList(executedScenariob.generatedBookings);
+            printDetailedBookingList(executedScenariob.generatedBookings, 20);
             await sim.run();
-            printDetailedBookingList(l.schedule.bookings);
-            validateResults(l);
+            printDetailedBookingList(l.schedule.bookings, 20);
+            validateResults(l, 20);
         }
 
         [Test]
@@ -197,10 +208,10 @@ namespace UnitTests.SimulationTest
                 exScenario = executedScenario2
             };
 
-            printDetailedBookingList(executedScenario2.generatedBookings);
+            printDetailedBookingList(executedScenario2.generatedBookings, 50);
             await sim.run();
-            printDetailedBookingList(l2.schedule.bookings);
-            validateResults(l2);
+            printDetailedBookingList(l2.schedule.bookings, 50);
+            validateResults(l2, 50);
         }
 
         [Test]
@@ -211,33 +222,54 @@ namespace UnitTests.SimulationTest
                 exScenario = executedScenario3
             };
 
-            printDetailedBookingList(executedScenario3.generatedBookings);
+            printDetailedBookingList(executedScenario3.generatedBookings, 0);
             await sim.run();
-            printDetailedBookingList(l3.schedule.bookings);
-            validateResults(l3);
+            printDetailedBookingList(l3.schedule.bookings, 0);
+            validateResults(l3, 0);
         }
 
-        private static void validateResults(Location l)
+        [Test]
+        public async Task testSimulatorBothPlugsRushhour()
+        {
+            Simulator sim = new Simulator()
+            {
+                exScenario = executedScenario3b
+            };
+
+            printDetailedBookingList(executedScenario3b.generatedBookings, 0);
+            await sim.run();
+            printDetailedBookingList(l3.schedule.bookings, 0);
+            validateResults(l3, 0);
+        }
+
+        private static void validateResults(Location l, int power)
         {
             Assert.IsTrue(l.schedule.bookings.Count > 0);
             foreach (Booking b in l.schedule.bookings)
             {
-                int chargeDuration = (b.socEnd - b.socStart) * b.capacity / 2000;
-                TimeSpan bookingDuration = b.endTime - b.startTime;
                 Assert.IsTrue(b.station != null);
-                // User should be able to fulfill their request.
-                Assert.IsTrue(bookingDuration.Hours >= chargeDuration);
-                // Booking should not take longer than whatever is necessary to fulfill the request and one hour.
-                Assert.IsTrue(bookingDuration.Hours < chargeDuration + 1);
+
+                if (power > 0)
+                {
+                    int chargeDuration = (b.socEnd - b.socStart) * b.capacity / (100 * power);
+                    TimeSpan bookingDuration = b.endTime - b.startTime;
+                    // User should be able to fulfill their request.
+                    Assert.IsTrue(bookingDuration.Hours >= chargeDuration);
+                    // Booking should not take longer than whatever is necessary to fulfill the request and one hour.
+                    Assert.IsTrue(bookingDuration.Hours <= chargeDuration + 1);
+                    
+                }
             }
         }
 
-        private static void printDetailedBookingList(List<Booking> bookings)
+        private static void printDetailedBookingList(List<Booking> bookings, int power)
         {
             foreach (Booking b in bookings)
             {
                 string timeDetail = b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t";
-                string chargeDetail = b.plugs[0].ToString() + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString() + "\t";
+                string duration = power == 0 ? "" : ((b.socEnd - b.socStart) * b.capacity / (100 * power)).ToString();
+                string chargeDetail = b.plugs[0].ToString() + "\t" + duration + "\t";
+                
                 Console.WriteLine(timeDetail + chargeDetail + b.id + "\t" + b.priority);
             }
         }
