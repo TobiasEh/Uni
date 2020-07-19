@@ -49,7 +49,7 @@ namespace UnitTests.Simulation
         private int bookingsCountPerDay = 20;
         private int duration = 30;
         private Rushhour rushhour = new Rushhour() { start = DateTime.Now.AddDays(3), end = DateTime.Now.AddDays(3).AddHours(3), bookings = 10, strategy = new NormalDistribution() };
-        private Rushhour rushhour2 = new Rushhour() { start = DateTime.Now.AddDays(4).AddHours(2), end = DateTime.Now.AddDays(4).AddHours(5), bookings = 11, strategy = new NormalDistribution() };
+        private Rushhour rushhour2 = new Rushhour() { start = DateTime.Now.AddDays(4).AddHours(2), end = DateTime.Now.AddDays(4).AddHours(5), bookings = 10, strategy = new NormalDistribution() };
         private Rushhour rushhour3 = new Rushhour() { start = DateTime.Now.AddDays(3).AddHours(2), end = DateTime.Now.AddDays(3).AddHours(5), bookings = 11, strategy = new NormalDistribution() };
         private Rushhour rushhour4 = new Rushhour() { start = DateTime.Now.AddDays(3).AddHours(2), end = DateTime.Now.AddDays(3).AddHours(5), bookings = 5, strategy = new NormalDistribution() };
         [Test]
@@ -176,6 +176,7 @@ namespace UnitTests.Simulation
                 rushhours = rushhours
             };
             result = generator.generateBookings(scenario);
+            Console.WriteLine(result.Count() + " " + bookingsCountPerDay*duration);
             Assert.IsTrue(result.Count() == bookingsCountPerDay * duration);
         }
 
@@ -195,6 +196,7 @@ namespace UnitTests.Simulation
                 rushhours = rushhours
             };
             result = generator.generateBookings(scenario);
+
             Assert.IsTrue(result.Count() == bookingsCountPerDay * duration);
         }
 
@@ -214,6 +216,7 @@ namespace UnitTests.Simulation
                 rushhours = rushhours
             };
             result = generator.generateBookings(scenario);
+            Console.WriteLine(result.Distinct().Count() + " " + result.Count() + " " + (bookingsCountPerDay * duration));
             Assert.IsTrue(result.Distinct().Count() == bookingsCountPerDay * duration);
         }
 

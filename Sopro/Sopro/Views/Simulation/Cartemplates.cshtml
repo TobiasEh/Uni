@@ -3,13 +3,14 @@
     ViewData["Title"] = "EditVehicle";
     Layout = "_AdminLayout";
 }
+@model List<Sopro.Interfaces.ControllerSimulation.IVehicle>
 
 <h1 class="display-4 pt-5">Fahrzeuge</h1>
 <div class="d-flex flex-wrap pt-5">
     <div class="mr-5 pr-5">
         <h3 class="pb-3">Hinzufügen</h3>
         <div>
-            <form asp-controller="" asp-action="" method="post" id="addCar" />
+            <form asp-controller="Vehicle" asp-action="Post" method="post" id="addCar" />
 
             <div class="form-group">
                 <label>Fahrzeugmodell</label>
@@ -68,7 +69,7 @@
             </div>
 
             <div class="float-right mt-4 mb-5">
-                <button form="addCar" type="reset" class="btn btn-secondary">Abbrechen</button>
+                <button type="reset" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</button>
                 <button form="addCar" type="submit" class="btn btn-primary btn-mhp">Hinzufügen</button>
             </div>
         </div>
@@ -102,30 +103,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (var i = 0; i < 5; i++)
+                    @foreach(Sopro.Interfaces.ControllerSimulation.IVehicle vehicle in Model)
                     {
                         <tr>
                             <td>
-                                Porsche Taycan
+                                @vehicle.model
                             </td>
                             <td>
-                                Type-2-Plug
+                                @foreach (Sopro.Models.Infrastructure.PlugType plug in vehicle.plugs)
+                                {
+                                    @plug.ToString()
+                                }
                             </td>
                             <td>
-                                79,2kWh
+                                @vehicle.capacity
                             </td>
                             <td>
-                                7
+                                @vehicle.socStart
                             </td>
                             <td>
-                                30
+                                @vehicle.socEnd
                             </td>
                             <td class="text-center">
                                 <div>
-                                    <a asp-controller="" asp-action="">
+                                    <a asp-controller="Vehicle" asp-action="Edit" asp-route="@Model.IndexOf(vehicle)">
                                         <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
                                     </a>
-                                    <a asp-controller="" asp-action="">
+                                    <a asp-controller="Vehicle" asp-action="Delete" asp-route="@Model.IndexOf(vehicle)">
                                         <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
                                     </a>
                                 </div>
@@ -141,4 +145,3 @@
 
 
 </div>
-

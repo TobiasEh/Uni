@@ -11,7 +11,7 @@ namespace UnitTests.Simulation
     {
         private DateTime start = DateTime.Now.AddDays(4);
         private DateTime end = DateTime.Now.AddDays(7);
-        private int bookings = 120;
+        private int bookings = 150;
 
         [Test]
         public void generateDateTimeValuesNumberOfBookingsTest()
@@ -26,6 +26,12 @@ namespace UnitTests.Simulation
         {
             NormalDistribution distribution = new NormalDistribution();
             List<DateTime> result = distribution.generateDateTimeValues(start, end, bookings);
+            Console.WriteLine("start: " + start);
+            Console.WriteLine("end " + end);
+            foreach (DateTime dt in result)
+            {
+                Console.WriteLine(dt);
+            }
             Assert.IsTrue(result.All<DateTime>(e => e >= start && e <= end));
         }
 
