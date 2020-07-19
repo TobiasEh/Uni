@@ -36,8 +36,9 @@ namespace Sopro.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(IDVehicle vehicle)
+        public IActionResult Post(VehicleViewModel model)
         {
+            var vehicle = model.vehicle;
             if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
                 vehicles = new List<IDVehicle>();
@@ -48,7 +49,14 @@ namespace Sopro.Controllers
             }
             vehicle.id = vehicles.Count;
             vehicle.plugs = new List<PlugType>();
-            vehicle.plugs.Add(vehicle.plug);
+            if (model.ccs)
+            {
+                vehicle.plugs.Add(PlugType.CCS);
+            }
+            if (model.type2)
+            {
+                vehicle.plugs.Add(PlugType.TYPE2);
+            }
             vehicles.Add(vehicle);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             model.vehicles = vehicles;

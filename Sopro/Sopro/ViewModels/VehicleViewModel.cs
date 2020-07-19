@@ -12,6 +12,8 @@ namespace Sopro.ViewModels
     {
         public List<IDVehicle> vehicles { get; set; }
         public IDVehicle vehicle { get; set; }
-        
+        public bool ccs { get; set; }
+        public bool type2 { get; set; }
+
     }
 }

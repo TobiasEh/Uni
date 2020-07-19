@@ -19,20 +19,18 @@
             </div>
 
             <div class="form-group">
-                <label>Steckertyp des Fahrzeuges</label>
-                <div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input asp-for="@Model.vehicle.plug" form="addCar" type="radio" class="form-check-input" name="optradio" value="@Sopro.Models.Infrastructure.PlugType.TYPE2">Type-2
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input asp-for="@Model.vehicle.plug" form="addCar" type="radio" class="form-check-input" name="optradio" value="@Sopro.Models.Infrastructure.PlugType.CCS">CCS
-                        </label>
+                <label>Steckertyp des Fahrzeugs</label>
+                <div >
+                    <div >
+                        <label for="@Model.ccs">CCS-Stecker</label>
+                        <input type="checkbox" asp-for="@Model.ccs" checked="@Model.ccs" />
+                    </div> 
+                    <div >
+                        <label for="@Model.type2">Typ-2-Stecker</label>
+                        <input type="checkbox" asp-for="@Model.type2" checked="@Model.type2" />
                     </div>
                 </div>
-                <small></small>
+                <small>Wähle die / den kompatiblen Stecker.</small>
             </div>
 
             <div class="form-group">
@@ -112,7 +110,7 @@
                             <td>
                                 @foreach (Sopro.Models.Infrastructure.PlugType plug in vehicle.plugs)
                                 {
-                                    @plug.ToString()
+                                    @plug.ToString();
                                 }
                             </td>
                             <td>
