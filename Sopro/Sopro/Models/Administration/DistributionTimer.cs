@@ -41,7 +41,11 @@ namespace Sopro.Models.Administration
                         {
                             string s = "Location: " + l.name;
                             _logger.LogInformation(s);
-                            l.distributor.run(_cache);
+                            List<Booking> bookings;
+                            if (_cache.TryGetValue(CacheKeys.BOOKING, out bookings))
+                            {
+                                l.distributor.run(bookings);
+                            }
                         }
                     }
                 }

@@ -1,11 +1,13 @@
-﻿using NUnit.Framework;
-using Sopro.Interfaces;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace UnitTests.SimulationTest
 {
@@ -58,17 +60,17 @@ namespace UnitTests.SimulationTest
 
         static Station s1 = new Station
         {
-            plugs = new List<Plug> { p1, p2 },
+            plugs = new List<Plug> { p1 },
             maxPower = 200,
-            manufacturer = "hi",
-            maxParallelUseable = 4
+            manufacturer = "Tobee",
+            maxParallelUseable = 1
         };
 
         static Station s2 = new Station
         {
             plugs = new List<Plug> { p3 },
             maxPower = 200,
-            manufacturer = "hi",
+            manufacturer = "Blergh",
             maxParallelUseable = 4
         };
 
@@ -86,24 +88,20 @@ namespace UnitTests.SimulationTest
             maxPower = 1000
         };
 
-        private static Schedule s = new Schedule();
-
-        private static ILocation l = new Location()
+        private static Location l = new Location()
         {
             id = "locationidk",
             zones = new List<Zone>() { z1 },
             name = "Berlin",
             emergency = 0.05,
-            schedule = s,
-            distributor = new Distributor(s, l)
         };
 
         private static Scenario scenario = new Scenario()
         {
-            duration = 10,
-            bookingCountPerDay = 20,
+            duration = 1,
+            bookingCountPerDay = 10,
             vehicles = new List<Vehicle>() { v1, v2 },
-            rushhours = new List<Rushhour>() { r1 },
+            rushhours = new List<Rushhour>() {  },
             start = DateTime.Now.AddHours(1),
             location = l
         };
@@ -111,14 +109,32 @@ namespace UnitTests.SimulationTest
         private static ExecutedScenario executedScenario = new ExecutedScenario(scenario);
 
         [Test]
-        public void testSimulator()
+        public async Task testSimulator()
         {
             Simulator sim = new Simulator()
             {
                 exScenario = executedScenario
             };
-            sim.run();
+
+            foreach(Booking b in executedScenario.generatedBookings)
+            {
+                Console.WriteLine(b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t" + b.plugs[0].ToString() + "\t" + b.id + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString());
+            }
+
+            await sim.run();
+
+            foreach(Booking b in l.schedule.bookings)
+            {
+                Console.WriteLine(b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t" + b.plugs[0].ToString() + "\t" + b.id + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString());
+            }
+
             Assert.IsTrue(l.schedule.bookings.Count > 0);
+            foreach (Booking b in l.schedule.bookings)
+            {
+                Assert.IsTrue(b.station != null);
+            }
         }
+
+ 
     }
 }

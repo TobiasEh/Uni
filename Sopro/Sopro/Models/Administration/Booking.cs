@@ -11,6 +11,7 @@ namespace Sopro.Models.Administration
 {
     public class Booking : IBooking
     {
+        public string id { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
         public int capacity { get; set; }
@@ -46,5 +47,9 @@ namespace Sopro.Models.Administration
         public ILocation location { get; set; }
         public UserType priority { get; set; }
 
+        public Booking()
+        {
+            id = Guid.NewGuid().ToString();
+        }
     }
 }

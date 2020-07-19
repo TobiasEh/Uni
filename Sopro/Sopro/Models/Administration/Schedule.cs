@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Server.IIS.Core;
-using Microsoft.Extensions.DependencyInjection;
-using Sopro.Controllers;
-using Sopro.Models.Communication;
+﻿using Sopro.Models.Communication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
 
 namespace Sopro.Models.Administration
 {
@@ -38,7 +33,7 @@ namespace Sopro.Models.Administration
             {
                 return false;
             }
-            notificationManager.notify(booking, NotificationEvent.ACCEPTED);
+            // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
         }

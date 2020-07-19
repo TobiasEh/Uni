@@ -22,13 +22,15 @@ namespace Sopro.Models.Simulation
             stationWorkload = new List<List<double>>();
             locationWorkload = new List<double>();
 
-            duration = scenario.duration;
-            bookingCountPerDay = scenario.bookingCountPerDay;
-            vehicles = scenario.vehicles;
-            rushhours = scenario.rushhours;
-            start = scenario.start;
-            location = scenario.location;
-
+            if (scenario != null)
+            {
+                duration = scenario.duration;
+                bookingCountPerDay = scenario.bookingCountPerDay;
+                vehicles = scenario.vehicles;
+                rushhours = scenario.rushhours;
+                start = scenario.start;
+                location = scenario.location;
+            }
             generatedBookings = Generator.generateBookings(this);
         }
 
