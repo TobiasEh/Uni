@@ -102,7 +102,7 @@ namespace UnitTests.SimulationTest
             bookingCountPerDay = 15,
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() {  },
-            start = DateTime.Now.AddHours(1),
+            start = DateTime.Now.AddDays(1),
             location = l
         };
 
