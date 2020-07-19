@@ -7,9 +7,9 @@
 
 <h1 class="display-4 pt-5">Fahrzeuge</h1>
 @{
-    string full = true == true ? "d - flex flex - wrap pt - 5" : " ";
+    string full = Model.vehicles.Count > 0  ? "d-flex flex-wrap pt-5" : " ";
 }
-<div class="d - flex flex - wrap pt - 5" >
+<div class="@full">
     <div class="mr-5 pr-5">
         <h3 class="pb-3">Hinzufügen</h3>
         <div>
