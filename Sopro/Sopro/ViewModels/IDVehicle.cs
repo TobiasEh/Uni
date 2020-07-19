@@ -13,7 +13,8 @@ namespace Sopro.ViewModels
         public int capacity { get; set; }
         public int socStart { get; set; }
         public int socEnd { get; set; }
-        public List<PlugType> plugs { get; set; }
+        public PlugType plug { get; set; }
         public int id { get; set; }
+        public List<PlugType> plugs { get ; set ; }
     }
 }

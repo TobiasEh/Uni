@@ -21,14 +21,16 @@
             <div class="form-group">
                 <label>Steckertyp des Fahrzeuges</label>
                 <div>
-                    @foreach (var plug in System.Enum.GetValues(typeof(Sopro.Models.Infrastructure.PlugType)))
-                    {
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input form="addCar" type="radio" class="form-check-input" name="optradio" value="@plug">@plug.ToString()
-                            </label>
-                        </div>
-                    }
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input asp-for="@Model.vehicle.plug" form="addCar" type="radio" class="form-check-input" name="optradio" value="@Sopro.Models.Infrastructure.PlugType.TYPE2">Type-2
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input asp-for="@Model.vehicle.plug" form="addCar" type="radio" class="form-check-input" name="optradio" value="@Sopro.Models.Infrastructure.PlugType.CCS">CCS
+                        </label>
+                    </div>
                 </div>
                 <small></small>
             </div>

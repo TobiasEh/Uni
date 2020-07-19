@@ -47,7 +47,8 @@ namespace Sopro.Controllers
                 throw new Exception("Fahrzeug nicht valide!");
             }
             vehicle.id = vehicles.Count;
-            vehicle.plugs = new List<PlugType>() { PlugType.CCS };
+            vehicle.plugs = new List<PlugType>();
+            vehicle.plugs.Add(vehicle.plug);
             vehicles.Add(vehicle);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             model.vehicles = vehicles;
