@@ -153,17 +153,10 @@
 
 </div>
 
-    <script type="text/javascript">
-        function socMin(e) {
-            document.getElementById("vehicle_socEnd").min = e.target.value;
-            document.getElementById("vehicle_socEnd").value = e.target.value;
-        }
-    </script>
-
-
 <div class="d-flex mt-3">
     <div class="ml-auto">
         <form asp-controller="Vehicle" asp-action="Import" methode="post" class="form-horizontal" enctype="multipart/form-data" id="import">
+            
             <div class="custom-file">
                 <input type="file" name="importedFile" form="import" />
             </div>
@@ -179,7 +172,7 @@
     {
         <div class="ml-2">
             <form asp-controller="Vehicle" asp-action="Export" method="get" class="form-horizontal">
-                <input class="btn btn-primary btn-mhp" value="Export" />
+                <input class="btn btn-primary btn-mhp" value="Export" type="button" />
             </form>
         </div>
     }
@@ -190,3 +183,12 @@
         </div>
     }
 </div>
+
+    <script type="text/javascript">
+        function socMin(e) {
+            document.getElementById("vehicle_socEnd").min = e.target.value;
+            document.getElementById("vehicle_socEnd").value = e.target.value;
+        }
+    </script>
+
+

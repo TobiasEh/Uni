@@ -146,7 +146,7 @@ namespace Sopro.Controllers
             return View(model);
         }
         
-        public IActionResult Edit(string id, EditVehicleViewModel model)
+        public IActionResult EndEdit(string id, EditVehicleViewModel model)
         {
             ModelState.Clear();
             var vehicle = model.vehicle;
@@ -159,7 +159,7 @@ namespace Sopro.Controllers
 
             foreach(IVehicle v in vehicles)
             {
-                if (v.id.Equals(vehicle.id))
+                if (v.id.Equals(id))
                 {
                     vehicleCache = v;
                 }
@@ -198,8 +198,9 @@ namespace Sopro.Controllers
                     vehicle.plugs.Remove(PlugType.TYPE2);
                 }
             }
+            vehicle.id = id;
             if (!TryValidateModel(vehicle))
-                return View(new EditVehicleViewModel() { vehicle = (Vehicle) vehicleCache });
+                return View("Edit",new EditVehicleViewModel() { vehicle = (Vehicle) vehicleCache });
             if (!contains)
             {
                 vehicles.Add(vehicle);
