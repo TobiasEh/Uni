@@ -1,79 +1,77 @@
-﻿@model Sopro.ViewModels.EditCarTemplateVieModel
-
+﻿
 @{
-    Layout = null;
+    ViewData["Title"] = "Edit Vehicle";
+    Layout = "_AdminLayout";
 }
+@model Sopro.ViewModels.VehicleViewModel
 
-<!DOCTYPE html>
+<h1 class="display-4 pt-5">Fahrzeuge</h1>
+<div class="d-flex flex-wrap pt-5">
+    <div class="mr-5 pr-5">
+        <h3 class="pb-3">Edit</h3>
+        <div>
+            <form action="/Vehicles/Edit" method="post" id="editCar" />
 
-<html>
-<body>
-
-    <h3 class="pb-3">Edit</h3>
-    <div>
-        <form asp-controller="Vehicle" asp-action="Edit" method="Save" id="addCar" />
-
-        <div class="form-group">
-            <label>Fahrzeugmodell</label>
-            <input form="addCar" class="form-control" />
-            <small></small>
-        </div>
-
-        <div class="form-group">
-            <label>Steckertyp des Fahrzeuges</label>
-            <div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
-                        <input form="addCar" type="radio" class="form-check-input" name="optradio">CCS
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
-                        <input form="addCar" type="radio" class="form-check-input" name="optradio">Type-2-Plug
-                    </label>
-                </div>
+            <div class="form-group">
+                <label>Fahrzeugmodell</label>
+                <input asp-for="@Model.vehicle.model" form="editCar" class="form-control" />
+                <small></small>
             </div>
-            <small></small>
-        </div>
 
-        <div class="form-group">
-            <label>Ladekapazität</label>
-            <div class="input-group">
-                <input form="addCar" class="form-control" placeholder="0" />
-                <div class="input-group-append">
-                    <span class="input-group-text"> kWh </span>
+            <div class="form-group">
+                <label>Steckertyp des Fahrzeuges</label>
+                <div>
+                    @foreach (var plug in System.Enum.GetValues(typeof(Sopro.Models.Infrastructure.PlugType)))
+                    {
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input form="addCar" type="radio" class="form-check-input" name="optradio" value="@plug">@plug.ToString()
+                            </label>
+                        </div>
+                    }
                 </div>
+                <small></small>
             </div>
-            <small>Angab in kW</small>
-        </div>
 
-        <div class="form-group">
-            <label>Ladezustand zu Beginn</label>
-            <div class="input-group">
-                <input form="addCar" class="form-control" placeholder="0" />
-                <div class="input-group-append">
-                    <span class="input-group-text"> % </span>
+            <div class="form-group">
+                <label>Ladekapazität</label>
+                <div class="input-group">
+                    <input asp-for="@Model.vehicle.capacity" form="editCar" class="form-control" placeholder="0" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"> kWh </span>
+                    </div>
                 </div>
+                <small>Angab in kW</small>
             </div>
-            <small></small>
-        </div>
 
-        <div class="form-group">
-            <label>Kilometeranzahl</label>
-            <div class="input-group">
-                <input form="addCar" class="form-control" placeholder="0" />
-                <div class="input-group-append">
-                    <span class="input-group-text"> km </span>
+            <div class="form-group">
+                <label>Ladezustand zu Beginn</label>
+                <div class="input-group">
+                    <input asp-for="@Model.vehicle.socStart" form="editCar" class="form-control" placeholder="0" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"> % </span>
+                    </div>
                 </div>
+                <small></small>
             </div>
-            <small>Für wie viele Kilometer aufgeladen wird</small>
-        </div>
-        <input type="hidden" asp-for="@Model.index"value="@Model.index"/>
 
-        <div class="float-right mt-4 mb-5">
-            <button type="reset" class="btn btn-secondary" onclick="location.href='@Url.Action("Vehicle", "Cartemplates")'">Abbrechen</button>
-            <button form="addCar" type="submit" class="btn btn-primary btn-mhp">Hinzufügen</button>
+            <div class="form-group">
+                <label>Ladezustand zu Ende</label>
+                <div class="input-group">
+                    <input asp-for="@Model.vehicle.socEnd" form="editCar" class="form-control" placeholder="0" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"> % </span>
+                    </div>
+                </div>
+                <small></small>
+            </div>
+
+            <div class="float-right mt-4 mb-5">
+                <button type="reset" class="btn btn-secondary" onclick="document.getElementById('editCar').reset()">Abbrechen</button>
+                <button form="editCar" type="submit" class="btn btn-primary btn-mhp">Hinzufügen</button>
+            </div>
         </div>
+
     </div>
-</body>
-</html>
+
+</div>
