@@ -137,5 +137,10 @@ namespace Sopro.Controllers
 
             return View("Index", scenarios);
         }
+
+        public IActionResult PlusRushour(int id)
+        {
+            return View();
+        }
     }
 }

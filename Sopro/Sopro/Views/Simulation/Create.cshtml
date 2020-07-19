@@ -9,13 +9,13 @@
     <form id="create" />
     <div class="form-group mb-4">
         <h6>Dauer</h6>
-        <input form="create" class="form-control" asp-for="@Model.scenario.duration" min="1" placeholder="@Model.scenario.duration"/>
+        <input form="create" class="form-control" asp-for="@Model.scenario.duration" min="1" placeholder="@Model.scenario.duration" />
         <small>Anzahl der Simulierten ticks</small>
     </div>
 
     <div class="form-group mb-4">
         <div>Start Tag der Simulation</div>
-        <input form="create" type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" placeholder="@Model.scenario.start"/>
+        <input form="create" type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" placeholder="@Model.scenario.start" />
         <small></small>
     </div>
 
@@ -42,7 +42,7 @@
         </select>
 
         <div class="mb-2 pt-2">
-            <button   class="btn btn-primary btn-mhp">Erstellen</button>
+            <button class="btn btn-primary btn-mhp">Erstellen</button>
         </div>
 
     </div>
@@ -52,31 +52,7 @@
         <div>Anzahl</div>
         <small></small>
     </div>
-    <div class="d-inline-flex mb-2">
-        <button id="plus" class="btn btn-primary btn-mhp mr-2">Plus</button>
-        <button id="minus" class="btn btn-secondary">Minus</button>
-    </div>
-    <div id="peak">
-        <div class="flex-column mb-3">
-
-            <div>Stoßzeit 1</div>
-            <div class="form-group mb-2 ml-5">
-                <div>Start Zeitpunkt</div>
-                <input form="create" type="datetime-local" class="form-control" asp-for="@Model.startRushours[0]" />
-                <small></small>
-            </div>
-            <div class="form-group mb-2 ml-5">
-                <div>Ende</div>
-                <input form="create" type="time" class="form-control" asp-for="@Model.endRushours[0]" />
-                <small></small>
-            </div>
-            <div class="form-group mb-2 ml-5">
-                <div>Anzahl der Buchungen ín dieser Zeit</div>
-                <input form="create" type="datetime-local" class="form-control" asp-for="@Model.bookingsRushours[0]" />
-                <small></small>
-            </div>
-        </div>
-    </div>
+    @await Html.PartialAsync("CreateRushourPartailView", Model)
 
     <div class="form-group d-inline-flex mb-2">
         <div class="mr-3">
