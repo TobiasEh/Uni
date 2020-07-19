@@ -46,7 +46,7 @@ namespace Sopro.Models.Administration
         class UsedTimeSlots
         {
             public Station station { get; set; }
-            public List<List<DateTime>> used { get; set; }
+            public List<List<DateTime>> used { get; set; } = new List<List<DateTime>>();
 
             public UsedTimeSlots(Station _station)
             {
@@ -295,10 +295,8 @@ namespace Sopro.Models.Administration
             double perc = soc / 100;
 
             int neededCapacity = Convert.ToInt32(Math.Round(capacity * perc));
-            double dur = neededCapacity / power * 60 + puffer;
+            double dur = (neededCapacity / power) * 60 + puffer;
             int duration = Convert.ToInt32(dur);
-
-
 
             int remainder = duration % 15;
             if (remainder == 0)
