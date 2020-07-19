@@ -1,6 +1,5 @@
 ﻿@using Sopro.Extensions;
-@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor httpContextAccessor
+
 <!DOCTYPE html>
 <html lang="de">
 
@@ -23,7 +22,7 @@
                 </a>
             </div>
             <div class="text-center">
-                <img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" /><small>@httpContextAccessor.HttpContext.Session.GetString("email")</small>
+                <img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" /><small>example@mail.de</small>
             </div>
 
             <ul class="list-unstyled components">

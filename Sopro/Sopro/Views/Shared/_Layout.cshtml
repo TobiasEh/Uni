@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor httpContextAccessor
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="utf-8" />
@@ -25,14 +23,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index" id="navlink">Buchungsübersicht</a>
                         </li>
-                        @if (httpContextAccessor.HttpContext.Session.GetString("role") == null)
-                        { }
-                        else if (httpContextAccessor.HttpContext.Session.GetString("role")==(Sopro.Models.User.UserType.PLANER.ToString()))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Help" id="navlink">Hilfe</a>
                         </li>
@@ -52,7 +45,7 @@
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
+                            <a class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />example@mail.de</a>
                         </li>
                     </ul>
                 </div>
