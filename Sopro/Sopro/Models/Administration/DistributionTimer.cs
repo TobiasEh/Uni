@@ -55,11 +55,11 @@ namespace Sopro.Models.Administration
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Booking distribution service is running.");
-            // Wann die nächste Zeiteinheit startet
+            // Wann die nächste Zeiteinheit startet.
             DateTime nextMinute = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute + 1, DateTime.Now.Second);
-            // Zeit bis zur nächsten Zeiteinheit
+            // Zeit bis zur nächsten Zeiteinheit.
             TimeSpan startTime = nextMinute.Subtract(DateTime.Now);
-            // Timer ab nächster Zeiteinheit für jede folgende Zeitheinheit
+            // Timer ab nächster Zeiteinheit für jede folgende Zeitheinheit.
             _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromMinutes(1));
             return Task.CompletedTask;
         }
