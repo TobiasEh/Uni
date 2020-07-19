@@ -25,7 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index" id="navlink">Buchungsübersicht</a>
                         </li>
-                        @if (httpContextAccessor.HttpContext.Session.GetString("role") == Sopro.Models.User.UserType.PLANER.ToString())
+                        @if (httpContextAccessor.HttpContext.Session.GetString("role") == null)
+                        { }
+                        else if (httpContextAccessor.HttpContext.Session.GetString("role")==(Sopro.Models.User.UserType.PLANER.ToString()))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
@@ -50,7 +52,7 @@
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />example@mail.de</a>
+                            <a class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
                         </li>
                     </ul>
                 </div>
