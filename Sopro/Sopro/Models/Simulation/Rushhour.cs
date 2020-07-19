@@ -13,7 +13,7 @@ namespace Sopro.Models.Simulation
         public DateTime end { get; set; }
         [Range(0,int.MaxValue)]
         public int bookings { get; set; }
-        public IFunctionStrategy strategy { get; set; }
+        public IFunctionStrategy strategy { get; set; } = new NormalDistribution();
 
         public List<DateTime> run()
         {
