@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using Sopro.Models.Infrastructure;
 
 namespace Sopro.Models.Simulation
 {
@@ -16,10 +17,12 @@ namespace Sopro.Models.Simulation
         private static Random gen = new Random();
         private static int startHour = 6;
         private static int endHour = 20;
+        private static int[] lowestPlugPowers;
 
         public static List<Booking> generateBookings(Scenario scenario)
         {
-            Console.WriteLine("duration in days : {0}", (scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60));
+            // Calculate the lowest power avaibable given a certain plugtype.
+            lowestPlugPowers = lowestPowerPerPlugType(scenario);
 
             if ((scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60) < 1) return distributeLessThanDay(scenario);
 
@@ -49,7 +52,7 @@ namespace Sopro.Models.Simulation
                         if (startTimes.Count != 0)
                             foreach (DateTime start in startTimes)
                             {
-                                bookingList.Add(generateBooking(start, start.AddHours(gen.Next(1, 8)), scenario));
+                                bookingList.Add(generateBooking(start, scenario));
                                 dailyBookingCount--;
                             };
                     }
@@ -95,7 +98,7 @@ namespace Sopro.Models.Simulation
                     if (startTimes.Count != 0)
                         foreach (DateTime start in startTimes)
                         {
-                            bookingList.Add(generateBooking(start, start.AddHours(gen.Next(1, 8)), scenario));
+                            bookingList.Add(generateBooking(start, scenario));
                             dailyBookingCount--;
                             if (dailyBookingCount <= 0) break;
                         };
@@ -118,7 +121,6 @@ namespace Sopro.Models.Simulation
             return bookingList;
         }
 
-
         /// <summary>
         /// Roll user priority.
         /// </summary>
@@ -133,21 +135,73 @@ namespace Sopro.Models.Simulation
         }
 
         /// <summary>
+        /// Calculates whatever plug of a certain Plugtype in a specific scenario delivers the lowest power.
+        /// </summary>
+        /// <param name="scenario">Simulated scenario.</param>
+        private static int[] lowestPowerPerPlugType(Scenario scenario)
+        {
+            int[] lowestPlugPowers = new int[Enum.GetNames(typeof(PlugType)).Length];
+            foreach (Zone z in scenario.location.zones)
+            {
+                foreach (Station s in z.stations)
+                {
+                    foreach (Plug p in s.plugs)
+                    {
+                        if (lowestPlugPowers[(int)p.type] == 0)
+                        {
+                            lowestPlugPowers[(int)p.type] = p.power;
+                        } else
+                        {
+                            lowestPlugPowers[(int)p.type] = p.power < lowestPlugPowers[(int)p.type] ? p.power : lowestPlugPowers[(int)p.type];
+                        }
+                    }
+                }
+            }
+            return lowestPlugPowers;
+        }
+
+        /// <summary>
         /// Generates a booking using given values.
         /// </summary>
         /// <param name="startTime">Point of time where charging could begin.</param>
-        /// <param name="endTime">Point of time where charging should be completed.</param>
         /// <param name="scenario">Simulated scenario.</param>
         /// <returns>A generated booking.</returns>
-        private static Booking generateBooking(DateTime startTime, DateTime endTime, Scenario scenario)
+        private static Booking generateBooking(DateTime startTime, Scenario scenario)
         {
             int random = gen.Next(scenario.vehicles.Count);
+
+            // Randomize booking fields
+            List<PlugType> plugs = scenario.vehicles[random].plugs;
+            int capacity = scenario.vehicles[random].capacity;
+            int socEnd = scenario.vehicles[random].socEnd;
+            int socStart = scenario.vehicles[random].socStart;
+
+            // Calculate lowest power delivery in order to estimate highest possible charging duration afterwards.
+            int power = 0;
+            foreach (PlugType p in plugs)
+            {
+                if (power == 0) power = lowestPlugPowers[(int) p];
+                if (lowestPlugPowers[(int) p] < power) power = lowestPlugPowers[(int) p];
+            }
+            int maxChargingDuration = ((socEnd - socStart) / 100 * capacity) * power;
+
+            // Calculate booking end time.
+            DateTime endTime;
+            if (maxChargingDuration <= Math.Min(8, 24 - startTime.Hour))
+            {
+                endTime = startTime.AddHours(gen.Next(maxChargingDuration, Math.Min(8, 24 - startTime.Hour)));
+            } 
+            else
+            {
+                endTime = startTime.AddHours(gen.Next(2, Math.Min(8, 24 - startTime.Hour)));
+            }
+
             return new Booking
             {
-                capacity = scenario.vehicles[random].capacity,
-                plugs = scenario.vehicles[random].plugs,
-                socEnd = scenario.vehicles[random].socEnd,
-                socStart = scenario.vehicles[random].socStart,
+                capacity = capacity,
+                plugs = plugs,
+                socEnd = socEnd,
+                socStart = socStart,
                 user = "",
                 startTime = startTime,
                 endTime = endTime,
@@ -177,9 +231,9 @@ namespace Sopro.Models.Simulation
 
                 DateTime start = currentDay.AddHours(startHour).AddMinutes(minutesUntilRequest);
                 // Length of booking timespan equals min(8, hours until midnight)
-                DateTime end = start.AddHours(gen.Next(2, Math.Min(8, 24 - start.Hour)));
+                // DateTime end = start.AddHours(gen.Next(2, Math.Min(8, 24 - start.Hour)));
 
-                Booking b = generateBooking(start, end, scenario);
+                Booking b = generateBooking(start, scenario);
                 bookingList.Add(b);
             }
         }
