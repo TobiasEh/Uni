@@ -197,7 +197,6 @@ namespace Sopro.Controllers
                     booking = b;
                     break;
                 }
-
             }
             
             bookings.Remove(booking);
@@ -227,14 +226,27 @@ namespace Sopro.Controllers
          * Booking is removed from bookinglist and cache.
          * Returns Booking.Index view, without the given booking.
          */
-        public IActionResult Delete(IBooking booking)
+        public IActionResult Delete(string bookingID)
         {
             var cacheKey = CacheKeys.BOOKING;
-        
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+            Booking booking = null;
+            foreach (Booking b in bookings)
+            {
+                if (b.id.Equals(bookingID))
+                {
+                    booking = b;
+                    break;
+                }
+            }
+
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
 
-            return View("Index", bookings);
+            return RedirectToAction("index");
         }
 
         /* Method takes care about Check-In/-Out.
