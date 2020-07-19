@@ -57,7 +57,7 @@ namespace Sopro.Models.Administration
 
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
-            
+
             //Sort Bookinglist into new one (priority needed)
             List<Booking> b = bookings.OrderBy(o => o.priority).ToList();
 
@@ -91,18 +91,19 @@ namespace Sopro.Models.Administration
                         temp.Add(bo.startTime);
                         temp.Add(bo.endTime);
                         u.used.Add(temp);
-                        if(bo.startTime.Day.Equals(bo.endTime.Day))
+                        if (bo.startTime.Day.Equals(bo.endTime.Day))
                         {
                             TimeSpan span = bo.endTime.Subtract(bo.startTime);
-                            if(wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
+                            if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
                             {
                                 wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).used += (int)span.TotalMinutes;
-                            } else
+                            }
+                            else
                             {
                                 Workload w = new Workload(bo.startTime, concurrentCount, (int)span.TotalMinutes);
                                 wl.Add(w);
                             }
-                        } 
+                        }
                         else
                         {
                             DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
@@ -153,9 +154,9 @@ namespace Sopro.Models.Administration
                         int dur = calculateDuration(bo.socStart, bo.socEnd, bo.capacity, u.station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
                         //capNeeded / power * 60;
                         //Check capacity cap
-                        if(wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
+                        if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
                         {
-                            if((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
+                            if ((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
                             {
                                 break;
                             }
@@ -221,7 +222,7 @@ namespace Sopro.Models.Administration
                         }
                     }
                     //if booking was inserted dont look for another fiting station
-                    if(inserted)
+                    if (inserted)
                     {
                         break;
                     }
@@ -283,9 +284,14 @@ namespace Sopro.Models.Administration
         //Calculates needed charging duration and rounds up to the next 15 min. intervall
         private int calculateDuration(int socStart, int socEnd, int capacity, int power, int puffer)
         {
-            double perc = (socEnd - socStart) / 100;
-            double neededCapacity = Convert.ToInt32(Math.Round(capacity * perc));
-            int duration = Convert.ToInt32(Math.Round(neededCapacity / power * 60)) + puffer;
+            double soc = socEnd - socStart;
+            double perc = soc / 100;
+
+            int neededCapacity = Convert.ToInt32(Math.Round(capacity * perc));
+            double dur = neededCapacity / power * 60 + puffer;
+            int duration = Convert.ToInt32(dur);
+
+
 
             int remainder = duration % 15;
             if (remainder == 0)

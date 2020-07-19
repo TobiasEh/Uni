@@ -99,7 +99,7 @@ namespace UnitTests.SimulationTest
         private static Scenario scenario = new Scenario()
         {
             duration = 1,
-            bookingCountPerDay = 10,
+            bookingCountPerDay = 15,
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() {  },
             start = DateTime.Now.AddHours(1),

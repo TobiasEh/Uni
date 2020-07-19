@@ -170,8 +170,10 @@ namespace Sopro.Models.Simulation
             for (int j = 0; j < scenario.bookingCountPerDay; j++)
             {
                 DateTime currentDay = scenario.start.AddDays(passedDays);
+                TimeSpan normalize = new TimeSpan(-currentDay.Hour, -currentDay.Minute, -currentDay.Second);
+                currentDay += normalize;
                 // Booking request is set this many minutes after startHour
-                double minutesUntilRequest = (((startHour - endHour) * 60) / scenario.bookingCountPerDay) * j;
+                double minutesUntilRequest = (((endHour - startHour) * 60) / scenario.bookingCountPerDay) * j;
 
                 DateTime start = currentDay.AddHours(startHour).AddMinutes(minutesUntilRequest);
                 // Length of booking timespan equals min(8, hours until midnight)
