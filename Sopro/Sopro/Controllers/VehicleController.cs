@@ -38,16 +38,12 @@ namespace Sopro.Controllers
         public IActionResult Post(VehicleViewModel model)
         {
             var vehicle = model.vehicle;
+            ModelState.Clear();
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
                 vehicles = new List<Vehicle>();
             }
-            /*
-            if (!ModelState.IsValid)
-            {
-                throw new Exception("Fahrzeug nicht valide!");
-            }
-            */
+
             vehicle.plugs = new List<PlugType>();
             if (model.CCS)
             {
@@ -57,6 +53,13 @@ namespace Sopro.Controllers
             {
                 vehicle.plugs.Add(PlugType.TYPE2);
             }
+
+            if (!TryValidateModel(vehicle))
+            {
+                model.vehicles = vehicles;
+                return View("Cartemplates", model);
+            }
+                
             vehicles.Add(vehicle);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             model.vehicles = vehicles;
@@ -114,6 +117,7 @@ namespace Sopro.Controllers
         [HttpPost]
         public IActionResult Edit(int? id, EditViewModel model)
         {
+            ModelState.Clear();
             var vehicle = model.vehicle;
             cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
             if (vehicle.plugs == null) 
@@ -144,6 +148,8 @@ namespace Sopro.Controllers
                     vehicle.plugs.Remove(PlugType.TYPE2);
                 }
             }
+            if (!TryValidateModel(vehicle))
+                return View(new EditViewModel() { vehicle = vehicles[(int)id] });
             vehicles[(int)id] = vehicle;
             this.model.vehicles = vehicles;
             return RedirectToAction("Cartemplates",model);
