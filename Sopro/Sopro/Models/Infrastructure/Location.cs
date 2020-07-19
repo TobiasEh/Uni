@@ -9,7 +9,7 @@ namespace Sopro.Models.Infrastructure
 {
     public class Location : ILocation
     {
-        public string id { get; set; }
+        public string id { get; }
         [ListMinLength(0)]
         public List<Zone> zones { get; set; }
         [Required]
@@ -24,6 +24,7 @@ namespace Sopro.Models.Infrastructure
         {
             schedule = new Schedule();
             distributor = new Distributor(schedule, this);
+            id = Guid.NewGuid().ToString();
            
         }
 

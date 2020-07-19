@@ -4,13 +4,13 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.EditZoneViewModel
-<h1 class="display-4 pb-5 pt-5">Zone @Model.site</h1>
+<h1 class="display-4 pb-5 pt-5">Zone @Model.zone.site</h1>
 <div class="form-row">
 
     <div class="form-group col">
         <h1>Standort: @Model.name</h1>
     </div>
-    <form class="form-group col" asp-controller="Infrastructure" asp-action="EndEdit" id="EndEdit">
+    <form class="form-group col" asp-controller="Infrastructure" asp-action="EndEdit" id="EndEdit" asp-route-id="@Model.id" asp-route-site="@Model.site">
         <label>Leistung der Zone</label>
         <div class="input-group">
             <input form="EndEdit" class="form-control" type="number" placeholder="@Model.zone.maxPower" asp-for="@Model.zone.maxPower" min="0" />
@@ -28,19 +28,19 @@
             <h4>Station @Model.station.id</h4>
             <div class="form-group">
                 <label>Hersteller</label>
-                <input class="form-control" placeholder="@Model.station.manufacturer" asp-for="@Model.station.manufacturer" />
+                <input class="form-control" placeholder="@Model.station.manufacturer" asp-for="@Model.station.manufacturer"  />
                 <small></small>
             </div>
             <div class="form-row">
                 <div class="form-group col">
                     <label>CCS plug</label>
-                    <input class="form-control" type="number" placeholder="@Model.ccs" asp-for="@Model.ccs" />
+                    <input class="form-control" type="number" placeholder="@Model.ccs" asp-for="@Model.ccs" min="0" />
                     <small></small>
                 </div>
                 <div class="form-group col">
                     <label>Leistung</label>
                     <div class="input-group">
-                        <input class="form-control" type="number" placeholder="@Model.ccsPower" asp-for="@Model.ccsPower" />
+                        <input class="form-control" type="number" placeholder="@Model.ccsPower" asp-for="@Model.ccsPower" min="0" />
                         <div class="input-group-append">
                             <span class="input-group-text"> kW </span>
                         </div>
@@ -50,12 +50,12 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label>Type-2-plug</label>
-                    <input class="form-control" type="number" placeholder="@Model.type2" asp-for="@Model.type2" />
+                    <input class="form-control" type="number" placeholder="@Model.type2" asp-for="@Model.type2" min="0" />
                 </div>
                 <div class="form-group col">
                     <label>Leistung</label>
                     <div class="input-group">
-                        <input class="form-control" type="number" placeholder="@Model.type2Power" asp-for="@Model.type2Power" />
+                        <input class="form-control" type="number" placeholder="@Model.type2Power" asp-for="@Model.type2Power" min="0" />
                         <div class="input-group-append">
                             <span class="input-group-text"> kW </span>
                         </div>
@@ -65,13 +65,13 @@
             </div>
             <div class="form-group">
                 <label>Gleichzeitig benutzbare Stecker</label>
-                <input class="form-control" type="number" placeholder="@Model.station.maxParallelUseable" asp-for="@Model.station.maxParallelUseable" />
+                <input class="form-control" type="number" placeholder="@Model.station.maxParallelUseable" asp-for="@Model.station.maxParallelUseable" min="0" />
 
             </div>
             <div class="form-group">
                 <label>Maximale Leistung der Station</label>
                 <div class="input-group">
-                    <input class="form-control" type="number" placeholder="@Model.station.maxPower" asp-for="@Model.station.maxPower" />
+                    <input class="form-control" type="number" placeholder="@Model.station.maxPower" asp-for="@Model.station.maxPower" min="0" />
                     <div class="input-group-append">
                         <span class="input-group-text"> kW </span>
                     </div>

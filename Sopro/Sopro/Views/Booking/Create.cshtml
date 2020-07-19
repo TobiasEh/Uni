@@ -10,24 +10,23 @@
 @{ Sopro.Interfaces.AdministrationController.IBooking booking = Model.booking;}
 <form asp-controller="Booking" asp-action="Post" method="post">
     <div>
-        @*
         <div class="form-group">
             <label>Firmenstandort wählen</label>
-            <select class="form-control" id="@Model.booking.location">
+            <select class="form-control" asp-for="@Model.locationId">
                 @foreach (Sopro.Models.Infrastructure.Location location in Model.locations)
                 {
                     if (location == Model.booking.location)
                     {
-                        <option value="@location" selected="selected">@location.name </option>
+                        <option value="@location.id" selected="selected" >@location.name </option>
                     } else
                     {
-                        <option value="@location">@location.name </option>
+                        <option value="@location.id">@location.name </option>
                     }
 
                 }
             </select>
             <small></small>
-        </div> *@
+        </div> 
 
         <div class="form-group">
             <label>Steckertyp des Fahrzeugs</label>
@@ -92,7 +91,7 @@
         {
             <div class="form-group">
                 <label for="@booking.user ">E-Mail des Gastes</label>
-                <input type="email" class="form-control" placeholder="@booking.user" asp-for="@booking.user" />
+                <input type="email" class="form-control" placeholder="@httpContextAccessor.HttpContext.Session.GetString("email")" asp-for="@booking.user" />
                 <small></small>
 
             </div>
@@ -104,7 +103,7 @@
                 </select>
             </div>
         }
-        <div class="form-group float-right mt-4 mb-5">
+        <div class="form-group float-right mt-4 mb-5 pb-3">
             <button type="submit" class="btn btn-primary btn-mhp">Buchen</button>
         </div>
     </div>

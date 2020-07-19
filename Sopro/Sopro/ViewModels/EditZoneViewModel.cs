@@ -9,7 +9,7 @@ namespace Sopro.ViewModels
     public class EditZoneViewModel
     {
         public string name { get; set; }
-        public int id { get; set; }
+        public string id { get; set; }
         public char site { get; set; }
         public Zone zone { get; set; }
         public Station station { get; set; }

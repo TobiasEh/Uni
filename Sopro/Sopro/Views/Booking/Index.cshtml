@@ -59,12 +59,11 @@ else
         <table class="table table-striped table-borderless table-hover">
             <thead class="thead-dark">
                 <tr>
-                    @*<th>Standort</th>*@
+                    <th>Standort</th>
                     <th>Start</th>
                     <th>Ende</th>
                     <th>Start Soc</th>
                     <th>End Soc</th>
-                    <th>Plugs</th>
                     <th class="text-center">Bearbeiten</th>
                 </tr>
 
@@ -72,12 +71,11 @@ else
             @foreach (Sopro.Models.Administration.Booking booking in Model.unscheduledBookings)
             {
                 <tr>
-                    @*<td>@booking.location.name</td>*@
+                    <td>@booking.location.name</td>
                     <td>@booking.startTime</td>
                     <td>@booking.endTime</td>
                     <td>@booking.socStart %</td>
                     <td>@booking.socEnd %</td>
-                    <td>@booking.plugs</td>
                     <td class="text-center">
                         <div>
                             <a asp-controller="Booking" asp-action="Edit">

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Net.Http.Headers;
 using Sopro.Interfaces;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Infrastructure;
@@ -10,8 +9,6 @@ using Sopro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {
@@ -36,11 +33,202 @@ namespace Sopro.Controllers
             return View(new InfrastructureViewModel() { locations = locations });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NewLocation()
+        {
+            ILocation l = new Location();
+            l.name = "Neu";
+            l.emergency = 0;
+            l.zones = new List<Zone>();
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            
+            locations.Add(l);
+            cache.Set(CacheKeys.LOCATION, locations);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteLocation(int ? id)
+        {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            foreach(ILocation l in locations)
+            {
+                if(l.id.Equals(id.ToString()))
+                {
+                    locations.Remove(l);
+                    cache.Set(CacheKeys.LOCATION, locations);
+                    break;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+        
+        public IActionResult EditLocation(InfrastructureViewModel viewmodel) 
+        {
+            
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            foreach(ILocation l in locations)
+            {
+                if(viewmodel.id == l.id)
+                {
+                    if(viewmodel.emergency != null) { 
+                    double emergency = Convert.ToDouble(viewmodel.emergency.Replace(".",","));
+                    l.emergency = emergency;
+                    }
+                    if(viewmodel.name != null)
+                    {
+                        l.name = viewmodel.name;
+                    }
+                    if (viewmodel.distributionTime != null)
+                    {
+                        l.normalizedDistributionTime = viewmodel.distributionTime;
+                    }
+                    break;
+                }
+            }
+            cache.Set(CacheKeys.LOCATION, locations);
+            return RedirectToAction("Index");
+        }
+
+
+        public IActionResult CreateZone(string id)
+        {
+
+            Zone zone = new Zone();
+            char site = 'A';
+            bool siteValid = false;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            EditZoneViewModel viewmodel = new EditZoneViewModel();
+            foreach (ILocation l in locations)
+            {
+                if (l.id.Equals(id.ToString()))
+                {
+                    while (!siteValid)
+                    {
+                        siteValid = true;
+                        foreach (Zone z in l.zones)
+                        {
+                            if (z.site == site)
+                            {
+                                siteValid = false;
+                                site++;
+                                break;
+                            }
+                        }
+                    }
+                    zone.site = site;
+                    zone.stations= new List<Station>();
+
+                    l.addZone(zone);
+                    
+                    viewmodel.name = l.name;
+                    viewmodel.id = id;
+                    viewmodel.site = site;
+                    viewmodel.zone = zone;
+                    viewmodel.station = new Station();
+                    return View("EditZone", viewmodel);
+                }
+            }
+            //cache.Set(CacheKeys.LOCATION, locations);
+            return View("Index",new { id = id, site = site });
+        }
+
+        public IActionResult DeleteZone(string id, char site)
+        {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            foreach (ILocation l in locations)
+            {
+                if (l.id.Equals(id))
+                {
+                    foreach (Zone z in l.zones)
+                    {
+                        if (z.site == site)
+                        {
+                            bool test =l.deleteZone(z);
+                            return View("Index",new InfrastructureViewModel() { locations = locations });
+                        }
+                    }
+                    break;
+                }
+            }
+            return View("Index", new InfrastructureViewModel() { locations = locations }); ;
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult EditZone(string id, char site)
+        {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            EditZoneViewModel viewmodel;
+            foreach(ILocation l in locations)
+            {
+                bool test = (l.id.Equals(id.ToString()));
+                if (l.id.Equals(id.ToString()))
+                {
+                    viewmodel = new EditZoneViewModel();
+                    viewmodel.name = l.name;
+                    viewmodel.id = id;
+                    viewmodel.station = new Station();
+                    foreach(Zone z in l.zones)
+                    {
+                        if (z.site == site)
+                        {
+                            viewmodel.zone = z;
+                            viewmodel.site = site;
+                            return View(viewmodel);
+                        }
+                    }
+                    break;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         public IActionResult EndEdit(EditZoneViewModel viewmodel)
         {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            foreach (ILocation location in locations)
+            {
+                if (viewmodel.id.ToString().Equals(location.id))
+                {
+                    foreach (Zone z in location.zones)
+                    {
+                        if (viewmodel.site == z.site)
+                        {
+                            z.maxPower = viewmodel.zone.maxPower;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
 
             return RedirectToAction("Index");
         }
+
+
 
         public IActionResult EditStation(EditZoneViewModel viewmodel) 
         {
@@ -62,6 +250,7 @@ namespace Sopro.Controllers
             {
                 if (viewmodel.id.ToString().Equals(location.id))
                 {
+                    viewmodel.name = location.name;
                     foreach(Zone z in location.zones)
                     {
                         if (viewmodel.site == z.site)
@@ -96,44 +285,50 @@ namespace Sopro.Controllers
                 viewmodel.type2 = 0;
                 viewmodel.ccsPower = 0;
                 viewmodel.type2Power = 0;
+                station.maxParallelUseable= Math.Min( station.maxParallelUseable, station.plugs.Count);
                 return View("EditZone", viewmodel);
             }
             return View("EditZone", viewmodel);
         }
 
-        [ValidateAntiForgeryToken]
-        public IActionResult EditZone(int? id, char site)
+        public IActionResult DeleteStation(string _id, char _site, int idStation) 
         {
             if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
                 locations = new List<ILocation>();
             }
-            EditZoneViewModel viewmodel;
-            foreach(ILocation l in locations)
+            EditZoneViewModel viewmodel = new EditZoneViewModel();
+            foreach (ILocation l in locations)
             {
-                bool test = (l.id.Equals(id.ToString()));
-                if (l.id.Equals(id.ToString()))
+                if (l.id.Equals(_id))
                 {
-                    viewmodel = new EditZoneViewModel();
                     viewmodel.name = l.name;
-                    viewmodel.id = (int) id;
-                    viewmodel.station = new Station();
-                    foreach(Zone z in l.zones)
+                    viewmodel.id= _id;
+                    foreach (Zone z in l.zones)
                     {
-                        if (z.site == site)
+                        if (z.site == _site)
                         {
-                            viewmodel.zone = z;
-                            viewmodel.site = site;
-                            return View(viewmodel);
+                        viewmodel.site = z.site;
+                        viewmodel.zone = z;
+
+                            foreach(Station s in z.stations)
+                            {
+                                if(s.id == idStation)
+                                {
+                                    z.deleteStation(s);
+                                    viewmodel.station = new Station();
+                                    return View("EditZone", viewmodel);
+                                }
+                            }
                         }
                     }
-                    break;
                 }
             }
+
             return RedirectToAction("Index");
         }
-
-        public IActionResult StartEditStation(int? id, char site, int idStation)
+        
+        public IActionResult StartEditStation(string id, char site, int idStation)
         {
             if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
@@ -146,141 +341,45 @@ namespace Sopro.Controllers
                 if (l.id.Equals(id.ToString()))
                 {
                     viewmodel.name = l.name;
-                    viewmodel.id = (int)id;
+                    viewmodel.id =  id;
                     foreach (Zone z in l.zones)
                     {
                         if (z.site == site)
                         {
                             viewmodel.zone = z;
+                            viewmodel.site = site;
                             foreach (Station s in z.stations)
                             { 
                                 if (s.id == idStation)
                                 {
                                     viewmodel.station = s;
+                                    viewmodel.zone.deleteStation(s);
+                                    viewmodel.ccs = 0;
+                                    viewmodel.type2 = 0;
+                                    foreach(Plug p in s.plugs)
+                                    {
+                                        if(p.type == PlugType.CCS)
+                                        {
+                                            viewmodel.ccsPower = p.power;
+                                            viewmodel.ccs++;
+                                        }
+                                        else
+                                        {
+                                            viewmodel.type2++;
+                                            viewmodel.type2Power = p.power;
+                                        }
+                                    }
                                     return View("EditZone",viewmodel);
                                 }
                             }
+                            break;
                         }
                     }
-                }
-            }
-return RedirectToAction("EditZone",new { id = id, site = site });
-        }
-
-        public IActionResult DeleteStation(int? _id, char _site, int idStation) 
-        {
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-
-            foreach (ILocation l in locations)
-            {
-                if (l.id.Equals(_id.ToString()))
-                {
-                    foreach (Zone z in l.zones)
-                    {
-                        if (z.site == _site)
-                        {
-                            foreach(Station s in z.stations)
-                            {
-                                if(s.id == idStation)
-                                {
-                                    z.deleteStation(s);
-                                    return RedirectToAction("EditZone", new{ id = _id, site = _site });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return RedirectToAction("EditZone", new{ id = _id, site = _site });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult NewLocation()
-        {
-            ILocation l = new Location();
-            l.name = "Neu";
-            l.emergency = 0;
-            l.zones = new List<Zone>();
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-            int id = -1;
-            bool uniqeId = false;
-            while (!uniqeId)
-            {
-                uniqeId = true;
-                id++;
-                foreach(ILocation location in locations)
-                {
-                    if(location.id == id.ToString())
-                    {
-                        uniqeId = false;
-                        break;
-                    }
-                }
-
-            }
-            l.id = id.ToString();
-            
-            locations.Add(l);
-            cache.Set(CacheKeys.LOCATION, locations);
-            return RedirectToAction("Index");
-        }
-        public IActionResult DeleteLocation(int ? id)
-        {
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-            foreach(ILocation l in locations)
-            {
-                if(l.id.Equals(id.ToString()))
-                {
-                    locations.Remove(l);
-                    cache.Set(CacheKeys.LOCATION, locations);
                     break;
                 }
             }
             return RedirectToAction("Index");
         }
-
-
-        public IActionResult EditLocation(InfrastructureViewModel viewmodel) 
-        {
-            
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-            foreach(ILocation l in locations)
-            {
-                if(viewmodel.id == l.id)
-                {
-                    if(viewmodel.emergency != null) { 
-                    double emergency = Convert.ToDouble(viewmodel.emergency.Replace(".",","));
-                    l.emergency = emergency;
-                    }
-                    if(viewmodel.name != null)
-                    {
-                        l.name = viewmodel.name;
-                    }
-                    if (viewmodel.distributionTime != null)
-                    {
-                        l.normalizedDistributionTime = viewmodel.distributionTime;
-                    }
-                    break;
-                }
-            }
-            cache.Set(CacheKeys.LOCATION, locations);
-            return RedirectToAction("Index");
-        }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -305,53 +404,6 @@ return RedirectToAction("EditZone",new { id = id, site = site });
             }
             cache.Set(CacheKeys.LOCATION, locations);
             return View("Index", locations);
-        }
-
-        public IActionResult CreateZone(int? id)
-        {
-
-            Zone zone = new Zone();
-            char site = 'A';
-            bool siteValid = false;
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-            foreach (ILocation l in locations)
-            {
-                if (l.id.Equals(id.ToString()))
-                {
-                    while (!siteValid)
-                    {
-                        siteValid = true;
-                        foreach (Zone z in l.zones)
-                        {
-                            if (z.site == site)
-                            {
-                                siteValid = false;
-                                site++;
-                                break;
-                            }
-                        }
-                    }
-                    zone.site = site;
-                    zone.stations= new List<Station>();
-                    Station station = new Station();
-                    station.id = 0;
-                    station.maxPower = 0;
-                    station.maxParallelUseable = 0;
-                    station.plugs = new List<Plug>();
-                    zone.addStation(station);
-                    Plug plug = new Plug();
-                    plug.power = 0;
-                    plug.type = PlugType.CCS;
-                    station.addPlug(plug);
-                    l.addZone(zone);
-                    break;
-                }
-            }
-            //cache.Set(CacheKeys.LOCATION, locations);
-            return RedirectToAction("EditZone",new { id = id, site = site });
         }
 
         [HttpGet]
