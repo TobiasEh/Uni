@@ -116,22 +116,30 @@ namespace UnitTests.SimulationTest
                 exScenario = executedScenario
             };
 
-            foreach(Booking b in executedScenario.generatedBookings)
-            {
-                Console.WriteLine(b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t" + b.plugs[0].ToString() + "\t" + b.id + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString());
-            }
-
+            printDetailedBookingList(executedScenario.generatedBookings);
             await sim.run();
-
-            foreach(Booking b in l.schedule.bookings)
-            {
-                Console.WriteLine(b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t" + b.plugs[0].ToString() + "\t" + b.id + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString());
-            }
+            printDetailedBookingList(l.schedule.bookings);
 
             Assert.IsTrue(l.schedule.bookings.Count > 0);
-            foreach (Booking b in l.schedule.bookings)
+            foreach (Booking b in l.schedule.bookings) 
             {
-                Assert.IsTrue(b.station != null);
+                int chargeDuration = (b.socEnd - b.socStart) * b.capacity / 2000;
+                TimeSpan bookingDuration = b.endTime - b.startTime;
+                Assert.IsTrue(b.station != null); 
+                // User should be able to fulfill their request
+                Assert.IsTrue(bookingDuration.Hours >= chargeDuration);
+                // Booking should not take longer than
+                Assert.IsTrue(bookingDuration.Hours < chargeDuration + 1);
+            }
+        }
+
+        private static void printDetailedBookingList(List<Booking> bookings)
+        {
+            foreach (Booking b in bookings)
+            {
+                string timeDetail = b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t";
+                string chargeDetail = b.plugs[0].ToString() + "\t" + ((b.socEnd - b.socStart) * b.capacity / 2000).ToString() + "\t";
+                Console.WriteLine(timeDetail + chargeDetail + b.id);
             }
         }
 
