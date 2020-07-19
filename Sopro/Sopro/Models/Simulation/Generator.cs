@@ -141,19 +141,14 @@ namespace Sopro.Models.Simulation
         private static int[] lowestPowerPerPlugType(Scenario scenario)
         {
             int[] lowestPlugPowers = new int[Enum.GetNames(typeof(PlugType)).Length];
+            Array.Fill(lowestPlugPowers, 999);
             foreach (Zone z in scenario.location.zones)
             {
                 foreach (Station s in z.stations)
                 {
                     foreach (Plug p in s.plugs)
                     {
-                        if (lowestPlugPowers[(int)p.type] == 0)
-                        {
-                            lowestPlugPowers[(int)p.type] = p.power;
-                        } else
-                        {
-                            lowestPlugPowers[(int)p.type] = p.power < lowestPlugPowers[(int)p.type] ? p.power : lowestPlugPowers[(int)p.type];
-                        }
+                        lowestPlugPowers[(int)p.type] = p.power < lowestPlugPowers[(int)p.type] ? p.power : lowestPlugPowers[(int)p.type];
                     }
                 }
             }
@@ -183,13 +178,15 @@ namespace Sopro.Models.Simulation
                 if (power == 0) power = lowestPlugPowers[(int) p];
                 if (lowestPlugPowers[(int) p] < power) power = lowestPlugPowers[(int) p];
             }
-            int maxChargingDuration = ((socEnd - socStart) / 100 * capacity) * power;
+
+            double maxChargingDuration = ((socEnd - socStart) / 100.0 * capacity) / power;
 
             // Calculate booking end time.
+            
             DateTime endTime;
             if (maxChargingDuration <= Math.Min(8, 24 - startTime.Hour))
             {
-                endTime = startTime.AddHours(gen.Next(maxChargingDuration, Math.Min(8, 24 - startTime.Hour)));
+                endTime = startTime.AddHours(gen.Next((int)Math.Ceiling(maxChargingDuration), Math.Min(8, 24 - startTime.Hour)));
             } 
             else
             {
