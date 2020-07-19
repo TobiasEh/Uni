@@ -202,7 +202,7 @@ namespace Sopro.Models.Administration
                                     //Add booking
                                     bo.station = u.station;
                                     bo.startTime = bo.startTime.AddMinutes(offset);
-                                    bo.endTime = bo.startTime.AddMinutes(offset + dur);
+                                    bo.endTime = bo.startTime.AddMinutes(dur);
                                     bo.plugs.Clear();
                                     bo.plugs.Add(selected);
                                     List<DateTime> temp = new List<DateTime>();
