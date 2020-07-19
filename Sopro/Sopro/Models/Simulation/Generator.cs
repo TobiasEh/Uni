@@ -27,7 +27,7 @@ namespace Sopro.Models.Simulation
             List<Booking> bookingList = new List<Booking>();
             for(int i = 0; i < scenario.duration; i++) //days
             {
-                bool exists = false;
+               bool exists = false;
                 if (scenario.rushhours.Count != 0)
                 {
                     int bpdC = scenario.bookingCountPerDay;
@@ -39,10 +39,10 @@ namespace Sopro.Models.Simulation
                         var startTimes = rh.run();
                         if (rh.bookings > bpdC)
                         {
-                            startTimes.RemoveRange(bpdC - 1 < 0 ? 0 : bpdC - 1, rh.run().Count - scenario.bookingCountPerDay);
+                            startTimes.RemoveRange(bpdC - 1 < 0 ? 0 : bpdC - 1, rh.run().Count -bpdC);
                             
                         }
-                        if(startTimes.Count != 0)
+                        if (startTimes.Count != 0)
                         foreach (DateTime start in startTimes)
                         {
                             int r = new Random().Next(scenario.vehicles.Count);
@@ -64,17 +64,16 @@ namespace Sopro.Models.Simulation
                                 ); ;
                             bpdC--;
                         };
-                        
                     }
-                    if (bpdC != 0)
+                    if (bpdC != 0 && exists == true)
                     {
                         List<Booking> linBList = new List<Booking>(); ;
                         LinearDist(linBList, scenario, i);
-                        linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), bpdC);
+                        linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), scenario.bookingCountPerDay-bpdC);
                         bookingList.AddRange(linBList);
                     }
-                    if (exists == false)
-                        LinearDist(bookingList, scenario, i);
+                    if (exists == false) LinearDist(bookingList, scenario, i);
+                        
 
                 }
                 else

@@ -46,7 +46,7 @@ namespace UnitTests.Administration
 
         private static ILocation location = new Location()
         {
-            id = "locationidk",
+           // id = "locationidk",
             zones = new List<Zone>() { zone },
             name = "Berlin",
             emergency = 0.05,

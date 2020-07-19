@@ -3,34 +3,46 @@
     ViewData["Title"] = "Create";
     Layout = "_AdminLayout";
 }
-
+@model Sopro.ViewModels.ScenarioCreateViewModel
 <h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
 <div class="flex-column">
-    <div class="form-group mb-4">
-        <h6>Name</h6>
-        <input form="" class="form-control" />
-        <small></small>
-    </div>
+    <form id="create" />
     <div class="form-group mb-4">
         <h6>Dauer</h6>
-        <input form="" class="form-control" />
-        <small></small>
+        <input form="create" class="form-control" asp-for="@Model.scenario.duration" min="1" placeholder="@Model.scenario.duration" />
+        <small>Anzahl der Simulierten ticks</small>
     </div>
 
+    <div class="form-group mb-4">
+        <div>Start Tag der Simulation</div>
+        <input form="create" type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" placeholder="@Model.scenario.start" />
+        <small></small>
+    </div>
 
 
     <div class="form-group mb-4">
         <h6>Firmenstandort</h6>
-        <select form="" class="form-control">
-            <option disabled selected>Wählen</option>
-            <option>München</option>
-            <option>Berlin</option>
-            <option>Bsp Location 1</option>
-            <!-- [...] -->
+        <select form="create" class="form-control" asp-for="@Model.idChosedLocation">
+            @if (Model.idChosedLocation == null)
+            {
+                <option disabled selected>Wählen</option>
+            }
+            @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
+            {
+                if (Model.idChosedLocation.Equals(l.id))
+                {
+                    <option value="@l.id" selected>@l.name</option>
+                }
+                else
+                {
+                    <option value="@l.id">@l.name</option>
+                }
+
+            }
         </select>
 
         <div class="mb-2 pt-2">
-            <button form="" type="submit" class="btn btn-primary btn-mhp">Erstellen</button>
+            <button class="btn btn-primary btn-mhp">Erstellen</button>
         </div>
 
     </div>
@@ -40,31 +52,7 @@
         <div>Anzahl</div>
         <small></small>
     </div>
-    <div class="d-inline-flex mb-2">
-        <button id="plus" class="btn btn-primary btn-mhp mr-2">Plus</button>
-        <button id="minus" class="btn btn-secondary">Minus</button>
-    </div>
-    <div id="peak">
-        <div class="flex-column mb-3">
-
-            <div>Peak 1</div>
-            <div class="form-group mb-2 ml-5">
-                <div>Zeitpunkt</div>
-                <input form="" type="datetime-local" class="form-control" />
-                <small></small>
-            </div>
-            <div class="form-group mb-2 ml-5">
-                <div>Dauer</div>
-                <input form="" class="form-control" />
-                <small></small>
-            </div>
-            <div class="form-group mb-2 ml-5">
-                <div>Spread</div>
-                <input form="" type="datetime-local" class="form-control" />
-                <small></small>
-            </div>
-        </div>
-    </div>
+    @await Html.PartialAsync("CreateRushourPartailView", Model)
 
     <div class="form-group d-inline-flex mb-2">
         <div class="mr-3">
@@ -126,7 +114,6 @@
         <button form="" type="submit" class="btn btn-primary btn-mhp align-self-end mb-3">Hinzufügen</button>
     </div>
     <div class="d-flex mt-4">
-        <button form="" type="reset" class="btn btn-secondary ml-auto mr-3">Abbrechen</button>
-        <button form="" type="submit" class="btn btn-primary btn-mhp">Erstellen</button>
+        <button form="create" type="submit" class="btn btn-primary btn-mhp">Erstellen</button>
     </div>
 </div>

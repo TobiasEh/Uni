@@ -22,6 +22,7 @@ namespace Sopro.Models.Simulation
         [VehicleSocEndValidation]
         public int socEnd { get; set; }
         [Required]
+        [EnumLength(1,typeof(PlugType))]
         public List<PlugType> plugs { get; set; }
     }
 }
