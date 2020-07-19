@@ -112,10 +112,15 @@
                                     @vehicle.model
                                 </td>
                                 <td>
-                                    @foreach (var plug in vehicle.plugs)
-                                    {
-                                        @plug.ToString();
+                                    @{
+                                        string x = "";
+                                        foreach(var plug in vehicle.plugs)
+                                        {
+                                            x += plug.ToString() + " ";
+                                        }
                                     }
+                                    @x
+                                    
                                 </td>
                                 <td>
                                     @vehicle.capacity
