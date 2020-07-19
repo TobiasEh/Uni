@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Sopro.ViewModels
 {
-    public class VehicleViewModel
+    public class EditViewModel
     {
-        public List<Vehicle> vehicles { get; set; }
         public Vehicle vehicle { get; set; }
         public bool CCS { get; set; }
         public bool TYPE2 { get; set; }
+
     }
 }

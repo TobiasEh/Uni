@@ -16,20 +16,19 @@ namespace Sopro.Controllers
     public class VehicleController : Controller
     {
         private IMemoryCache cache;
-        private List<IDVehicle> vehicles;
+        private List<Vehicle> vehicles;
         private VehicleViewModel model = new VehicleViewModel();
         private IVehicleService service = new VehicleService();
 
-        public VehicleController(IMemoryCache _memorycache)
+        public VehicleController(IMemoryCache _memoryCache)
         {
-            cache = _memorycache;
+            cache = _memoryCache;
         }
         public IActionResult Cartemplates()
         {
-
             if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<IDVehicle>();
+                vehicles = new List<Vehicle>();
             }
             model.vehicles = vehicles;
             return View(model);
@@ -39,21 +38,22 @@ namespace Sopro.Controllers
         public IActionResult Post(VehicleViewModel model)
         {
             var vehicle = model.vehicle;
-            if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<IDVehicle>();
+                vehicles = new List<Vehicle>();
             }
+            /*
             if (!ModelState.IsValid)
             {
                 throw new Exception("Fahrzeug nicht valide!");
             }
-            vehicle.id = vehicles.Count;
+            */
             vehicle.plugs = new List<PlugType>();
-            if (model.ccs)
+            if (model.CCS)
             {
                 vehicle.plugs.Add(PlugType.CCS);
             }
-            if (model.type2)
+            if (model.TYPE2)
             {
                 vehicle.plugs.Add(PlugType.TYPE2);
             }
@@ -78,7 +78,7 @@ namespace Sopro.Controllers
                 return View("Index", vehicles);
             }
 
-            foreach(Vehicle veh in importedVehicles)
+            foreach (Vehicle veh in importedVehicles)
             {
                 if (!vehicles.Contains(veh))
                 {
@@ -86,7 +86,8 @@ namespace Sopro.Controllers
                 }
             }
             cache.Set(CacheKeys.VEHICLE, vehicles);
-            return View("Index", vehicles);
+            this.model.vehicles = vehicles;
+            return View("Cartemplates", this.model);
         }
 
         [HttpGet]
@@ -96,47 +97,68 @@ namespace Sopro.Controllers
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
             service.export(vehicles, path);
-
-            return View("Index", vehicles);
+            this.model.vehicles = vehicles;
+            return View("Cartemplates", this.model);
         }
         */
         public IActionResult Edit(int? id)
         {
             if (id == null)
             {
-                throw new Exception("index not found bljad");
+                throw new Exception("id null");
+            }
+            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
+            EditViewModel model = new EditViewModel() { vehicle = vehicles[(int)id] };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Edit(int? id, EditViewModel model)
+        {
+            var vehicle = model.vehicle;
+            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
+            if (vehicle.plugs == null) 
+            {
+                vehicle.plugs = new List<PlugType>();
+            }
+            if (model.CCS)
+            {
+                
+                vehicle.plugs.Add(PlugType.CCS);
             }
             else
             {
-                cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
-                model.vehicles = vehicles;
-                model.vehicle = vehicles[vehicles.IndexOf(vehicles.Find(x => x.id == (int)id))];
-                return View(model);
+                if (vehicles[(int)id].plugs.Contains(PlugType.CCS))
+                {
+                    vehicle.plugs.Remove(PlugType.CCS);
+                }
             }
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Editted(IDVehicle vehicle)
-        {
-            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
-            model.vehicles = vehicles;
-            vehicles[vehicle.id] = vehicle;
-            model.vehicles = vehicles;
-            return View("Cartemplates");
+            if (model.TYPE2)
+            {
+               
+                vehicle.plugs.Add(PlugType.TYPE2);
+            }
+            else
+            {
+                if (vehicles[(int)id].plugs.Contains(PlugType.TYPE2))
+                {
+                    vehicle.plugs.Remove(PlugType.TYPE2);
+                }
+            }
+            vehicles[(int)id] = vehicle;
+            this.model.vehicles = vehicles;
+            return RedirectToAction("Cartemplates",model);
         }
         public IActionResult Delete(int? id)
         {
             if (id == null)
             {
-                throw new Exception("index not found");
+                throw new Exception("id null");
             }
-            else 
-            {
-                cache.TryGetValue(CacheKeys.VEHICLE,out vehicles);
-                vehicles.RemoveAt((int)id);
-                model.vehicles = vehicles;
-                return View("Cartemplates",model);
-            }
+            cache.TryGetValue(CacheKeys.VEHICLE, out vehicles);
+            vehicles.RemoveAt((int)id);
+            cache.Set(CacheKeys.VEHICLE, vehicles);
+            model.vehicles = vehicles;
+            return View("Cartemplates", model);
         }
     }
 }
