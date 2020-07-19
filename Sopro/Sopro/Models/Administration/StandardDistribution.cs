@@ -152,6 +152,7 @@ namespace Sopro.Models.Administration
                         }*/
                         PlugType selected = selectPlug(bo.plugs);
                         int dur = calculateDuration(bo.socStart, bo.socEnd, bo.capacity, u.station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
+                        bo.startTime = RoundUp(bo.startTime, TimeSpan.FromMinutes(15));
                         //capNeeded / power * 60;
                         //Check capacity cap
                         if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
@@ -311,6 +312,12 @@ namespace Sopro.Models.Administration
         private PlugType selectPlug(List<PlugType> plugs)
         {
             return plugs.First();
+        }
+
+        //Roundup the Date
+        private DateTime RoundUp(DateTime dt, TimeSpan d)
+        {
+            return new DateTime((dt.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, dt.Kind);
         }
     }
 }
