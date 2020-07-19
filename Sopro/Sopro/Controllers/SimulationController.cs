@@ -137,5 +137,15 @@ namespace Sopro.Controllers
 
             return View("Index", scenarios);
         }
+
+        public IActionResult History()
+        {
+            return View(); 
+        }
+
+        public IActionResult Evaluation()
+        {
+            return View();
+        }
     }
 }
