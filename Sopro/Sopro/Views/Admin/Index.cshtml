@@ -92,7 +92,7 @@
 
 <div class="d-flex">
     <div>
-        <form asp-controller="Booking" asp-action="Import" class="form-horizontal" method="post" enctype="multipart/form-data">
+        <form asp-controller="Admin" asp-action="Import" class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="input-group">
                 <div class="custom-file">
                     <input type="file" name="importedFile" />
@@ -109,7 +109,7 @@
 @if (Model.scheduledBookings.Any() || Model.unscheduledBookings.Any())
 {
     <div class="ml-auto">
-        <form asp-controller="Booking" asp-action="Export" method="get" class="form-horizontal">
+        <form asp-controller="Admin" asp-action="Export" method="get" class="form-horizontal">
             <input class="btn btn-primary" type="submit" name="exportBooking" value="Export" />
         </form>
     </div>
