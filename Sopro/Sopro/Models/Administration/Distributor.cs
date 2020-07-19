@@ -17,7 +17,13 @@ namespace Sopro.Models.Administration
         private ILocation location;
         private IMemoryCache cache;
 
-        public Distributor(Schedule _schedule, ILocation _location)
+
+        public Distributor()
+        {
+            strategy = new StandardDistribution();
+        }
+
+            public Distributor(Schedule _schedule, ILocation _location)
         {
             schedule = _schedule;
             location = _location;

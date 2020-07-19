@@ -9,6 +9,7 @@ using Sopro.Interfaces.AdministrationController;
 using System.IO;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Persistence.PersBooking;
+using Sopro.Interfaces;
 
 namespace Sopro.Controllers
 {
@@ -62,39 +63,60 @@ namespace Sopro.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)
         {
-            IFormFile file = model.importedFile;
-            string cacheKey = CacheKeys.BOOKING;
 
-            if (!cache.TryGetValue(cacheKey, out bookings))
+            IFormFile file = model.importedFile;
+            if(file == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List< BookingExportInportViewModel > importedBookings = bookingService.Import(file);
+
+            if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
             {
                 bookings = new List<IBooking>();
             }
 
-            string path = Path.GetFullPath(file.Name);
-
-            List<IBooking> importedBookings = bookingService.import(path);
-
-            foreach (IBooking item in importedBookings)
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
-                bookings.Add(item);
+                locations = new List<ILocation>();
             }
 
-            cache.Set(cacheKey, bookings);
+            foreach (BookingExportInportViewModel b in importedBookings)
+            {
+                IBooking boo = b.generateBooking();
+                if (!bookings.Contains(boo))
+                {
+                    bookings.Add(boo);
 
+                    if (!locations.Contains(boo.location))
+                    {
+                        locations.Add(boo.location);
+                    }
+
+                }
+            }
+
+            cache.Set(CacheKeys.LOCATION, locations);
+            cache.Set(CacheKeys.BOOKING, bookings);
             return View("Index", bookings);
         }
 
         [HttpGet]
         public IActionResult Export([FromForm] FileViewModel model)
         {
-            IFormFile file = model.exportedFile;
-            cache.TryGetValue(CacheKeys.BOOKING, out bookings);
+            if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
 
-            string path = Path.GetFullPath(file.Name); ;
+            List<BookingExportInportViewModel> bookinglist = new List<BookingExportInportViewModel>();
+            foreach(IBooking b in bookings)
+            {
+                bookinglist.Add(new BookingExportInportViewModel(b));
+            }
 
-            bookingService.export(bookings, path);
-
-            return View("Index", bookings);
+            return bookingService.export(bookinglist);
         }
     }
 

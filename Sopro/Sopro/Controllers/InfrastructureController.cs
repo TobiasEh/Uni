@@ -51,7 +51,7 @@ namespace Sopro.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteLocation(int ? id)
+        public IActionResult DeleteLocation(string id)
         {
             if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {

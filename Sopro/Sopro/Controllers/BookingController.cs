@@ -247,18 +247,17 @@ namespace Sopro.Controllers
             return View("Index", bookings);
 
         }
-
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm]FileViewModel model)
         {
             IFormFile file = model.importedFile;
-            string path = Path.GetFullPath(file.Name);
-            List<IBooking> importedBookings = service.import(path);
+            List<Booking> importedBookings = service.Import(file);
 
             if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
             {
-                bookings = importedBookings;
+                bookings = new List<IBooking>();
             }
 
             List<ILocation> locations;
@@ -291,10 +290,11 @@ namespace Sopro.Controllers
             cache.TryGetValue(CacheKeys.BOOKING, out bookings);
             IFormFile file = model.exportedFile;
             string path = Path.GetFullPath(file.Name);
-            service.export(bookings, path);
+            service.export(bookings);
 
             return View("Index", bookings);
         }
+        */
     }
 
 }

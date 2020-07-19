@@ -11,7 +11,7 @@ namespace Sopro.Models.Administration
 {
     public class Booking : IBooking
     {
-        public string id { get; }
+        public string id { get; set; }
 
         [Required]
         [Range(1, int.MaxValue)]

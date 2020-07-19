@@ -1,5 +1,9 @@
-﻿using Sopro.Interfaces.AdministrationController;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Sopro.Interfaces.AdministrationController;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Models.Administration;
+using Sopro.ViewModels;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,36 +18,38 @@ namespace Sopro.Persistence.PersBooking
         private JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
         private JsonStringEnumConverter stringEnumConverter = new JsonStringEnumConverter();
 
-        public List<IBooking> import(string path)
+        public List<BookingExportInportViewModel> Import(IFormFile file)
         {
+            var result = new StringBuilder();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    result.AppendLine(reader.ReadLine());
+            }
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            byte[] bytes = File.ReadAllBytes(path);
-            var data = Encoding.UTF8.GetString(bytes);
-            List<IBooking> importedBookings = JsonSerializer.Deserialize<List<IBooking>>(data, options);
+            List<BookingExportInportViewModel> importedBookings = JsonSerializer.Deserialize<List<BookingExportInportViewModel>>(result.ToString(), options);
 
             return importedBookings;
         }
 
-        public void export(List<IBooking> list, string path)
+        public FileContentResult export(List<BookingExportInportViewModel> list)
         {
-            options.Converters.Add(stringEnumConverter);
 
-            var data = JsonSerializer.Serialize(list, options);
+            // Write enum content as string
+            var stringEnumConverter = new JsonStringEnumConverter();
+            JsonSerializerOptions opts = new JsonSerializerOptions() { WriteIndented = true };
+            opts.Converters.Add(stringEnumConverter);
+
+            // Serialize
+            var data = JsonSerializer.Serialize(list, opts);
             byte[] bytes = Encoding.UTF8.GetBytes(data);
 
-            string extension = Path.GetExtension(path);
-            if(extension == null || extension == string.Empty)
-            {
-                path = string.Concat(path, ".json");
-            }
-
-            if (!extension.Equals(".json"))
-            {
-                Path.ChangeExtension(path, ".json");
-            }
-
-            File.WriteAllBytes(path, bytes);
+            // Export
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "bookings.json";
+            return output;
 
         }
+
     }
 }
