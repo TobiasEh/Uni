@@ -64,6 +64,7 @@ namespace Sopro.Controllers
             vehicles.Add(vehicle);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             model.vehicles = vehicles;
+            model.vehicle = new Vehicle();
             return View("Cartemplates", model);
         }
         /*
@@ -153,7 +154,8 @@ namespace Sopro.Controllers
                 return View(new EditViewModel() { vehicle = vehicles[(int)id] });
             vehicles[(int)id] = vehicle;
             this.model.vehicles = vehicles;
-            return RedirectToAction("Cartemplates",model);
+            this.model.vehicle = new Vehicle();
+            return RedirectToAction("Cartemplates",this.model);
         }
         public IActionResult Delete(int? id)
         {
