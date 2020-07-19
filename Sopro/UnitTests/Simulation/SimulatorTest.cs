@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace UnitTests.SimulationTest
@@ -126,9 +123,9 @@ namespace UnitTests.SimulationTest
                 int chargeDuration = (b.socEnd - b.socStart) * b.capacity / 2000;
                 TimeSpan bookingDuration = b.endTime - b.startTime;
                 Assert.IsTrue(b.station != null); 
-                // User should be able to fulfill their request
+                // User should be able to fulfill their request.
                 Assert.IsTrue(bookingDuration.Hours >= chargeDuration);
-                // Booking should not take longer than
+                // Booking should not take longer than whatever is necessary to fulfill the request and one hour.
                 Assert.IsTrue(bookingDuration.Hours < chargeDuration + 1);
             }
         }
