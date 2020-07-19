@@ -58,7 +58,8 @@ namespace Sopro.Models.Administration
         {
 
             //Sort Bookinglist into new one (priority needed)
-            List<Booking> b = bookings.OrderBy(o => o.priority).ToList();
+            int[] map = { 4, 0, 1, 2, 3 };
+            List<Booking> b = bookings.OrderBy(o => map[(int)(o.priority)]).ToList();
 
             //Save location
             Location l = (Location)b.First().location;
