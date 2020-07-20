@@ -135,7 +135,7 @@ namespace UnitTests.History
 
         private static Scenario scenariob = new Scenario()
         {
-            duration = 1,
+            duration = 12,
             bookingCountPerDay = 15,
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() { r1 },
@@ -155,7 +155,7 @@ namespace UnitTests.History
 
         private static Scenario scenario3 = new Scenario()
         {
-            duration = 1,
+            duration = 20,
             bookingCountPerDay = 15,
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() { },
@@ -169,7 +169,7 @@ namespace UnitTests.History
         private static ExecutedScenario executedScenario3 = new ExecutedScenario(scenario3);
 
         [Test]
-        public async Task testSimulatorCCSOnlyNoRushhour()
+        public async Task testAnalyzerCCSOnlyNoRushhour()
         {
             Simulator sim = new Simulator()
             {
@@ -202,8 +202,78 @@ namespace UnitTests.History
             Console.WriteLine(_evaluation.suggestions[0].ToString());
             evaluationNotNullTest(_evaluation);
 
-            
+        }
 
+        [Test]
+        public async Task testAnalyzerCCSOnly()
+        {
+            Simulator sim = new Simulator()
+            {
+                exScenario = executedScenariob
+            };
+
+            //executedScenariob.generatedBookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString()));
+            await sim.run();
+            //l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString() + "\t" + e.station.manufacturer));
+
+            Console.WriteLine(executedScenariob);
+            Console.WriteLine("generatedBookings: " + executedScenariob.generatedBookings.Count());
+            Console.WriteLine("booking.count: " + executedScenariob.bookings.Count());
+            Console.WriteLine("locationworkload.count: " + executedScenariob.getLocationWorkload().Count());
+            Console.WriteLine("getfullfiledrequest: " + executedScenariob.getFulfilledRequests());
+            foreach (List<double> e in executedScenariob.getStationWorkload())
+            {
+                foreach (double f in e)
+                {
+                    Console.WriteLine("stationworkload: " + f);
+                }
+            }
+
+            foreach (double e in executedScenariob.getLocationWorkload())
+            {
+                Console.WriteLine(e);
+            }
+
+            Evaluation _evaluation = Analyzer.analyze(executedScenariob);
+            Console.WriteLine(_evaluation.suggestions[0].ToString());
+            evaluationNotNullTest(_evaluation);
+            suggestionTest(_evaluation, scenariob);
+        }
+
+        [Test]
+        public async Task Test()
+        {
+            Simulator sim = new Simulator()
+            {
+                exScenario = executedScenario3
+            };
+
+            //executedScenariob.generatedBookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString()));
+            await sim.run();
+            //l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString() + "\t" + e.station.manufacturer));
+
+            Console.WriteLine(executedScenario3);
+            Console.WriteLine("generatedBookings: " + executedScenario3.generatedBookings.Count());
+            Console.WriteLine("booking.count: " + executedScenario3.bookings.Count());
+            Console.WriteLine("locationworkload.count: " + executedScenario3.getLocationWorkload().Count());
+            Console.WriteLine("getfullfiledrequest: " + executedScenario3.getFulfilledRequests());
+            foreach (List<double> e in executedScenario3.getStationWorkload())
+            {
+                foreach (double f in e)
+                {
+                    Console.WriteLine("stationworkload: " + f);
+                }
+            }
+
+            foreach (double e in executedScenario3.getLocationWorkload())
+            {
+                Console.WriteLine(e);
+            }
+
+            Evaluation _evaluation = Analyzer.analyze(executedScenariob);
+            Console.WriteLine(_evaluation.suggestions[0].ToString());
+            evaluationNotNullTest(_evaluation);
+            suggestionTest(_evaluation, scenariob);
         }
 
         public void evaluationNotNullTest(Evaluation evaluation)
@@ -220,69 +290,26 @@ namespace UnitTests.History
         }
 
         
-        /*public void suggestionTest(Evaluation evaluation)
+        public void suggestionTest(Evaluation evaluation, Scenario scenario)
         {
             
             string[] splitted = evaluation.suggestions[0].suggestion.Split(" ");
             double station;
-            double.TryParse(splitted[7], out station);
+            double.TryParse(splitted[3], out station);
             double zone;
-            double.TryParse(splitted[10], out zone);
+            double.TryParse(splitted[6], out zone);
             Console.WriteLine(station + " " + zone);
-            if(splitted[12] == "less")
+            if(splitted[8] == "weniger.")
             {
-                Assert.IsTrue(station < stations.Count);
-                Assert.IsTrue(zone < zones.Count);
+                int count = 0;
+                scenario.location.zones.ForEach(e => count = e.stations.Count());
+                Assert.IsTrue(station < count);
+                Assert.IsTrue(zone < scenario.location.zones.Count());
             }
             
         }
-        [Test]
-        public void evaluationRightCaluclatedBookingSuccessRateTest()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            Assert.IsTrue(evaluation.bookingSuccessRate == (100.0 * 3.0 / 4.0));
-        }
 
-        [Test]
-        public void evaluationRightCaluclatedUnneccWorkloadTest()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            Assert.IsTrue(evaluation.unneccessaryWorkload == (100 - 86.642));
-        }
-        [Test]
-        public void evaluationRightCaluclatedNeccWorkloadTest()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            Assert.IsTrue(evaluation.neccessaryWorkload == (100 - 75));
-        }
-        [Test]
-        public void evaluationRightCaluclatedPlugDistrAccType2Test()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            //Type-2
-            Assert.IsTrue(evaluation.plugDistributionAccepted[0] == (1.0 / 3.0));
-        }
-        [Test]
-        public void evaluationRightCaluclatedPlugDistrAccCSSTest()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            //CSS
-            Assert.IsTrue(evaluation.plugDistributionAccepted[1] == (2.0 / 3.0));
-        }
-        [Test]
-        public void evaluationRightCaluclatedPlugDistrDeclinedType2Test()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            //Type-2
-            Assert.IsTrue(evaluation.plugDistributionDeclined[0] == 0.0);
-        }
-        [Test]
-        public void evaluationRightCaluclatedPlugDistrDeclinedCSSTest()
-        {
-            Evaluation evaluation = Analyzer.analyze(scenario);
-            //CSS
-            Assert.IsTrue(evaluation.plugDistributionDeclined[1] == 1);
-        }
-        */
+        
+
     }
 }
