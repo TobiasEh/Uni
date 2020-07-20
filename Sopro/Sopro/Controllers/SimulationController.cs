@@ -10,6 +10,7 @@ using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Persistence.PersScenario;
+using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {
@@ -18,42 +19,11 @@ namespace Sopro.Controllers
         private IMemoryCache cache;
         private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
-        
+        private ScenarioCreateViewModel model;
+
         public SimulationController(IMemoryCache _cache)
         {
             cache = _cache;
-        }
-
-        public IActionResult Create()
-        {
-            List<ILocation> locations;
-            if(!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-            List<IVehicle> vehicles;
-            if(!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
-            {
-                vehicles = new List<IVehicle>();
-            }
-
-            return View(new ScenarioCreateViewModel(new Scenario(), locations, vehicles));
-        }
-        [HttpPost]
-        public IActionResult Post(IScenario scenario)
-        {
-            if(cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
-            {
-                scenarios = new List<IScenario>();
-            }
-            if (!ModelState.IsValid)
-            {
-                throw new Exception("Szenario ist nicht valide!");
-            }
-
-            scenarios.Add(scenario);
-            cache.Set(CacheKeys.SCENARIO, scenarios);
-            return View("Index", scenarios);
         }
 
         public IActionResult Index()
@@ -66,19 +36,52 @@ namespace Sopro.Controllers
             return View(scenarios);
         }
 
-        /*
-        public async Task<IActionResult> Simulate(ISimulator simulator)
+        public IActionResult Create()
         {
-            // Simulation muss asynchron ausgeführt werden, da die Website sonst nicht navigierbar ist
-            await Task.Run(() =>
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
-                simulator.init();
-                simulator.run();
-            });
-            
-            return RedirectToAction("Analyze", "EvaluationController", simulator.scenario);
+                locations = new List<ILocation>();
+            }
+            List<Vehicle> vehicles;
+
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<Vehicle>();
+            }
+
+            model = new ScenarioCreateViewModel();
+            model.vehicles = vehicles;
+            model.locations = locations;
+            model.scenario = new Scenario();
+
+            return View(model);
         }
-        */
+
+        public IActionResult CreateVehicles(ScenarioCreateViewModel _model)
+        {
+            List<Vehicle> newVehicleList = new List<Vehicle>();
+            int j = 0;
+            foreach(Vehicle v in model.vehicles)
+            {
+                for(int i = 0; i < _model.countVehicles[j]; i++)
+                {
+                    newVehicleList.Add(v);
+                }
+                j++;
+            }
+
+            for(int i = 0; i < _model.countRushhours; i++)
+            {
+                model.rushhours.Add(new Rushhour());
+            }
+            model.idLocation = _model.idLocation;
+            model.scenario.bookingCountPerDay = _model.scenario.bookingCountPerDay;
+            model.scenario.duration = _model.scenario.duration;
+            model.scenario.start = _model.scenario.start;
+
+            return View("Rushour",model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

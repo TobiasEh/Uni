@@ -4,116 +4,143 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.ScenarioCreateViewModel
+
 <h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
-<div class="flex-column">
-    <form id="create" />
-    <div class="form-group mb-4">
-        <h6>Dauer</h6>
-        <input form="create" class="form-control" asp-for="@Model.scenario.duration" min="1" placeholder="@Model.scenario.duration" />
-        <small>Anzahl der Simulierten ticks</small>
-    </div>
 
-    <div class="form-group mb-4">
-        <div>Start Tag der Simulation</div>
-        <input form="create" type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" placeholder="@Model.scenario.start" />
-        <small></small>
-    </div>
+<form asp-controller="Simulation" asp-action="CreateVehicles" method="post" id="create">
 
-
-    <div class="form-group mb-4">
-        <h6>Firmenstandort</h6>
-        <select form="create" class="form-control" asp-for="@Model.idChosedLocation">
-            @if (Model.idChosedLocation == null)
-            {
-                <option disabled selected>Wählen</option>
-            }
-            @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
-            {
-                if (Model.idChosedLocation.Equals(l.id))
-                {
-                    <option value="@l.id" selected>@l.name</option>
-                }
-                else
-                {
-                    <option value="@l.id">@l.name</option>
-                }
-
-            }
-        </select>
-
-        <div class="mb-2 pt-2">
-            <button class="btn btn-primary btn-mhp">Erstellen</button>
-        </div>
-
-    </div>
-
-    <div class="form-group mb-2">
-        <h6>Stoßzeiten</h6>
-        <div>Anzahl</div>
-        <small></small>
-    </div>
-    @await Html.PartialAsync("CreateRushourPartailView", Model)
-
-    <div class="form-group d-inline-flex mb-2">
-        <div class="mr-3">
-            <h6>Autos</h6>
-            <table class="table table-striped table-borderless table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>
-                            Modell
-                        </th>
-                        <th>
-                            Stecker
-                        </th>
-                        <th>
-                            Kapazität
-                        </th>
-                        <th>
-                            SoC-start
-                        </th>
-                        <th>
-                            SoC-end
-                        </th>
-
-                    </tr>
-                </thead>
-                @for (var i = 0; i < 3; i++)
-                {
-                    <tr>
-                        <td>
-                            example
-                        </td>
-                        <td>
-                            example
-                        </td>
-                        <td>
-                            example
-                        </td>
-                        <td>
-                            example
-                        </td>
-                        <td>
-                            example
-                        </td>
-                    </tr>
-                }
-
-            </table>
+    <div class="form-row">
+        <div class="form-group col-8">
+            <label>Start Tag der Simulation</label>
+            <input type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" />
             <small></small>
         </div>
-        <div class="align-self-end mr-3 mb-3">
+        <div class="form-group col-2">
+            <label>Dauer</label>
+            <div class="input-group">
+                <input class="form-control" asp-for="@Model.scenario.duration" min="1" />
+                <div class="input-group-append">
+                    <span class="input-group-text"> Ticks </span>
+                </div>
+            </div>
+            <small>Anzahl der Simulierten ticks</small>
+        </div>
+    </div>
 
-            <select form="" class="form-control">
-                <option>Auto1</option>
-                <option>Auto2</option>
-                <option>Auto3</option>
-                <!-- [...] -->
+    <div class="form-group">
+        <label>Buchungen pro Tag</label>
+        <div class="input-group">
+            <input class="form-control" asp-for="@Model.scenario.bookingCountPerDay" min="1" />
+            <div class="input-group-append">
+                <span class="input-group-text"> Buchungen / Tag </span>
+            </div>
+        </div>
+        <small>Gesamt Anzahl der täglich zu verteilenden Buchungen</small>
+    </div>
+
+    <div class="form-group">
+        <label>Firmenstandort</label>
+        <div>
+            <select class="form-control" asp-for="@Model.idLocation">
+                @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
+                {
+                    <option value="@l.id">@l.name</option>
+
+                }
+                <option value="new">Neuen Standort anlegen</option>
             </select>
         </div>
-        <button form="" type="submit" class="btn btn-primary btn-mhp align-self-end mb-3">Hinzufügen</button>
     </div>
-    <div class="d-flex mt-4">
-        <button form="create" type="submit" class="btn btn-primary btn-mhp">Erstellen</button>
+    <div class="form-group">
+        <label>Anzahl der Stoßzeiten</label>
+        <div class="input-group">
+            <input class="form-control" asp-for="@Model.countRushhours" min="o" />
+            <div class="input-group-append">
+                <span class="input-group-text"> Buchungen / Tag </span>
+            </div>
+        </div>
     </div>
-</div>
+
+        <div class="form-group">
+            <!-- Vehicles to select -->
+            @if (Model.vehicles != null && Model.vehicles.Count != 0)
+            {
+                <div class="form-group">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Modell
+                                </th>
+                                <th>
+                                    Plug
+                                </th>
+                                <th>
+                                    Kapazität
+                                </th>
+                                <th>
+                                    SoC-Start
+                                </th>
+                                <th>
+                                    S
+                                    SoC-End
+                                </th>
+                                <th>
+                                    Anzahl
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>@{ int i = 0;}
+                            @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
+                            {
+                                <tr>
+                                    <td>
+                                        @vehicle.model
+                                    </td>
+                                    <td>
+                                        @{
+                                            string x = "";
+                                            foreach (var plug in vehicle.plugs)
+                                            {
+                                                x += plug.ToString() + " ";
+                                            }
+                                        }
+                                        @x
+
+                                    </td>
+                                    <td>
+                                        @vehicle.capacity
+                                    </td>
+                                    <td>
+                                        @vehicle.socStart
+                                    </td>
+                                    <td>
+                                        @vehicle.socEnd
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
+                                    </td>
+                                </tr>
+                                                i++;
+                                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                // add vehicles
+            }
+
+
+            <!-- buttons -->
+            <div class="float-right">
+                <button type="reset" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</button>
+                <button type="submit" class="btn btn-primary btn-mhp">Submit</button>
+            </div>
+
+        </div>
+
+</form>
+
