@@ -125,7 +125,7 @@ namespace UnitTests.History
 
         private static Scenario scenario = new Scenario()
         {
-            duration = 2,
+            duration = 1,
             bookingCountPerDay = 15,
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() { },
@@ -178,34 +178,51 @@ namespace UnitTests.History
 
             executedScenario.generatedBookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() +"\t" + e.priority.ToString())); 
             await sim.run();
-            l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString()));
+            l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString() + "\t" + e.station.manufacturer));
 
             Console.WriteLine(executedScenario);
             Console.WriteLine("generatedBookings: " + executedScenario.generatedBookings.Count());
             Console.WriteLine("booking.count: " + executedScenario.bookings.Count());
             Console.WriteLine("locationworkload.count: " + executedScenario.getLocationWorkload().Count());
             Console.WriteLine("getfullfiledrequest: " + executedScenario.getFulfilledRequests());
-            executedScenario.getStationWorkload().ForEach(e => e.ForEach(f => Console.WriteLine("stationworkload: " + f)));
+            foreach (List<double> e in executedScenario.getStationWorkload())
+            {
+                foreach(double f in e)
+                {
+                    Console.WriteLine("stationworkload: " + f);
+                }
+            }
+            
+            foreach(double e in executedScenario.getLocationWorkload())
+            {
+                Console.WriteLine(e);
+            }
 
-            executedScenario.getLocationWorkload().ForEach(e => Console.WriteLine(e));
             Evaluation _evaluation = Analyzer.analyze(executedScenario);
+            Console.WriteLine(_evaluation.suggestions[0].ToString());
             evaluationNotNullTest(_evaluation);
+
+            
 
         }
 
         public void evaluationNotNullTest(Evaluation evaluation)
         {
             Assert.IsTrue(evaluation.suggestions != null);
-            Assert.IsTrue(evaluation.unneccessaryWorkload <= 100.0 && evaluation.unneccessaryWorkload >= 0.0);
-            Assert.IsTrue(evaluation.neccessaryWorkload <= 100.0 && evaluation.neccessaryWorkload >= 0.0);
-            Assert.IsTrue(evaluation.bookingSuccessRate <= 100.0 && evaluation.bookingSuccessRate >= 0.0);
-            Assert.IsTrue(evaluation.suggestions.Count >= 0 && evaluation.suggestions.Count <= 1);
+            Assert.LessOrEqual(evaluation.unneccessaryWorkload, 100);
+            Assert.GreaterOrEqual(evaluation.unneccessaryWorkload, 0.0);
+            Assert.LessOrEqual(evaluation.neccessaryWorkload, 100);
+            Assert.GreaterOrEqual(evaluation.neccessaryWorkload, 0.0);
+            Assert.LessOrEqual(evaluation.bookingSuccessRate, 100);
+            Assert.GreaterOrEqual(evaluation.bookingSuccessRate, 0.0);
+            Assert.GreaterOrEqual(evaluation.suggestions.Count, 0);
+            Assert.LessOrEqual(evaluation.suggestions.Count, 1);
         }
 
-        /*[Test]
-        public void suggestionTest()
+        
+        /*public void suggestionTest(Evaluation evaluation)
         {
-            Evaluation evaluation = Analyzer.analyze(scenario);
+            
             string[] splitted = evaluation.suggestions[0].suggestion.Split(" ");
             double station;
             double.TryParse(splitted[7], out station);
