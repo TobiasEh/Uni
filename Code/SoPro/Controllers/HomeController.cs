@@ -4,6 +4,7 @@ using Sopro.Models.User;
 
 namespace Sopro.Controllers
 {
+    //test 
     public class HomeController : Controller
     {
         public IActionResult Index()
