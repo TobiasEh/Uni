@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Sopro.Models.Administration
 {
-    public class Adhoc : Booking, ITrigger
+    public class AdHoc : Booking, ITrigger
     {
-        public Adhoc() : base()
+        public AdHoc() : base()
         {
             triggerBookingDistribution();
         }
 
-        public Adhoc(bool active) : base()
+        public AdHoc(bool active) : base()
         {
 
         }
