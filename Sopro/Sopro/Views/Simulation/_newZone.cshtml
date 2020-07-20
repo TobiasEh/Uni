@@ -1,20 +1,148 @@
-﻿@model Sopro.Models.Infrastructure.Zone
+﻿@model Sopro.ViewModels.ScenarioCreateViewModel
 
-<h4>Zone</h4>
-<hr />
-<div class="row">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="site" class="control-label"></label>
-        <input asp-for="site" class="form-control" />
-        <span asp-validation-for="site" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="maxPower" class="control-label"></label>
-        <input asp-for="maxPower" class="form-control" />
-        <span asp-validation-for="maxPower" class="text-danger"></span>
-    </div>
-    @await Html.PartialAsync("_newStation", Model)
+<div class="form-group col">
+    <h1>Standort: @Model.sczone.name</h1>
 </div>
+<h1 class="display-4 pb-5 pt-5">Zone @Model.sczone.zone.site</h1>
+<form class="form-group" asp-controller="Infrastructure" asp-action="EndEdit" id="EndEdit" asp-route-id="@Model.sczone.id" asp-route-site="@Model.sczone.site">
+    <label>Leistung der Zone</label>
+    <div class="input-group">
+        <input form="EndEdit" class="form-control" type="number" placeholder="@Model.sczone.zone.maxPower" asp-for="@Model.sczone.zone.maxPower" min="0" />
+        <div class="input-group-append">
+            <span class="input-group-text"> kW </span>
+        </div>
+    </div>
+</form>
 
 
+<div class="d-flex flex-wrap mt-2">
+    <div class="text-nowrap mr-auto">
+        <form asp-controller="Infrastructure" asp-action="EditStation" asp-route-id="@Model.sczone.id" asp-route-site="@Model.sczone.zone.site" method="post">
+            <h2>Station bearbeiten</h2>
+            <h4>Station @Model.sczone.station.id</h4>
+            <div class="form-group">
+                <label>Hersteller</label>
+                <input class="form-control" placeholder="@Model.sczone.station.manufacturer" asp-for="@Model.sczone.station.manufacturer" />
+                <small></small>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>CCS plug</label>
+                    <input class="form-control" type="number" placeholder="@Model.sczone.ccs" asp-for="@Model.sczone.ccs" min="0" />
+                    <small></small>
+                </div>
+                <div class="form-group col">
+                    <label>Leistung</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" placeholder="@Model.sczone.ccsPower" asp-for="@Model.sczone.ccsPower" min="0" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"> kW </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Type-2-plug</label>
+                    <input class="form-control" type="number" placeholder="@Model.sczone.type2" asp-for="@Model.sczone.type2" min="0" />
+                </div>
+                <div class="form-group col">
+                    <label>Leistung</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" placeholder="@Model.sczone.type2Power" asp-for="@Model.sczone.type2Power" min="0" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"> kW </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label>Gleichzeitig benutzbare Stecker</label>
+                <input class="form-control" type="number" placeholder="@Model.sczone.station.maxParallelUseable" asp-for="@Model.sczone.station.maxParallelUseable" min="0" />
+
+            </div>
+            <div class="form-group">
+                <label>Maximale Leistung der Station</label>
+                <div class="input-group">
+                    <input class="form-control" type="number" placeholder="@Model.sczone.station.maxPower" asp-for="@Model.sczone.station.maxPower" min="0" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"> kW </span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary float-right btn-mhp">Hinzufügen</button>
+            </div>
+        </form>
+
+    </div>
+
+    @if (Model.sczone.zone.stations.Count != 0)
+    {
+
+        <table class="table table-sm ">
+            <tbody>
+                @foreach (Sopro.Models.Infrastructure.Station s in Model.sczone.zone.stations)
+                {
+                    int ccs = 0;
+                    int type2 = 0;
+                    foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
+                    {
+                        if (p.type == Sopro.Models.Infrastructure.PlugType.CCS)
+                        {
+                            ccs++;
+                        }
+                        else
+                        {
+                            type2++;
+                        }
+                    }
+                    var stationName = string.Concat("Station", " ", (s.id).ToString());
+                    <tr>
+                        <th class="align-middle"><h4>@stationName</h4></th>
+                        <td class="px-4">
+                            <div class="d-inline-flex">
+                                <div class="flex-column">
+                                    <div>Hersteller</div>
+                                    <div>CCS</div>
+                                    <div class="mb-3">Type-2-plugs</div>
+                                    <div class="mb-3">Gleichzeitig nutzbar</div>
+                                    <div>Leistung</div>
+                                </div>
+                                <div class="flex-column ml-4">
+                                    @{if (s.manufacturer == null)
+                                        {
+                                            <div>Kein Hersteller</div>
+                                        }
+                                        else
+                                        {
+                                            <div>@s.manufacturer</div>
+                                        }
+                                    }
+                                    <div>@ccs</div>
+                                    <div class="mb-3">@type2</div>
+                                    <div class="mb-3">@s.maxParallelUseable</div>
+                                    <div>@s.maxPower kW</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <a asp-controller="Infrastructure" asp-action="StartEditStation" asp-route-id="@Model.sczone.id" asp-route-site="@Model.sczone.site" asp-route-idStation="@s.id">
+                                <img src="~/bootstrap-icons/pencil-square.svg" width="20" class="filter-blue" />
+                            </a>
+                            <a asp-controller="Infrastructure" asp-action="DeleteStation" asp-route-_id="@Model.sczone.id" asp-route-_site="@Model.sczone.site" asp-route-idStation="@s.id">
+                                <img src="~/bootstrap-icons/trash.svg" width="20" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+</div>
+<div class="ml-2">
+    <button class="btn btn-primary btn-mhp" type="submit" form="EndEdit">Bestätigen</button>
+</div>
