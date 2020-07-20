@@ -41,19 +41,6 @@ namespace Sopro.Models.History
                 zonePower.Add(i);
             });
 
-            /*
-             * basically this^
-            foreach (Zone zone in scenario.location.zones)
-            {
-                j = 0;
-                foreach (Station station in zone.stations) 
-                {
-                    j += station.maxPower;
-                }
-                zonePower.Add(j);
-            }
-            */
-
             if (calcBookingSuccessRate() < lowerGate)
             {
                 nStation = (int)(nStation * calcNecessaryWorkload() / 100);
@@ -97,15 +84,15 @@ namespace Sopro.Models.History
         }
         private static double calcBookingSuccessRate()
         {
-            return 100*(double)scenario.getFulfilledRequests()/((double)scenario.getBookings().Count);
+            return 100 * (double)scenario.getFulfilledRequests() / ((double)scenario.getBookings().Count);
         }
         private static double calcUnnecessaryWorkload()
         {
-            return 100-scenario.getLocationWorkload().Max();
+            return 100 - scenario.getLocationWorkload().Max();
         }
         private static double calcNecessaryWorkload()
         {
-            return 100-calcBookingSuccessRate();
+            return 100 - calcBookingSuccessRate();
         }
         private static List<double> calcPlugDistributionAccepted()
         {

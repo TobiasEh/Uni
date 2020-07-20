@@ -6,7 +6,7 @@
 
         public Suggestion(int stations, int zones)
         {
-            suggestion = "guess all alr8y m8";
+            suggestion = "";
         }
     }
 }

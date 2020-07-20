@@ -30,7 +30,7 @@ namespace Sopro.Models.Administration
         public int socEnd { get; set; }
 
         [Required]
-        public string user { get; set; } = "ERORR";
+        public string user { get; set; } = "examplemail.com";
 
         [Required]
         [BookingStartTimeValidation]
