@@ -1,8 +1,4 @@
 using NUnit.Framework;
-using sopro2020_abgabe.Models;
-using System;
-using System.Data;
-using Microsoft.AspNetCore.Mvc.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +14,6 @@ namespace UnitTests.Infrastructure
         {
             Plug plug = new Plug
             {
-                id = "abc",
                 power = 20,
                 type = PlugType.CCS
             };
@@ -33,7 +28,6 @@ namespace UnitTests.Infrastructure
         {
             Plug plug = new Plug
             {
-                id = "abc",
                 power = -20,
                 type = PlugType.CCS
             };

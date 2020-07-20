@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
 using Sopro.Models.Infrastructure;
-using sopro2020_abgabe.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Linq;
 
 namespace UnitTests.Infrastructure
@@ -13,28 +11,24 @@ namespace UnitTests.Infrastructure
     {
         static Plug p1 = new Plug
         {
-            id = "abc",
             power = 20,
             type = PlugType.CCS
         };
 
         static Plug p2 = new Plug
-        {
-            id = "abcd",
+        {   
             power = 40,
             type = PlugType.TYPE2
         };
 
         static Plug p3 = new Plug
         {
-            id = "abcawdd",
             power = 50,
             type = PlugType.TYPE2
         };
 
         static Station s = new Station
         {
-            id = "abc",
             plugs = new List<Plug>{ p1, p2 },
             maxPower = 200,
             manufacturer = "hi",
@@ -43,7 +37,6 @@ namespace UnitTests.Infrastructure
 
         static Station s2 = new Station
         {
-            id = "abcadwdad",
             plugs = new List<Plug> { p3 },
             maxPower = 200,
             manufacturer = "hi",
@@ -56,7 +49,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station> { s },
-                id = "abc",
                 site = 'A',
                 maxPower = 1000
             };
@@ -72,7 +64,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station>(){ },
-                id = "abc",
                 site = 'A',
                 maxPower = 1000
             };
@@ -91,7 +82,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station> { s },
-                id = "abc",
                 site = 'A',
                 maxPower = -1000
             };
@@ -110,7 +100,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station>{ s },
-                id = "abc",
                 site = 'A',
                 maxPower = 1000
             };
@@ -126,7 +115,6 @@ namespace UnitTests.Infrastructure
             Zone zone = new Zone
             {
                 stations = new List<Station> { s, s2 },
-                id = "abc",
                 site = 'A',
                 maxPower = 1000
             };

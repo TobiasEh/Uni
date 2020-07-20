@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using sopro2020_abgabe.Models;
+using Sopro.Models.Infrastructure;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,8 +14,7 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                id = "abc",
-                plugs = new List<Plug>{ new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug>{ new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
@@ -31,7 +30,6 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                id = "abc",
                 plugs = new List<Plug>{ },
                 maxPower = 200,
                 manufacturer = "hi",
@@ -51,8 +49,7 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                id = "abc",
-                plugs = new List<Plug> { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug> { new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = -200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
@@ -71,8 +68,7 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                id = "abc",
-                plugs = new List<Plug> { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug> { new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = -2
@@ -91,26 +87,24 @@ namespace UnitTests.Infrastructure
         {
             Station station = new Station
             {
-                id = "abc",
-                plugs = new List<Plug> { new Plug { id = "a", power = 10 }, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug> { new Plug { power = 10 }, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4
             };
 
             int plugs_before = station.plugs.Count;
-            station.addPlug(new Plug { id = "c", power = 50 });
+            station.addPlug(new Plug { power = 50 });
             Assert.IsTrue(station.plugs.Count > plugs_before);
         }
 
         [Test]
         public void testStationCreateDeletePlug()
         {
-            Plug p = new Plug { id = "a", power = 10 };
+            Plug p = new Plug { power = 10 };
             Station station = new Station
             {
-                id = "abc",
-                plugs = new List<Plug> { p, new Plug { id = "b", power = 20 } },
+                plugs = new List<Plug> { p, new Plug { power = 20 } },
                 maxPower = 200,
                 manufacturer = "hi",
                 maxParallelUseable = 4

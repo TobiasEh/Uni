@@ -1,22 +1,32 @@
 ﻿using Sopro.CustomValidationAttributes;
-using sopro2020_abgabe.Interfaces;
+using Sopro.Interfaces;
+using Sopro.Models.Administration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace sopro2020_abgabe.Models
+namespace Sopro.Models.Infrastructure
 {
     public class Location : ILocation
     {
-        public String id { get; set; }
+        public string id { get; set; }
         [ListMinLength(0)]
         public List<Zone> zones { get; set; }
         [Required]
         public string name { get; set; }
-        [Range(0, int.MaxValue)]
+        [Range(0, 1)]
         public double emergency { get; set; }
+        public Schedule schedule { get; set; }
+        public Distributor distributor { get; set; }
+        public DateTime normalizedDistributionTime { get; set; }
+
+        public Location()
+        {
+            schedule = new Schedule();
+            distributor = new Distributor(schedule, this);
+            id = Guid.NewGuid().ToString();
+           
+        }
 
         public bool addZone(Zone zone)
         {

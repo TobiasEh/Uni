@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewData["Title"] = "Buchungsübersicht";
+    Layout = "_AdminLayout";
+}
+@model Sopro.ViewModels.DashboardViewModel
+<h1 class="pb-5 pt-5 display-4">Buchungsübersicht</h1>
+<h2 class="pb-3"> Laufende Buchungen</h2>
+<div class="table-responsive rounded">
+    <table class="table table-striped table-borderless table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Benutzer</th>
+                <th>Standort</th>
+                <th>Zone</th>
+                <th>Start</th>
+                <th>Ende</th>
+                <th>Ladestand</th>
+                <th>Benötigte Kilometer</th>
+                <th>Check-In</th>
+                <th>Bearbeiten</th>
+            </tr>
+
+        </thead>
+        @foreach (Sopro.Models.Administration.Booking b in Model.scheduledBookings)
+        {
+            <tr align="center">
+                <td>@b.user</td>
+                <td>@b.location.name</td>
+                <td>
+                    @foreach (Sopro.Models.Infrastructure.Zone z in b.location.zones)
+                    {
+                        if (z.stations.Contains(b.station))
+                        {<p>@z.site</p>}
+                }
+                </td>
+                <td>@b.startTime</td>
+                <td>@b.endTime</td>
+                <td>@b.socStart %</td>
+                <td>@b.socEnd %</td>
+                <td><img src="~/bootstrap-icons/square.svg" width="20" /></td>
+                <td class="text-center">
+                    <div>
+                        <a asp-controller="" asp-action="">
+                            <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<h2 class="mb-4"> Ausstehende Buchungsanfragen</h2>
+<div class="table-responsive rounded">
+    <table class="table table-striped table-borderless table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Benutzer</th>
+                <th>Standort</th>
+                <th>Start</th>
+                <th>Ende</th>
+                <th>Ladestand</th>
+                <th>Benötigte Kilometer</th>
+                <th>Bearbeiten</th>
+            </tr>
+
+        </thead>
+        @foreach (Sopro.Models.Administration.Booking b in Model.unscheduledBookings)
+        {
+            <tr align="center">
+                <td>@b.user</td>
+                <td>@b.location.name</td>
+
+                <td>@b.startTime</td>
+                <td>@b.endTime</td>
+                <td>@b.socStart %</td>
+                <td>@b.socEnd %</td>
+                <td class="text-center">
+                    <div>
+                        <a asp-controller="" asp-action="">
+                            <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
+                        </a>
+                        <a asp-controller="" asp-action="">
+                            <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="d-flex">
+    <div>
+        <form asp-controller="Admin" asp-action="Import" class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" name="importedFile" />
+                </div>
+                <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-primary col-xs-12 btn-mhp">Import</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@if (Model.scheduledBookings.Any() || Model.unscheduledBookings.Any())
+{
+    <div class="ml-auto">
+        <form asp-controller="Admin" asp-action="Export" method="get" class="form-horizontal">
+            <input class="btn btn-primary" type="submit" name="exportBooking" value="Export" />
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
+    </div>
+}

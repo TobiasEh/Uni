@@ -2,14 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace sopro2020_abgabe.Models
+namespace Sopro.Models.Infrastructure
 {
     public class Zone
     {
-        public string id { get; set; }
         [ListMinLength(1)]
         public List<Station> stations { get; set; }
         public char site { get; set; }
@@ -40,6 +37,10 @@ namespace sopro2020_abgabe.Models
             {
                 return false;
             }
+        }
+        public bool compareTo(Zone zone)
+        {
+            return zone.site == this.site;
         }
     }
 }
