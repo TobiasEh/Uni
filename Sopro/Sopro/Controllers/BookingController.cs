@@ -156,7 +156,7 @@ namespace Sopro.Controllers
             DateTime test = DateTime.Now.Date;
             if(booking.startTime.Date == DateTime.Now.Date)
             {
-                AdHoc adhoc = new AdHoc(false) { 
+                Adhoc adhoc = new Adhoc(false) { 
                     capacity = booking.capacity, 
                     plugs = booking.plugs, socStart = 
                     booking.socStart, 
