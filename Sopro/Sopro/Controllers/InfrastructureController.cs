@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces;
+using Sopro.Interfaces.AdministrationController;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
+using Sopro.Models.Simulation;
 using Sopro.Persistence.PersLocation;
 using Sopro.ViewModels;
 using System;
@@ -435,6 +438,34 @@ namespace Sopro.Controllers
 
             return service.export(locationsExport);
 
+        }
+
+        public IActionResult zuteilen(string id)
+        {
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+            foreach (ILocation l in locations)
+            {
+                if (l.id.Equals(id.ToString()))
+                {
+                    l.distributor.strategy = (IDistributionStrategy) new StandardDistribution();
+                    List<IBooking> bookings;
+                    if(!cache.TryGetValue(CacheKeys.BOOKING ,out bookings))
+                    {
+                        bookings = new List<IBooking>();
+                    }
+                    List<Booking> book = new List<Booking>();
+                    foreach (Booking b in bookings)
+                    {
+                        book.Add(b);
+                    }
+                    l.distributor.run(book);
+                    break;
+                }
+            }
+            return RedirectToAction("Index");
         }
     }
 }

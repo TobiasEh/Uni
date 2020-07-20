@@ -21,6 +21,9 @@
                 <a asp-controller="Infrastructure" asp-action="DeleteLocation" asp-route-id="@l.id">
                     <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-4" />
                 </a>
+                <a asp-controller="Infrastructure" asp-action="zuteilen" asp-route-id="@l.id">
+                   <button type="submit">zuteilen</button>
+                </a>
                 <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#@colla " aria-expanded="false" aria-controls="t2" width="23" class="mr-2 ml-2 filter-blue float-right" />
             </div>
             <div id="@collaEdit" class="collapse rounded border p-3 ml-4 flex-column">
