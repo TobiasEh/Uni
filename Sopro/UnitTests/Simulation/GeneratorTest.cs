@@ -14,13 +14,13 @@ namespace UnitTests.Simulation
     [TestFixture]
     class GeneratorTest
     {
-        private ILocation location = new Location()
+        private static ILocation location = new Location()
         {
             name = "Ludwigsburg",
             emergency = 30.2,
         };
 
-        private Vehicle vehicle = new Vehicle()
+        private static Vehicle vehicle = new Vehicle()
         {
             capacity = 120,
             model = "model",
@@ -32,7 +32,7 @@ namespace UnitTests.Simulation
             }
         };
 
-        private Vehicle vehicle2 = new Vehicle()
+        private static Vehicle vehicle2 = new Vehicle()
         {
             capacity = 140,
             model = "model2",
