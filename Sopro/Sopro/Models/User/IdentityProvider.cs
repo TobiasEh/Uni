@@ -11,7 +11,7 @@ namespace Sopro.Models.User
 {
     public static class IdentityProvider
     {
-        public static string path { get; set; }
+        public static string path { get; set; } = "Models/User/UserList.csv";
 
 
         public static UserType getUserPriority(string email)
@@ -26,15 +26,12 @@ namespace Sopro.Models.User
         public static List<User> loadCSV(String path)
         {
             List<User> userList = new List<User>();
-            Console.WriteLine("loadCSV called! \n path : " + path );
             using (var reader = new StreamReader(path))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                Console.WriteLine("hello");
                 csv.Configuration.Delimiter = ";";
                 csv.Configuration.RegisterClassMap<UserMap>();
                 userList = csv.GetRecords<User>().ToList<User>();
-                Console.WriteLine("User List Count : " + userList.Count);
             }
             return userList;
         }

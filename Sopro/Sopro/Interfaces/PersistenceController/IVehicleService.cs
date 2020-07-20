@@ -1,13 +1,15 @@
-﻿using Sopro.Interfaces.ControllerSimulation;
-using Sopro.Interfaces.Persistence;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Sopro.ViewModels;
 using System.Collections.Generic;
 
 
 namespace Sopro.Interfaces.PersistenceController
 {
-    public interface IVehicleService : IVehicleRepository
+    public interface IVehicleService
     {
-        public List<IVehicle> import(string path);
-        public void export(List<IVehicle> list, string path);
+        public List<VehicleExportImportViewModel> import(IFormFile file);
+
+        public FileContentResult export(List<VehicleExportImportViewModel> list);
     }
 }

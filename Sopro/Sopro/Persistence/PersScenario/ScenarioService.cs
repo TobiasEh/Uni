@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Sopro.Persistence.PersScenario
 {
-    public class ScenarioService : ScenarioRepository, IScenarioService
+    public class ScenarioService :IScenarioService
     {
         private JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
         private JsonStringEnumConverter stringEnumConverter = new JsonStringEnumConverter();

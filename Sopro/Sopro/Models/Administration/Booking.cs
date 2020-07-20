@@ -12,13 +12,14 @@ namespace Sopro.Models.Administration
     public class Booking : IBooking
     {
         public string id { get; set; }
+
         [Required]
         [Range(1, int.MaxValue)]
         public int capacity { get; set; }
 
         [Required]
         [BookingPlugsValidation]
-        public List<PlugType> plugs { get; set; }
+        public List<PlugType> plugs { get; set; } = new List<PlugType>() { PlugType.CCS};
 
         [Required]
         [Range(0, 100)]
@@ -29,7 +30,7 @@ namespace Sopro.Models.Administration
         public int socEnd { get; set; }
 
         [Required]
-        public string user { get; set; }
+        public string user { get; set; } = "ERORR";
 
         [Required]
         [BookingStartTimeValidation]
@@ -38,14 +39,16 @@ namespace Sopro.Models.Administration
         [Required]
         [BookingEndTimeValidation]
         public DateTime endTime { get; set; }
+
         public Station station { get; set; }
 
         [Required]
         public bool active { get; set; } = false;
 
         [Required]
-        public ILocation location { get; set; }
-        public UserType priority { get; set; }
+        public ILocation location { get; set; } = new Location();
+        public UserType priority { get; set; } = UserType.EMPLOYEE;
+
 
         public Booking()
         {

@@ -9,15 +9,21 @@ using Sopro.Models.Simulation;
 using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Persistence.PersScenario;
 
 namespace Sopro.Controllers
 {
     public class SimulationController : Controller
     {
         private IMemoryCache cache;
-        private IScenarioService service;
+        private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
         
+        public SimulationController(IMemoryCache _cache)
+        {
+            cache = _cache;
+        }
+
         public IActionResult Create()
         {
             List<ILocation> locations;
@@ -52,7 +58,10 @@ namespace Sopro.Controllers
 
         public IActionResult Index()
         {
-            cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
+            if (cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            {
+                scenarios = new List<IScenario>();
+            }
 
             return View(scenarios);
         }
@@ -122,11 +131,18 @@ namespace Sopro.Controllers
         public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
-            IFormFile file = model.exportedFile;
-            string path = Path.GetFullPath(file.Name);
-            service.export(scenarios, path);
 
             return View("Index", scenarios);
+        }
+
+        public IActionResult History()
+        {
+            return View(); 
+        }
+
+        public IActionResult Evaluation()
+        {
+            return View();
         }
     }
 }

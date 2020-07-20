@@ -7,6 +7,7 @@ namespace Sopro.Interfaces.AdministrationController
 {
     public interface IBooking
     {
+        public string id { get; set; }
         public int capacity { get; set; }
         public List<PlugType> plugs { get; set; }
         public int socStart { get; set; }
@@ -18,5 +19,6 @@ namespace Sopro.Interfaces.AdministrationController
         public bool active { get; set; }
         public ILocation location { get; set; }
         public UserType priority { get; set; }
+
     }
 }

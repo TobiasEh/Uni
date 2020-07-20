@@ -14,7 +14,13 @@ namespace Sopro.Models.Administration
         private NotificationManager notificationManager;
         private ILocation location;
 
-        public Distributor(Schedule _schedule, ILocation _location)
+
+        public Distributor()
+        {
+            strategy = new StandardDistribution();
+        }
+
+            public Distributor(Schedule _schedule, ILocation _location)
         {
             schedule = _schedule;
             location = _location;

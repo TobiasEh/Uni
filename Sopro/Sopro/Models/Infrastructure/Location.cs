@@ -14,7 +14,7 @@ namespace Sopro.Models.Infrastructure
         public List<Zone> zones { get; set; }
         [Required]
         public string name { get; set; }
-        [Range(0, int.MaxValue)]
+        [Range(0, 1)]
         public double emergency { get; set; }
         public Schedule schedule { get; set; }
         public Distributor distributor { get; set; }
@@ -24,6 +24,7 @@ namespace Sopro.Models.Infrastructure
         {
             schedule = new Schedule();
             distributor = new Distributor(schedule, this);
+            id = Guid.NewGuid().ToString();
            
         }
 

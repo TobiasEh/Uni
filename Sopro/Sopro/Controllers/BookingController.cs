@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
 using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
+using System.IO;
+using Sopro.Models.Infrastructure;
+using Sopro.Interfaces.PersistenceController;
+using Sopro.Persistence.PersBooking;
 
 namespace Sopro.Controllers
 {
@@ -15,6 +19,7 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
+        private IBookingService service = new BookingService();
 
         public BookingController(IMemoryCache _cache)
         {
@@ -29,37 +34,75 @@ namespace Sopro.Controllers
         public IActionResult Index()
         {
             //Session for the role of the User
-            var userID = this.HttpContext.Session.GetString("ID");
-            if (userID.Equals(UserType.PLANER))
+            var userID = this.HttpContext.Session.GetString("role");
+            if (userID == null)
             {
-                List<Booking> unscheduledBookings = new List<Booking>();
-                List<Booking> scheduledBookings = new List<Booking>();
-                foreach (IBooking item in bookings)
+                return RedirectToAction("Index", "Home");
+            }
+            List<Booking> unscheduledBookings = new List<Booking>();
+            List<Booking> scheduledBookings = new List<Booking>();
+            var cacheKey = CacheKeys.BOOKING;
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+            if (userID.Equals(UserType.PLANER.ToString()))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (userID.Equals(UserType.ASSISTANCE.ToString()))
                 {
-                    if (item.station == null)
+                foreach (IBooking item in bookings)
+                    if (item.priority == UserType.VIP|| item.priority == UserType.GUEST)
                     {
-                        unscheduledBookings.Add((Booking)item);
+                        if (item.station == null)
+                        {
+                            unscheduledBookings.Add((Booking)item);
+                        }
+                        else if (item.station != null)
+                        {
+                            scheduledBookings.Add((Booking)item);
+                        }
                     }
-                    else if (item.station != null)
-                    {
-                        scheduledBookings.Add((Booking)item);
-                    }
-                }
-                return RedirectToAction("Dashboard", "Admin", new DashboardViewModel(scheduledBookings, unscheduledBookings));
+                return View(new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
             else
             {
-                return View("Index", bookings);
+                var email = this.HttpContext.Session.GetString("email");
+                foreach (IBooking item in bookings) 
+                    if (item.user == email)
+                    {
+                        if (item.station == null)
+                        {
+                            unscheduledBookings.Add((Booking)item);
+                        }
+                        else if (item.station != null)
+                        {
+                            scheduledBookings.Add((Booking)item);
+                        }
+                    }
+                return View(new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
         }
 
         /* Returns Booking.Create view.
          */
-        public IActionResult Create()
+        public IActionResult Create(Booking booking)
         {
             var cacheKey = CacheKeys.LOCATION;
             List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
-            return View("Create", new BookingCreateViewModel(locations, new Booking()));           
+            if (locations == null)
+            {
+                locations = new List<ILocation>();
+            }
+            if(booking.startTime==new DateTime() && booking.endTime==new DateTime())
+            {
+                DateTime now = DateTime.Now;
+                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute,0);
+                booking.startTime = now;
+                booking.endTime = now;
+            }
+            return View("Create", new BookingCreateViewModel(locations, booking, booking.plugs.Contains(PlugType.CCS), booking.plugs.Contains(PlugType.TYPE2)));           
         }
 
         /* Method to show all bookings in UI.
@@ -70,46 +113,140 @@ namespace Sopro.Controllers
          * Returns Booking.Index view, with bookinglist.
          */
         [HttpPost]
-        public IActionResult Post(IBooking booking)
+        public IActionResult Post(BookingCreateViewModel viewmodel)
         {
+            IBooking booking = viewmodel.booking;
+            List < PlugType > plugs = new List<PlugType>();
+
+            List<ILocation> locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
+            if (locations == null)
+            {
+                locations = new List<ILocation>();
+            }
+            if(booking.priority == UserType.EMPLOYEE)
+            {
+                booking.user = this.HttpContext.Session.GetString("email");
+            }
+            foreach (ILocation l in locations) 
+            {
+                if(l.id.Equals(viewmodel.locationId))
+                {
+                    booking.location = l;
+                }
+            }
+            if (viewmodel.ccs)
+            {
+                plugs.Add(PlugType.CCS);
+            } 
+            if (viewmodel.type2)
+            {
+                plugs.Add(PlugType.TYPE2);
+            }
+            booking.plugs = plugs;
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
             }
-            if (!ModelState.IsValid)
+            if (!TryValidateModel(booking, nameof(booking)))
             {
-                throw new Exception("Buchung ist nicht valide!");
+                return RedirectToAction("Create", "Booking", booking);
+                //throw new Exception("Buchung ist nicht valide!");
+            }
+            DateTime test = DateTime.Now.Date;
+            if(booking.startTime.Date == DateTime.Now.Date)
+            {
+                Adhoc adhoc = new Adhoc(false) { 
+                    capacity = booking.capacity, 
+                    plugs = booking.plugs, socStart = 
+                    booking.socStart, 
+                    socEnd = booking.socEnd, 
+                    user = booking.user, 
+                    startTime = booking.startTime, 
+                    endTime = booking.endTime,
+                    active = booking.active,
+                    location = booking.location,
+                    priority = booking.priority
+                };
+                bookings.Add(adhoc);
+                cache.Set(cacheKey, bookings);
+                adhoc.triggerBookingDistribution();
+                return RedirectToAction("Index", "Booking");
             }
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
-            return View("Index", bookings);
+            return RedirectToAction("Index", "Booking");
         }
 
         /* Method to edit already existing bookings.
          * Booking is removed from bookinglist and cache.
          * Returns Booking.Create view with already filled fields.
          */
-        public IActionResult Edit(IBooking booking)
+        public IActionResult Edit(string bookingID)
         {
             var cacheKey = CacheKeys.BOOKING;
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+            Booking booking = null;
+            foreach (Booking b in bookings)
+            {
+                if (b.id.Equals(bookingID))
+                {
+                    booking = b;
+                    break;
+                }
+            }
+            
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations =new List<ILocation>();
+            }
+            
+            
+            BookingCreateViewModel viewmodel = new BookingCreateViewModel(locations, booking, false, false);
+            if (booking.plugs.Contains(PlugType.CCS))
+            {
+                viewmodel.ccs = true;
+            }
 
-            return View("Create", booking);
+
+            if (booking.plugs.Contains(PlugType.TYPE2))
+            {
+                viewmodel.type2 = true;
+            }
+            return View("Create", viewmodel);
         }
 
         /* Method to delete existing booking.
          * Booking is removed from bookinglist and cache.
          * Returns Booking.Index view, without the given booking.
          */
-        public IActionResult Delete(IBooking booking)
+        public IActionResult Delete(string bookingID)
         {
             var cacheKey = CacheKeys.BOOKING;
-        
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+            Booking booking = null;
+            foreach (Booking b in bookings)
+            {
+                if (b.id.Equals(bookingID))
+                {
+                    booking = b;
+                    break;
+                }
+            }
+
             bookings.Remove(booking);
             cache.Set(cacheKey, bookings);
-            return View("Index", bookings);
+
+            return RedirectToAction("index");
         }
 
         /* Method takes care about Check-In/-Out.
@@ -128,5 +265,54 @@ namespace Sopro.Controllers
             return View("Index", bookings);
 
         }
+        /*
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Import([FromForm]FileViewModel model)
+        {
+            IFormFile file = model.importedFile;
+            List<Booking> importedBookings = service.Import(file);
+
+            if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            foreach (IBooking boo in importedBookings)
+            {
+                if (!bookings.Contains(boo))
+                {
+                    bookings.Add(boo);
+
+                    if (!locations.Contains(boo.location))
+                    {
+                        locations.Add(boo.location);
+                    }
+
+                }
+            }
+
+            cache.Set(CacheKeys.LOCATION, locations);
+            cache.Set(CacheKeys.BOOKING, bookings);
+            return View("Index", bookings);
+        }
+
+        public IActionResult Export([FromForm]FileViewModel model)
+        {
+            cache.TryGetValue(CacheKeys.BOOKING, out bookings);
+            IFormFile file = model.exportedFile;
+            string path = Path.GetFullPath(file.Name);
+            service.export(bookings);
+
+            return View("Index", bookings);
+        }
+        */
     }
+
 }
