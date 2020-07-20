@@ -16,12 +16,22 @@ namespace Sopro.Models.Simulation
         public List<Booking> bookings { get; set; }
         public readonly List<Booking> generatedBookings;
 
-        public ExecutedScenario(List<Booking> _generatedBookings)
+        public ExecutedScenario(Scenario scenario)
         {
             bookings = new List<Booking>();
-            generatedBookings = _generatedBookings;
             stationWorkload = new List<List<double>>();
             locationWorkload = new List<double>();
+
+            if (scenario != null)
+            {
+                duration = scenario.duration;
+                bookingCountPerDay = scenario.bookingCountPerDay;
+                vehicles = scenario.vehicles;
+                rushhours = scenario.rushhours;
+                start = scenario.start;
+                location = scenario.location;
+            }
+            generatedBookings = Generator.generateBookings(this);
         }
 
         public List<double> getLocationWorkload()
@@ -39,7 +49,7 @@ namespace Sopro.Models.Simulation
             return fulfilledRequests;
         }
 
-        /* Upadtes workloads of location and station.
+        /* Updates workloads of location and station.
          */
         public bool updateWorkload(double location, List<double> station)
         {
@@ -66,6 +76,7 @@ namespace Sopro.Models.Simulation
             stationWorkload = new List<List<double>>();
             fulfilledRequests = 0;
             bookings = new List<Booking>();
+            bookings.AddRange(generatedBookings);
         }
     }
 }

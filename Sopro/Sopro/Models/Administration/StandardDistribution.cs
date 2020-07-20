@@ -46,7 +46,7 @@ namespace Sopro.Models.Administration
         class UsedTimeSlots
         {
             public Station station { get; set; }
-            public List<List<DateTime>> used { get; set; }
+            public List<List<DateTime>> used { get; set; } = new List<List<DateTime>>();
 
             public UsedTimeSlots(Station _station)
             {
@@ -57,9 +57,10 @@ namespace Sopro.Models.Administration
 
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
-            
+
             //Sort Bookinglist into new one (priority needed)
-            List<Booking> b = bookings.OrderBy(o => o.priority).ToList();
+            int[] map = { 4, 0, 1, 2, 3 };
+            List<Booking> b = bookings.OrderBy(o => map[(int)(o.priority)]).ToList();
 
             //Save location, backup capacity
             Location l = (Location)b.First().location;
@@ -91,18 +92,19 @@ namespace Sopro.Models.Administration
                         temp.Add(bo.startTime);
                         temp.Add(bo.endTime);
                         u.used.Add(temp);
-                        if(bo.startTime.Day.Equals(bo.endTime.Day))
+                        if (bo.startTime.Day.Equals(bo.endTime.Day))
                         {
                             TimeSpan span = bo.endTime.Subtract(bo.startTime);
-                            if(wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
+                            if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
                             {
                                 wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).used += (int)span.TotalMinutes;
-                            } else
+                            }
+                            else
                             {
                                 Workload w = new Workload(bo.startTime, concurrentCount, (int)span.TotalMinutes);
                                 wl.Add(w);
                             }
-                        } 
+                        }
                         else
                         {
                             DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
@@ -151,14 +153,20 @@ namespace Sopro.Models.Administration
                         }*/
                         PlugType selected = selectPlug(bo.plugs);
                         int dur = calculateDuration(bo.socStart, bo.socEnd, bo.capacity, u.station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
+                        bo.startTime = RoundUp(bo.startTime, TimeSpan.FromMinutes(15));
                         //capNeeded / power * 60;
                         //Check capacity cap
-                        if(wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
+                        if (wl.Exists(x => x.day.Day.Equals(bo.startTime.Day)))
                         {
-                            if((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
+                            if ((wl.Find(x => x.day.Day.Equals(bo.startTime.Day)).getWorkload(dur) + backup) > 1)
                             {
                                 break;
                             }
+                        }
+                        //Check if booking duration is possible in the time periode
+                        if (bo.startTime.AddMinutes(dur) > bo.endTime)
+                        {
+                            break;
                         }
 
                         //no Booking -> Add booking
@@ -196,7 +204,7 @@ namespace Sopro.Models.Administration
                                     //Add booking
                                     bo.station = u.station;
                                     bo.startTime = bo.startTime.AddMinutes(offset);
-                                    bo.endTime = bo.startTime.AddMinutes(offset + dur);
+                                    bo.endTime = bo.startTime.AddMinutes(dur);
                                     bo.plugs.Clear();
                                     bo.plugs.Add(selected);
                                     List<DateTime> temp = new List<DateTime>();
@@ -221,7 +229,7 @@ namespace Sopro.Models.Administration
                         }
                     }
                     //if booking was inserted dont look for another fiting station
-                    if(inserted)
+                    if (inserted)
                     {
                         break;
                     }
@@ -283,9 +291,12 @@ namespace Sopro.Models.Administration
         //Calculates needed charging duration and rounds up to the next 15 min. intervall
         private int calculateDuration(int socStart, int socEnd, int capacity, int power, int puffer)
         {
-            double perc = (socEnd - socStart) / 100;
-            double neededCapacity = Convert.ToInt32(Math.Round(capacity * perc));
-            int duration = Convert.ToInt32(Math.Round(neededCapacity / power * 60)) + puffer;
+            double soc = socEnd - socStart;
+            double perc = soc / 100;
+
+            int neededCapacity = Convert.ToInt32(Math.Round(capacity * perc));
+            double dur = ((double)neededCapacity / (double)power) * 60 + puffer;
+            int duration = Convert.ToInt32(dur);
 
             int remainder = duration % 15;
             if (remainder == 0)
@@ -300,6 +311,12 @@ namespace Sopro.Models.Administration
         private PlugType selectPlug(List<PlugType> plugs)
         {
             return plugs.First();
+        }
+
+        //Roundup the Date
+        private DateTime RoundUp(DateTime dt, TimeSpan d)
+        {
+            return new DateTime((dt.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, dt.Kind);
         }
     }
 }

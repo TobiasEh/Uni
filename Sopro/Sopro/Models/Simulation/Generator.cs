@@ -1,123 +1,95 @@
 using Sopro.Models.Administration;
-using Sopro.Models.Infrastructure;
 using Sopro.Models.User;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Sopro.Interfaces.AdministrationSimulation;
 using System.Data;
-using Org.BouncyCastle.Utilities;
+using Sopro.Models.Infrastructure;
 
 namespace Sopro.Models.Simulation
 {
-    public class Generator : IGenerator
+    public static class Generator
     {
-        [Range(0,1)]
-        public double probabilityVIP { get; set; }
-        [Range(0, 1)]
-        public double probabilityGUEST { get; set; }
+        public static double probabilityVIP { get; set; } = 0.05;
+        public static double probabilityGUEST { get; set; } = 0.05;
+        public static double probabilityADHOC { get; set; } = 0.10;
 
-        public Generator()
+        private static Random gen = new Random();
+        private static int startHour = 6;
+        private static int endHour = 20;
+        private static int[] lowestPlugPowers;
+
+        public static List<Booking> generateBookings(Scenario scenario)
         {
-            probabilityGUEST = 0.05;
-            probabilityVIP = 0.05;
-        }
-        public List<Booking> generateBookings(Scenario scenario) 
-        {
-            
-            //TimeSpan Simulator.tickLength = new TimeSpan(0,0,1,0);
+            // Calculate the lowest power avaibable given a certain plugtype.
+            lowestPlugPowers = lowestPowerPerPlugType(scenario);
 
-            Console.WriteLine("duration in days : {0}", (scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60));
+            if ((scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60) < 1) return distributeLessThanDay(scenario);
 
-            if ((scenario.duration * Simulator.tickLength.TotalSeconds) / (24 * 60 * 60) < 1) return nggguu(scenario);
-
-            double totSeconds = scenario.duration * Simulator.tickLength.TotalSeconds;
-            double totDays = totSeconds / (24*60*60);    
-            int duration = (int)totDays;
-            double leftover = totDays % 1;
+            double totalSeconds = scenario.duration * Simulator.tickLength.TotalSeconds;
+            double totalDays = totalSeconds / (24 * 60 * 60);
+            int duration = (int) totalDays;
+            double leftover = totalDays % 1;
             List<Booking> bookingList = new List<Booking>();
-            for(int i = 0; i < duration; i++) //days
+
+            for (int i = 0; i < duration; i++)
             {
-               bool exists = false;
+                bool exists = false;
                 if (scenario.rushhours.Count != 0)
                 {
-                    int bpdC = scenario.bookingCountPerDay;
-                    DateTime minRHstart = new DateTime();
-                    foreach (Rushhour rh in scenario.rushhours.Where(x => x.start.Day == scenario.start.AddDays(i).Day))
+                    int dailyBookingCount = scenario.bookingCountPerDay;
+                    DateTime minRushhourStart = new DateTime();
+
+                    foreach (Rushhour rushhour in scenario.rushhours.Where(x => x.start.Day == scenario.start.AddDays(i).Day))
                     {
                         exists = true;
-                        minRHstart = minRHstart == new DateTime() ? rh.start : minRHstart > rh.start ? rh.start : minRHstart;
-                        var startTimes = rh.run();
-                        if (rh.bookings > bpdC)
+                        minRushhourStart = minRushhourStart == new DateTime() ? rushhour.start : minRushhourStart > rushhour.start ? rushhour.start : minRushhourStart;
+                        var startTimes = rushhour.run();
+                        if (rushhour.bookings > dailyBookingCount)
                         {
-                            startTimes.RemoveRange(bpdC - 1 < 0 ? 0 : bpdC - 1, rh.run().Count -bpdC);
-                            
+                            startTimes.RemoveRange(dailyBookingCount - 1 < 0 ? 0 : dailyBookingCount - 1, rushhour.run().Count - dailyBookingCount);
                         }
                         if (startTimes.Count != 0)
-                        foreach (DateTime start in startTimes)
-                        {
-                            int r = new Random().Next(scenario.vehicles.Count);
-                            bookingList.Add(
-                                new Booking
-                                {
-                                    capacity = scenario.vehicles[r].capacity,
-                                    plugs = scenario.vehicles[r].plugs,
-                                    socEnd = scenario.vehicles[r].socEnd,
-                                    socStart = scenario.vehicles[r].socStart,
-                                    user = "megarandombookinggeneratorduud",
-                                    startTime = start,
-                                    endTime = start.AddHours(new Random().Next(1, 8)),
-                                    station = null,
-                                    active = false,
-                                    priority = setPrio(),
-                                    location = scenario.location
-                                }
-                                ); ;
-                            bpdC--;
-                        };
+                            foreach (DateTime start in startTimes)
+                            {
+                                bookingList.Add(generateBooking(start, scenario));
+                                dailyBookingCount--;
+                            };
                     }
-                    if (bpdC != 0 && exists == true)
+                    if (dailyBookingCount != 0 && exists == true)
                     {
-                        List<Booking> linBList = new List<Booking>(); ;
-                        LinearDist(linBList, scenario, i);
-                        linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), scenario.bookingCountPerDay-bpdC);
-                        bookingList.AddRange(linBList);
+                        List<Booking> linDistBookings = new List<Booking>(); ;
+                        linearBookingDistribution(linDistBookings, scenario, i);
+                        linDistBookings.RemoveRange(linDistBookings.FindIndex(x => x.startTime >= minRushhourStart), scenario.bookingCountPerDay - dailyBookingCount);
+                        bookingList.AddRange(linDistBookings);
                     }
-                    if (exists == false) LinearDist(bookingList, scenario, i);
-                        
-
+                    if (exists == false) linearBookingDistribution(bookingList, scenario, i);
                 }
                 else
                 {
-                    LinearDist(bookingList,scenario,i);
+                    linearBookingDistribution(bookingList, scenario, i);
                 }
             }
             if (leftover != 0 && leftover * 24 * 60 >= (24 * 60) / scenario.bookingCountPerDay)
             {
-                bookingList.AddRange(nggguu(scenario));
-            }    
+                bookingList.AddRange(distributeLessThanDay(scenario));
+            }
 
             return bookingList;
         }
 
-        private List<Booking> nggguu(Scenario scenario)
+        private static List<Booking> distributeLessThanDay(Scenario scenario)
         {
             List<Booking> bookingList = new List<Booking>();
-            
-            TimeSpan Simulator.tickLength = new TimeSpan(0, 0, 1);
-            bool exists = false;
             double leftover = (scenario.duration * Simulator.tickLength.TotalSeconds / 24 * 60 * 60) % 1;
-            int bpdC = (int)(scenario.bookingCountPerDay * leftover);
-            //if (bpdC == 0) return bookingList;
+            int dailyBookingCount = (int)(scenario.bookingCountPerDay * leftover);
+
             if (scenario.rushhours.FindAll(x => x.start >= scenario.start && x.start <= scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds)).Count != 0)
             {
-                Console.WriteLine("true");
-                DateTime minRHstart = new DateTime();
+                DateTime minRushhourStart = new DateTime();
                 foreach (Rushhour rh in scenario.rushhours.Where(x => x.start >= scenario.start.AddDays((int)(scenario.duration * Simulator.tickLength.TotalSeconds / 24 * 60 * 60)) && x.start <= scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds)))
                 {
-                    exists = true;
-                    minRHstart = minRHstart == new DateTime() ? rh.start : minRHstart > rh.start ? rh.start : minRHstart;
+                    minRushhourStart = minRushhourStart == new DateTime() ? rh.start : minRushhourStart > rh.start ? rh.start : minRushhourStart;
                     List<DateTime> startTimes = rh.run();
                     if (rh.end > scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds))
                     {
@@ -126,93 +98,141 @@ namespace Sopro.Models.Simulation
                     if (startTimes.Count != 0)
                         foreach (DateTime start in startTimes)
                         {
-                            int r = new Random().Next(scenario.vehicles.Count);
-                            bookingList.Add(
-                                new Booking
-                                {
-                                    capacity = scenario.vehicles[r].capacity,
-                                    plugs = scenario.vehicles[r].plugs,
-                                    socEnd = scenario.vehicles[r].socEnd,
-                                    socStart = scenario.vehicles[r].socStart,
-                                    user = "megarandombookinggeneratorduud",
-                                    startTime = start,
-                                    endTime = start.AddHours(new Random().Next(1, 8)),
-                                    station = null,
-                                    active = false,
-                                    priority = setPrio(),
-                                    location = scenario.location
-                                }
-                                ); ;
-                            bpdC--;
-                            if (bpdC <= 0) break;
+                            bookingList.Add(generateBooking(start, scenario));
+                            dailyBookingCount--;
+                            if (dailyBookingCount <= 0) break;
                         };
-                    if (bpdC <= 0) break;
+                    if (dailyBookingCount <= 0) break;
                 }
-                if (bpdC < 0)
+                if (dailyBookingCount < 0)
                 {
-                    List<Booking> linBList = new List<Booking>(); ;
-                    LinearDist(linBList, scenario, 0);
-                    linBList.RemoveRange(linBList.FindIndex(x => x.startTime >= minRHstart), scenario.bookingCountPerDay - Math.Abs(bpdC));
-                    bookingList.AddRange(linBList);
+                    List<Booking> linDistBookings = new List<Booking>(); ;
+                    linearBookingDistribution(linDistBookings, scenario, 0);
+                    linDistBookings.RemoveRange(linDistBookings.FindIndex(x => x.startTime >= minRushhourStart), scenario.bookingCountPerDay - Math.Abs(dailyBookingCount));
+                    bookingList.AddRange(linDistBookings);
                 }
             }
             else
             {
-                LinearDist(bookingList, scenario, 0);
+                linearBookingDistribution(bookingList, scenario, 0);
                 bookingList.RemoveAll(x => x.startTime > scenario.start.AddSeconds(scenario.duration * Simulator.tickLength.TotalSeconds) && x.startTime < scenario.start.AddDays((int)(scenario.duration * Simulator.tickLength.TotalSeconds / 24 * 60 * 60)));
-                bookingList.RemoveRange(bookingList.Count-1,bookingList.Count-bpdC);
+                bookingList.RemoveRange(bookingList.Count - 1, bookingList.Count - dailyBookingCount);
             }
-            
-
             return bookingList;
         }
 
-        private UserType setPrio()
+        /// <summary>
+        /// Roll user priority.
+        /// </summary>
+        /// <returns>Random user role.</returns>
+        private static UserType rollPriority()
         {
-            double prob = new Random().NextDouble();
-            if (prob > probabilityVIP + probabilityGUEST)
+            double probability = gen.NextDouble();
+
+            if (probability > probabilityVIP + probabilityGUEST) return UserType.EMPLOYEE;
+            if (probability > probabilityGUEST) return UserType.VIP;
+            return UserType.GUEST;
+        }
+
+        /// <summary>
+        /// Calculates whatever plug of a certain Plugtype in a specific scenario delivers the lowest power.
+        /// </summary>
+        /// <param name="scenario">Simulated scenario.</param>
+        private static int[] lowestPowerPerPlugType(Scenario scenario)
+        {
+            int[] lowestPlugPowers = new int[Enum.GetNames(typeof(PlugType)).Length];
+            Array.Fill(lowestPlugPowers, 999);
+            foreach (Zone z in scenario.location.zones)
             {
-                return UserType.EMPLOYEE;
+                foreach (Station s in z.stations)
+                {
+                    foreach (Plug p in s.plugs)
+                    {
+                        lowestPlugPowers[(int)p.type] = p.power < lowestPlugPowers[(int)p.type] ? p.power : lowestPlugPowers[(int)p.type];
+                    }
+                }
             }
+            return lowestPlugPowers;
+        }
+
+        /// <summary>
+        /// Generates a booking using given values.
+        /// </summary>
+        /// <param name="startTime">Point of time where charging could begin.</param>
+        /// <param name="scenario">Simulated scenario.</param>
+        /// <returns>A generated booking.</returns>
+        private static Booking generateBooking(DateTime startTime, Scenario scenario)
+        {
+            int random = gen.Next(scenario.vehicles.Count);
+
+            // Randomize booking fields
+            List<PlugType> plugs = scenario.vehicles[random].plugs;
+            int capacity = scenario.vehicles[random].capacity;
+            int socEnd = scenario.vehicles[random].socEnd;
+            int socStart = scenario.vehicles[random].socStart;
+
+            // Calculate lowest power delivery in order to estimate highest possible charging duration afterwards.
+            int power = 0;
+            foreach (PlugType p in plugs)
+            {
+                if (power == 0) power = lowestPlugPowers[(int) p];
+                if (lowestPlugPowers[(int) p] < power) power = lowestPlugPowers[(int) p];
+            }
+
+            double maxChargingDuration = ((socEnd - socStart) / 100.0 * capacity) / power;
+
+            // Calculate booking end time.
+            
+            DateTime endTime;
+            if (maxChargingDuration <= Math.Min(8, 24 - startTime.Hour))
+            {
+                endTime = startTime.AddHours(gen.Next((int)Math.Ceiling(maxChargingDuration), Math.Min(8, 24 - startTime.Hour)));
+            } 
             else
             {
-                if (prob > probabilityGUEST)
-                {
-                    return UserType.VIP;
-                }
-                else
-                {
-                    return UserType.GUEST;
-                }
+                endTime = startTime.AddHours(gen.Next(2, Math.Min(8, 24 - startTime.Hour)));
             }
+
+            return new Booking
+            {
+                capacity = capacity,
+                plugs = plugs,
+                socEnd = socEnd,
+                socStart = socStart,
+                user = "",
+                startTime = startTime,
+                endTime = endTime,
+                station = null,
+                active = false,
+                priority = rollPriority(),
+                location = scenario.location
+            };                     
         }
 
-        public void LinearDist(List<Booking> bookingList, Scenario scenario, int i)
+        /// <summary>
+        /// Fills a given list with evenly distributed and generated bookings. 
+        /// </summary>
+        /// <param name="bookingList">A list of bookings to be filled.</param>
+        /// <param name="scenario">The scenario being simulated.</param>
+        /// <param name="passedDays">How many days have passed in the simulation.</param>
+        public static void linearBookingDistribution(List<Booking> bookingList, Scenario scenario, int passedDays)
         {
-            
-
+            // Create an equal amount of linearly distributed bookings for each simulated day
             for (int j = 0; j < scenario.bookingCountPerDay; j++)
             {
-                int r = new Random().Next(scenario.vehicles.Count);
-                bookingList.Add(new Booking
-                {
-                    capacity = scenario.vehicles[r].capacity,
-                    plugs = scenario.vehicles[r].plugs,
-                    socEnd = scenario.vehicles[r].socEnd,
-                    socStart = scenario.vehicles[r].socStart,
-                    user = "supermegarandomuserduud",
-                    startTime = scenario.start.AddDays(i).AddMinutes(((24 * 60) / scenario.bookingCountPerDay)*j),
-                    endTime = scenario.start.AddDays(i).AddHours(j).AddHours(new Random().Next(1, 8)),
-                    station = null,
-                    active = false,
-                    priority = setPrio(),
-                    location = scenario.location
-                }
-                );
-         
+                DateTime currentDay = scenario.start.AddDays(passedDays);
+                TimeSpan normalize = new TimeSpan(-currentDay.Hour, -currentDay.Minute, -currentDay.Second);
+                currentDay += normalize;
+                // Booking request is set this many minutes after startHour
+                double minutesUntilRequest = (((endHour - startHour) * 60) / scenario.bookingCountPerDay) * j;
+
+                DateTime start = currentDay.AddHours(startHour).AddMinutes(minutesUntilRequest);
+                // Length of booking timespan equals min(8, hours until midnight)
+                // DateTime end = start.AddHours(gen.Next(2, Math.Min(8, 24 - start.Hour)));
+
+                Booking b = generateBooking(start, scenario);
+                bookingList.Add(b);
             }
         }
-        
-
     }
 }

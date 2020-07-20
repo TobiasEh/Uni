@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces;
-using Sopro.Controllers;
 using System;
 
 namespace Sopro.Models.Administration
@@ -15,7 +13,6 @@ namespace Sopro.Models.Administration
         private int buffer {get; set; } = 15;
         private NotificationManager notificationManager;
         private ILocation location;
-        private IMemoryCache cache;
 
         public Distributor(Schedule _schedule, ILocation _location)
         {
@@ -28,33 +25,23 @@ namespace Sopro.Models.Administration
         /* Method calls other method to distribute booking.
          * If a booking is not distributed, the user will be notified.
          */
-        public bool run(IMemoryCache cache)
+        public bool run(List<Booking> bookings)
         {
-            List<Booking> bookings;
-            if(cache.TryGetValue(CacheKeys.BOOKING, out bookings))
+            Console.WriteLine("Before filter (list): " + bookings.Count().ToString());
+            bookings = filter.filter(bookings);
+            Console.WriteLine("After filter (list): " + bookings.Count().ToString());
+            if (bookings == null || bookings.Count() == 0)
+                return false;
+            if (!strategy.distribute(bookings, schedule, buffer))
+                return false;
+            /*
+            foreach (Booking item in bookings)
             {
-                Console.WriteLine("Before filter: " + bookings.Count().ToString());
-                bookings = filter.filter(bookings);
-                Console.WriteLine("After filter: " + bookings.Count().ToString());
-                if (bookings == null || bookings.Count() == 0)
-                    return false;
-                if (!strategy.distribute(bookings, schedule, buffer))
-                    return false;
-                /*
-                foreach (Booking item in bookings)
-                {
-                    if (item.station == null)
-                        notificationManager.notify(item, NotificationEvent.DECLINED);
-                }
-                */
-                return true;
+                if (item.station == null)
+                    notificationManager.notify(item, NotificationEvent.DECLINED);
             }
-            return false;
-        }
-
-        public bool run(List<Booking> toBeDistributed)
-        {
-            return false;
+            */
+            return true;
         }
     }
 }

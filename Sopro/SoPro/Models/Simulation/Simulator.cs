@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Sopro.Interfaces;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
-using Sopro.Interfaces.AdministrationSimulation;
 
 namespace Sopro.Models.Simulation
 {
-    public class Simulation : ITrigger
+    public class Simulator : ITrigger
     {
-        private TimeSpan tickLength { get; set; } = new TimeSpan(1, 0, 0, 0, 0);
-        private int tickCount { get; set; } = -1;
-        private List<Booking> pendingBookings { get; set; }
-        private IGenerator generator;
-        private ExecutedScenario exScenario;
+        public static TimeSpan tickLength = new TimeSpan(24, 0, 0);
+        public int tickCount { get; set; } = -1;
+        public List<Booking> pendingBookings { get; set; }
+        public ExecutedScenario exScenario { get; set; }
 
         public bool triggerBookingDistribution()
         {
@@ -23,7 +22,6 @@ namespace Sopro.Models.Simulation
             List<Booking> toBeDistributed = new List<Booking>();
 
             List<int> indices = new List<int>();
-
             int count = pendingBookings.Count();
 
             //calculates indices for bookings in penigbookings list, which will be added to toBeDistributed
@@ -36,7 +34,7 @@ namespace Sopro.Models.Simulation
                 }
             }
 
-            foreach(Booking item in pendingBookings)
+            foreach(Booking item in pendingBookings.ToList())
             {
                 //bookings in range [start, start+next 30 Days] 
                 if (item.startTime >= start && item.endTime <= end)
@@ -56,7 +54,9 @@ namespace Sopro.Models.Simulation
                     }
                 }
             }
-
+            Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
+            Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
+            exScenario.location.distributor.strategy = new StandardDistribution();
             if (!exScenario.location.distributor.run(toBeDistributed))
                 return false;
 
@@ -66,37 +66,39 @@ namespace Sopro.Models.Simulation
         /* Gerenates bookings, calls triggerBookingDistribution.
          * While bookings exists in pendingBookings list, the method will call triggerBookingDistrtibution and calculates workloads
          */
-        public bool run()
+        public async Task<bool> run()
         {
-            List<Booking> tempBookings;
-            tempBookings = generator.generateBookings(exScenario);
-            tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
-
-            pendingBookings = tempBookings;
-            exScenario.bookings = tempBookings;
-            int count = tempBookings.Count();
-
-            if (!triggerBookingDistribution())
-                return false;
-
-            ++tickCount;
-            while(tickCount <= exScenario.duration)
+            return await Task.Run(() =>
             {
-                if(pendingBookings.Count() != 0)
+                //List<Booking> tempBookings;
+                //tempBookings = generator.generateBookings(exScenario);
+                //tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
+                exScenario.bookings = new List<Booking>();
+                exScenario.bookings.AddRange(exScenario.generatedBookings);
+                pendingBookings = exScenario.bookings;
+
+                if (!triggerBookingDistribution())
+                    return false;
+
+                ++tickCount;
+                while (tickCount <= exScenario.duration)
                 {
-                    if (!triggerBookingDistribution())
-                        return false;
-                    double location = calculateLocationWorkload();
-                    List<double> station = calculateStationWorkload();
-                    if (!exScenario.updateWorkload(location, station))
-                        return false;
+                    if (pendingBookings.Count() != 0)
+                    {
+                        if (!triggerBookingDistribution())
+                            return false;
+                        double location = calculateLocationWorkload();
+                        List<double> station = calculateStationWorkload();
+                        if (!exScenario.updateWorkload(location, station))
+                            return false;
+                    }
                     ++tickCount;
                 }
-            }
 
-            exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
-            
-            return true;
+                exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
+
+                return true;
+            });    
         }
         
         /* Calculates workload for whole loaction, per tick
@@ -128,15 +130,17 @@ namespace Sopro.Models.Simulation
             DateTime end = time + tickLength;
             List<double> workload = new List<double>();
             int k = 0;
-
-            for(int i = 0; i <= exScenario.location.zones.Count(); ++i)
+            Station station;
+            Console.WriteLine("Zones: " + exScenario.location.zones.Count.ToString());
+            Console.WriteLine("Stations: " + exScenario.location.zones[0].stations.Count.ToString());
+            for(int i = 0; i < exScenario.location.zones.Count(); ++i)
             {
-                for(int j = 0; j <= exScenario.location.zones.Count(); ++j)
+                for(int j = 0; j < exScenario.location.zones[i].stations.Count(); ++j)
                 {
-                    Station station = exScenario.location.zones[i].stations[j];
+                    station = exScenario.location.zones[i].stations[j];
                     int plugs = station.maxParallelUseable;
                     int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
-                    workload[k++] = usedPlugs * 100 / plugs;
+                    workload.Add(usedPlugs * 100 / plugs);
                 }
             }
             return workload;
