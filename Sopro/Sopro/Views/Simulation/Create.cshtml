@@ -63,7 +63,6 @@
         </div>
         <div id="newLocation">
             <!-- PartialView to add new Location -->
-            @await Html.PartialAsync("_newLocation", @Model)
                 
         </div>
     </div>
@@ -168,7 +167,7 @@
         $("#btnAddRushhour").on('click', function () {
             $.ajax({
                 async: true,
-                data: $('#create').serialize(),
+                data: new FormData(create),
                 type: "POST",
                 url: '/Simulations/AddRushhour',
                 success: function (partialView) {
