@@ -180,24 +180,6 @@ namespace UnitTests.History
             await sim.run();
             l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString() + "\t" + e.station.manufacturer));
 
-            Console.WriteLine(executedScenario);
-            Console.WriteLine("generatedBookings: " + executedScenario.generatedBookings.Count());
-            Console.WriteLine("booking.count: " + executedScenario.bookings.Count());
-            Console.WriteLine("locationworkload.count: " + executedScenario.getLocationWorkload().Count());
-            Console.WriteLine("getfullfiledrequest: " + executedScenario.getFulfilledRequests());
-            foreach (List<double> e in executedScenario.getStationWorkload())
-            {
-                foreach(double f in e)
-                {
-                    Console.WriteLine("stationworkload: " + f);
-                }
-            }
-            
-            foreach(double e in executedScenario.getLocationWorkload())
-            {
-                Console.WriteLine(e);
-            }
-
             Evaluation _evaluation = Analyzer.analyze(executedScenario);
             Console.WriteLine(_evaluation.suggestions[0].ToString());
             evaluationNotNullTest(_evaluation);
@@ -216,24 +198,7 @@ namespace UnitTests.History
             await sim.run();
             //l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString() + "\t" + e.station.manufacturer));
 
-            Console.WriteLine(executedScenariob);
-            Console.WriteLine("generatedBookings: " + executedScenariob.generatedBookings.Count());
-            Console.WriteLine("booking.count: " + executedScenariob.bookings.Count());
-            Console.WriteLine("locationworkload.count: " + executedScenariob.getLocationWorkload().Count());
-            Console.WriteLine("getfullfiledrequest: " + executedScenariob.getFulfilledRequests());
-            foreach (List<double> e in executedScenariob.getStationWorkload())
-            {
-                foreach (double f in e)
-                {
-                    Console.WriteLine("stationworkload: " + f);
-                }
-            }
-
-            foreach (double e in executedScenariob.getLocationWorkload())
-            {
-                Console.WriteLine(e);
-            }
-
+            
             Evaluation _evaluation = Analyzer.analyze(executedScenariob);
             Console.WriteLine(_evaluation.suggestions[0].ToString());
             evaluationNotNullTest(_evaluation);
@@ -252,25 +217,9 @@ namespace UnitTests.History
             await sim.run();
             //l.schedule.bookings.ForEach(e => Console.WriteLine(e.startTime + "\t" + e.endTime + "\t" + e.plugs[0].ToString() + "\t" + e.priority.ToString() + "\t" + e.station.manufacturer));
 
-            Console.WriteLine(executedScenario3);
-            Console.WriteLine("generatedBookings: " + executedScenario3.generatedBookings.Count());
-            Console.WriteLine("booking.count: " + executedScenario3.bookings.Count());
-            Console.WriteLine("locationworkload.count: " + executedScenario3.getLocationWorkload().Count());
-            Console.WriteLine("getfullfiledrequest: " + executedScenario3.getFulfilledRequests());
-            foreach (List<double> e in executedScenario3.getStationWorkload())
-            {
-                foreach (double f in e)
-                {
-                    Console.WriteLine("stationworkload: " + f);
-                }
-            }
+            
 
-            foreach (double e in executedScenario3.getLocationWorkload())
-            {
-                Console.WriteLine(e);
-            }
-
-            Evaluation _evaluation = Analyzer.analyze(executedScenariob);
+            Evaluation _evaluation = Analyzer.analyze(executedScenario3);
             Console.WriteLine(_evaluation.suggestions[0].ToString());
             evaluationNotNullTest(_evaluation);
             suggestionTest(_evaluation, scenariob);
