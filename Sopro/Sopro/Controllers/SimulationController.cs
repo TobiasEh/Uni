@@ -44,15 +44,24 @@ namespace Sopro.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult Create(ScenarioCreateViewModel model)
+        public IActionResult Create([Bind("scenario")]ScenarioCreateViewModel model)
         {
-            var scenario = new Scenario();
-            scenario.duration = model.scenario.duration;
-            scenario.bookingCountPerDay = model.scenario.bookingCountPerDay;
-            scenario.start = model.scenario.start;
-            scenario.location = model.scenario.location;
-            scenario.rushhours = model.rushhours;
-            scenario.vehicles = model.vehicles;
+            ModelState.Clear();
+
+            var scenario = model.scenario;
+            // add vehicles with count
+            for (int i = 0; i < model.vcount.Count;i++)
+            {
+                for (int k = 0; k < model.vcount[i]; k++)
+                {
+                    scenario.vehicles.Add(model.vehicles[i]);
+                }
+            }
+            if (!TryValidateModel(scenario))
+            {
+                return View(model);
+            }
+
             if(!cache.TryGetValue(CacheKeys.SCENARIO,out scenarios))
             {
                 scenarios = new List<IScenario>();
@@ -64,11 +73,10 @@ namespace Sopro.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddRushhour(ScenarioCreateViewModel model)
+        public async Task<ActionResult> AddRushhour([Bind("rushhours")]ScenarioCreateViewModel model)
         {
-            Console.WriteLine("Test");
             model.rushhours.Add(new Rushhour());
-            return PartialView("_addRushhour", model);
+            return PartialView("_AddRushhour", model);
         }
        
        

@@ -54,14 +54,14 @@
             <option value="" disabled selected>Bsp Location</option>
             @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
             {
-                <option value="@l.id">@l.name</option>
+                <option value="@l">@l.name</option>
 
             }
             <option value="new">Neuen Standort anlegen</option>
         </select>
     </div>
-    <div>
-        <!-- new Location -->
+    <div id="newLocation">
+        <!-- PartialView to add new Location -->
     </div>
 </div>
 
@@ -134,7 +134,7 @@
                                 @vehicle.socEnd
                             </td>
                             <td>
-                                <input form="create" type="number" class="form-control" />
+                                <input form="create" type="number" class="form-control" asp-for="@Model.vcount[Model.vehicles.IndexOf(vehicle)]"/>
                             </td>
                         </tr>
                     }
@@ -163,6 +163,10 @@
                 type: "POST",
                 url: '/Simulations/AddRushhour',
                 success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#orderItemsContainer').html(partialView);
+                },
+                error: function (partialView) {
                     console.log("partialView: " + partialView);
                     $('#orderItemsContainer').html(partialView);
                 }

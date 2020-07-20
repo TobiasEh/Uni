@@ -1,0 +1,24 @@
+﻿@model Sopro.Models.Infrastructure.Location
+
+<div class="row">
+    <div>
+        <div class="form-group">
+            <label asp-for="name" class="control-label"></label>
+            <input form="create" asp-for="name" class="form-control" />
+            <span asp-validation-for="name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="emergency" class="control-label"></label>
+            <input form="create" asp-for="emergency" class="form-control" />
+            <span asp-validation-for="emergency" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="normalizedDistributionTime" class="control-label"></label>
+            <input form="create" asp-for="normalizedDistributionTime" class="form-control" />
+            <span asp-validation-for="normalizedDistributionTime" class="text-danger"></span>
+        </div>
+        @await Html.PartialAsync("_newZone", Model)
+    </div>
+</div>
+
+

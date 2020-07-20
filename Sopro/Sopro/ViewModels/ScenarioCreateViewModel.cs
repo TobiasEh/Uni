@@ -15,12 +15,14 @@ namespace Sopro.ViewModels
         public List<ILocation> locations { get; set; }
         public List<Vehicle> vehicles { get; set; }
         public List<Rushhour> rushhours { get; set; }
+        public ILocation location { get; set; }
         public int tickLength { get; set; }
-
+        public List<int> vcount{get;set;}
         public ScenarioCreateViewModel(List<ILocation> _locations, List<Vehicle> _vehicles)
         {
             locations = _locations;
             vehicles = _vehicles;
+            vcount = new List<int>(vehicles.Count);
             scenario = new Scenario();
             rushhours = new List<Rushhour>();
         }
