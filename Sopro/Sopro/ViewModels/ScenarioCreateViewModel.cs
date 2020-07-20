@@ -12,9 +12,24 @@ namespace Sopro.ViewModels
 {
     public class ScenarioCreateViewModel
     {
+        
         public Scenario scenario { get; set; }
-        public List<ILocation> locations { get; set; }
-        public List<Vehicle> vehicles { get; set; }
+        public List<ILocation> locations { get; set; } 
+        public List<Vehicle> vehicles { get; set; } = new List<Vehicle>();
+        public int countRushhours { get; set; } = 0;
+        public List<int> countVehicles { get; set; }
+        public string idLocation { get; set; }
+        public List<Rushhour> rushhours { get; set; } = new List<Rushhour>();
+
+        public ScenarioCreateViewModel()
+        {
+            foreach(Vehicle v in vehicles)
+            {
+                countVehicles.Add(0);
+            }
+        }
+
+        /*
         public List<Rushhour> rushhours { get; set; }
         public ILocation location { get; set; }
         public int tickLength { get; set; }
@@ -49,6 +64,6 @@ namespace Sopro.ViewModels
             locations = new List<ILocation>();
             vehicles = new List<Vehicle>();
             rushhours = new List<Rushhour>();
-        }
+        }*/
     }
 }

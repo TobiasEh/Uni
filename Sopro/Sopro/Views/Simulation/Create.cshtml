@@ -7,40 +7,30 @@
 
 <h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
 
-<form asp-controller="Simulation" asp-action="Create" method="post" id="create">
+<form asp-controller="Simulation" asp-action="CreateVehicles" method="post" id="create">
 
     <div class="form-row">
         <div class="form-group col-8">
             <label>Start Tag der Simulation</label>
-            <input  type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" />
+            <input type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" />
             <small></small>
         </div>
         <div class="form-group col-2">
             <label>Dauer</label>
             <div class="input-group">
-                <input  class="form-control" asp-for="@Model.scenario.duration" min="1" />
+                <input class="form-control" asp-for="@Model.scenario.duration" min="1" />
                 <div class="input-group-append">
                     <span class="input-group-text"> Ticks </span>
                 </div>
             </div>
             <small>Anzahl der Simulierten ticks</small>
         </div>
-        <div class="form-group col-2">
-            <label>Tick länge</label>
-            <div class="input-group">
-                <input  class="form-control" asp-for="@Model.tickLength" min="1" />
-                <div class="input-group-append">
-                    <span class="input-group-text"> s </span>
-                </div>
-            </div>
-            <small>Tick länge in s</small>
-        </div>
     </div>
 
     <div class="form-group">
         <label>Buchungen pro Tag</label>
         <div class="input-group">
-            <input  class="form-control" asp-for="@Model.scenario.bookingCountPerDay" min="1" />
+            <input class="form-control" asp-for="@Model.scenario.bookingCountPerDay" min="1" />
             <div class="input-group-append">
                 <span class="input-group-text"> Buchungen / Tag </span>
             </div>
@@ -51,131 +41,106 @@
     <div class="form-group">
         <label>Firmenstandort</label>
         <div>
-            <select  class="form-control" asp-for="@Model.scenario.location">
-                <option value="" disabled selected>Bsp Location</option>
+            <select class="form-control" asp-for="@Model.idLocation">
                 @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
                 {
-                    <option value="@l">@l.name</option>
+                    <option value="@l.id">@l.name</option>
 
                 }
                 <option value="new">Neuen Standort anlegen</option>
             </select>
         </div>
-        <div id="newLocation">
-            <!-- PartialView to add new Location -->
-                
-        </div>
     </div>
-
-
-
-
     <div class="form-group">
-        <label>Stoßzeiten</label>
-        <div id="rushhoursContainer">
-            @Html.EditorFor(model => model.rushhours)
-        </div>
-        <div>
-            <input class="btn btn-primary" type="button" id="btnAddRushhour" value="Add Rushhour" />
-        </div>
-
-
-        <!-- Vehicles to select -->
-        @if (Model.vehicles != null && Model.vehicles.Count != 0)
-        {
-            <div class="form-group">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                Modell
-                            </th>
-                            <th>
-                                Plug
-                            </th>
-                            <th>
-                                Kapazität
-                            </th>
-                            <th>
-                                SoC-Start
-                            </th>
-                            <th>
-                                S
-                                SoC-End
-                            </th>
-                            <th>
-                                Anzahl
-                            </th>
-                        </tr>
-
-                    </thead>
-                    <tbody>
-                        @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
-                        {
-                            <tr>
-                                <td>
-                                    @vehicle.model
-                                </td>
-                                <td>
-                                    @{
-                                        string x = "";
-                                        foreach (var plug in vehicle.plugs)
-                                        {
-                                            x += plug.ToString() + " ";
-                                        }
-                                    }
-                                    @x
-
-                                </td>
-                                <td>
-                                    @vehicle.capacity
-                                </td>
-                                <td>
-                                    @vehicle.socStart
-                                </td>
-                                <td>
-                                    @vehicle.socEnd
-                                </td>
-                                <td>
-                                    <input  type="number" class="form-control" asp-for="@Model.vcount[Model.vehicles.IndexOf(vehicle)]" />
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+        <label>Anzahl der Stoßzeiten</label>
+        <div class="input-group">
+            <input class="form-control" asp-for="@Model.countRushhours" min="o" />
+            <div class="input-group-append">
+                <span class="input-group-text"> Buchungen / Tag </span>
             </div>
-        }
-        else
-        {
-            // add vehicles
-        }
-        
-
-        <!-- buttons -->
-        <div class="float-right">
-            <button type="reset" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</button>
-            <button  type="submit" class="btn btn-primary btn-mhp">Submit</button>
         </div>
-
     </div>
+
+        <div class="form-group">
+            <!-- Vehicles to select -->
+            @if (Model.vehicles != null && Model.vehicles.Count != 0)
+            {
+                <div class="form-group">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Modell
+                                </th>
+                                <th>
+                                    Plug
+                                </th>
+                                <th>
+                                    Kapazität
+                                </th>
+                                <th>
+                                    SoC-Start
+                                </th>
+                                <th>
+                                    S
+                                    SoC-End
+                                </th>
+                                <th>
+                                    Anzahl
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>@{ int i = 0;}
+                            @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
+                            {
+                                <tr>
+                                    <td>
+                                        @vehicle.model
+                                    </td>
+                                    <td>
+                                        @{
+                                            string x = "";
+                                            foreach (var plug in vehicle.plugs)
+                                            {
+                                                x += plug.ToString() + " ";
+                                            }
+                                        }
+                                        @x
+
+                                    </td>
+                                    <td>
+                                        @vehicle.capacity
+                                    </td>
+                                    <td>
+                                        @vehicle.socStart
+                                    </td>
+                                    <td>
+                                        @vehicle.socEnd
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
+                                    </td>
+                                </tr>
+                                                i++;
+                                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                // add vehicles
+            }
+
+
+            <!-- buttons -->
+            <div class="float-right">
+                <button type="reset" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</button>
+                <button type="submit" class="btn btn-primary btn-mhp">Submit</button>
+            </div>
+
+        </div>
 
 </form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-        $("#btnAddRushhour").on('click', function () {
-            $.ajax({
-                async: true,
-                data: new FormData(create),
-                type: "POST",
-                url: '/Simulations/AddRushhour',
-                success: function (partialView) {
-                    console.log("partialView: " + partialView);
-                    $('#rushhoursContainer').html(partialView);
-                },
-                
-            });
-        });
-    </script>
-}

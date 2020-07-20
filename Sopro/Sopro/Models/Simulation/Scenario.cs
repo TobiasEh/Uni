@@ -10,6 +10,7 @@ namespace Sopro.Models.Simulation
 {
     public class Scenario : IScenario
     {
+        public string id { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
         public int duration { get; set; }
@@ -24,6 +25,11 @@ namespace Sopro.Models.Simulation
         public DateTime start { get; set; }
         [Required]
         public ILocation location { get; set; }
+
+        public Scenario()
+        {
+            id = Guid.NewGuid().ToString();
+        }
 
         public bool addVehicle(Vehicle vehicle)
         {
