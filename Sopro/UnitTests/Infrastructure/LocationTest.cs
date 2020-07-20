@@ -62,9 +62,10 @@ namespace UnitTests.Infrastructure
         {
             Location location = new Location
             {
+                id = "abc",
                 zones = new List<Zone> { z1 },
                 name ="hi",
-                emergency = 3.5
+                emergency = 0.35
             };
 
             var validationResults = new List<ValidationResult>();
@@ -77,9 +78,10 @@ namespace UnitTests.Infrastructure
         {
             Location location = new Location
             {
+                id = "abc",
                 zones = new List<Zone> { z1 },
                 name = "",
-                emergency = 3.5
+                emergency = 0.35
             };
 
             var validationResults = new List<ValidationResult>();
@@ -95,6 +97,7 @@ namespace UnitTests.Infrastructure
         {
             Location location = new Location
             {
+                id = "abc",
                 zones = new List<Zone> { z1 },
                 name = "hi",
                 emergency = -3.5
@@ -113,9 +116,10 @@ namespace UnitTests.Infrastructure
         {
             Location location = new Location
             {
+                id = "abc",
                 zones = new List<Zone> { z1 },
                 name = "hi",
-                emergency = -3.5
+                emergency = 0.35
             };
 
             int zones_before = location.zones.Count;
@@ -128,9 +132,10 @@ namespace UnitTests.Infrastructure
         {
             Location location = new Location
             {
+                id = "abc",
                 zones = new List<Zone> { z1, z2 },
                 name = "hi",
-                emergency = -3.5
+                emergency = 0.35
             };
 
             int zones_before = location.zones.Count;

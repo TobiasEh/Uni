@@ -35,9 +35,9 @@ namespace Sopro.Models.Administration
                     foreach (ILocation l in locations)
                     {
                         _logger.LogInformation("Distributing locations...");
-                        _logger.LogInformation("Distribution time:" + l.normalizedDistributionTime.Minute.ToString());
-                        _logger.LogInformation("Current time: " + DateTime.Now.Minute.ToString());
-                        if (l.normalizedDistributionTime.Minute == DateTime.Now.Minute)
+                        _logger.LogInformation("Distribution time:" + l.normalizedDistributionTime.Hour.ToString());
+                        _logger.LogInformation("Current time: " + DateTime.Now.Hour.ToString());
+                        if (l.normalizedDistributionTime.Hour == DateTime.Now.Hour)
                         {
                             string s = "Location: " + l.name;
                             _logger.LogInformation(s);
@@ -56,11 +56,11 @@ namespace Sopro.Models.Administration
         {
             _logger.LogInformation("Booking distribution service is running.");
             // Wann die nächste Zeiteinheit startet.
-            DateTime nextMinute = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute + 1, DateTime.Now.Second);
+            DateTime nextHour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour + 1, 0, 0);
             // Zeit bis zur nächsten Zeiteinheit.
-            TimeSpan startTime = nextMinute.Subtract(DateTime.Now);
+            TimeSpan startTime = nextHour.Subtract(DateTime.Now);
             // Timer ab nächster Zeiteinheit für jede folgende Zeitheinheit.
-            _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromMinutes(1));
+            _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromHours(1));
             return Task.CompletedTask;
         }
 

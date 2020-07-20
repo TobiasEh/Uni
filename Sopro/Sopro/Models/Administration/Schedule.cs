@@ -93,11 +93,13 @@ namespace Sopro.Models.Administration
             int index = bookings.IndexOf(booking);
             bookings[index].active = !bookings[index].active;
 
+            /*
             if (bookings[index].active)
                 notificationManager.notify(booking, NotificationEvent.CHECKIN);
 
             else
                 notificationManager.notify(booking, NotificationEvent.CHECKOUT);
+            */
         }
     }
 }
