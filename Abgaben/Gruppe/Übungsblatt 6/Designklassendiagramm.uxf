@@ -31,10 +31,11 @@ fontsize=10
       <x>3828</x>
       <y>1265</y>
       <w>231</w>
-      <h>99</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>+ Vehicle
 --
+- id: string
 - model: string
 - capacity: int {&gt; 0}
 - socStart: int {0 &lt;= socStart &lt;= 100}
@@ -87,7 +88,7 @@ fontsize=10
       <x>2860</x>
       <y>2343</y>
       <w>220</w>
-      <h>121</h>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ Station
 --
@@ -95,6 +96,7 @@ fontsize=10
 - maxPower: int {&gt; 0}
 - maxParallelUsable: int {&gt;= 0}
 - manufacturer: string
+- id: string
 --
 + addPlug(plug: Plug):  bool
 + deletePlug(plug: Plug) : bool</panel_attributes>
@@ -119,17 +121,15 @@ fontsize=10
       <x>4389</x>
       <y>1441</y>
       <w>429</w>
-      <h>165</h>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ Simulator
 --
 - tickLength: Timespan = new Timespan(1, 0, 0, 0, 0) {&gt; new Timespan(0, 0, 0, 0, 0)}
 - tickCount: int = -1
 - pendingBookings: Booking [0..*]
-- adhocBookings: AdHoc [0..*]
 --
 + triggerBookingDistribution(): bool
-+ init(): bool
 + run(): bool
 - calculateLocationWorkload(): double
 - calculateStationWorkload(): double [1..*]</panel_attributes>
@@ -139,13 +139,13 @@ fontsize=10
     <id>Relation</id>
     <coordinates>
       <x>2959</x>
-      <y>2453</y>
+      <y>2464</y>
       <w>33</w>
-      <h>121</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -203,13 +203,13 @@ suggestion: string
     <id>Relation</id>
     <coordinates>
       <x>3938</x>
-      <y>1353</y>
+      <y>1364</y>
       <w>33</w>
-      <h>99</h>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 </panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -230,11 +230,11 @@ suggestion: string
       <x>3091</x>
       <y>1562</y>
       <w>1045</w>
-      <h>913</h>
+      <h>935</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
-    <additional_attributes>10.0;10.0;430.0;10.0;430.0;810.0;930.0;810.0</additional_attributes>
+    <additional_attributes>10.0;10.0;430.0;10.0;430.0;830.0;930.0;830.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -256,11 +256,11 @@ m2=1..1</panel_attributes>
       <x>4323</x>
       <y>1507</y>
       <w>88</w>
-      <h>275</h>
+      <h>341</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 &lt; calls</panel_attributes>
-    <additional_attributes>60.0;20.0;10.0;20.0;10.0;230.0</additional_attributes>
+    <additional_attributes>60.0;20.0;10.0;20.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
@@ -268,7 +268,7 @@ m2=1..1</panel_attributes>
       <x>3773</x>
       <y>1012</y>
       <w>1089</w>
-      <h>715</h>
+      <h>781</h>
     </coordinates>
     <panel_attributes>Simulation
 --
@@ -304,14 +304,14 @@ bg=#ffedbf</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>4488</x>
-      <y>1760</y>
+      <y>1826</y>
       <w>264</w>
       <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + ITrigger
 --
-+ triggerBookingDistribution(): bool
++ triggerBookingDistribution(): void
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -352,7 +352,7 @@ bg=#ffedbf</panel_attributes>
       <x>4389</x>
       <y>1067</y>
       <w>429</w>
-      <h>154</h>
+      <h>198</h>
     </coordinates>
     <panel_attributes>+ ExecutedScenario
 --
@@ -367,6 +367,7 @@ bg=#ffedbf</panel_attributes>
 + getStationWorkload(): double [[1..*][1..*]]
 + getFulfilledRequests(): int
 + updateWorkload(location: double, station: double [1..*]) : bool
++ getBookings(): Booking[0..*]
 + clear()</panel_attributes>
     <additional_attributes/>
   </element>
@@ -385,12 +386,12 @@ bg=#ffedbf</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>4620</x>
-      <y>1595</y>
+      <y>1562</y>
       <w>33</w>
-      <h>187</h>
+      <h>286</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;240.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -441,7 +442,9 @@ bg=#ffedbf</panel_attributes>
 - necessaryWorkload: double
 - plugDistributionAccepted: double[1..plugType.Count()]
 - plugDistributionDeclined: double[1..plugType.Count()]
-</panel_attributes>
+-
++ addSuggestion(suggestion: Suggestion): bool
++ removeSuggestion(suggestion: Suggestion): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -461,11 +464,13 @@ bg=#ffedbf</panel_attributes>
       <x>3894</x>
       <y>473</y>
       <w>385</w>
-      <h>154</h>
+      <h>176</h>
     </coordinates>
     <panel_attributes>_+ Analyzer_
 --
 _- evaluation: Evaluation_
+_- lowerGate: double_
+_- upperGate: double_
 --
 _+ analyze(scenario: IEvaluatable): Evaluation_
 _- createSuggestion() : Suggestion [0..1]_
@@ -480,29 +485,34 @@ _- calcPlugDistributionDeclined(): double[1..plugType.Count()]_</panel_attribute
     <id>Relation</id>
     <coordinates>
       <x>4004</x>
-      <y>616</y>
+      <y>638</y>
       <w>77</w>
-      <h>88</h>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=-
 creates v</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>3828</x>
       <y>1606</y>
-      <w>385</w>
-      <h>99</h>
+      <w>462</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>_+ Generator_
 --
 _probabilityVIP: double=0.05 {0 &lt;= probabilityVIP&lt;=1}_
 _probabilityGuest: double=0.05 {0 &lt;= probabilityGuest &lt;= 1}_
-_probabilityAdhoc: double=0.10 {0 &lt;= probabilityAdhoc &lt;= 1}_
 --
-_+ generateBookings(scenario: ExecutedScenario)_</panel_attributes>
+_+ generateBookings(scenario: ExecutedScenario)_
+_- distributeLeddThanDay(scenario: Scenario): Booking[1..*]_
+_- rollPriority(): UserType_
+_- lowestPowerPerPlugType(scenario: Scenario): int[1..*]_
+_- generateBooking(startTime: DateTime, scenario: Scenario): Booking_
+_+ linearBookingDistribution(bookingList: Booking[1..*], scenario: Scenario, passedDays:int)_
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -510,22 +520,22 @@ _+ generateBookings(scenario: ExecutedScenario)_</panel_attributes>
     <coordinates>
       <x>3091</x>
       <y>1529</y>
-      <w>1430</w>
+      <w>1397</w>
       <h>792</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;460.0;10.0;460.0;700.0;1280.0;700.0</additional_attributes>
+    <additional_attributes>10.0;10.0;460.0;10.0;460.0;700.0;1250.0;700.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4202</x>
+      <x>4279</x>
       <y>1617</y>
-      <w>121</w>
-      <h>165</h>
+      <w>44</w>
+      <h>231</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>90.0;130.0;90.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>20.0;190.0;20.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -574,12 +584,12 @@ _+ generateBookings(scenario: ExecutedScenario)_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>4620</x>
-      <y>1210</y>
+      <y>1254</y>
       <w>33</w>
-      <h>110</h>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -614,7 +624,7 @@ TYPE2</panel_attributes>
       <x>3828</x>
       <y>1430</y>
       <w>473</w>
-      <h>154</h>
+      <h>165</h>
     </coordinates>
     <panel_attributes>+ Scenario
 --
@@ -642,7 +652,7 @@ TYPE2</panel_attributes>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 + IFunctionStrategy
 --
-_+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTime [1..*]_</panel_attributes>
++ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTime [1..*]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -655,7 +665,8 @@ _+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTi
     </coordinates>
     <panel_attributes>+ NormalDistribution
 --
-_+ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTime [1..*]_</panel_attributes>
++ generateDateTimeValues(start: DateTime, end: DateTime, bookings: int): DateTime [1..*]
+- boxmuller(interval: double): double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1458,7 +1469,7 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1353</x>
+      <x>1342</x>
       <y>2123</y>
       <w>110</w>
       <h>33</h>
@@ -1469,13 +1480,13 @@ bg=#4169E1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1452</x>
+      <x>1441</x>
       <y>2046</y>
-      <w>132</w>
+      <w>143</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>100.0;10.0;100.0;80.0;10.0;80.0</additional_attributes>
+    <additional_attributes>110.0;10.0;110.0;80.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -1922,11 +1933,12 @@ bg=#1E90FF
     </coordinates>
     <panel_attributes>+ Booking
 --
+- id: string
 - capacity: int {&gt; 0}
 - plugs: PlugType [1..*] {no duplicates}
 - socEnd: int {socStart &lt;= socEnd &lt;= 100}
 - socStart: int {0 &lt;= socStart &lt;= 100}
-- user: string
+- user: string = "examplemail.com"
 - startTime: date {&gt; DateTime.now()}
 - endTime: date {&gt; start}
 - station: Station [0..1]
@@ -1940,7 +1952,7 @@ bg=#1E90FF
     <id>UMLClass</id>
     <coordinates>
       <x>4114</x>
-      <y>2431</y>
+      <y>2453</y>
       <w>231</w>
       <h>110</h>
     </coordinates>
@@ -1957,19 +1969,21 @@ bg=#1E90FF
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4499</x>
+      <x>4466</x>
       <y>2244</y>
-      <w>198</w>
+      <w>286</w>
       <h>154</h>
     </coordinates>
     <panel_attributes>+ Distributor
 --
 - schedule: Schedule
 - strategy: IDistributionStrategy
-- buffer: int {&gt;= 0}
+- buffer: int=15 {&gt;= 0}
 - filter: BookingLocationFilter
+- location: ILocation
 --
-+ run(): bool
++ Distributor()
++ Distributor(_schedule: Schedule, _location: ILocation)
 + run(bookings: Booking [0..*]): bool</panel_attributes>
     <additional_attributes/>
   </element>
@@ -2061,7 +2075,7 @@ bg=#ffcd74</panel_attributes>
       <x>4070</x>
       <y>1925</y>
       <w>1034</w>
-      <h>737</h>
+      <h>803</h>
     </coordinates>
     <panel_attributes>Administration
 --
@@ -2071,17 +2085,22 @@ bg=#ffca7b</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>4433</x>
-      <y>2079</y>
-      <w>275</w>
-      <h>132</h>
+      <x>4752</x>
+      <y>1969</y>
+      <w>319</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>+ DistributionTimer
 --
-- distributionTime: DateTime
+- _logger: ILogger&lt;DistributionTimer&gt; {readonly}
+- _cache: IMemoryCache
 - timer: Timer
 --
-+ triggerBookingDistribution(): bool</panel_attributes>
++ DistributionTimer(cache: IMemoryCache, logger: ILogger)
++ triggerBookingDistribution(state: object) {async}
++ StartAsync(cancellationToken: CancellationToken): Task
++ StopAsync(cancellationToken: CancellationToken): Task
++ Dispose()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2089,18 +2108,18 @@ bg=#ffca7b</panel_attributes>
     <coordinates>
       <x>4224</x>
       <y>2167</y>
-      <w>297</w>
+      <w>264</w>
       <h>121</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 distributes ^</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0;250.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;220.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>4356</x>
-      <y>2431</y>
+      <y>2453</y>
       <w>374</w>
       <h>66</h>
     </coordinates>
@@ -2116,16 +2135,16 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
       <x>4576</x>
       <y>2387</y>
       <w>33</w>
-      <h>66</h>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>4719</x>
-      <y>2442</y>
+      <y>2464</y>
       <w>88</w>
       <h>165</h>
     </coordinates>
@@ -2136,7 +2155,7 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
     <id>Relation</id>
     <coordinates>
       <x>4719</x>
-      <y>2464</y>
+      <y>2486</y>
       <w>66</w>
       <h>88</h>
     </coordinates>
@@ -2147,7 +2166,7 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
     <id>UMLClass</id>
     <coordinates>
       <x>4356</x>
-      <y>2508</y>
+      <y>2530</y>
       <w>374</w>
       <h>44</h>
     </coordinates>
@@ -2160,7 +2179,7 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
     <id>UMLClass</id>
     <coordinates>
       <x>4356</x>
-      <y>2563</y>
+      <y>2585</y>
       <w>374</w>
       <h>44</h>
     </coordinates>
@@ -2172,27 +2191,16 @@ _+ distribute(bookings:Booking[1..*], schedule:Schedule, puffer: int): bool_</pa
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4697</x>
-      <y>1782</y>
-      <w>143</w>
-      <h>374</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>50.0;10.0;110.0;10.0;110.0;320.0;10.0;320.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>4224</x>
-      <y>1815</y>
+      <y>1881</y>
       <w>99</w>
-      <h>176</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 generates v
 m1=1..1
 m2=0..*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -2393,7 +2401,7 @@ fontsize=80</panel_attributes>
     <coordinates>
       <x>2706</x>
       <y>297</y>
-      <w>264</w>
+      <w>528</w>
       <h>297</h>
     </coordinates>
     <panel_attributes>User
@@ -2407,13 +2415,14 @@ bg=#ffBB99</panel_attributes>
       <x>2728</x>
       <y>341</y>
       <w>220</w>
-      <h>66</h>
+      <h>88</h>
     </coordinates>
     <panel_attributes>_+ IdentityProvider_
 --
 _- path: string_
 --
-_+ getUserType(email: string) :UserType_</panel_attributes>
+_+ getUserType(email: string) :UserType_
+_+ loadCSV(path: string): User[0..*]_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2438,12 +2447,12 @@ PLANER</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>2838</x>
-      <y>396</y>
+      <y>418</y>
       <w>33</w>
-      <h>99</h>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -2451,14 +2460,19 @@ PLANER</panel_attributes>
       <x>4114</x>
       <y>2310</y>
       <w>308</w>
-      <h>88</h>
+      <h>132</h>
     </coordinates>
     <panel_attributes>+ BookingLocationFilter
 --
 - location: Location
 - timespan: int=30 {&gt;= 0}
+- startTime: DateTime
 --
-+ filter(bookings: Booking[1..*]): Booking[1..*]</panel_attributes>
++ BookingLocationFilter(ILocation _location, int _timespan)
++ BookingLocationFilter(ILocation _location)
++ BookingLocationFilter(DateTime start)
++ filter(bookings: Booking[1..*]): Booking[1..*]
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -2466,22 +2480,22 @@ PLANER</panel_attributes>
     <coordinates>
       <x>4411</x>
       <y>2332</y>
-      <w>110</w>
+      <w>77</w>
       <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>4554</x>
-      <y>1815</y>
+      <y>1881</y>
       <w>33</w>
-      <h>176</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -2521,11 +2535,11 @@ PLANER</panel_attributes>
       <x>4235</x>
       <y>2365</y>
       <w>770</w>
-      <h>286</h>
+      <h>319</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 - notificationManager</panel_attributes>
-    <additional_attributes>10.0;160.0;10.0;240.0;680.0;240.0;680.0;10.0</additional_attributes>
+    <additional_attributes>10.0;180.0;10.0;270.0;680.0;270.0;680.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -2557,14 +2571,14 @@ PLANER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>4686</x>
+      <x>4730</x>
       <y>2288</y>
-      <w>165</w>
+      <w>132</w>
       <h>44</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 - notificationManager</panel_attributes>
-    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>90.0;20.0;20.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -2587,7 +2601,7 @@ _+ Location: string_</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>4180</x>
-      <y>1760</y>
+      <y>1826</y>
       <w>286</w>
       <h>66</h>
     </coordinates>
@@ -2844,14 +2858,15 @@ Pseudocode zu Simulation.init()
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>5478</x>
-      <y>1045</y>
-      <w>110</w>
+      <x>3003</x>
+      <y>341</y>
+      <w>187</w>
       <h>55</h>
     </coordinates>
-    <panel_attributes>Szenario
---
-s</panel_attributes>
+    <panel_attributes>User
+-
++ email: string
++ usertype: UserType</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
