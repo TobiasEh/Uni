@@ -74,27 +74,33 @@ namespace Sopro.Models.Simulation
                 //tempBookings = generator.generateBookings(exScenario);
                 //tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
                 exScenario.bookings = new List<Booking>();
+
                 exScenario.bookings.AddRange(exScenario.generatedBookings);
-                pendingBookings = exScenario.bookings;
+
+                pendingBookings = exScenario.bookings.ToList();
 
                 if (!triggerBookingDistribution())
                     return false;
 
                 ++tickCount;
+
                 while (tickCount <= exScenario.duration)
                 {
-                    if (pendingBookings.Count() != 0)
+                    
+                    if (pendingBookings.Count() > 0)
                     {
                         if (!triggerBookingDistribution())
                             return false;
+                       
                         double location = calculateLocationWorkload();
+                        
                         List<double> station = calculateStationWorkload();
                         if (!exScenario.updateWorkload(location, station))
                             return false;
                     }
                     ++tickCount;
                 }
-
+                
                 exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
 
                 return true;
@@ -107,19 +113,38 @@ namespace Sopro.Models.Simulation
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = time + tickLength;
-            int numberOfStations = 0;
+            int numberOfPlugs = 0;
 
             foreach(Zone zone in exScenario.location.zones)
             {
                 foreach (Station station in zone.stations)
                 {
-                    numberOfStations += station.maxParallelUseable;
+                    numberOfPlugs += station.maxParallelUseable;
                 }
             }
-            int count  = exScenario.bookings.Count( e => e.startTime >= time && e.startTime <= end);
-            double workload = count * 100 / numberOfStations;
 
-            return workload;
+            int count  = exScenario.bookings.Count( e => e.startTime >= time && e.startTime <= end && e.station != null);
+
+            List<Booking> boo = exScenario.bookings.FindAll(e => e.startTime >= time && e.startTime <= end && e.station != null);
+            boo.OrderBy(e => e.startTime);
+            double workload = 0.0;
+            double usedTogether = 0.0;
+
+            if (count >= 2)
+            {
+                    for (int i = 0; i < count - 1; ++i)
+                    {
+                        if (boo[i].endTime > boo[i + 1].startTime)
+                        {
+                            ++usedTogether;
+                        }
+                    }
+            } else
+            {
+                ++usedTogether;
+            }
+                workload = (double)(usedTogether * 100.0) / (double)numberOfPlugs;
+                return workload;
         }
 
         /* Calculates workload for every Station in one tick
@@ -140,7 +165,28 @@ namespace Sopro.Models.Simulation
                     station = exScenario.location.zones[i].stations[j];
                     int plugs = station.maxParallelUseable;
                     int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
-                    workload.Add(usedPlugs * 100 / plugs);
+                    
+
+                    List<Booking> boo = exScenario.bookings.FindAll(e => e.startTime >= time && e.startTime <= end && e.station == station);
+                    boo.OrderBy(e => e.startTime);
+                    double usedTogether = 0.0;
+                    if (usedPlugs >= 2)
+                    {
+                        for (int l = 0; l < usedPlugs - 1; ++l)
+                        {
+                            if (boo[l].endTime > boo[l + 1].startTime)
+                            {
+                                ++usedTogether;
+                            }
+                        }
+                    } else
+                    {
+                        ++usedTogether;
+                    }
+
+                    workload.Add((double)((usedTogether) * 100.0) / (double)plugs);
+
+
                 }
             }
             return workload;

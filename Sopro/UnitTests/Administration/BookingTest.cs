@@ -57,7 +57,7 @@ namespace UnitTests
                 startTime = DateTime.Now.AddDays(1).AddHours(3),
                 endTime = DateTime.Now.AddDays(1).AddHours(6),
                 location = lTest,
-                plugs = new List<PlugType>() { PlugType.CCS },
+                plugs = new List<PlugType>() { PlugType.CCS }
             };
 
             var validationResults = new List<ValidationResult>();
