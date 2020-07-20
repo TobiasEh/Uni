@@ -23,7 +23,7 @@ namespace Sopro.Models.History
         {
             var pCount = suggestions.Count;
             suggestions.Add(suggestion);
-            return pCount == suggestions.Count+1;
+            return pCount == suggestions.Count - 1;
         }
         public bool removeSuggestion(Suggestion suggestion)
         {
