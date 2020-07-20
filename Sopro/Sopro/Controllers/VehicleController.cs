@@ -33,7 +33,7 @@ namespace Sopro.Controllers
             model.vehicles = vehicles;
             return View(model);
         }
-
+        
         public IActionResult NewVehicle(VehicleViewModel model)
         {
             var vehicle = model.vehicle;
@@ -108,7 +108,7 @@ namespace Sopro.Controllers
         }
 
         [HttpGet]
-        public IActionResult Export()
+        public IActionResult Export([FromForm] FileViewModel model)
         {
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
