@@ -1,13 +1,12 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Internal;
+using Sopro.Models.Administration;
+using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
+using Sopro.Models.User;
 using System;
 using System.Collections.Generic;
-using Sopro.Models.Administration;
-using Sopro.Interfaces;
-using Sopro.Models.Infrastructure;
-using NUnit.Framework.Internal;
 using System.Linq;
-using Sopro.Models.User;
 
 namespace UnitTests.Simulation
 {
@@ -104,10 +103,36 @@ namespace UnitTests.Simulation
         private DateTime start = DateTime.Now.AddDays(2).AddHours(1).AddMinutes(4);
         private int bookingsCountPerDay = 20;
         private int duration = 30;
-        private Rushhour rushhour = new Rushhour() { start = DateTime.Now.AddDays(3), end = DateTime.Now.AddDays(3).AddHours(3), bookings = 10, strategy = new NormalDistribution() };
-        private Rushhour rushhour2 = new Rushhour() { start = DateTime.Now.AddDays(4).AddHours(2), end = DateTime.Now.AddDays(4).AddHours(5), bookings = 10, strategy = new NormalDistribution() };
-        private Rushhour rushhour3 = new Rushhour() { start = DateTime.Now.AddDays(3).AddHours(2), end = DateTime.Now.AddDays(3).AddHours(5), bookings = 11, strategy = new NormalDistribution() };
-        private Rushhour rushhour4 = new Rushhour() { start = DateTime.Now.AddDays(3).AddHours(2), end = DateTime.Now.AddDays(3).AddHours(5), bookings = 5, strategy = new NormalDistribution() };
+        
+        private static Rushhour rushhour = new Rushhour() 
+        { 
+            start = DateTime.Now.AddDays(3), 
+            end = DateTime.Now.AddDays(3).AddHours(3), 
+            bookings = 10, strategy = new NormalDistribution() 
+        };
+        
+        private static Rushhour rushhour2 = new Rushhour() 
+        { 
+            start = DateTime.Now.AddDays(4).AddHours(2), 
+            end = DateTime.Now.AddDays(4).AddHours(5), 
+            bookings = 10, strategy = new NormalDistribution() 
+        };
+
+        private static Rushhour rushhour3 = new Rushhour() 
+        { 
+            start = DateTime.Now.AddDays(3).AddHours(2), 
+            end = DateTime.Now.AddDays(3).AddHours(5), 
+            bookings = 11, strategy = new NormalDistribution() 
+        };
+
+        private static Rushhour rushhour4 = new Rushhour() 
+        { 
+            start = DateTime.Now.AddDays(3).AddHours(2), 
+            end = DateTime.Now.AddDays(3).AddHours(5), 
+            bookings = 5, 
+            strategy = new NormalDistribution() 
+        };
+
         [Test]
         public void generateBookingsBAttributesNotNullTest()
         {

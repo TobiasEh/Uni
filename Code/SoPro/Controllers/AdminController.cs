@@ -25,7 +25,7 @@ namespace Sopro.Controllers
         }
         public IActionResult Index()
         {
-            //Session for the role of the User
+            // Session for the role of the User.
             var userID = HttpContext.Session.GetString("role");
             if (userID == null)
             {
