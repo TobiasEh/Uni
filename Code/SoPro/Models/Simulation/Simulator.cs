@@ -26,9 +26,9 @@ namespace Sopro.Models.Simulation
         {
             DateTime start = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = start.AddDays(30);
-            List<Booking> toBeDistributed = new List<Booking>();
+            var toBeDistributed = new List<Booking>();
 
-            List<int> indices = new List<int>();
+            var indices = new List<int>();
             int count = pendingBookings.Count();
 
             // Berechnet Indizes für die Buchungen in pendingBooking, welche der toBeDistributed Liste hinzugefügt werden sollen
@@ -124,7 +124,7 @@ namespace Sopro.Models.Simulation
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = time + tickLength;
-            int numberOfPlugs = 0;
+            var numberOfPlugs = 0;
 
             foreach(Zone zone in exScenario.location.zones)
             {
@@ -135,12 +135,14 @@ namespace Sopro.Models.Simulation
             }
 
             // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
-            int count  = exScenario.bookings.Count( e => e.startTime >= time && e.startTime <= end && e.station != null);
+            //int count  = exScenario.bookings.Count( e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
 
-            List<Booking> boo = exScenario.bookings.FindAll(e => e.startTime >= time && e.startTime <= end && e.station != null);
+            List<Booking> boo = exScenario.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+            var count = boo.Count;
+
             boo.OrderBy(e => e.startTime);
-            double workload = 0.0;
-            double usedTogether = 0.0;
+            var workload = 0.0;
+            var usedTogether = 0.0;
 
             if (count >= 2)
             {
@@ -180,12 +182,14 @@ namespace Sopro.Models.Simulation
                     int plugs = station.maxParallelUseable;
 
                     // Zählt die Buchungen, die diese bestimmte Station zugewiesen bekommen haben.
-                    int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
+                    //int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
                     
 
                     List<Booking> boo = exScenario.bookings.FindAll(e => e.startTime >= time && e.startTime <= end && e.station == station);
+                    var usedPlugs = boo.Count;
+
                     boo.OrderBy(e => e.startTime);
-                    double usedTogether = 0.0;
+                    var usedTogether = 0.0;
                     if (usedPlugs >= 2)
                     {
                         for (int l = 0; l < usedPlugs - 1; ++l)

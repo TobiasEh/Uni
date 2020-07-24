@@ -46,7 +46,7 @@ namespace Sopro.Models.Administration
             Console.WriteLine("Before filter (list): " + bookings.Count().ToString());
             bookings = filter.filter(bookings);
             Console.WriteLine("After filter (list): " + bookings.Count().ToString());
-            if (bookings == null || bookings.Count() == 0)
+            if ((bookings == null) || (bookings.Count() == 0))
                 return false;
             if (!strategy.distribute(bookings, schedule, buffer))
                 return false;
