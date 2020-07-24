@@ -7,10 +7,17 @@ using System.Linq;
 
 namespace Sopro.Models.Communication
 {
+    /// <summary>
+    /// Klasse ist für die Erstellung und das Versenden der Nachrichten, die an den User geschickt werden zuständig.
+    /// </summary>
     public class BookingsStatusNotification : INotificationListener
     {
         private List<string> commands { get; set; }
         private Messenger messenger;
+
+        /// <summary>
+        /// Konstruktor, in dem alle Nachrichtenfragmente erzeugt werden.
+        /// </summary>
         public BookingsStatusNotification()
         {
             messenger = new Messenger();
@@ -50,8 +57,12 @@ namespace Sopro.Models.Communication
                 "Wir wünschen noch einen schönen Tag.");
         }
 
-        /* Method sends message to user if booking was acceped, declined, checkedIn or checkedOut.
-         */
+        /// <summary>
+        /// Es wird eine Nachricht generiert entsprechend der übergebenen Bezeichung, bezüglich der übergebene Buchung.
+        /// Es wird die Methode zu senden von Nachrichten aufgerufen.
+        /// </summary>
+        /// <param name="booking">Buchung für die eine Nachricht generiet wird.</param>
+        /// <param name="eventName">Bezeichung, was für eine Art von Nachricht erzeugt werden soll.</param>
         public void update(Booking booking, string eventName)
         {
             string message;
@@ -77,8 +88,11 @@ namespace Sopro.Models.Communication
             }
         }
 
-        /* Methode gererates String message for accepting a booking.
-         */
+        /// <summary>
+        /// Generiert eine "Akzeptiert"-Nachricht zu entsprechenden Buchung.
+        /// </summary>
+        /// <param name="booking">Buchung zu der die Nachricht erzeugt wird.</param>
+        /// <returns></returns>
         private string generateMessageAccepted(Booking booking)
         {
             string site = "";
@@ -93,8 +107,11 @@ namespace Sopro.Models.Communication
             return message;
         }
 
-        /* Methode gererates String message for declining a booking.
-         */
+        /// <summary>
+        /// Generiert eine "Abgelehnt"-Nachricht zu der entsprechenden Buchung.
+        /// </summary>
+        /// <param name="booking">Buhcung zu der die Nachricht erzeugt wird.</param>
+        /// <returns></returns>
         private string generateMessageDeclined(Booking booking)
         {
             string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(2) +
@@ -103,8 +120,11 @@ namespace Sopro.Models.Communication
             return message;
         }
 
-        /* Methode gererates String message for checking in a booking.
-         */
+        /// <summary>
+        /// Generiert eine "CheckIn"-Nachricht zu der entsprechenden Buchung.
+        /// </summary>
+        /// <param name="booking">Buchung zu der die Nachricht erzeugt wird.</param>
+        /// <returns></returns>
         private string generateMessageCheckIn(Booking booking)
         {
             string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3) +
@@ -112,8 +132,11 @@ namespace Sopro.Models.Communication
             return message;
         }
 
-        /* Methode gererates String message for checking out a booking.
-         */
+        /// <summary>
+        /// Generiert eine "CheckOut"-Nachricht zu der entsprechenden Buchung.
+        /// </summary>
+        /// <param name="booking">Buhcung zu der die Nachricht erzeugt wird.</param>
+        /// <returns></returns>
         private String generateMessageCheckOut(Booking booking)
         {
             String message = String.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3);

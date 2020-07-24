@@ -3,6 +3,9 @@ using MimeKit;
 
 namespace Sopro.Models.Communication
 {
+    /// <summary>
+    /// Klasse ist für das Senden von Nachrichten zuständig.
+    /// </summary>
     public class Messenger
     {
         private SmtpClient emailClient;
@@ -10,8 +13,12 @@ namespace Sopro.Models.Communication
         {
             emailClient = new SmtpClient();
         }
-        /* Method for sending an Email to spezific user
-         */
+
+        /// <summary>
+        /// Übergebene Nachricht wird an den Entsprechendnen User gesendet.
+        /// </summary>
+        /// <param name="message">Nachricht die gesendet werden soll.</param>
+        /// <param name="user">Email-Addresse des Users, an den die Nachricht gesendet werden soll.</param>
         public void sendMessage(string message, string user)
         {
             var finalMessage = new MimeMessage();

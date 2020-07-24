@@ -8,6 +8,9 @@ using Sopro.Models.Infrastructure;
 
 namespace Sopro.Models.Simulation
 {
+    /// <summary>
+    /// Klasse ist für die Simulation zuständig.
+    /// </summary>
     public class Simulator : ITrigger
     {
         public static TimeSpan tickLength = new TimeSpan(24, 0, 0);
@@ -15,6 +18,10 @@ namespace Sopro.Models.Simulation
         public List<Booking> pendingBookings { get; set; }
         public ExecutedScenario exScenario { get; set; }
 
+        /// <summary>
+        /// Startet die Verteilung der Buchungen, indem die entsprechende Methode aufgerufen wird.
+        /// </summary>
+        /// <returns>Wahrheitswert ob das starten der Verteilung erfolgreich war.</returns>
         public bool triggerBookingDistribution()
         {
             DateTime start = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
@@ -24,11 +31,11 @@ namespace Sopro.Models.Simulation
             List<int> indices = new List<int>();
             int count = pendingBookings.Count();
 
-            //calculates indices for bookings in penigbookings list, which will be added to toBeDistributed
+            // Berechnet Indizes für die Buchungen in pendingBooking, welche der toBeDistributed Liste hinzugefügt werden sollen
             for(int i = 1; i <= count; ++i)
             {
                 int l = (int)(Math.Round(1 / Math.Sqrt(i), 4) * 1000) % count;
-                if(!indices.Contains(l) && l % 2 == 1)
+                if((!indices.Contains(l)) && (l % 2 == 1))
                 {
                     indices.Add(l);
                 }
@@ -36,17 +43,17 @@ namespace Sopro.Models.Simulation
 
             foreach(Booking item in pendingBookings.ToList())
             {
-                //bookings in range [start, start+next 30 Days] 
-                if (item.startTime >= start && item.endTime <= end)
+                // Buchungen im Intervall [start, start+ nächste 30 Tage] 
+                if ((item.startTime >= start) && (item.endTime <= end))
                 {
-                    //all bookings for the next day
-                    if (item.startTime >= start && item.startTime <= start.AddDays(1))
+                    // Alle Buchungen für den nächsten Tag
+                    if ((item.startTime >= start) && (item.startTime <= start.AddDays(1)))
                     {
                         toBeDistributed.Add(item);
                         pendingBookings.Remove(item);
                     }
 
-                    //booking with an index that exists in list help
+                    // Buchungen mit dem Index, der in der Liste help existiert
                     if (indices.Contains(pendingBookings.IndexOf(item)))
                     {
                         toBeDistributed.Add(item);
@@ -63,9 +70,11 @@ namespace Sopro.Models.Simulation
             return true;
         }
 
-        /* Gerenates bookings, calls triggerBookingDistribution.
-         * While bookings exists in pendingBookings list, the method will call triggerBookingDistrtibution and calculates workloads
-         */
+        /// <summary>
+        /// Startet den Verteilungsmechanismus, indem Buchungen - durch eine andere Funktion - generiert werden und diese Verteilt werden.
+        /// Solange Buchungen in der List pendingBookings sind, wird die Methode triggerBookingDistribution aufgerufen, und die einzelnen Auslastungen berechnet. 
+        /// </summary>
+        /// <returns>Thread der den Verteilungsmechanismus startet.</returns>
         public async Task<bool> run()
         {
             return await Task.Run(() =>
@@ -107,8 +116,10 @@ namespace Sopro.Models.Simulation
             });    
         }
         
-        /* Calculates workload for whole loaction, per tick
-         */
+        /// <summary>
+        /// Berechnet die Auslastung des Standortes pro Tick.
+        /// </summary>
+        /// <returns>Die berechnete Auslastung des Standortes.</returns>
         private double calculateLocationWorkload()
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
@@ -123,6 +134,7 @@ namespace Sopro.Models.Simulation
                 }
             }
 
+            // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
             int count  = exScenario.bookings.Count( e => e.startTime >= time && e.startTime <= end && e.station != null);
 
             List<Booking> boo = exScenario.bookings.FindAll(e => e.startTime >= time && e.startTime <= end && e.station != null);
@@ -147,8 +159,10 @@ namespace Sopro.Models.Simulation
                 return workload;
         }
 
-        /* Calculates workload for every Station in one tick
-         */
+        /// <summary>
+        /// Berechnet die Auslastung aller Stationen pro Tick.
+        /// </summary>
+        /// <returns>Die Auslastung alles Stationen in einer Liste.</returns>
         private List<double> calculateStationWorkload()
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
@@ -164,6 +178,8 @@ namespace Sopro.Models.Simulation
                 {
                     station = exScenario.location.zones[i].stations[j];
                     int plugs = station.maxParallelUseable;
+
+                    // Zählt die Buchungen, die diese bestimmte Station zugewiesen bekommen haben.
                     int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
                     
 

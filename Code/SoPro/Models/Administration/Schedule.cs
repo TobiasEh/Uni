@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Sopro.Models.Administration
 {
+    /// <summary>
+    /// Klasse die die verteilten Buchugen verwaltet.
+    /// </summary>
     public class Schedule
     {
         public NotificationManager notificationManager { get; set; }
@@ -17,10 +20,13 @@ namespace Sopro.Models.Administration
             if (bookings == null)
                 bookings = new List<Booking>();
         }
-        /* Adds a new booking to the schedule.
-         * Returns true if and only if the specific booking is succsessfully added to Bookinglist.
-         * Thorws exception, when booking already exists in bookings.
-         */
+
+        /// <summary>
+        /// Fügt eine neue Buchung der Buchungsliste hinzu.
+        /// Benachrichtigt Benutzer, dass seine Buchung akzeptiet und erfolgreich verteilt wurde.
+        /// </summary>
+        /// <param name="booking">Buchung, die zur Buchungsliste hinzugefügt werden soll.</param>
+        /// <returns>Gibt Wahrheitswert zurück, ob das Hinzufügen erfolgreich war.</returns>
         public bool addBooking(Booking booking)
         {
             if (bookings.Contains(booking))
@@ -38,10 +44,11 @@ namespace Sopro.Models.Administration
             return true;
         }
 
-        /* Removes a booking from the schedule.
-         * Returns true if and only if the specific booking is succsessfully removed from the booking list.
-         * Thorws exception, when booking does not exists in bookings.
-         */
+        /// <summary>
+        /// Entfernt Buchung aus der Buchungsliste.
+        /// </summary>
+        /// <param name="booking">Buchung, die aus der Buchungsiste entfernt werden soll.</param>
+        /// <returns>Gibt Wahrheitswert zurück, ob das Entfernen erfolgreich war.</returns>
         public bool removeBooking(Booking booking)
         {
             if (!bookings.Contains(booking))
@@ -56,11 +63,11 @@ namespace Sopro.Models.Administration
             }
             return false;
         }
-        /* Removes all booking items from booking, when their endTimes
-         * are in the past.
-         * Returns true if and only if all bookings with a lower endTime, 
-         * than the given DateTime, are succsessfully removed form the bookinglist.
-         */
+        /// <summary>
+        /// Entfernt alle Buchungen aus der Liste, wenn deren Endzeit in der Vergangenheit liegt.
+        /// </summary>
+        /// <param name="now">Zeit, die verglichen wird.</param>
+        /// <returns>Gibt Wahrheitswert zurück, ob alle Buchungen erfolgreich entfernt wurden, deren Endzeit inder Vergangenheit liegt.</returns>
         public bool clean(DateTime now)
         {
             
@@ -88,6 +95,11 @@ namespace Sopro.Models.Administration
 
         /* Sets active attribute of booking to the opposite boolean and notifys user.
          */
+        /// <summary>
+        /// Ändernt den Status der Buchung, auf den entgegengesetzen Wahrheitswert.
+        /// User wird Benachrichtigt, dass er Erfogreich ein bzw. aus gecheckt ist.
+        /// </summary>
+        /// <param name="booking">Buchung, deren Status geändert wird.</param>
         public void toggleCheck(Booking booking)
         {
             int index = bookings.IndexOf(booking);
