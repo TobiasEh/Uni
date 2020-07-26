@@ -11,6 +11,13 @@ namespace Sopro.CustomValidationAttributes
         {
             min = _min;
         }
+        /// <summary>
+        /// Überprüft ob die Anzahl der Elemente einer Liste das übergebene Minimum beträgt.
+        /// </summary>
+        /// <param name="value">übergebene Liste.</param>
+        /// <returns>
+        /// erzeugt eine erfolgreiche Validierung, falls die Liste genug Elemente enthält.
+        /// </returns>
         public override bool IsValid(object value)
         {
             var list = value as IList;

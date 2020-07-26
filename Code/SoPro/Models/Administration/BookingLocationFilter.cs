@@ -41,7 +41,7 @@ namespace Sopro.Models.Administration
         }
 
         /// <summary>
-        /// Filtert die Liste der übergebenen Buchungen nach Standort, Startzeit und Zeitspanne
+        /// Filtert die Liste der übergebenen Buchungen nach Standort, Startzeit und Zeitspanne.
         /// </summary>
         /// <param name="bookings">Liste der Buchungen die gefiltert werden soll.</param>
         /// <returns>

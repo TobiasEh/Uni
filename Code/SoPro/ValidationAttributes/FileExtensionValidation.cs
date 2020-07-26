@@ -11,6 +11,13 @@ namespace Sopro.ValidationAttributes
         {
             extension = _extension;
         }
+        /// <summary>
+        /// Überprüft die geladene Datei auf eine Dateiendung.
+        /// </summary>
+        /// <param name="value">geladene Datei.</param>
+        /// <returns>
+        /// erzeugt eine erfolgreiche Validierung oder falsifiziert das Objekt, wenn Dateiendung ungleich..
+        /// </returns>
         public override bool IsValid(object value)
         {
             IFormFile file = value as IFormFile;

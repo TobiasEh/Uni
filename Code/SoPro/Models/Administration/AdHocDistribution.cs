@@ -28,18 +28,18 @@ namespace Sopro.Models.Administration
 
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
-            //Sortiert Buchungsliste nach Proirität
+            // Sortiert Buchungsliste nach Proirität.
             int[] map = { 4, 0, 1, 2, 3 };
             List<Booking> sortedBookings = bookings.OrderBy(o => map[(int)(o.priority)]).ToList();
 
-            //Speichert location und emergency ab
+            // Speichert location und emergency ab.
             Location location = (Location)sortedBookings.First().location;
             double backup = location.emergency;
             int concurrentCount = 0;
 
             List<UsedTimeSlots> usedTimeSlots = new List<UsedTimeSlots>();
 
-            //Füge alle Stations in usedTimeSlots
+            // Füge alle Stations in usedTimeSlots.
             foreach (Zone z in location.zones)
             {
                 foreach (Station s in z.stations)
@@ -49,7 +49,7 @@ namespace Sopro.Models.Administration
                 }
             }
 
-            //Füge alle bereits gebuchten Bookings in usedTimeSlots ein und berechne ahtuelle Workload 
+            // Füge alle bereits gebuchten Bookings in usedTimeSlots ein und berechne ahtuelle Workload.
             foreach (Booking bo in schedule.bookings)
             {
                 foreach (UsedTimeSlots u in usedTimeSlots)
@@ -64,14 +64,14 @@ namespace Sopro.Models.Administration
                 }
             }
 
-            //Versuche jede Buchung einzufügen
+            // Versuche jede Buchung einzufügen.
             foreach (Booking booking in sortedBookings)
             {
                 bool inserted = false;
-                //Überprüfe aktuelle Station
+                // Überprüfe aktuelle Station.
                 foreach (UsedTimeSlots station in usedTimeSlots)
                 {
-                    //Hat die Station die benötigten Plugs
+                    // Hat die Station die benötigten Plugs.
                     if (HasRequestedPlugs(booking, station.Station))
                     {
                         PlugType selected = SelectPlug(booking.plugs);
@@ -98,10 +98,10 @@ namespace Sopro.Models.Administration
                         }
                         else
                         {
-                            //Versuche Buchung dynamisch einzuspielen
+                            // Versuche Buchung dynamisch einzuspielen.
                             for (int offset = 0; booking.startTime.AddMinutes(offset + duration) < booking.endTime; offset += 15)
                             {
-                                //Gibt es noch einen Platz für die Buchung
+                                // Gibt es noch einen Platz für die Buchung.
                                 if (CheckCurrentBooking(station.Used, booking.startTime.AddMinutes(offset), booking.startTime.AddMinutes(offset + duration), station.Station))
                                 {
                                     booking.station = station.Station;

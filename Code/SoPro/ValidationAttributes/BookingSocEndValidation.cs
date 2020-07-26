@@ -9,7 +9,14 @@ namespace Sopro.ValidationAttributes
     {
         private int socStart;
         private int socEnd;
-        
+        /// <summary>
+        /// Überprüft ob der Nutzer einen späteren Endadestatus als Startladestatus bei der Eingabe gewählt hat.
+        /// </summary>
+        /// <param name="value">gewählter Endladestatus.</param>
+        /// <param name="validationContext">gewählter Startladestatus.</param>
+        /// <returns>
+        /// erzeugt eine erfolgreiche Validierung oder eine Fehlermeldung, falls die Abfrage fehlschlägt.
+        /// </returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var property = validationContext.ObjectType.GetProperty("socStart");

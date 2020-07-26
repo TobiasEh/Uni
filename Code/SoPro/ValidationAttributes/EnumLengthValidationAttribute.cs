@@ -17,7 +17,13 @@ namespace Sopro.ValidationAttributes
             enumlength = Enum.GetNames(enumType).Length;
             min = _min;
         }
-
+        /// <summary>
+        /// Überprüft ob die Anzahl der Listenelemente für as zugehörige Enum sinnvoll ist.
+        /// </summary>
+        /// <param name="value">übergegebene Liste.</param>
+        /// <returns>
+        /// erzeugt eine erfolgreiche Validierung, Anzahl an Listenelementen passt.
+        /// </returns>
         public override bool IsValid(object value)
         {
             var list = value as IList;
