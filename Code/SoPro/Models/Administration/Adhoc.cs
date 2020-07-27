@@ -17,7 +17,7 @@ namespace Sopro.Models.Administration
 
         public bool triggerBookingDistribution()
         {
-            this.location.distributor.strategy = new AdHocDistribution();
+            location.distributor.strategy = new AdHocDistribution();
             return this.location.distributor.run(new List<Booking> { this });
         }
     }

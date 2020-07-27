@@ -22,25 +22,25 @@ namespace Sopro.Models.Communication
         {
             messenger = new Messenger();
             commands = new List<string>();
-            //Indize:
-            //0
+            // Indizes.
+            // 0.
             commands.Add("Ihre Buchung im Büro {0} mit den Daten:" +
                 "\n\tStart-SoC: {1}," +
                 "\n\tEnd-Soc: {2}," +
                 "\nist hiermit ");
-            //1
+            // 1.
             commands.Add("bestätigt.\n");
-            //2
+            // 2.
             commands.Add("abgelehnt.\n");
-            //3
+            // 3.
             commands.Add("eingecheckt.\n");
-            //4
+            // 4.
             commands.Add("ausgecheckt.\n");
-            //5
+            // 5.
             commands.Add("\nIhre Ladezeit beginnt am {0} um {1} Uhr und endet am {2} um {3} Uhr.\n" +
                 "Bitte begeben Sie sich, kurz bevor Ihre Ladezeit  beginnt, mit Ihrem Auto zur Ladestation mit der Nummer {4}.\n" +
                 "Vergessen Sie nicht sich einzuchecken, wenn Sie Ihr Auto angesteckt haben, da ansonsten Ihr Ladeplatz womöglich weitervergeben wird.");
-            //6
+            // 6.
             commands.Add("\nBitte versuchen Sie erneu eine Buchung zu erstellen.\n" +
                 "Ihre gesamten Daten waren:\n" +
                 "\tStart-Soc: {0},\n" +
@@ -49,10 +49,10 @@ namespace Sopro.Models.Communication
                 "\tEndzeitpunkt: {3},\n" +
                 "\tKapazität: {4}.\n" +
                 "Wir bitten entstandene Unanehmlichkeiten zu entschuldigen.");
-            //7
+            // 7.
             commands.Add("\nSie könne jetzt Ihr Auto verlasse.\n" +
                 "Zur Erinnerung: Ihre Ladezeit endet am {0} um {1} Uhr.");
-            //8
+            // 8.
             commands.Add("Bitte verlassen Sie nun die Ladestation.\n\n" +
                 "Wir wünschen noch einen schönen Tag.");
         }

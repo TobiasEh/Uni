@@ -1,5 +1,8 @@
 ﻿namespace Sopro.Models.Communication
 {
+    /// <summary>
+    /// Ereignisse zu denen nachrichten an den Benutzer versendet werden,
+    /// </summary>
     public static class NotificationEvent
     {
         public static string ACCEPTED = "acceptedBooking";

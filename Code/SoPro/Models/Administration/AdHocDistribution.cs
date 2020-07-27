@@ -25,7 +25,13 @@ namespace Sopro.Models.Administration
             }
         }
 
-
+        /// <summary>
+        /// Verteilungsalgorithmus für Adhoc-Buchungen.
+        /// </summary>
+        /// <param name="bookings">Die Buchungsanfragen.</param>
+        /// <param name="schedule">Die Schedule, in die akzeptierte Buchungen eingeordnet werden sollen.</param>
+        /// <param name="puffer">Der zeitliche Mindestabstand zwischen zwei Buchungen.</param>
+        /// <returns></returns>
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
             // Sortiert Buchungsliste nach Proirität.
@@ -130,9 +136,9 @@ namespace Sopro.Models.Administration
             return true;
         }
 
-        /// <summary>Überprüfe ob die Station die benötigten PlugTypen hat</summary
-        /// <param name="booking">Zu überprüfenden Buchung</param>
-        /// <param name="station">zu überprüfende Station</param>
+        /// <summary>Überprüfe ob die Station die benötigten Steckertypen hat.</summary
+        /// <param name="booking">Zu überprüfenden Buchung.</param>
+        /// <param name="station">zu überprüfende Station.</param>
         /// <returns>true: falls alle PlugTyps der Buchung in der Station vorhanden sind
         ///          sonst: false</returns>
         private bool HasRequestedPlugs(Booking booking, Station station)
@@ -155,11 +161,11 @@ namespace Sopro.Models.Administration
             return true;
         }
 
-        /// <summary>Prüfe ob die beiden Zeitintervalle überlappend sind</summary>
-        /// <param name="start1">Startzeit des ersten Intervalls</param>
-        /// <param name="end1">Endzeit des ersten Intervalls</param>
-        /// <param name="start2">Startzeit des zweiten Intervalls</param>
-        /// <param name="end2">Endzeit des zweiten Intervalls</param>
+        /// <summary>Prüfe ob die beiden Zeitintervalle überlappend sind.</summary>
+        /// <param name="start1">Startzeit des ersten Intervalls.</param>
+        /// <param name="end1">Endzeit des ersten Intervalls.</param>
+        /// <param name="start2">Startzeit des zweiten Intervalls.</param>
+        /// <param name="end2">Endzeit des zweiten Intervalls.</param>
         /// <returns>true: wenn beide Intervalle nicht überlappen
         ///          sonst: false</returns>
         private bool DateOverlapping(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
@@ -171,11 +177,11 @@ namespace Sopro.Models.Administration
             return false;
         }
 
-        /// <summary>Prüft, on die aktuelle Buchung noch in der Station eingefügt werden kann</summary>
-        /// <param name="spots">Bereits belegte Zeitperioden</param>
-        /// <param name="station">Zu prüfende Station</param>
-        /// <param name="start">Startzeit der Buchung</param>
-        /// <param name="end">Endzeit der Buchung</param>
+        /// <summary>Prüft, on die aktuelle Buchung noch in der Station eingefügt werden kann.</summary>
+        /// <param name="spots">Bereits belegte Zeitperioden.</param>
+        /// <param name="station">Zu prüfende Station.</param>
+        /// <param name="start">Startzeit der Buchung.</param>
+        /// <param name="end">Endzeit der Buchung.</param>
         /// <returns>true: wenn Station noch einen Platz für die Buchung frei hat
         ///          sonst: false</returns>
         private bool CheckCurrentBooking(List<List<DateTime>> spots, DateTime start, DateTime end, Station station)
@@ -195,12 +201,12 @@ namespace Sopro.Models.Administration
             return false;
         }
 
-        /// <summary>Berechnet die benötigte Ladedauer und rundet diese auf das nächste 15 Min. Intervall</summary>
-        /// <param name="socStart">Start SOC</param>
-        /// <param name="socEnd">End SOC</param>
-        /// <param name="capacity">Max. Kapazität der Buchung/Autos</param>
-        /// <param name="power">Ladestärke der Station</param>
-        /// <param name="puffer">Pufferzeit zwischen Buchungen</param>
+        /// <summary>Berechnet die benötigte Ladedauer und rundet diese auf das nächste 15 Min. Intervall.</summary>
+        /// <param name="socStart">Start-Ladezustand. (SOC).</param>
+        /// <param name="socEnd">End-Ladezustand. (SOC)</param>
+        /// <param name="capacity">Max. Kapazität der Buchung/Autos.</param>
+        /// <param name="power">Ladestärke der Station.</param>
+        /// <param name="puffer">Pufferzeit zwischen Buchungen.</param>
         private int CalculateDuration(int socStart, int socEnd, int capacity, int power, int puffer)
         {
             double soc = socEnd - socStart;
@@ -219,18 +225,18 @@ namespace Sopro.Models.Administration
             return duration + 15 - remainder;
         }
 
-        /// <summary>Wählt ein passendes Plug aus der Liste aus</summary>
-        /// <param name="plugs">Verfügbare Plugs der Buchung</param>
-        /// <returns>Ausgewähltes Plug</returns>
+        /// <summary>Wählt einen passenden Stecker aus der Liste aus.</summary>
+        /// <param name="plugs">Verfügbare Stecker der Buchung.</param>
+        /// <returns>Ausgewählter Stecjer.</returns>
         private PlugType SelectPlug(List<PlugType> plugs)
         {
             return plugs.First();
         }
 
-        /// <summary>Rundet den Zeitpunkt auf das nächste d.Minuten Intervall </summary>
-        /// <param name="dt">Zeitpunkt</param>
-        /// <param name="d">Rundungsparameter</param>
-        /// <returns>Aufgerundetes Datum</returns>
+        /// <summary>Rundet den Zeitpunkt auf das nächste d.Minuten Intervall. </summary>
+        /// <param name="dt">Zeitpunkt.</param>
+        /// <param name="d">Rundungsparameter.</param>
+        /// <returns>Aufgerundetes Datum.</returns>
         private DateTime RoundUp(DateTime dt, TimeSpan d)
         {
             return new DateTime((dt.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, dt.Kind);
