@@ -9,16 +9,17 @@ namespace Sopro.Models.Simulation
         public List<DateTime> generateDateTimeValues(DateTime start, DateTime end, int bookings)
         {
             List<DateTime> DTList = new List<DateTime>();
-            double differenceInHours = (end - start).TotalHours;
+            double difH = (end - start).TotalHours;
+            Random rand = new Random();
+
+            // Box-Muller algorithm   https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
             for (int i = 0; i < bookings; i++) 
             {
                 DateTime dt = start;
-                DTList.Add(dt.AddHours(boxmuller(differenceInHours)));
+                DTList.Add(dt.AddHours(boxmuller(difH)));
             }
             return DTList;
         }
-
-        // Generates values using Box-Muller algorithm. https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
         private double boxmuller(double interval)
         {
             Random rand = new Random();
