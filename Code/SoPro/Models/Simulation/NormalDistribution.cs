@@ -10,6 +10,50 @@ namespace Sopro.Models.Simulation
     /// </summary>
     public class NormalDistribution : IFunctionStrategy
     {
+        public List<DateTime> generateDateTimeValues(DateTime start, DateTime end,double maxProbability, double minProbability, TimeSpan length, int bookings, double spread)
+        {
+            Random r = new Random();
+
+            DateTime currently = start;
+            List<DateTime> generatedTimeStemps = new List<DateTime>();
+
+            // Zeitspanne der Buchung
+            TimeSpan timeSpan = end - start;
+
+            // Mittelpunkt. Gibt den Punkt an an dem die höchste Wahrscheinlichkeit errreicht werden soll.
+            int peak = (int) (timeSpan.TotalMinutes) / 2;
+
+            
+            double diff = maxProbability - minProbability;
+
+            // berechnet den multieplier mit dem man sicherstellen kan, dass das minimum nie unterschritten und das maximum ne überschritten wird.
+            double multiplier = (diff) / ((1 / spread * Math.Sqrt(Math.PI * 2)) * Math.Log((-0.5) * Math.Pow((peak-peak)/spread,2)));
+
+            // Läuft durch alle Möglichen Zeitschritte.
+            while(currently <= end)
+            {
+                // Berechnet die Wahrscheinlichkeit mit der zu diesem Zeitpunkt eine Buchung erstellt werden soll.
+                double prob = ((1 / spread * Math.Sqrt(Math.PI * 2)) * Math.Log((-0.5) * Math.Pow(((end-currently).TotalMinutes - peak) / spread, 2))) * multiplier + minProbability;
+
+                if(prob <= r.NextDouble())
+                {
+                    // Zeitpunkt wird der Liste hinzugefügt.
+                    generatedTimeStemps.Add(currently);
+                    bookings--;
+                    if(bookings == 0)
+                    {
+                        // Keine Buchungen mehr übrig.
+                        return generatedTimeStemps;
+                    }
+                }
+                // Weiterzählen um length
+                currently.Add(length);
+            }
+            return generatedTimeStemps;
+        }
+
+
+        /*
         /// <summary>
         /// Erstelle die Liste der normalverteilten Zeiten.
         /// </summary>
@@ -54,6 +98,7 @@ namespace Sopro.Models.Simulation
                 }
             }
             return boxmuller(interval);
-        }
+        } */
+        
     }
 }
