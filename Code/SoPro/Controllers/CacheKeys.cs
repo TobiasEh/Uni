@@ -1,5 +1,8 @@
 ﻿namespace Sopro.Controllers
 {
+    /// <summary>
+    /// Schlüssel um den Listen aus dem Cache zu holen.
+    /// </summary>
     public static class CacheKeys
     {
         public static string BOOKING = "bookingKey";

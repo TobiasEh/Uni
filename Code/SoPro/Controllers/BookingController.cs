@@ -15,42 +15,60 @@ using Sopro.Persistence.PersBooking;
 
 namespace Sopro.Controllers
 {
+    /// <summary>
+    /// Kontroller Klasse für das Verwalten der Buchungen auf der Gui.
+    /// </summary>
     public class BookingController : Controller
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
         private IBookingService service = new BookingService();
 
+        /// <summary>
+        /// Konstruktor des Kontrollers für die Buchungen.
+        /// </summary>
+        /// <param name="_cache"> Cache der Anwendung.</param>
         public BookingController(IMemoryCache _cache)
         {
             cache = _cache;
         }
 
-        /* Method to show Index or Dashobard.
-         * If the User has the role "Planer", then Admin.Dashboard view is returned,
-         * with scheduled and unscheduled bookings.
-         * Else the Booking.Index view with all bookings is returned.
-         */
+
+        /// <summary>
+        /// Zeigt dem Benutzer eine Übersicht seiner Buchungen an. 
+        /// Sollte der Benutzer über die Rolle PLANER verfügen, wird er weitergeleitet auf die Adminsicht. 
+        /// Sollte er nicht angemeldet sein, wird er auf die Startseite weitergeleitet.
+        /// </summary>
+        /// <returns>Eine Übersicht aller Buchungen.</returns>
         public IActionResult Index()
         {
-            //Session for the role of the User
+            // Einlesen der session Variable "role", welche die Rolle des Benutzer beschreibt.
             var userID = this.HttpContext.Session.GetString("role");
+
+            // Weiterleiten auf die Startseite sollte der Benutzer nicht eingeloggt sein.
             if (userID == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            List<Booking> unscheduledBookings = new List<Booking>();
-            List<Booking> scheduledBookings = new List<Booking>();
-            var cacheKey = CacheKeys.BOOKING;
-            if (!cache.TryGetValue(cacheKey, out bookings))
-            {
-                bookings = new List<IBooking>();
-            }
+
+            // Weiterleiten auf die admin Seite sollte der Benutzer nicht eingeloggt sein.
             if (userID.Equals(UserType.PLANER.ToString()))
             {
                 return RedirectToAction("Index", "Admin");
             }
-            else if (userID.Equals(UserType.ASSISTANCE.ToString()))
+
+            List<Booking> unscheduledBookings = new List<Booking>();
+            List<Booking> scheduledBookings = new List<Booking>();
+
+            var cacheKey = CacheKeys.BOOKING;
+            // Die Buchungen werden aus dem Cache geladen.
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+
+            // Befüllen der Listen unscheduledBookings und scheduledBookings, mit den Buchungen, welche die Rolle Assistance sehen darf.
+            if (userID.Equals(UserType.ASSISTANCE.ToString()))
                 {
                 foreach (IBooking item in bookings)
                     if (item.priority == UserType.VIP|| item.priority == UserType.GUEST)
@@ -68,6 +86,7 @@ namespace Sopro.Controllers
             }
             else
             {
+                // Befüllen der Listen unscheduledBookings und scheduledBookings, mit den Buchungen, welche der Benutzer sehen darf.
                 var email = this.HttpContext.Session.GetString("email");
                 foreach (IBooking item in bookings) 
                     if (item.user == email)
@@ -85,24 +104,35 @@ namespace Sopro.Controllers
             }
         }
 
-        /* Returns Booking.Create view.
-         */
+        /// <summary>
+        /// Zeigt Benutzer eine Seite an, auf welcher er neue Buchungen erstellen kann.
+        /// </summary>
+        /// <param name="booking">Eine leere Buchung, oder sollte versucht werden eine Buchung erstellt zu werden, welche nicht den Richtlienen entspricht diese Buchung.</param>
+        /// <returns>Eine Seite für das Erstellen der Buchungen.</returns>
         public IActionResult Create(Booking booking)
         {
+
+            // Die Liste der Standorte wird aus dem Cache geladen.
             var cacheKey = CacheKeys.LOCATION;
             List<ILocation> locations = (List<ILocation>)cache.Get(cacheKey);
             if (locations == null)
             {
                 locations = new List<ILocation>();
             }
+
+            // Sollte die Buchung noch startzeiten mit 0 initialisiert haben wird die Startzeit und die endzeit auf die aktuelle Uhrzeit gestzt.
             if(booking.startTime==new DateTime() && booking.endTime==new DateTime())
             {
                 DateTime now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute,0);
+                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute + 1,0);
                 booking.startTime = now;
                 booking.endTime = now;
             }
-            return View("Create", new BookingCreateViewModel(locations, booking, booking.plugs.Contains(PlugType.CCS), booking.plugs.Contains(PlugType.TYPE2)));           
+
+            // Erstellen des ViewModels für die Seite. 
+            BookingCreateViewModel viewmodel = new BookingCreateViewModel(locations, booking, booking.plugs.Contains(PlugType.CCS), booking.plugs.Contains(PlugType.TYPE2));
+
+            return View("Create", viewmodel);           
         }
 
         /* Method to show all bookings in UI.
@@ -112,21 +142,34 @@ namespace Sopro.Controllers
          * Throws "exception" when booking is not valid.
          * Returns Booking.Index view, with bookinglist.
          */
+
+        /// <summary>
+        /// Testet ob die Buchung, welche mithilfe des viewmodel erstellt wurde valide ist.
+        /// Wenn nicht wird auf die Create Methode verwiesen.
+        /// Ist sie valide, wird auf die Index Methode verwiesen.
+        /// </summary>
+        /// <param name="viewmodel">Daten mit welchen die Buchung gebaut werden kann.</param>
+        /// <returns>Die Methode, welche das weitere Vorgehen beschreibt.</returns>
         [HttpPost]
+        [AutoValidateAntiforgeryToken]
         public IActionResult Post(BookingCreateViewModel viewmodel)
         {
             IBooking booking = viewmodel.booking;
-            List < PlugType > plugs = new List<PlugType>();
 
+            // Die Liste der Standorte wird aus dem Cache geladen.
             List<ILocation> locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
             if (locations == null)
             {
                 locations = new List<ILocation>();
             }
-            if(booking.priority == UserType.EMPLOYEE)
+
+            // Sollte der Benutzer kein ASSISTANCE sein wird seine E-Mail als die E-Mail des Benutzers gestzt.
+            if(booking.priority != UserType.ASSISTANCE)
             {
                 booking.user = this.HttpContext.Session.GetString("email");
             }
+
+            // Filtern des richtigen Standorts aus der Liste der Standorte.
             foreach (ILocation l in locations) 
             {
                 if(l.id.Equals(viewmodel.locationId))
@@ -134,6 +177,9 @@ namespace Sopro.Controllers
                     booking.location = l;
                 }
             }
+
+            // Befüllen der Liste an Stecker, welche zum Auto des Benutzers passen.
+            List < PlugType > plugs = new List<PlugType>();
             if (viewmodel.ccs)
             {
                 plugs.Add(PlugType.CCS);
@@ -143,19 +189,27 @@ namespace Sopro.Controllers
                 plugs.Add(PlugType.TYPE2);
             }
             booking.plugs = plugs;
+            
+            // Validierung der Buchung, bei Fehlschlag wird an die Create Methode weitergeleited.
+            if (!TryValidateModel(booking, nameof(booking)))
+            {
+                return RedirectToAction("Create", "Booking", booking);
+            }
+
+            // Die Buchungen werden aus dem Cache geladen.
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
             }
-            if (!TryValidateModel(booking, nameof(booking)))
-            {
-                return RedirectToAction("Create", "Booking", booking);
-                //throw new Exception("Buchung ist nicht valide!");
-            }
-            DateTime test = DateTime.Now.Date;
+
+            // Sollte der Benutzer eine Adhoc Buchung vornehmen und VIP sein, wird diese erstellt befüllt, verteilt, dem Cache hinzugefügt und es wird zur Index Methode weitergeleited.
             if(booking.startTime.Date == DateTime.Now.Date)
             {
+                if (booking.priority != UserType.VIP)
+                {
+                    return RedirectToAction("Create", "Booking", booking);
+                }
                 Adhoc adhoc = new Adhoc(false) { 
                     capacity = booking.capacity, 
                     plugs = booking.plugs, socStart = 
@@ -173,52 +227,63 @@ namespace Sopro.Controllers
                 adhoc.triggerBookingDistribution();
                 return RedirectToAction("Index", "Booking");
             }
+
+            // Hinzufügen der Buchung zum Cache.
             bookings.Add(booking);
             cache.Set(cacheKey, bookings);
+
             return RedirectToAction("Index", "Booking");
         }
 
-        /* Method to edit already existing bookings.
-         * Booking is removed from bookinglist and cache.
-         * Returns Booking.Create view with already filled fields.
-         */
+         /// <summary>
+         /// Methode für das Bearbeiten bestehender Buchungen.
+         /// Entfernt die Buchung aus dem Cache.
+         /// </summary>
+         /// <param name="bookingID"> ID der Buchung, welche bearbeitet werden soll.</param>
+         /// <returns> Eine Seite für das Bearbeiten der Buchung.</returns>
         public IActionResult Edit(string bookingID)
         {
+            // Die Buchungen werden aus dem Cache geladen.
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
             }
+
+            // Herausfiltern der Buchung, welche die übergebene Id hat.
             Booking booking = null;
             foreach (Booking b in bookings)
             {
                 if (b.id.Equals(bookingID))
                 {
                     booking = b;
+
+                    // Entfernen der gefundenen Buchung aus dem Cach.
+                    bookings.Remove(booking);
+                    cache.Set(cacheKey, bookings);
+
                     break;
                 }
             }
-            
-            bookings.Remove(booking);
-            cache.Set(cacheKey, bookings);
+
+            // Die Liste der Standorte wird aus dem Cache geladen.
             List<ILocation> locations;
             if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
             {
                 locations =new List<ILocation>();
             }
             
-            
+            // Anlegen des ViewModels für die Seite.
             BookingCreateViewModel viewmodel = new BookingCreateViewModel(locations, booking, false, false);
             if (booking.plugs.Contains(PlugType.CCS))
             {
                 viewmodel.ccs = true;
             }
-
-
             if (booking.plugs.Contains(PlugType.TYPE2))
             {
                 viewmodel.type2 = true;
             }
+
             return View("Create", viewmodel);
         }
 
@@ -226,93 +291,76 @@ namespace Sopro.Controllers
          * Booking is removed from bookinglist and cache.
          * Returns Booking.Index view, without the given booking.
          */
+         /// <summary>
+         /// Methode für das Löschen einer Buchung.
+         /// </summary>
+         /// <param name="bookingID">Die ID der zu löschenten Buchung.</param>
+         /// <returns> Weiterleitung zu der Index Methode.</returns>
         public IActionResult Delete(string bookingID)
         {
+            // Die Buchungen werden aus dem Cache geladen.
             var cacheKey = CacheKeys.BOOKING;
             if (!cache.TryGetValue(cacheKey, out bookings))
             {
                 bookings = new List<IBooking>();
             }
+
+            // Die Buchung ermittelt, entfernt und es wird weitergeleitet zur Index Methode.
+            Booking booking = null;
+            foreach (Booking b in bookings)
+            {
+                if (b.id.Equals(bookingID))
+                {
+                    booking = b; 
+                    bookings.Remove(booking);
+                    cache.Set(cacheKey, bookings);
+                    return RedirectToAction("index");
+                }
+            }
+
+            //Sollte Keine Buchung gefunden werden. Nicht Möglich.
+            return RedirectToAction("index");
+        }
+
+        /// <summary>
+        /// Methode für das ein Checken und aus Checken. 
+        /// Das activ Attribut wird abgeändert sollte der Benutzer sich im Zeitraum befinden.
+        /// </summary>
+        /// <param name="bookingID"></param>
+        /// <returns></returns>
+        public IActionResult ToggleCheck(string bookingID)
+        {
+            // Die Buchungen werden aus dem Cache geladen.
+            var cacheKey = CacheKeys.BOOKING;
+            if (!cache.TryGetValue(cacheKey, out bookings))
+            {
+                bookings = new List<IBooking>();
+            }
+
+            // Die Buchung ermittelt.
             Booking booking = null;
             foreach (Booking b in bookings)
             {
                 if (b.id.Equals(bookingID))
                 {
                     booking = b;
-                    break;
                 }
             }
 
-            bookings.Remove(booking);
-            cache.Set(cacheKey, bookings);
-
-            return RedirectToAction("index");
-        }
-
-        /* Method takes care about Check-In/-Out.
-         * Therefore it changes the attribute active of given booking to the opposite boolean.
-         * Returns Booking.Index view, with bookinglist.
-         */
-        public IActionResult ToggleCheck(IBooking booking)
-        {
-            var cacheKey = CacheKeys.BOOKING;
-
-            int index = bookings.IndexOf(booking);
-            booking.location.schedule.toggleCheck((Booking)booking);
-            bookings[index].active = !bookings[index].active;
-
-            cache.Set(cacheKey, bookings);
-            return View("Index", bookings);
-
-        }
-        /*
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Import([FromForm]FileViewModel model)
-        {
-            IFormFile file = model.importedFile;
-            List<Booking> importedBookings = service.Import(file);
-
-            if (!cache.TryGetValue(CacheKeys.BOOKING, out bookings))
+            // Sollte die Buchung Aktiv sein, wird sie inaktiv.
+            if (booking.active)
             {
-                bookings = new List<IBooking>();
+                booking.active = false;
+                return RedirectToAction("Index");
+            }
+            // Sollte die Buchung inaktiv sein und die aktuelle Zeit im Ladezeitraum liegen, wird diese aktiviert.
+            else if(booking.startTime >= DateTime.Now && booking.endTime <= DateTime.Now)
+            {
+                booking.active = true;
+                return RedirectToAction("Index");
             }
 
-            List<ILocation> locations;
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-
-            foreach (IBooking boo in importedBookings)
-            {
-                if (!bookings.Contains(boo))
-                {
-                    bookings.Add(boo);
-
-                    if (!locations.Contains(boo.location))
-                    {
-                        locations.Add(boo.location);
-                    }
-
-                }
-            }
-
-            cache.Set(CacheKeys.LOCATION, locations);
-            cache.Set(CacheKeys.BOOKING, bookings);
-            return View("Index", bookings);
+            return RedirectToAction("Index");
         }
-
-        public IActionResult Export([FromForm]FileViewModel model)
-        {
-            cache.TryGetValue(CacheKeys.BOOKING, out bookings);
-            IFormFile file = model.exportedFile;
-            string path = Path.GetFullPath(file.Name);
-            service.export(bookings);
-
-            return View("Index", bookings);
-        }
-        */
     }
-
 }
