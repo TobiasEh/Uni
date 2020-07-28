@@ -45,11 +45,11 @@ namespace Sopro.Models.Simulation
         /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war oder nicht.</returns>
         public bool addVehicle(Vehicle vehicle)
         {
-            if (vehicle == null)
+            if (vehicles.Contains(vehicle))
                 return false;
 
             vehicles.Add(vehicle);
-            return true;
+            return vehicles.Contains(vehicle);
         }
 
         /// <summary>
@@ -59,13 +59,11 @@ namespace Sopro.Models.Simulation
         /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war oder nicht.</returns>
         public bool deleteVehicle(Vehicle vehicle)
         {
-            if (!vehicles.Any())
-                return false;
             if (!vehicles.Contains(vehicle))
                 return false;
 
             vehicles.Remove(vehicle);
-            return true;
+            return !vehicles.Contains(vehicle);
         }
 
         /// <summary>
@@ -75,13 +73,11 @@ namespace Sopro.Models.Simulation
         /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war oder nicht.</returns>
         public bool addRushhour(Rushhour rushhour)
         {
-            if (rushhour == null)
-                return false;
             if (rushhours.Contains(rushhour))
                 return false;
 
             rushhours.Add(rushhour);
-            return true;
+            return rushhours.Contains(rushhour);
         }
 
         /// <summary>
@@ -91,13 +87,11 @@ namespace Sopro.Models.Simulation
         /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war oder nicht.</returns>
         public bool deleteRushhour(Rushhour rushhour)
         {
-            if (!rushhours.Any())
-                return false;
             if (!rushhours.Contains(rushhour))
                 return false;
 
             rushhours.Remove(rushhour);
-            return true;
+            return !rushhours.Contains(rushhour);
         }
     }
 }

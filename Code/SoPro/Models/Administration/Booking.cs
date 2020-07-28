@@ -49,7 +49,9 @@ namespace Sopro.Models.Administration
         public ILocation location { get; set; } = new Location();
         public UserType priority { get; set; } = UserType.EMPLOYEE;
 
-
+        /// <summary>
+        /// Konstruktor der Klasse der Buchungen.
+        /// </summary>
         public Booking()
         {
             id = Guid.NewGuid().ToString();
