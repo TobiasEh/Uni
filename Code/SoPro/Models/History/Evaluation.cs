@@ -7,6 +7,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sopro.Models.History
 {
+    /// <summary>
+    /// Evaluation zu einem Szenario.
+    /// </summary>
     public class Evaluation : IEvaluation
     {
         [Range(0,1)]
@@ -19,12 +22,23 @@ namespace Sopro.Models.History
         [EnumLength(1, typeof(PlugType))]
         public List<double> plugDistributionDeclined { get; set; }
 
+        /// <summary>
+        /// Füge einen Vorschlag hinzu.
+        /// </summary>
+        /// <param name="suggestion">Der Vorschlag als Ergebnis der Evaluation.</param>
+        /// <returns>Wahrheitswert ob das Hinzufügen erfolgreich war.</returns>
         public bool addSuggestion(Suggestion suggestion)
         {
             var pCount = suggestions.Count;
             suggestions.Add(suggestion);
             return pCount == suggestions.Count - 1;
         }
+
+        /// <summary>
+        /// Entferne einen Vorschlag.
+        /// </summary>
+        /// <param name="suggestion">Der zu entfernende Vorschlag.</param>
+        /// <returns>Wahrheitswert ob das Entfernen des Vorschlags erfolgreich war.</returns>
         public bool removeSuggestion(Suggestion suggestion)
         {
             var pCount = suggestions.Count;

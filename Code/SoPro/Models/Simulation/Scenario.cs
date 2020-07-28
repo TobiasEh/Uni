@@ -8,6 +8,10 @@ using System.Linq;
 
 namespace Sopro.Models.Simulation
 {
+    /// <summary>
+    /// Die Klasse die ein Szenario beschreibt. Ein Szenario ist eine Template
+    /// für eine zu simulierende Verteilung einer Buchungsabfolge.
+    /// </summary>
     public class Scenario : IScenario
     {
         public string id { get; set; }
@@ -26,46 +30,72 @@ namespace Sopro.Models.Simulation
         [Required]
         public ILocation location { get; set; }
 
+        /// <summary>
+        /// Konstruktor des Szenarios.
+        /// </summary>
         public Scenario()
         {
             id = Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// Füge dem Szenario ein Fahrzeug hinzu.
+        /// </summary>
+        /// <param name="vehicle">Das hinzuzufügende Fahrzeug.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war oder nicht.</returns>
         public bool addVehicle(Vehicle vehicle)
         {
             if (vehicle == null)
-            {
                 return false;
-            }
+
             vehicles.Add(vehicle);
             return true;
         }
+
+        /// <summary>
+        /// Entferne ein Fahrzeug aus dem Szenario.
+        /// </summary>
+        /// <param name="vehicle">Das zu entfernende Fahrzeug.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war oder nicht.</returns>
         public bool deleteVehicle(Vehicle vehicle)
         {
             if (!vehicles.Any())
                 return false;
             if (!vehicles.Contains(vehicle))
                 return false;
+
             vehicles.Remove(vehicle);
             return true;
         }
 
+        /// <summary>
+        /// Füge dem Szenario eine Stoßzeit hinzu.
+        /// </summary>
+        /// <param name="rushhour">Die hinzuzufügende Stoßzeit.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war oder nicht.</returns>
         public bool addRushhour(Rushhour rushhour)
         {
             if (rushhour == null)
                 return false;
             if (rushhours.Contains(rushhour))
                 return false;
+
             rushhours.Add(rushhour);
             return true;
         }
 
+        /// <summary>
+        /// Entferne eine Stoßzeit aus dem Szenario.
+        /// </summary>
+        /// <param name="rushhour">Die zu entfernende Stoßzeit.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war oder nicht.</returns>
         public bool deleteRushhour(Rushhour rushhour)
         {
             if (!rushhours.Any())
                 return false;
             if (!rushhours.Contains(rushhour))
                 return false;
+
             rushhours.Remove(rushhour);
             return true;
         }

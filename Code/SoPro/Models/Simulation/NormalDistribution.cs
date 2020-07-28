@@ -4,8 +4,19 @@ using System.Collections.Generic;
 
 namespace Sopro.Models.Simulation
 {
+    /// <summary>
+    /// Erstellt eine zeitliche Normalverteilung für Buchungen über einen Tag hinweg.
+    /// Wird genutzt um Buchungen für die Simulation zu generieren.
+    /// </summary>
     public class NormalDistribution : IFunctionStrategy
     {
+        /// <summary>
+        /// Erstelle die Liste der normalverteilten Zeiten.
+        /// </summary>
+        /// <param name="start">Anfang des Zeitraums.</param>
+        /// <param name="end">Ende des Zeitraums.</param>
+        /// <param name="bookings">Die Anzahl der Buchungen, die in diesem Zeitraum normalverteilt werden sollen.</param>
+        /// <returns>Eine Liste an DateTimes um die normalverteilten Buchungen zu erstellen.</returns>
         public List<DateTime> generateDateTimeValues(DateTime start, DateTime end, int bookings)
         {
             List<DateTime> DTList = new List<DateTime>();
@@ -20,6 +31,8 @@ namespace Sopro.Models.Simulation
             }
             return DTList;
         }
+
+
         private double boxmuller(double interval)
         {
             Random rand = new Random();

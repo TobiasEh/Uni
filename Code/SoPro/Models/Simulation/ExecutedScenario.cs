@@ -19,6 +19,14 @@ namespace Sopro.Models.Simulation
         public List<Booking> bookings { get; set; }
         public readonly List<Booking> generatedBookings;
 
+
+        /// <summary>
+        /// Konstruktor eines auszuführenden Szenarios.
+        /// </summary>
+        /// <param name="scenario">
+        /// Das Szenario das als Grundlage zur
+        /// Erstellung des auszuführenden Szenarios dient.
+        /// </param>
         public ExecutedScenario(Scenario scenario)
         {
             bookings = new List<Booking>();
@@ -75,11 +83,13 @@ namespace Sopro.Models.Simulation
         {
             int count = locationWorkload.Count();
             locationWorkload.Add(location);
+
             if (count == locationWorkload.Count())
                 return false;
 
             count = stationWorkload.Count();
             stationWorkload.Add(station);
+
             if (count == stationWorkload.Count())
                 return false;
             return true;

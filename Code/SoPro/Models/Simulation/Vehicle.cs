@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 namespace Sopro.Models.Simulation
 {
+    /// <summary>
+    /// Klasse die ein Fahrzeug beschreibt. Fahrzeuge sind als Buchungstemplates anzusehen.
+    /// Aus Fahrzeugen werden während der Simulation Buchungen generiert.
+    /// </summary>
     public class Vehicle : IVehicle
     {
         public string id { get; set; }
@@ -25,7 +29,10 @@ namespace Sopro.Models.Simulation
         [Required]
         [EnumLength(1, typeof(PlugType))]
         public List<PlugType> plugs { get; set; } = new List<PlugType>();
-
+        
+        /// <summary>
+        /// Konstruktor des Fahrzeugs.
+        /// </summary>
         public Vehicle()
         {
             id = Guid.NewGuid().ToString();

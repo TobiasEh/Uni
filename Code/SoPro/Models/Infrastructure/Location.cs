@@ -7,6 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sopro.Models.Infrastructure
 {
+    /// <summary>
+    /// Die Klasse für den Standort.
+    /// Ein Standort kann mehrere Zonen enthalten.
+    /// </summary>
     public class Location : ILocation
     {
         public string id { get; set; }
@@ -20,6 +24,10 @@ namespace Sopro.Models.Infrastructure
         public Distributor distributor { get; set; }
         public DateTime normalizedDistributionTime { get; set; }
 
+        /// <summary>
+        /// Konstruktor des Standorts. Jeder Standord hat eine Schedule und einen
+        /// Verteiler, sowie eine eindeutige ID.
+        /// </summary>
         public Location()
         {
             schedule = new Schedule();
@@ -28,6 +36,11 @@ namespace Sopro.Models.Infrastructure
            
         }
 
+        /// <summary>
+        /// Fügt dem Standort eine Zone hinzu.
+        /// </summary>
+        /// <param name="zone">Die hinzuzufügende Zone.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war.</returns>
         public bool addZone(Zone zone)
         {
             if(zone != null)
@@ -40,6 +53,12 @@ namespace Sopro.Models.Infrastructure
                 return false;
             }
         }
+
+        /// <summary>
+        /// Entfernt eine Zone aus dem Standort.
+        /// </summary>
+        /// <param name="zone">Die zu entfernende Zone.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war.</returns>
         public bool deleteZone(Zone zone)
         {
             if (zones.Contains(zone))

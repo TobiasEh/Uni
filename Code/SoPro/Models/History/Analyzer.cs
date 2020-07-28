@@ -14,8 +14,8 @@ namespace Sopro.Models.History
     {
         public static Evaluation evaluation { get; set; }
         public static IEvaluatable scenario { get; set; }
-        public static double lowerGate { get; set; }
-        public static double upperGate { get; set; }
+        public static double lowerTreshold { get; set; }
+        public static double upperTreshold { get; set; }
 
         /// <summary>
         /// Analysiert ein gegebenes Szenario. Dabei werden verschiedene Leistungsmetriken
@@ -40,7 +40,6 @@ namespace Sopro.Models.History
                 plugDistributionAccepted = plugTypeDistribution[0],
                 plugDistributionDeclined = plugTypeDistribution[1]
             };
-
             return evaluation;
         }
 
@@ -50,10 +49,12 @@ namespace Sopro.Models.History
         /// <returns>Die generierten Vorschläge.</returns>
         private static List<Suggestion> createSuggestion()
         {
-            int nZones = 0;
-            int nStation = scenario.getStationWorkload().Count;
+            int zoneCount = 0;
+            int stationCount = scenario.getStationWorkload().Count;
             var zonePower = new List<int>();
+            var bookingSuccesRate = calcBookingSuccessRate();
 
+            // Berechne die .
             scenario.location.zones.ForEach( k =>
             {
                 int i = 0;
@@ -61,40 +62,49 @@ namespace Sopro.Models.History
                 zonePower.Add(i);
             });
 
-            if (calcBookingSuccessRate() < lowerGate)
+            // 1. Fall: Buchungs Erfolgsrate ist geringer als festgelegter Schwellenwert, also wird mehr Infrastruktur wird benötigt.
+            if (bookingSuccesRate < lowerTreshold)
             {
-                nStation = (int)(nStation * calcNecessaryWorkload() / 100);
-                int nStationC = nStation;
+                stationCount = (int)(stationCount * calcNecessaryWorkload() / 100);
+                int nStationC = stationCount;
+
+                // Verteile zusätzliche Stationen auf bestehende Zonen, sofern max. Zonenleistung nicht überschritten wird.
                 foreach (Zone zone in scenario.location.zones)
                 {
                     int i = 1;
-                    while (zone.maxPower > zonePower[scenario.location.zones.IndexOf(zone)] + (zonePower.Sum() / nStation) * i && nStationC != 0)
+                    while (zone.maxPower > zonePower[scenario.location.zones.IndexOf(zone)] + (zonePower.Sum() / stationCount) * i && nStationC != 0)
                     {
                         nStationC--;
                         i++;
                     }
                 }
+
+                // Erstelle, falls notwendig, neue Zonen um die restlichen Stationen zu verteilen.
                 if(nStationC < 0)
                 {
-                    while ((0 - nStationC) * (zonePower.Sum() / nStation) > zonePower.Average())
+                    while ((0 - nStationC) * (zonePower.Sum() / stationCount) > zonePower.Average())
                     {
-                        nZones++;
-                        nStationC -= (int)(zonePower.Average() / (zonePower.Sum() / nStation));
+                        zoneCount++;
+                        nStationC -= (int)(zonePower.Average() / (zonePower.Sum() / stationCount));
                     }
                 }
-                return new List<Suggestion>() { new ExpandInfrastructureSuggestion(nStation, nZones) };
+                return new List<Suggestion>() { new ExpandInfrastructureSuggestion(stationCount, zoneCount) };
             }
-            else if (calcBookingSuccessRate() > upperGate)
+            
+            // 2. Fall: Buchungs Erfolgsrate ist höher als festgelegter Schwellenwert, also kann Infrastruktur abgebaut werden.
+            if (bookingSuccesRate > upperTreshold)
             {
-                nStation = (int)(nStation * calcUnnecessaryWorkload() / 100);
+                stationCount = (int)(stationCount * calcUnnecessaryWorkload() / 100);
                 List<int> stationpZone = new List<int>();
                 scenario.location.zones.ForEach(x => stationpZone.Add(x.stations.Count));
-                if (nStation > stationpZone.Average())
+                if (stationCount > stationpZone.Average())
                 {
-                   nZones = nStation / (int)stationpZone.Average();
+                   zoneCount = stationCount / (int)stationpZone.Average();
                 }
-                return new List<Suggestion>() { new CondenseInfrastructureSuggestion(nStation, nZones) };
+                return new List<Suggestion>() { new CondenseInfrastructureSuggestion(stationCount, zoneCount) };
             }
+
+            // 3. Fall: Buchungs Erfolgsrate ist im erwünschten Bereich. Es wird kein Vorschlag unterbreitet.
             return new List<Suggestion>();
         }
 
