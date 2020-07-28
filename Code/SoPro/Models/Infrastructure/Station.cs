@@ -41,15 +41,11 @@ namespace Sopro.Models.Infrastructure
         /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war oder nicht.</returns>
         public bool deletePlug(Plug plug)
         {
-            if (plugs.Contains(plug))
-            {
-                plugs.Remove(plug);
-                return true;
-            }
-            else
-            {
+            if (!plugs.Contains(plug))
                 return false;
-            }
+
+            plugs.Remove(plug);
+            return !plugs.Contains(plug);
         }
     }
 }

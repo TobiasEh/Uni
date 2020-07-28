@@ -33,7 +33,6 @@ namespace Sopro.Models.Infrastructure
             schedule = new Schedule();
             distributor = new Distributor(schedule, this);
             id = Guid.NewGuid().ToString();
-           
         }
 
         /// <summary>
@@ -43,15 +42,11 @@ namespace Sopro.Models.Infrastructure
         /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war.</returns>
         public bool addZone(Zone zone)
         {
-            if(zone != null)
-            {
-                zones.Add(zone);
-                return true;
-            }
-            else
-            {
+            if (zones.Contains(zone))
                 return false;
-            }
+
+            zones.Add(zone);
+            return zones.Contains(zone);
         }
 
         /// <summary>
@@ -61,15 +56,11 @@ namespace Sopro.Models.Infrastructure
         /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war.</returns>
         public bool deleteZone(Zone zone)
         {
-            if (zones.Contains(zone))
-            {
-                zones.Remove(zone);
-                return true;
-            }
-            else
-            {
+            if (!zones.Contains(zone))
                 return false;
-            }
+
+            zones.Remove(zone);
+            return !zones.Contains(zone);
         }
     }
 }

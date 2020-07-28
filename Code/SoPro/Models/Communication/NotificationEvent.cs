@@ -5,9 +5,9 @@
     /// </summary>
     public static class NotificationEvent
     {
-        public static string ACCEPTED = "acceptedBooking";
-        public static string DECLINED = "declinedBooking";
-        public static string CHECKIN = "checkInBooking";
-        public static string CHECKOUT = "checkOutBooking";
+        public const string ACCEPTED = "acceptedBooking";
+        public const string DECLINED = "declinedBooking";
+        public const string CHECKIN = "checkInBooking";
+        public const string CHECKOUT = "checkOutBooking";
     }
 }

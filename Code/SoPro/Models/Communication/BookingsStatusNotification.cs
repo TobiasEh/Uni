@@ -65,27 +65,25 @@ namespace Sopro.Models.Communication
         /// <param name="eventName">Bezeichung, was für eine Art von Nachricht erzeugt werden soll.</param>
         public void update(Booking booking, string eventName)
         {
-            string message;
-            if (eventName.Equals(NotificationEvent.ACCEPTED))
+            string message = "";
+            switch (eventName)
             {
-                message = generateMessageAccepted(booking);
-                messenger.sendMessage(message, booking.user);
+                case NotificationEvent.ACCEPTED:
+                    message = generateMessageAccepted(booking);
+                    break;
+                case NotificationEvent.DECLINED:
+                    message = generateMessageDeclined(booking);
+                    break;
+                case NotificationEvent.CHECKIN:
+                    message = generateMessageCheckIn(booking);
+                    break;
+                case NotificationEvent.CHECKOUT:
+                    message = generateMessageCheckOut(booking);
+                    break;
+                default:
+                    break;
             }
-            else if (eventName.Equals(NotificationEvent.DECLINED))
-            {
-                message = generateMessageDeclined(booking);
-                messenger.sendMessage(message, booking.user);
-            }
-            else if (eventName.Equals(NotificationEvent.CHECKIN))
-            {
-                message = generateMessageCheckIn(booking);
-                messenger.sendMessage(message, booking.user);
-            }
-            else if (eventName.Equals(NotificationEvent.CHECKOUT))
-            {
-                message = generateMessageCheckOut(booking);
-                messenger.sendMessage(message, booking.user);
-            }
+            messenger.sendMessage(message, booking.user);
         }
 
         /// <summary>

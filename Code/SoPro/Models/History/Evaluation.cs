@@ -29,9 +29,11 @@ namespace Sopro.Models.History
         /// <returns>Wahrheitswert ob das Hinzufügen erfolgreich war.</returns>
         public bool addSuggestion(Suggestion suggestion)
         {
-            var pCount = suggestions.Count;
+            if (suggestions.Contains(suggestion))
+                return false;
+
             suggestions.Add(suggestion);
-            return pCount == suggestions.Count - 1;
+            return suggestions.Contains(suggestion);
         }
 
         /// <summary>
@@ -41,9 +43,11 @@ namespace Sopro.Models.History
         /// <returns>Wahrheitswert ob das Entfernen des Vorschlags erfolgreich war.</returns>
         public bool removeSuggestion(Suggestion suggestion)
         {
-            var pCount = suggestions.Count;
+            if (!suggestions.Contains(suggestion))
+                return false;
+
             suggestions.Remove(suggestion);
-            return pCount == suggestions.Count + 1;
+            return !suggestions.Contains(suggestion);
         }
     }
 }

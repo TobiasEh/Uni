@@ -49,59 +49,39 @@ namespace Sopro.Models.History
         /// <returns>Die generierten Vorschläge.</returns>
         private static List<Suggestion> createSuggestion()
         {
-            int zoneCount = 0;
-            int stationCount = scenario.getStationWorkload().Count;
-            var zonePower = new List<int>();
+            var stationCount = scenario.getStationWorkload().Count;
+            var zonePowerList = new List<int>();
             var bookingSuccesRate = calcBookingSuccessRate();
 
-            // Berechne die .
-            scenario.location.zones.ForEach( k =>
+            // Berechne die Summer der Leistung aller Stecker in der Zone.
+            scenario.location.zones.ForEach(k =>
             {
-                int i = 0;
+                var i = 0;
                 k.stations.ForEach(x => i += x.maxPower);
-                zonePower.Add(i);
+                zonePowerList.Add(i);
             });
 
             // 1. Fall: Buchungs Erfolgsrate ist geringer als festgelegter Schwellenwert, also wird mehr Infrastruktur wird benötigt.
             if (bookingSuccesRate < lowerTreshold)
             {
-                stationCount = (int)(stationCount * calcNecessaryWorkload() / 100);
-                int nStationC = stationCount;
+                int requiredStations = (int) Math.Ceiling((stationCount * calcNecessaryWorkload() / 100));
+                int averagedStationPower = (int) Math.Ceiling(zonePowerList.Sum() / (double)stationCount);
+                int availablePower = scenario.location.zones.Sum(x => x.maxPower) - zonePowerList.Sum();
 
-                // Verteile zusätzliche Stationen auf bestehende Zonen, sofern max. Zonenleistung nicht überschritten wird.
-                foreach (Zone zone in scenario.location.zones)
-                {
-                    int i = 1;
-                    while (zone.maxPower > zonePower[scenario.location.zones.IndexOf(zone)] + (zonePower.Sum() / stationCount) * i && nStationC != 0)
-                    {
-                        nStationC--;
-                        i++;
-                    }
-                }
+                if (availablePower < requiredStations * averagedStationPower)
+                    return new List<Suggestion>() { new ExpandInfrastructureSuggestion(requiredStations, 1) };
+                return new List<Suggestion>() { new ExpandInfrastructureSuggestion(requiredStations, 0) };
 
-                // Erstelle, falls notwendig, neue Zonen um die restlichen Stationen zu verteilen.
-                if(nStationC < 0)
-                {
-                    while ((0 - nStationC) * (zonePower.Sum() / stationCount) > zonePower.Average())
-                    {
-                        zoneCount++;
-                        nStationC -= (int)(zonePower.Average() / (zonePower.Sum() / stationCount));
-                    }
-                }
-                return new List<Suggestion>() { new ExpandInfrastructureSuggestion(stationCount, zoneCount) };
             }
-            
+
             // 2. Fall: Buchungs Erfolgsrate ist höher als festgelegter Schwellenwert, also kann Infrastruktur abgebaut werden.
-            if (bookingSuccesRate > upperTreshold)
+            if (bookingSuccesRate > upperTreshold) 
             {
-                stationCount = (int)(stationCount * calcUnnecessaryWorkload() / 100);
-                List<int> stationpZone = new List<int>();
-                scenario.location.zones.ForEach(x => stationpZone.Add(x.stations.Count));
-                if (stationCount > stationpZone.Average())
-                {
-                   zoneCount = stationCount / (int)stationpZone.Average();
-                }
-                return new List<Suggestion>() { new CondenseInfrastructureSuggestion(stationCount, zoneCount) };
+                int unecessaryStations = (int) Math.Floor((stationCount * calcUnnecessaryWorkload() / 100));
+                int averagedStationPower = (int)Math.Ceiling(zonePowerList.Sum() / (double)stationCount);
+                if (zonePowerList.Sum() / scenario.location.zones.Count < unecessaryStations * averagedStationPower)
+                    return new List<Suggestion>() { new ExpandInfrastructureSuggestion(unecessaryStations, -1) };
+                return new List<Suggestion>() { new ExpandInfrastructureSuggestion(unecessaryStations, 0) };
             }
 
             // 3. Fall: Buchungs Erfolgsrate ist im erwünschten Bereich. Es wird kein Vorschlag unterbreitet.
@@ -175,6 +155,7 @@ namespace Sopro.Models.History
                     }
                 }
 
+                // Berechne Anteil des Steckers an der Gesamtanzahl an Steckern.
                 double quotaAccepted = acceptedBookingsPlug / acceptedBookings;
                 double quotaDeclined = declinedBookingsPlug / declinedBookings;
 

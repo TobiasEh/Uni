@@ -36,9 +36,8 @@ namespace Sopro.Models.Administration
             bookings.Add(booking);
 
             if (checkCount == bookings.Count())
-            {
                 return false;
-            }
+
             // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
@@ -58,9 +57,8 @@ namespace Sopro.Models.Administration
             bookings.Remove(booking);
 
             if (checkCount-1 == bookings.Count())
-            {
                 return true;                
-            }
+
             return false;
         }
         /// <summary>
@@ -76,20 +74,16 @@ namespace Sopro.Models.Administration
             foreach (Booking item in bookings)
             {
                 if (item.endTime < now)
-                {
                     bookingC.Add(item);
-                }
             };
+
             if(bookingC.Count != 0) bookingC.ForEach(x => {
                 if (bookings.Contains(x))
-                {
                     removeBooking(x);
-                }
                 else
-                {
                     flag = true;
-                }
                 });
+
             return bookingC.Count == 0 ? false : !flag;
         }
 
