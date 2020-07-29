@@ -1491,12 +1491,12 @@ bg=#4169E1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>2295</x>
-      <y>1206</y>
+      <y>1215</y>
       <w>324</w>
-      <h>45</h>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes>
-    <additional_attributes>340.0;30.0;280.0;30.0;280.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>340.0;20.0;280.0;20.0;280.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -2020,7 +2020,7 @@ bg=#0000CC</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2340</x>
+      <x>2502</x>
       <y>180</y>
       <w>216</w>
       <h>36</h>
