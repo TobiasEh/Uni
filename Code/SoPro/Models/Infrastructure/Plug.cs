@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sopro.Models.Infrastructure
 {
+    /// <summary>
+    /// Die Klasse für den Ladestecker.
+    /// </summary>
     public class Plug
     {
         [Range(0, int.MaxValue)]

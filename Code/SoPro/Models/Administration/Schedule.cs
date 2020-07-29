@@ -23,7 +23,7 @@ namespace Sopro.Models.Administration
 
         /// <summary>
         /// Fügt eine neue Buchung der Buchungsliste hinzu.
-        /// Benachrichtigt Benutzer, dass seine Buchung akzeptiet und erfolgreich verteilt wurde.
+        /// Benachrichtigt Benutzer, dass seine Buchung akzeptiert und erfolgreich verteilt wurde.
         /// </summary>
         /// <param name="booking">Buchung, die zur Buchungsliste hinzugefügt werden soll.</param>
         /// <returns>Gibt Wahrheitswert zurück, ob das Hinzufügen erfolgreich war.</returns>
@@ -36,9 +36,8 @@ namespace Sopro.Models.Administration
             bookings.Add(booking);
 
             if (checkCount == bookings.Count())
-            {
                 return false;
-            }
+
             // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
 
             return true;
@@ -58,16 +57,15 @@ namespace Sopro.Models.Administration
             bookings.Remove(booking);
 
             if (checkCount-1 == bookings.Count())
-            {
                 return true;                
-            }
+
             return false;
         }
         /// <summary>
         /// Entfernt alle Buchungen aus der Liste, wenn deren Endzeit in der Vergangenheit liegt.
         /// </summary>
         /// <param name="now">Zeit, die verglichen wird.</param>
-        /// <returns>Gibt Wahrheitswert zurück, ob alle Buchungen erfolgreich entfernt wurden, deren Endzeit inder Vergangenheit liegt.</returns>
+        /// <returns>Gibt Wahrheitswert zurück, ob alle Buchungen erfolgreich entfernt wurden, deren Endzeit in der Vergangenheit liegt.</returns>
         public bool clean(DateTime now)
         {
             
@@ -76,27 +74,21 @@ namespace Sopro.Models.Administration
             foreach (Booking item in bookings)
             {
                 if (item.endTime < now)
-                {
                     bookingC.Add(item);
-                }
             };
+
             if(bookingC.Count != 0) bookingC.ForEach(x => {
                 if (bookings.Contains(x))
-                {
                     removeBooking(x);
-                }
                 else
-                {
                     flag = true;
-                }
                 });
+
             return bookingC.Count == 0 ? false : !flag;
         }
 
-        /* Sets active attribute of booking to the opposite boolean and notifys user.
-         */
         /// <summary>
-        /// Ändernt den Status der Buchung, auf den entgegengesetzen Wahrheitswert.
+        /// Ändert den Status der Buchung, auf den entgegengesetzen Wahrheitswert.
         /// User wird Benachrichtigt, dass er Erfogreich ein bzw. aus gecheckt ist.
         /// </summary>
         /// <param name="booking">Buchung, deren Status geändert wird.</param>

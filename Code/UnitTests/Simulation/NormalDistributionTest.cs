@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace UnitTests.Simulation
 {
+    /*
     [TestFixture]
     class NormalDistributionTest
     {
@@ -49,4 +50,5 @@ namespace UnitTests.Simulation
         }
 
     }
+    */
 }

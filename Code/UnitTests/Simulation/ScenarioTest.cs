@@ -207,11 +207,9 @@ namespace UnitTests.Simulation
                 start = start,
                 vehicles = vehicles,
             };
-            Assert.IsFalse(scenario2.addVehicle(null));
             scenario2.addVehicle(vehicle2);
             scenario2.deleteVehicle(vehicle2);
             Assert.IsFalse(scenario2.deleteVehicle(vehicle2));
-            Assert.IsFalse(scenario2.deleteVehicle(null));
         }
 
         [Test]
@@ -227,8 +225,6 @@ namespace UnitTests.Simulation
                 vehicles = vehicles,
             };
 
-            Assert.IsFalse(scenario2.addRushhour(null));
-            Assert.IsFalse(scenario2.deleteRushhour(null));
             scenario2.addRushhour(rushhour1);
             Assert.IsFalse(scenario2.addRushhour(rushhour1));
             scenario2.deleteRushhour(rushhour1);

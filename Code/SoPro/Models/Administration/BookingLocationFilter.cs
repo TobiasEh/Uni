@@ -5,7 +5,8 @@ using Sopro.Interfaces;
 namespace Sopro.Models.Administration
 {
     /// <summary>
-    /// Klasse wir bentzt zum filtern der Buchungen eines bestimmten Standortes.
+    /// Klasse kommt beim filtern der Buchungen eines bestimmten Standortes zum Einsatz.
+    /// Dabei werden Buchungen, eines Standorts, die weiter als timespan Tage in der Zukunft liegen herausgefiltert.
     /// </summary>
     public class BookingLocationFilter
     {
@@ -24,7 +25,7 @@ namespace Sopro.Models.Administration
             timespan = _timespan;
         }
         /// <summary>
-        /// Konstruktor
+        /// Konstruktor des Buchungsfilters.
         /// </summary>
         /// <param name="_location">Nach dem zu filternden Standort.</param>
         public BookingLocationFilter(ILocation _location)

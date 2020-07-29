@@ -6,7 +6,7 @@ using System;
 namespace Sopro.Models.Administration
 {
     /// <summary>
-    /// Klasse die zum Verteilen der Buchungen zuständig ist.
+    /// Klasse die zum Verteilen der Buchungen in die Schedule zuständig ist.
     /// </summary>
     public class Distributor
     {
@@ -23,7 +23,7 @@ namespace Sopro.Models.Administration
         }
 
         /// <summary>
-        /// Konstruktor
+        /// Konstruktor der Klasse.
         /// </summary>
         /// <param name="_schedule">Planer Objekt in dem die Verteilten Buchungen gespeichert werden.</param>
         /// <param name="_location">Standort auf dem die Buchugen zugeteilt sind.</param>
@@ -36,8 +36,8 @@ namespace Sopro.Models.Administration
         }
 
         /// <summary>
-        /// Methode ruft andere Methode auf um die Verteilung zu starten.
-        /// Der User wird per Emal darüber benachrichtigt.
+        /// Methode ruft den passenden Algorithmus auf um die Verteilung zu starten.
+        /// Der User wird per E-Mail darüber benachrichtigt.
         /// </summary>
         /// <param name="bookings">Liste der Buchungen die verteilt werden soll.</param>
         /// <returns></returns>

@@ -18,7 +18,174 @@ namespace Sopro.Models.Simulation
         private static int startHour = 6;
         private static int endHour = 20;
         private static int[] lowestPlugPowers;
+        private static TimeSpan length = new TimeSpan(0,5,0);
+        private static double multiplier = 5;
+        private static double multipierMinProbability = 3;
 
+        /// <summary>
+        /// Generiert Die Liste der Buchungen für ein Szenario.
+        /// Jeder Tag wird dafür in gleich weit entfernte Zeitpunkte geteilt. Für jeden wir ermittelt ob er in einer Stoßzeit liegen.
+        /// Falls ja, so wird der aktuelle zeitpunkt auf das Ende der Stoßzeit gesetzt und die von der Stoßzeit gegebenen Buchungen werden erzeugt.
+        /// Falls nein wird mit einer immer gleichen Wahrscheinlichkeit eine Buchung für diesen Zeitpunkt erstellt.
+        /// Für die Details der Buchungen wird aus der Liste an Autos aus dem Szenario gewählt.
+        /// </summary>
+        /// <param name="scenario"> Szenario für welches die Buchungen erstellt werden sollen.</param>
+        /// <returns> Die Liste der generierten Buchungen.</returns>
+        public static List<Booking> generateBookings(Scenario scenario)
+        {
+            // Berechnet die niedrigste Leistung der verschiedenen Stecker Sorten.
+            lowestPlugPowers = lowestPowerPerPlugType(scenario);
+
+            // Berechnet die Wahrscheinlichkeit mit der eine Buchung erstellt werden soll. Die Wahrscheinlichkeit ist 1-(1/xt)^n.
+            // n = bookingCountPerDay. 
+            // x = wie oft man im Schnitt durch den Tag laufen will bis alle Buchungen verteilt sind.
+            // t = Die Anzahl der Zeitabschnitte, in den man den Tag unterteilen kann.
+            double maxProbability = 1 - Math.Pow( 1 - ( 1 / ( ( (endHour-startHour) * 60 /length.TotalMinutes) * multiplier)), scenario.bookingCountPerDay);
+
+            // Berechne der wahrscheinlichkeit ohne Stoßzeit.
+            double probability = maxProbability / multipierMinProbability;
+
+            List<Booking> generatedBookingsTotal = new List<Booking>();
+
+            DateTime currently = scenario.start;
+
+            // Für jeden Tick. Also jeden Tag.
+            for(int i = 0; i < scenario.duration; i++)
+            {
+                List<Booking> generatedBookings = new List<Booking>();
+                // Wird so lange wiederholt bis die Buchungen für einen Tag erreicht wurden.
+                while (generatedBookings.Count < scenario.bookingCountPerDay)
+                {
+                    // Zurücksetzen des Tages, wenn das Ende erreicht wurde. 
+                    if(currently.Hour >= endHour)
+                    {
+                        currently = currently.AddHours(-14);
+                    }
+                    // Sollte eine Stoßzeit im Szenario liegen, so wird für diese generiert.
+                    List<DateTime> generatedStartTimes = null;
+                    foreach(Rushhour r in scenario.rushhours)
+                    {
+                        if (currently > r.start && currently < r.end)
+                        {
+                            generatedStartTimes = new List<DateTime>();
+                            generatedStartTimes = r.strategy.generateDateTimeValues(r.start, r.end, maxProbability, probability, length, scenario.bookingCountPerDay - generatedBookings.Count, r.spread);
+                            foreach (DateTime startTime in generatedStartTimes)
+                            {
+                                generatedBookings.Add(generateBooking(startTime, scenario));
+                            }
+                            currently = r.end;
+                            break;
+                        }
+                    }
+                    
+                    // Sollte keine Stoßzeit gefunden worden sein.
+                    if(generatedStartTimes == null)
+                    {
+                        if(gen.NextDouble() <  probability)
+                        {
+                            generatedBookings.Add(generateBooking(currently, scenario));
+                            bool test = generatedBookings.Count < scenario.bookingCountPerDay;
+                        }
+                        currently = currently.Add(length);
+                    }
+                }
+                // Tages Buchungen hinzufügen und den nächsten Tag weiterzählen.
+                generatedBookingsTotal.AddRange(generatedBookings);
+                currently = currently.AddDays(1);
+            }
+
+            return generatedBookingsTotal;        }
+
+        /// <summary>
+        /// Berechnet die niedrigste Leistung der verschiedenen Stecker Sorten.
+        /// </summary>
+        /// <param name="scenario">Szenario welches mit Buchungen gefüllt werden muss.</param>
+        /// <returns>Liste der Leistungen geordnet wie das Enmum PlugType</returns>
+        private static int[] lowestPowerPerPlugType(Scenario scenario)
+        {
+            int[] lowestPlugPowers = new int[Enum.GetNames(typeof(PlugType)).Length];
+            Array.Fill(lowestPlugPowers, 999);
+            foreach (Zone z in scenario.location.zones)
+            {
+                foreach (Station s in z.stations)
+                {
+                    foreach (Plug p in s.plugs)
+                    {
+                        lowestPlugPowers[(int)p.type] = p.power < lowestPlugPowers[(int)p.type] ? p.power : lowestPlugPowers[(int)p.type];
+                    }
+                }
+            }
+            return lowestPlugPowers;
+        }
+
+        /// <summary>
+        /// Generiert Buchungen mit den übergebenen Variablen.
+        /// </summary>
+        /// <param name="startTime">Zeitpunkt zu dem der Ladevorgang starten kann.</param>
+        /// <param name="scenario">Szenario welches mit Buchungen gefüllt werden muss.></param>
+        /// <returns>Eine Generierte Buchung</returns>
+        private static Booking generateBooking(DateTime startTime, Scenario scenario)
+        {
+            int random = gen.Next(scenario.vehicles.Count);
+
+            // Zufälliges Auto füllt die Buchung.
+            List<PlugType> plugs = scenario.vehicles[random].plugs;
+            int capacity = scenario.vehicles[random].capacity;
+            int socEnd = scenario.vehicles[random].socEnd;
+            int socStart = scenario.vehicles[random].socStart;
+
+            // Berechnet die höchst möglich benötigte Ladezeit.
+            int power = 0;
+            foreach (PlugType p in plugs)
+            {
+                if (power == 0) power = lowestPlugPowers[(int)p];
+                if (lowestPlugPowers[(int)p] < power) power = lowestPlugPowers[(int)p];
+            }
+
+            double maxChargingDuration = ((socEnd - socStart) / 100.0 * capacity) / power;
+
+            // Erstellt die Endzeit der Buchung.
+
+            DateTime endTime;
+            if (maxChargingDuration <= Math.Min(8, 24 - startTime.Hour))
+            {
+                endTime = startTime.AddHours(gen.Next((int)Math.Ceiling(maxChargingDuration), Math.Min(8, 24 - startTime.Hour)));
+            }
+            else
+            {
+                endTime = startTime.AddHours(gen.Next(2, Math.Min(8, 24 - startTime.Hour)));
+            }
+
+            return new Booking
+            {
+                capacity = capacity,
+                plugs = plugs,
+                socEnd = socEnd,
+                socStart = socStart,
+                user = "",
+                startTime = startTime,
+                endTime = endTime,
+                station = null,
+                active = false,
+                priority = rollPriority(),
+                location = scenario.location
+            };
+        }
+
+        /// <summary>
+        /// Generiert die Priorität des Benutzers.
+        /// </summary>
+        /// <returns>Zufällige Priorität.</returns>
+        private static UserType rollPriority()
+        {
+            double probability = gen.NextDouble();
+
+            if (probability > probabilityVIP + probabilityGUEST) return UserType.EMPLOYEE;
+            if (probability > probabilityGUEST) return UserType.VIP;
+            return UserType.GUEST;
+        }
+
+        /*
         public static List<Booking> generateBookings(Scenario scenario)
         {
             // Calculate the lowest power avaibable given a certain plugtype.
@@ -233,6 +400,6 @@ namespace Sopro.Models.Simulation
                 Booking b = generateBooking(start, scenario);
                 bookingList.Add(b);
             }
-        }
+        }*/
     }
 }

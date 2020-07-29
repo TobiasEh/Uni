@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sopro.Models.Infrastructure
 {
+    /// <summary>
+    /// Die Klasse der Ladezone.
+    /// Ladezonen sind in Standorten enthalten. Eine Ladezonen kann mehrere
+    /// Ladestationen beinhalten.
+    /// </summary>
     public class Zone
     {
         [ListMinLength(1)]
@@ -13,31 +18,39 @@ namespace Sopro.Models.Infrastructure
         [Range(0,int.MaxValue)]
         public int maxPower { get; set; }
 
-
+        /// <summary>
+        /// Füge der Zone eine Station hinzu.
+        /// </summary>
+        /// <param name="station">Die hinzuzufügende Station.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Hinzufügen erfolgreich war oder nicht.</returns>
         public bool addStation(Station station)
         {
-            stations.Add(station);
             if (stations.Contains(station))
-            {
-                return true;
-            }
-            else
-            {
                 return false;
-            }
+
+            stations.Add(station);
+            return stations.Contains(station);
         }
+
+        /// <summary>
+        /// Entferne eine Station aus der Zone.
+        /// </summary>
+        /// <param name="station">Die zu entfernende Station.</param>
+        /// <returns>Wahrheitswert entsprechend ob das Entfernen erfolgreich war oder nicht.</returns>
         public bool deleteStation(Station station)
         {
-            if (stations.Contains(station))
-            {
-                stations.Remove(station);
-                return true;
-            }
-            else
-            {
+            if (!stations.Contains(station))
                 return false;
-            }
+
+            stations.Remove(station);
+            return !stations.Contains(station);
         }
+
+        /// <summary>
+        /// Vergleiche zwei Zonen miteinander.
+        /// </summary>
+        /// <param name="zone">Die zum Vergleich verwendete Zone.</param>
+        /// <returns>Wahrheitswert, ob Gleichheit besteht oder nicht.</returns>
         public bool compareTo(Zone zone)
         {
             return zone.site == this.site;

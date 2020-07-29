@@ -9,7 +9,7 @@ using Sopro.Models.Infrastructure;
 namespace Sopro.Models.Simulation
 {
     /// <summary>
-    /// Klasse ist für die Simulation zuständig.
+    /// Klasse ist für die Simulation von Szenarien zuständig.
     /// </summary>
     public class Simulator : ITrigger
     {
@@ -31,7 +31,7 @@ namespace Sopro.Models.Simulation
             var indices = new List<int>();
             int count = pendingBookings.Count();
 
-            // Berechnet Indizes für die Buchungen in pendingBooking, welche der toBeDistributed Liste hinzugefügt werden sollen
+            // Berechnet Indizes für die Buchungen in pendingBooking, welche der toBeDistributed Liste hinzugefügt werden sollen.
             for(int i = 1; i <= count; ++i)
             {
                 int l = (int)(Math.Round(1 / Math.Sqrt(i), 4) * 1000) % count;
@@ -43,17 +43,17 @@ namespace Sopro.Models.Simulation
 
             foreach(Booking item in pendingBookings.ToList())
             {
-                // Buchungen im Intervall [start, start+ nächste 30 Tage] 
+                // Buchungen im Intervall [start, start+ nächste 30 Tage].
                 if ((item.startTime >= start) && (item.endTime <= end))
                 {
-                    // Alle Buchungen für den nächsten Tag
+                    // Alle Buchungen für den nächsten Tag.
                     if ((item.startTime >= start) && (item.startTime <= start.AddDays(1)))
                     {
                         toBeDistributed.Add(item);
                         pendingBookings.Remove(item);
                     }
 
-                    // Buchungen mit dem Index, der in der Liste help existiert
+                    // Buchungen mit dem Index, der in der Liste help existiert.
                     if (indices.Contains(pendingBookings.IndexOf(item)))
                     {
                         toBeDistributed.Add(item);
@@ -64,9 +64,9 @@ namespace Sopro.Models.Simulation
             Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
             Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
             exScenario.location.distributor.strategy = new StandardDistribution();
+
             if (!exScenario.location.distributor.run(toBeDistributed))
                 return false;
-
             return true;
         }
 
@@ -79,9 +79,9 @@ namespace Sopro.Models.Simulation
         {
             return await Task.Run(() =>
             {
-                //List<Booking> tempBookings;
-                //tempBookings = generator.generateBookings(exScenario);
-                //tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
+                // List<Booking> tempBookings;
+                // tempBookings = generator.generateBookings(exScenario);
+                // tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
                 exScenario.bookings = new List<Booking>();
 
                 exScenario.bookings.AddRange(exScenario.generatedBookings);
@@ -135,7 +135,7 @@ namespace Sopro.Models.Simulation
             }
 
             // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
-            //int count  = exScenario.bookings.Count( e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+            // int count  = exScenario.bookings.Count( e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
 
             List<Booking> boo = exScenario.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
             var count = boo.Count;
@@ -153,7 +153,8 @@ namespace Sopro.Models.Simulation
                             ++usedTogether;
                         }
                     }
-            } else
+            }
+            else
             {
                 ++usedTogether;
             }
@@ -183,7 +184,6 @@ namespace Sopro.Models.Simulation
 
                     // Zählt die Buchungen, die diese bestimmte Station zugewiesen bekommen haben.
                     //int usedPlugs = exScenario.bookings.Count(e => e.startTime >= time && e.startTime <= end && e.station == station);
-                    
 
                     List<Booking> boo = exScenario.bookings.FindAll(e => e.startTime >= time && e.startTime <= end && e.station == station);
                     var usedPlugs = boo.Count;
@@ -203,10 +203,7 @@ namespace Sopro.Models.Simulation
                     {
                         ++usedTogether;
                     }
-
                     workload.Add((double)((usedTogether) * 100.0) / (double)plugs);
-
-
                 }
             }
             return workload;
