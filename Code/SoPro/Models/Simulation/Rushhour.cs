@@ -12,19 +12,16 @@ namespace Sopro.Models.Simulation
     public class Rushhour
     {
         public DateTime start { get; set; }
+
         [BookingEndTimeValidation]
         public DateTime end { get; set; }
+
         [Range(0,int.MaxValue)]
         public int bookings { get; set; }
+
         public IFunctionStrategy strategy { get; set; } = new NormalDistribution();
 
-        /// <summary>
-        /// Generiert die Verteilung der Buchungen in der Stoßzeit.
-        /// </summary>
-        /// <returns>Die Liste an DateTimes für die Buchungen in der Stoßzeit.</returns>
-        public List<DateTime> run()
-        {
-            return strategy.generateDateTimeValues(start,end,bookings);
-        }
+        public double spread { get; set; }
+
     }
 }
