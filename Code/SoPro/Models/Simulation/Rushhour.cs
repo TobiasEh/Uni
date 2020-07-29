@@ -21,7 +21,7 @@ namespace Sopro.Models.Simulation
 
         public IFunctionStrategy strategy { get; set; } = new NormalDistribution();
 
-        public double spread { get; set; }
+        public double spread { get; set; } =  1;
 
     }
 }
