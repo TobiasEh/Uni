@@ -20,9 +20,14 @@ namespace Sopro.Models.Simulation
         private static int[] lowestPlugPowers;
         private static TimeSpan length = new TimeSpan(0,5,0);
         private static double multiplier = 5;
+        private static double multipierMinProbability = 5;
 
         /// <summary>
         /// Generiert Die Liste der Buchungen für ein Szenario.
+        /// Jeder Tag wird dafür in gleich weit entfernte Zeitpunkte geteilt. Für jeden wir ermittelt ob er in einer Stoßzeit liegen.
+        /// Falls ja, so wird der aktuelle zeitpunkt auf das Ende der Stoßzeit gesetzt und die von der Stoßzeit gegebenen Buchungen werden erzeugt.
+        /// Falls nein wird mit einer immer gleichen Wahrscheinlichkeit eine Buchung für diesen Zeitpunkt erstellt.
+        /// Für die Details der Buchungen wird aus der Liste an Autos aus dem Szenario gewählt.
         /// </summary>
         /// <param name="scenario"> Szenario für welches die Buchungen erstellt werden sollen.</param>
         /// <returns> Die Liste der generierten Buchungen.</returns>
@@ -31,8 +36,15 @@ namespace Sopro.Models.Simulation
             // Berechnet die niedrigste Leistung der verschiedenen Stecker Sorten.
             lowestPlugPowers = lowestPowerPerPlugType(scenario);
 
-            // Berechnet die Wahrscheinlichkeit mit der eine Buchung erstellt werden soll
-            double probability = 1 / (scenario.bookingCountPerDay * multiplier);
+            // Berechnet die Wahrscheinlichkeit mit der eine Buchung erstellt werden soll. Die Wahrscheinlichkeit ist 1-(1/xt)^n.
+            // n = bookingCountPerDay. 
+            // x = wie oft man im Schnitt durch den Tag laufen will bis alle Buchungen verteilt sind.
+            // t = Die Anzahl der Zeitabschnitte, in den man den Tag unterteilen kann.
+            double maxProbability = 1 - Math.Pow( 1 - ( 1 / ( ( (endHour-startHour) * 60 /length.TotalMinutes) * multiplier)), scenario.bookingCountPerDay);
+
+            // Berechne der wahrscheinlichkeit ohne Stoßzeit.
+            double probability = maxProbability / multipierMinProbability;
+
             List<Booking> generatedBookingsTotal = new List<Booking>();
 
             DateTime currently = scenario.start;
@@ -57,7 +69,7 @@ namespace Sopro.Models.Simulation
                         if (currently > r.start && currently < r.end)
                         {
                             generatedStartTimes = new List<DateTime>();
-                            generatedStartTimes = r.strategy.generateDateTimeValues(r.start, r.end, probability * multiplier, probability, length, scenario.bookingCountPerDay - generatedBookings.Count, r.spread);
+                            generatedStartTimes = r.strategy.generateDateTimeValues(r.start, r.end, maxProbability, probability, length, scenario.bookingCountPerDay - generatedBookings.Count, r.spread);
                             foreach (DateTime startTime in generatedStartTimes)
                             {
                                 generatedBookings.Add(generateBooking(startTime, scenario));
@@ -116,7 +128,7 @@ namespace Sopro.Models.Simulation
         {
             int random = gen.Next(scenario.vehicles.Count);
 
-            // Zufälliges Auto füllt die Buchung
+            // Zufälliges Auto füllt die Buchung.
             List<PlugType> plugs = scenario.vehicles[random].plugs;
             int capacity = scenario.vehicles[random].capacity;
             int socEnd = scenario.vehicles[random].socEnd;
@@ -132,7 +144,7 @@ namespace Sopro.Models.Simulation
 
             double maxChargingDuration = ((socEnd - socStart) / 100.0 * capacity) / power;
 
-            // Erstellt die Endzeit der Buchung
+            // Erstellt die Endzeit der Buchung.
 
             DateTime endTime;
             if (maxChargingDuration <= Math.Min(8, 24 - startTime.Hour))

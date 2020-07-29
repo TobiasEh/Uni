@@ -10,6 +10,19 @@ namespace Sopro.Models.Simulation
     /// </summary>
     public class NormalDistribution : IFunctionStrategy
     {
+        /// <summary>
+        /// Generiert die Zeitpunkte, innerhalb einer Stoßzeit, zu denen eine Buchung erstellt werden sollte.
+        /// Die stoßzeit wird dafür in gleich weit entfernte Zeitpunkte geteilt.
+        /// Jeder Zeitpunkt wird mit einer Wahrscheinlichkeit abhängig von der Normalverteilung der rückgabe Liste hinzugefügt.
+        /// </summary>
+        /// <param name="start">Startzeitpunkt der Stoßzeit</param>
+        /// <param name="end">Endzeitpunkt der Stoßzeit</param>
+        /// <param name="maxProbability">Die maximal erreichbare Wahrscheinlichkeit.</param>
+        /// <param name="minProbability">Die Minimal erreichbare Wahrscheinlichkeit.</param>
+        /// <param name="length">Der Abstand zwischen den Zeitpunkten</param>
+        /// <param name="bookings">Maximal Zahl der noch erzeugbaren Buchungen.</param>
+        /// <param name="spread">Spread der Normalverteilung</param>
+        /// <returns>Liste an Zeitpunkten zu denen eine Buchung erzeugt werden soll.</returns>
         public List<DateTime> generateDateTimeValues(DateTime start, DateTime end,double maxProbability, double minProbability, TimeSpan length, int bookings, double spread)
         {
             Random r = new Random();
