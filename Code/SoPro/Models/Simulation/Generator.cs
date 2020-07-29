@@ -57,7 +57,7 @@ namespace Sopro.Models.Simulation
                         if (currently > r.start && currently < r.end)
                         {
                             generatedStartTimes = new List<DateTime>();
-                            generatedStartTimes = r.strategy.generateDateTimeValues(r.start, r.end, probability * multiplier, probability, length, scenario.bookingCountPerDay - generatedBookings.Count, 1);
+                            generatedStartTimes = r.strategy.generateDateTimeValues(r.start, r.end, probability * multiplier, probability, length, scenario.bookingCountPerDay - generatedBookings.Count, r.spread);
                             foreach (DateTime startTime in generatedStartTimes)
                             {
                                 generatedBookings.Add(generateBooking(startTime, scenario));
