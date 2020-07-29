@@ -20,7 +20,7 @@ namespace Sopro.Models.Simulation
         private static int[] lowestPlugPowers;
         private static TimeSpan length = new TimeSpan(0,5,0);
         private static double multiplier = 5;
-        private static double multipierMinProbability = 5;
+        private static double multipierMinProbability = 3;
 
         /// <summary>
         /// Generiert Die Liste der Buchungen für ein Szenario.
@@ -59,9 +59,8 @@ namespace Sopro.Models.Simulation
                     // Zurücksetzen des Tages, wenn das Ende erreicht wurde. 
                     if(currently.Hour >= endHour)
                     {
-                        currently.AddHours(startHour - endHour);
+                        currently = currently.AddHours(-14);
                     }
-
                     // Sollte eine Stoßzeit im Szenario liegen, so wird für diese generiert.
                     List<DateTime> generatedStartTimes = null;
                     foreach(Rushhour r in scenario.rushhours)
@@ -85,13 +84,14 @@ namespace Sopro.Models.Simulation
                         if(gen.NextDouble() <  probability)
                         {
                             generatedBookings.Add(generateBooking(currently, scenario));
+                            bool test = generatedBookings.Count < scenario.bookingCountPerDay;
                         }
-                        currently.Add(length);
+                        currently = currently.Add(length);
                     }
                 }
                 // Tages Buchungen hinzufügen und den nächsten Tag weiterzählen.
                 generatedBookingsTotal.AddRange(generatedBookings);
-                currently.AddDays(1);
+                currently = currently.AddDays(1);
             }
 
             return generatedBookingsTotal;        }

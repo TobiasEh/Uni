@@ -60,7 +60,7 @@ namespace Sopro.Models.Simulation
                     }
                 }
                 // Weiterzählen um length.
-                currently.Add(length);
+                currently = currently.Add(length);
             }
             return generatedTimeSteps;
         }
