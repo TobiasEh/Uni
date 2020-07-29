@@ -15,9 +15,9 @@ namespace Sopro.Models.Simulation
             Random r = new Random();
 
             DateTime currently = start;
-            List<DateTime> generatedTimeStemps = new List<DateTime>();
+            List<DateTime> generatedTimeSteps = new List<DateTime>();
 
-            // Zeitspanne der Buchung
+            // Zeitspanne der Buchung.
             TimeSpan timeSpan = end - start;
 
             // Mittelpunkt. Gibt den Punkt an an dem die höchste Wahrscheinlichkeit errreicht werden soll.
@@ -26,7 +26,7 @@ namespace Sopro.Models.Simulation
             
             double diff = maxProbability - minProbability;
 
-            // berechnet den multieplier mit dem man sicherstellen kan, dass das minimum nie unterschritten und das maximum ne überschritten wird.
+            // Berechnet den multiplier mit dem man sicherstellen kann, dass das Minimum nie unterschritten und das Maximum nie überschritten wird.
             double multiplier = (diff) / ((1 / spread * Math.Sqrt(Math.PI * 2)) * Math.Log((-0.5) * Math.Pow((peak-peak)/spread,2)));
 
             // Läuft durch alle Möglichen Zeitschritte.
@@ -38,18 +38,18 @@ namespace Sopro.Models.Simulation
                 if(prob <= r.NextDouble())
                 {
                     // Zeitpunkt wird der Liste hinzugefügt.
-                    generatedTimeStemps.Add(currently);
+                    generatedTimeSteps.Add(currently);
                     bookings--;
                     if(bookings == 0)
                     {
                         // Keine Buchungen mehr übrig.
-                        return generatedTimeStemps;
+                        return generatedTimeSteps;
                     }
                 }
-                // Weiterzählen um length
+                // Weiterzählen um length.
                 currently.Add(length);
             }
-            return generatedTimeStemps;
+            return generatedTimeSteps;
         }
 
 
