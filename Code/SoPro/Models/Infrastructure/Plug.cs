@@ -11,6 +11,15 @@ namespace Sopro.Models.Infrastructure
         [Range(0, int.MaxValue)]
         public int power { get; set; }
         public PlugType type { get; set; }
+
+        /// <summary>
+        /// Erstellt eine tiefe Kopie dieses Objekts
+        /// </summary>
+        /// <returns>Tiefe Kopie.</returns>
+        public Plug deepCopy()
+        {
+            return new Plug() { power = power, type = type };
+        }
     }
    
 }

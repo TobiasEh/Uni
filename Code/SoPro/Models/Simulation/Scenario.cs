@@ -25,7 +25,7 @@ namespace Sopro.Models.Simulation
         [ListMinLength(1)]
         public List<Vehicle> vehicles { get; set; }
         [Required]
-        public List<Rushhour> rushhours { get; set; }
+        public List<Rushhour> rushhours { get; set; } = new List<Rushhour>();
         public DateTime start { get; set; }
         [Required]
         public ILocation location { get; set; }

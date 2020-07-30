@@ -55,5 +55,23 @@ namespace Sopro.Models.Infrastructure
         {
             return zone.site == this.site;
         }
+
+        /// <summary>
+        /// Erstellt eine TiefeKopie einer Zone.
+        /// </summary>
+        /// <returns>Eine tiefe Kopie dieser Zone.</returns>
+        public Zone deepCopy()
+        {
+            Zone copy = new Zone();
+            copy.site = site;
+            copy.maxPower = maxPower;
+
+            foreach(Station s in stations)
+            {
+                copy.stations.Add(s.deepCopy());
+            }
+
+            return copy;
+        }
     }
 }

@@ -62,5 +62,20 @@ namespace Sopro.Models.Infrastructure
             zones.Remove(zone);
             return !zones.Contains(zone);
         }
+
+        public Location deepCopy()
+        {
+            Location copy = new Location();
+            copy.name = name;
+            copy.normalizedDistributionTime = normalizedDistributionTime;
+
+            foreach(Zone z in zones)
+            {
+                copy.zones.Add(z.deepCopy());
+            }
+
+            return copy;
+
+        }
     }
 }

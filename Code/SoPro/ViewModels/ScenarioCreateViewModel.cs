@@ -1,28 +1,25 @@
-﻿using Microsoft.CodeAnalysis;
-using Sopro.Interfaces;
+﻿using Sopro.Interfaces;
 using Sopro.Interfaces.ControllerSimulation;
 using Sopro.Models.Simulation;
-using Sopro.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sopro.ViewModels
 {
     public class ScenarioCreateViewModel
     {
-        
-        public Scenario scenario { get; set; }
-        public List<ILocation> locations { get; set; } 
-        public List<Vehicle> vehicles { get; set; } = new List<Vehicle>();
-        public int countRushhours { get; set; } = 0;
-        public List<int> countVehicles { get; set; }
-        public string idLocation { get; set; }
-        public List<Rushhour> rushhours { get; set; } = new List<Rushhour>();
 
-        public ScenarioCreateViewModel()
+        public Scenario scenario { get; set; } = new Scenario();
+        public List<ILocation> locations { get; set; } 
+        public List<IVehicle> vehicles { get; set; } = new List<IVehicle>();
+        public int countRushhours { get; set; } = 0;
+        public List<int> countVehicles { get; set; } = new List<int>();
+        public string idLocation { get; set; }
+        public List<Rushhour> rushhours { get; } = new List<Rushhour>();
+        public string id { get; set; }
+
+        public void setVehicles(List<IVehicle> _vehicles)
         {
+            vehicles = _vehicles;
             foreach(Vehicle v in vehicles)
             {
                 countVehicles.Add(0);
