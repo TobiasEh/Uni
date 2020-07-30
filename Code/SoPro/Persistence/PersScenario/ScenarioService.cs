@@ -1,49 +1,52 @@
-﻿using Sopro.Interfaces.ControllerSimulation;
-using Sopro.Interfaces.PersistenceController;
+﻿using Sopro.Interfaces.PersistenceController;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.IO;
+using System.Text;
+using Sopro.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Sopro.Persistence.PersScenario
+namespace Sopro.Persistence.PersLocation
 {
-    public class ScenarioService :IScenarioService
+    public class ScenarioService : IScenarioService
     {
         private JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
         private JsonStringEnumConverter stringEnumConverter = new JsonStringEnumConverter();
 
-        public List<IScenario> import(string path)
+        public List<ScenarioExportImportViewModel> import(IFormFile file)
         {
+            var result = new StringBuilder();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    result.AppendLine(reader.ReadLine());
+            }
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            byte[] bytes = File.ReadAllBytes(path);
-            var data = Encoding.UTF8.GetString(bytes);
-            List<IScenario> importedBookings = JsonSerializer.Deserialize<List<IScenario>>(data, options);
+            string test = result.ToString();
+            List<ScenarioExportImportViewModel> importedScenarios = JsonSerializer.Deserialize<List<ScenarioExportImportViewModel>>(result.ToString(), options);
 
-            return importedBookings;
+            return importedScenarios;
         }
 
-        public void export(List<IScenario> list, string path)
+        public FileContentResult export(List<ScenarioExportImportViewModel> list)
         {
-            options.Converters.Add(stringEnumConverter);
 
-            var data = JsonSerializer.Serialize(list, options);
+            // Write enum content as string
+            var stringEnumConverter = new JsonStringEnumConverter();
+            JsonSerializerOptions opts = new JsonSerializerOptions() { WriteIndented = true };
+            opts.Converters.Add(stringEnumConverter);
+
+            // Serialize
+            var data = JsonSerializer.Serialize(list, opts);
             byte[] bytes = Encoding.UTF8.GetBytes(data);
 
-            string extension = Path.GetExtension(path);
-            if (extension == null || extension == string.Empty)
-            {
-                path = string.Concat(path, ".json");
-            }
-
-            if (!extension.Equals(".json"))
-            {
-                Path.ChangeExtension(path, ".json");
-            }
-
-            File.WriteAllBytes(path, bytes);
+            // Export
+            var output = new FileContentResult(bytes, "application/octet-stream");
+            output.FileDownloadName = "Scenario.json";
+            return output;
 
         }
     }
 }
-

@@ -1,11 +1,14 @@
-﻿using Sopro.Interfaces.ControllerSimulation;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Sopro.Interfaces.ControllerSimulation;
+using Sopro.ViewModels;
 using System.Collections.Generic;
 
 namespace Sopro.Interfaces.PersistenceController
 {
     public interface IScenarioService
     {
-        public List<IScenario> import(string path);
-        public void export(List<IScenario> list, string path);
+        public List<ScenarioExportImportViewModel> import(IFormFile file);
+        public FileContentResult export(List<ScenarioExportImportViewModel> list);
     }
 }
