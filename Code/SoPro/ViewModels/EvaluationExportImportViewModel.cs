@@ -1,5 +1,6 @@
 ﻿using Sopro.Interfaces;
 using Sopro.Interfaces.ControllerHistory;
+using Sopro.Interfaces.HistorySimulation;
 using Sopro.Models.History;
 using Sopro.Models.Infrastructure;
 using System;
@@ -17,12 +18,13 @@ namespace Sopro.ViewModels
         public double neccessaryWorkload { get; set; }
         public List<double> plugDistributionAccepted { get; set; }
         public List<double> plugDistributionDeclined { get; set; }
-    }
 
-    public EvaluationExportImportViewModel() { }
 
-    public EvaluationExportImportViewModel(IEvaluation e) 
-    {
-        suggestions = e.suggestions;
+        public EvaluationExportImportViewModel() { }
+
+        public EvaluationExportImportViewModel(IEvaluatable e)
+        {
+            suggestions = e.suggestions;
+        }
     }
 }
