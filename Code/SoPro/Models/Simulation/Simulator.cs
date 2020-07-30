@@ -93,6 +93,8 @@ namespace Sopro.Models.Simulation
 
                 ++tickCount;
 
+                int count = 0;
+
                 while (tickCount <= exScenario.duration)
                 {
                     
@@ -104,12 +106,17 @@ namespace Sopro.Models.Simulation
                         double location = calculateLocationWorkload();
                         
                         List<double> station = calculateStationWorkload();
+                        ++count;
                         if (!exScenario.updateWorkload(location, station))
                             return false;
                     }
                     ++tickCount;
                 }
-                
+
+                if(count == 0)
+                {
+                    exScenario.updateWorkload(0.0, new List<double>() { 0.0 });
+                }
                 exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
 
                 return true;

@@ -260,8 +260,6 @@ namespace UnitTests.History
 
         public void testValues(Evaluation evaluation)
         {
-            
-            //Assert.IsTrue(100 - evaluation.neccessaryWorkload - evaluation.unneccessaryWorkload == 0);
             Assert.IsTrue(evaluation.bookingSuccessRate >= 0);
             
         }
