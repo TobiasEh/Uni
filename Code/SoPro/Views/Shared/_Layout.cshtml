@@ -26,19 +26,20 @@
                         <li class="nav-item">
                             @if (Context.Session.GetString("role") != null)
                             {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index" id="navlink">Buchungsübersicht</a>
+                                if (Context.Session.GetString("role") == "PLANER")
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index" id="navlink">Buchungsübersicht</a>
+                                }
                             }
                             else
                             {
-                                <a class="nav-link text-dark"  id="navlinkB" href="#">Buchungsübersicht</a>
+                                <a class="nav-link text-dark" id="navlinkB" href="#">Buchungsübersicht</a>
                             }
                         </li>
-                        @if (httpContextAccessor.HttpContext.Session.GetString("role") == "PLANER")
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
-                            </li>
-                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Help" id="navlink">Hilfe</a>
                         </li>
