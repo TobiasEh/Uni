@@ -23,11 +23,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" id="navlink">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index" id="navlink">Buchungsübersicht</a>
+                            @if (Context.Session.GetString("role") != null)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index" id="navlink">Buchungsübersicht</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark" id="navlink" onclick="loginModal()">Buchungsübersicht</a>
+                            }
                         </li>
-                        @if (httpContextAccessor.HttpContext.Session.GetString("role") == null)
-                        { }
-                        else if (httpContextAccessor.HttpContext.Session.GetString("role")==(Sopro.Models.User.UserType.PLANER.ToString()))
+                        @if (httpContextAccessor.HttpContext.Session.GetString("role") == "PLANER")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
@@ -51,9 +56,13 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
-                        </li>
+                        @if (Context.Session.GetString("role") != null)
+                        {
+                            <li class="nav-item">
+                                <a href="#" data-toggle="modal"  data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>
@@ -63,6 +72,25 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="Logout?" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Möchten sie sich wirklich ausloggen?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a type="button" class="btn btn-danger" href="@Url.ActionLink("Logout","Home")">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
