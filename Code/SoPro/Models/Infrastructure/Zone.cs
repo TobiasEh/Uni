@@ -13,7 +13,7 @@ namespace Sopro.Models.Infrastructure
     public class Zone
     {
         [ListMinLength(1)]
-        public List<Station> stations { get; set; }
+        public List<Station> stations { get; set; } = new List<Station>();
         public char site { get; set; }
         [Range(0,int.MaxValue)]
         public int maxPower { get; set; }

@@ -15,7 +15,7 @@ namespace Sopro.Models.Infrastructure
     {
         public string id { get; set; }
         [ListMinLength(0)]
-        public List<Zone> zones { get; set; }
+        public List<Zone> zones { get; set; } = new List<Zone>();
         [Required]
         public string name { get; set; }
         [Range(0, 1)]
