@@ -28,7 +28,7 @@ namespace Sopro.Controllers
 
         public IActionResult Index()
         {
-            if (cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
                 scenarios = new List<IScenario>();
             }
@@ -52,10 +52,6 @@ namespace Sopro.Controllers
                 vehicles = new List<IVehicle>();
             }
 
-            if(!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
-            {
-                scenarios = new List<IScenario>();
-            }
 
             viewmodel.setVehicles(vehicles);
             viewmodel.locations = locations;
@@ -75,10 +71,10 @@ namespace Sopro.Controllers
                 locations = new List<ILocation>();
             }
 
-            List<Vehicle> vehicles;
+            List<IVehicle> vehicles;
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<Vehicle>();
+                vehicles = new List<IVehicle>();
             }
             Scenario scenario = null;
             if (!cache.TryGetValue("ScenarioEdit", out scenario))
@@ -111,7 +107,7 @@ namespace Sopro.Controllers
             {
                 for (int j = 0; j < viewmodel.countVehicles[i]; j++)
                 {
-                    scenario.vehicles.Add(vehicles[i]);
+                    scenario.vehicles.Add((Vehicle)vehicles[i]);
                 }
             }
 
@@ -365,7 +361,7 @@ namespace Sopro.Controllers
             return RedirectToAction("EditLocationScenario");
         }
 
-        public IActionResult EndEditScenario(EditZoneViewModel viewmodel)
+        public IActionResult EndEditZoneScenario(EditZoneViewModel viewmodel)
         {
 
             Scenario scenario = null;
@@ -415,54 +411,53 @@ namespace Sopro.Controllers
             scenario.location.deleteZone(toBeDeleted);
             return RedirectToAction("EditLocationScenario");
         }
-        /*
-        public IActionResult Create()
-        {
-            List<ILocation> locations;
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
-            List<Vehicle> vehicles;
 
-            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+        public IActionResult EndEditing()
+        {
+            Scenario scenario = null;
+            if (!cache.TryGetValue("ScenarioEdit", out scenario))
             {
-                vehicles = new List<Vehicle>();
+                scenario = new Scenario();
             }
 
-            model = new ScenarioCreateViewModel();
-            model.vehicles = vehicles;
-            model.locations = locations;
-            model.scenario = new Scenario();
-
-            return View(model);
-        }
-
-        public IActionResult CreateVehicles(ScenarioCreateViewModel _model)
-        {
-            List<Vehicle> newVehicleList = new List<Vehicle>();
-            int j = 0;
-            foreach(Vehicle v in model.vehicles)
+            if (!TryValidateModel(scenario))
             {
-                for(int i = 0; i < _model.countVehicles[j]; i++)
+                ScenarioCreateViewModel viewmodel = new ScenarioCreateViewModel();
+
+                List<ILocation> locations;
+                if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
                 {
-                    newVehicleList.Add(v);
+                    locations = new List<ILocation>();
                 }
-                j++;
-            }
 
-            for(int i = 0; i < _model.countRushhours; i++)
+                List<IVehicle> vehicles;
+                if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+                {
+                    vehicles = new List<IVehicle>();
+                }
+
+
+                viewmodel.setVehicles(vehicles);
+                viewmodel.locations = locations;
+                viewmodel.scenario = scenario;
+                viewmodel.id = viewmodel.scenario.id;
+
+
+                return View("Create",viewmodel);
+            }
+            if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
-                model.rushhours.Add(new Rushhour());
+                scenarios = new List<IScenario>();
             }
-            model.idLocation = _model.idLocation;
-            model.scenario.bookingCountPerDay = _model.scenario.bookingCountPerDay;
-            model.scenario.duration = _model.scenario.duration;
-            model.scenario.start = _model.scenario.start;
 
-            return View("Rushour",model);
+            scenarios.Add(scenario);
+
+            cache.Set(CacheKeys.SCENARIO, scenarios);
+
+            return View("Index", scenarios);
+
         }
-        */
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)

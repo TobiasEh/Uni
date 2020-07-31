@@ -23,7 +23,7 @@ namespace Sopro.Models.Simulation
         public int bookingCountPerDay { get; set; }
         [Required]
         [ListMinLength(1)]
-        public List<Vehicle> vehicles { get; set; }
+        public List<Vehicle> vehicles { get; set; } = new List<Vehicle>();
         [Required]
         public List<Rushhour> rushhours { get; set; } = new List<Rushhour>();
         public DateTime start { get; set; }

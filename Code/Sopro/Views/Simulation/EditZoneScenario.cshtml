@@ -9,7 +9,7 @@
     <div class="form-group col">
         <h1>Standort: @Model.name</h1>
     </div>
-    <form class="form-group col" asp-controller="Simulation" asp-action="EndEditScenario" id="EndEdit"  asp-route-site="@Model.zone.site">
+    <form class="form-group col" asp-controller="Simulation" asp-action="EndEditZoneScenario" id="EndEdit"  asp-route-site="@Model.zone.site">
         <label>Leistung der Zone</label>
         <div class="input-group">
             <input form="EndEdit" class="form-control" type="number" placeholder="@Model.zone.maxPower" asp-for="@Model.zone.maxPower" min="0" />
