@@ -8,6 +8,7 @@
     <title>@ViewData["Title"] - Storyboard</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
 </head>
 <body>
     <header>
@@ -29,7 +30,7 @@
                             }
                             else
                             {
-                                <a class="nav-link text-dark" id="navlink" onclick="loginModal()">Buchungsübersicht</a>
+                                <a class="nav-link text-dark"  id="navlinkB" href="#">Buchungsübersicht</a>
                             }
                         </li>
                         @if (httpContextAccessor.HttpContext.Session.GetString("role") == "PLANER")
@@ -59,7 +60,7 @@
                         @if (Context.Session.GetString("role") != null)
                         {
                             <li class="nav-item">
-                                <a href="#" data-toggle="modal"  data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
+                                <a href="#" data-toggle="modal" data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
                             </li>
                         }
 
@@ -101,6 +102,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/login.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

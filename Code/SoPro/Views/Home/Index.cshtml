@@ -9,8 +9,11 @@
 
     <div class="container d-flex justify-content-center">
         <form class="form-inline pb-5" method="post" asp-controller="Home" asp-action="Login">
-            <div class="form-group"><input type="email" class="form-control" name="email" placeholder="example@mail.com" /></div>
-            <div class="form-group"><button class="btn btn-primary btn-mhp" type="submit">Anmelden</button></div>
+            <div class="form-group " id="loginBox">
+               <input type="email" class="form-control" name="email" placeholder="example@mail.com" />
+               <button class="btn btn-primary btn-mhp login_button" type="submit">Anmelden</button>
+            </div>
+            
         </form>
     </div>
 
@@ -66,3 +69,16 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#navlinkB').click(function () {
+            $('#loginBox').addClass('animate__animated', 'animate__ShakeX', 'border', 'border-danger', 'rounded');
+            $('.alert').fadeIn(500);
+            setTimeout("$('.alert').fadeOut(1500);", 3000);
+        });
+        $('.form-control').keypress(function () {
+            $('#loginBox').removeClass('wrong-entry');
+        });
+
+    });
+</script>
