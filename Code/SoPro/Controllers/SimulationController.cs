@@ -36,6 +36,80 @@ namespace Sopro.Controllers
             return View(scenarios);
         }
 
+        public IActionResult Edit(string id)
+        {
+            ScenarioCreateViewModel viewmodel = new ScenarioCreateViewModel();
+
+            List<ILocation> locations;
+            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
+            {
+                locations = new List<ILocation>();
+            }
+
+            List<IVehicle> vehicles;
+            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
+            {
+                vehicles = new List<IVehicle>();
+            }
+
+            if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            {
+                scenarios = new List<IScenario>();
+            }
+
+            foreach(Scenario s in scenarios)
+            {
+                if (s.id.Equals(id))
+                {
+                    locations.Add(s.location);
+                    viewmodel.setVehicles(vehicles);
+                    for(int i = 0; i < vehicles.Count; i++)
+                    {
+                        int count = 0;
+                        foreach(Vehicle v in s.vehicles)
+                        {
+                            if(v == vehicles[i])
+                            {
+                                count++;
+                            }
+                        }
+                        viewmodel.countVehicles[i] = count;
+                    }
+                    viewmodel.locations = locations;
+                    viewmodel.scenario = s;
+                    viewmodel.id = viewmodel.scenario.id;
+
+                    cache.Set("ScenarioEdit", viewmodel.scenario);
+
+                    scenarios.Remove(s);
+                    cache.Set(CacheKeys.SCENARIO, scenarios);
+
+                    return View("Create",viewmodel);
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(string id)
+        {
+            if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            {
+                scenarios = new List<IScenario>();
+            }
+
+            foreach (Scenario s in scenarios)
+            {
+                if (s.id.Equals(id))
+                {
+                    scenarios.Remove(s);
+                    break;
+                }
+            }
+
+            return View("Index", scenarios);
+        }
+
         public IActionResult Create()
         {
             ScenarioCreateViewModel viewmodel = new ScenarioCreateViewModel();
@@ -420,31 +494,7 @@ namespace Sopro.Controllers
                 scenario = new Scenario();
             }
 
-            if (!TryValidateModel(scenario))
-            {
-                ScenarioCreateViewModel viewmodel = new ScenarioCreateViewModel();
-
-                List<ILocation> locations;
-                if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-                {
-                    locations = new List<ILocation>();
-                }
-
-                List<IVehicle> vehicles;
-                if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
-                {
-                    vehicles = new List<IVehicle>();
-                }
-
-
-                viewmodel.setVehicles(vehicles);
-                viewmodel.locations = locations;
-                viewmodel.scenario = scenario;
-                viewmodel.id = viewmodel.scenario.id;
-
-
-                return View("Create",viewmodel);
-            }
+            
             if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
                 scenarios = new List<IScenario>();
@@ -453,6 +503,10 @@ namespace Sopro.Controllers
             scenarios.Add(scenario);
 
             cache.Set(CacheKeys.SCENARIO, scenarios);
+            if (!TryValidateModel(scenario))
+            {
+                return RedirectToAction("Edit", scenario.id);
+            }
 
             return View("Index", scenarios);
 
