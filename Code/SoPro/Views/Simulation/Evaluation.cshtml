@@ -4,149 +4,100 @@
     Layout = "_AdminLayout";
 }
 
+@using System.Linq;
+@using Sopro.ViewModels.TestViewModels;
+@model List<DataViewModel>
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());
+    ViewData["Title"] = "Pie Chart";
+}
+
 <h1 class="display-4 mb-5 pt-5">Auswertung</h1>
-<div class=" = d-inline-flex flex-wrap">
-    <div class="flex-column  p-3">
-        <div class="d-flex">
-            <div class="flex-column">
-                <div class="mr-4 mb-2"><b>Anzahl der Buchungen</b> </div>
-                <div class="mr-4 mb-2"><b>Davon erfolgreich</b> </div>
-                <div class="mr-4 mb-2"><b>Durchgeführt am</b> </div>
-                <div class="mr-5"><b>Stoßzeit 1 </b></div>
-                <div class="mr-5"><b>Stoßzeit 2 </b></div>
-                <div class="mr-5"> <b>Stoßzeit 3</b></div>
-            </div>
-            <div class="flex-column">
-                <div class="mb-2">100</div>
-                <div class="mb-2">90</div>
-                <div class="mb-2"> 09.06.2020 12:30</div>
-                <div class="">09.06.2020 9:00</div>
-                <div class="">09.06.2020 13:00</div>
-                <div class="">09.06.2020 19:00</div>
-            </div>
-        </div>
-        <div class="d-inline-flex mb-2">
-            <div class="mr-5 mt-2 text-nowrap"> <b>Bsp Location 1</b></div>
-        </div>
-        <div class="flex-column  mt-2">
-            <div class="d-flex mb-4 mt-3">
-                <div class="mr-2"><b>Ladezone A</b></div>
-                <div class="mr-2">Ladestationen: 2</div>
-            </div>
-            <div class="container table-responsive">
-                <table class="table table-striped table-borderless table-hover text-nowrap">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Name</th>
-                            @for (int i = 0; i <= 30; i++)
-                            {
-                                <th>@i</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>Ladezone A</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Ladestation 1</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Ladestation 2</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                </table>
 
-            </div>
-            <div class="d-flex mb-4 mt-5">
-                <div class="mr-2"><b>Ladezone B</b></div>
-                <div class="mr-2">Ladestationen: 2</div>
-            </div>
-            <div class="container table-responsive">
-                <table class="table table-striped table-borderless table-hover text-nowrap">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Name</th>
-                            @for (int i = 0; i <= 30; i++)
-                            {
-                                <th>@i</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>Ladezone B</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Ladestation 1</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Ladestation 2</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                </table>
+<div class="box-body">
 
-            </div>
-            <div class="d-flex mb-4 mt-5">
-                <div class="mr-2"><b>Ladezone C</b> </div>
-                <div class="mr-2">Ladestationen: 2</div>
-            </div>
-            <div class="container table-responsive">
-                <table class="table table-striped table-borderless table-hover text-nowrap">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Name</th>
-                            @for (int i = 0; i <= 30; i++)
-                            {
-                                <th>@i</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>Ladezone C</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Ladestation 1</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Ladestation 2</td>
-                        @for (int i = 0; i <= 30; i++)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                </table>
-
-            </div>
-        </div>
+    <div class="chart-container">
+        <canvas id="chart" style="width:100%; height:500px"></canvas>
     </div>
-
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+
+        $(function () {
+    var chartName = "chart";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var data = {
+                labels: @Html.Raw(XLabels),
+                datasets: [{
+                    label: "Drinks Chart",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YValues)
+    }]
+            };
+
+var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+}],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+       var myChart = new  Chart(ctx, {
+                options: options,
+                data: data,
+                type:'pie'
+
+            });
+        });
+</script>

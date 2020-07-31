@@ -7,6 +7,8 @@ using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.History;
 using Sopro.Persistence.PersEvaluation;
 using Sopro.ViewModels;
+using Sopro.ViewModels.TestViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -20,7 +22,7 @@ namespace Sopro.Controllers
 
         public IActionResult Evaluation(IEvaluation evaluation)
         {
-            return View(evaluation);
+            return View("Evaluation");
         }
 
         public IActionResult History()
