@@ -7,23 +7,23 @@
 
 <h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
 
-<form asp-controller="Simulation" asp-action="editRushours"  method="post" >
+<form asp-controller="Simulation" asp-action="editRushours" method="post">
 
-    <div class="form-row">
-        <div class="form-group col-8">
+    <div class="d-flex">
+        <div class="form-group flex-grow-1">
             <label>Start Tag der Simulation</label>
-            <input type="date" class="form-control" asp-for="@Model.scenario.start" min="@DateTime.Now" />
+            <input type="date" class="form-control" asp-for="@Model.scenario.start" id="DatePickerId" />
             <small></small>
         </div>
-        <div class="form-group col-2">
+        <div class="form-group ml-4">
             <label>Dauer</label>
             <div class="input-group">
                 <input class="form-control" asp-for="@Model.scenario.duration" min="1" />
                 <div class="input-group-append">
-                    <span class="input-group-text"> Ticks </span>
+                    <span class="input-group-text"> Tage </span>
                 </div>
             </div>
-            <small>Anzahl der Simulierten ticks</small>
+            <small>Anzahl der Simulierten Tage.</small>
         </div>
     </div>
 
@@ -58,81 +58,91 @@
         </div>
     </div>
 
-        
-            <!-- Vehicles to select -->
-            @if (Model.vehicles != null && Model.vehicles.Count != 0)
-            {
-                <div class="form-group">
-    <div class="form-group">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        Modell
-                    </th>
-                    <th>
-                        Plug
-                    </th>
-                    <th>
-                        Kapazität
-                    </th>
-                    <th>
-                        SoC-Start
-                    </th>
-                    <th>
-                        S
-                        SoC-End
-                    </th>
-                    <th>
-                        Anzahl
-                    </th>
-                </tr>
 
-            </thead>
-            <tbody>
-                @{ int i = 0;}
-            @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
-            {
-                <tr>
-                    <td>
-                        @vehicle.model
-                    </td>
-                    <td>
-                        @{
-                            string x = "";
-                            foreach (var plug in vehicle.plugs)
-                            {
-                                x += plug.ToString() + " ";
-                            }
+    <!-- Vehicles to select -->
+    @if (Model.vehicles != null && Model.vehicles.Count != 0)
+    {
+        <div class="form-group">
+            <div class="form-group">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Modell
+                            </th>
+                            <th>
+                                Plug
+                            </th>
+                            <th>
+                                Kapazität
+                            </th>
+                            <th>
+                                SoC-Start
+                            </th>
+                            <th>
+                                S
+                                SoC-End
+                            </th>
+                            <th>
+                                Anzahl
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @{ int i = 0;}
+                        @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
+                        {
+                            <tr>
+                                <td>
+                                    @vehicle.model
+                                </td>
+                                <td>
+                                    @{
+                                        string x = "";
+                                        foreach (var plug in vehicle.plugs)
+                                        {
+                                            x += plug.ToString() + " ";
+                                        }
+                                    }
+                                    @x
+
+                                </td>
+                                <td>
+                                    @vehicle.capacity
+                                </td>
+                                <td>
+                                    @vehicle.socStart
+                                </td>
+                                <td>
+                                    @vehicle.socEnd
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
+                                </td>
+                            </tr>
+                            i++;
                         }
-                        @x
+                    </tbody>
+                </table>
+            </div>
 
-                    </td>
-                    <td>
-                        @vehicle.capacity
-                    </td>
-                    <td>
-                        @vehicle.socStart
-                    </td>
-                    <td>
-                        @vehicle.socEnd
-                    </td>
-                    <td>
-                        <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
-                    </td>
-                </tr>
-                i++;
-            }
-        </tbody>
-    </table>
-</div>
-          
-<!-- buttons -->
+            <!-- buttons -->
 
-</div>
+        </div>
         <div class="float-right">
             <button type="submit" class="btn btn-primary btn-mhp">Weiter</button>
-        </div> 
-        }
+        </div>
+    }
+    else
+    {
+        <div>
+            Es wurde noch kein Auto erstellt, diese müssen aber vorhanden sein.
+        </div>
+    }
 </form>
+
+<script>
+    datePickerId.min = new Date().toISOString().split("T")[0];
+</script>
 

@@ -131,6 +131,7 @@ namespace Sopro.Controllers
             viewmodel.locations = locations;
             viewmodel.scenario = new Scenario();
             viewmodel.id = viewmodel.scenario.id;
+            viewmodel.scenario.start = DateTime.Now;
 
             cache.Set("ScenarioEdit", viewmodel.scenario);
 
