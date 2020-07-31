@@ -15,7 +15,7 @@ namespace Sopro.ViewModels
         public List<Vehicle> vehicles { get; set; }
         public List<Rushhour> rushhours { get; set; }
         public DateTime start { get; set; }
-        public ILocation location { get; set; }
+        public LocationExportImportViewModel location { get; set; }
 
         public ScenarioExportImportViewModel() { }
 
@@ -27,7 +27,7 @@ namespace Sopro.ViewModels
             vehicles = s.vehicles;
             rushhours = s.rushhours;
             start = s.start;
-            location = s.location;
+            location = new LocationExportImportViewModel(s.location);
         }
 
         public IScenario generateScenario()
@@ -39,7 +39,7 @@ namespace Sopro.ViewModels
             vehicles = s.vehicles;
             rushhours = s.rushhours;
             start = s.start;
-            location = s.location;
+            s.location = location.generateLocation();
 
             return s;
         }

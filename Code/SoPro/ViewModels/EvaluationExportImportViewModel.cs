@@ -22,9 +22,14 @@ namespace Sopro.ViewModels
 
         public EvaluationExportImportViewModel() { }
 
-        public EvaluationExportImportViewModel(IEvaluatable e)
+        public EvaluationExportImportViewModel(IEvaluation e)
         {
             suggestions = e.suggestions;
+            bookingSuccessRate = e.bookingSuccessRate;
+            unneccessaryWorkload = e.unneccessaryWorkload;
+            neccessaryWorkload = e.neccessaryWorkload;
+            plugDistributionAccepted = e.plugDistributionAccepted;
+            plugDistributionDeclined = e.plugDistributionDeclined;
         }
     }
 }
