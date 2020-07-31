@@ -13,7 +13,7 @@ namespace Sopro.Models.Infrastructure
     public class Zone
     {
         [ListMinLength(1)]
-        public List<Station> stations { get; set; }
+        public List<Station> stations { get; set; } = new List<Station>();
         public char site { get; set; }
         [Range(0,int.MaxValue)]
         public int maxPower { get; set; }
@@ -54,6 +54,24 @@ namespace Sopro.Models.Infrastructure
         public bool compareTo(Zone zone)
         {
             return zone.site == this.site;
+        }
+
+        /// <summary>
+        /// Erstellt eine TiefeKopie einer Zone.
+        /// </summary>
+        /// <returns>Eine tiefe Kopie dieser Zone.</returns>
+        public Zone deepCopy()
+        {
+            Zone copy = new Zone();
+            copy.site = site;
+            copy.maxPower = maxPower;
+
+            foreach(Station s in stations)
+            {
+                copy.stations.Add(s.deepCopy());
+            }
+
+            return copy;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Sopro.Models.Infrastructure
     {
         public string id { get; set; }
         [ListMinLength(0)]
-        public List<Zone> zones { get; set; }
+        public List<Zone> zones { get; set; } = new List<Zone>();
         [Required]
         public string name { get; set; }
         [Range(0, 1)]
@@ -61,6 +61,21 @@ namespace Sopro.Models.Infrastructure
 
             zones.Remove(zone);
             return !zones.Contains(zone);
+        }
+
+        public Location deepCopy()
+        {
+            Location copy = new Location();
+            copy.name = name;
+            copy.normalizedDistributionTime = normalizedDistributionTime;
+
+            foreach(Zone z in zones)
+            {
+                copy.zones.Add(z.deepCopy());
+            }
+
+            return copy;
+
         }
     }
 }
