@@ -17,6 +17,8 @@ namespace Sopro.Interfaces
 
         bool addZone(Zone zone);
         bool deleteZone(Zone zone);
-        
+        public Location deepCopy();
+
+
     }
 }

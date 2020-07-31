@@ -7,7 +7,7 @@
 
 <h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
 
-<form asp-controller="Simulation" asp-action="CreateVehicles" method="post" id="create">
+<form asp-controller="Simulation" asp-action="editRushours"  method="post" >
 
     <div class="form-row">
         <div class="form-group col-8">
@@ -54,93 +54,85 @@
     <div class="form-group">
         <label>Anzahl der Stoßzeiten</label>
         <div class="input-group">
-            <input class="form-control" asp-for="@Model.countRushhours" min="o" />
-            <div class="input-group-append">
-                <span class="input-group-text"> Buchungen / Tag </span>
-            </div>
+            <input class="form-control" asp-for="@Model.countRushhours" min="0" />
         </div>
     </div>
 
-        <div class="form-group">
+        
             <!-- Vehicles to select -->
             @if (Model.vehicles != null && Model.vehicles.Count != 0)
             {
                 <div class="form-group">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Modell
-                                </th>
-                                <th>
-                                    Plug
-                                </th>
-                                <th>
-                                    Kapazität
-                                </th>
-                                <th>
-                                    SoC-Start
-                                </th>
-                                <th>
-                                    S
-                                    SoC-End
-                                </th>
-                                <th>
-                                    Anzahl
-                                </th>
-                            </tr>
+    <div class="form-group">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Modell
+                    </th>
+                    <th>
+                        Plug
+                    </th>
+                    <th>
+                        Kapazität
+                    </th>
+                    <th>
+                        SoC-Start
+                    </th>
+                    <th>
+                        S
+                        SoC-End
+                    </th>
+                    <th>
+                        Anzahl
+                    </th>
+                </tr>
 
-                        </thead>
-                        <tbody>@{ int i = 0;}
-                            @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
-                            {
-                                <tr>
-                                    <td>
-                                        @vehicle.model
-                                    </td>
-                                    <td>
-                                        @{
-                                            string x = "";
-                                            foreach (var plug in vehicle.plugs)
-                                            {
-                                                x += plug.ToString() + " ";
-                                            }
-                                        }
-                                        @x
-
-                                    </td>
-                                    <td>
-                                        @vehicle.capacity
-                                    </td>
-                                    <td>
-                                        @vehicle.socStart
-                                    </td>
-                                    <td>
-                                        @vehicle.socEnd
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
-                                    </td>
-                                </tr>
-                                                i++;
-                                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-            else
+            </thead>
+            <tbody>
+                @{ int i = 0;}
+            @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
             {
-                // add vehicles
+                <tr>
+                    <td>
+                        @vehicle.model
+                    </td>
+                    <td>
+                        @{
+                            string x = "";
+                            foreach (var plug in vehicle.plugs)
+                            {
+                                x += plug.ToString() + " ";
+                            }
+                        }
+                        @x
+
+                    </td>
+                    <td>
+                        @vehicle.capacity
+                    </td>
+                    <td>
+                        @vehicle.socStart
+                    </td>
+                    <td>
+                        @vehicle.socEnd
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
+                    </td>
+                </tr>
+                i++;
             }
+        </tbody>
+    </table>
+</div>
+          
+<!-- buttons -->
 
-
-            <!-- buttons -->
-            <div class="float-right">
-                <button type="reset" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</button>
-                <button type="submit" class="btn btn-primary btn-mhp">Submit</button>
-            </div>
-
-        </div>
-
+</div>
+        <div class="float-right">
+            <button type="submit" class="btn btn-primary btn-mhp">Weiter</button>
+        </div> 
+        }
 </form>
 

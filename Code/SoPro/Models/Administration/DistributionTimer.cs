@@ -74,10 +74,8 @@ namespace Sopro.Models.Administration
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Buchungsverteilungs Dienst läuft...");
-            // Wann die nächste Zeiteinheit startet.
-            DateTime nextHour = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour + 1, 0, 0);
             // Zeit bis zur nächsten Zeiteinheit.
-            TimeSpan startTime = nextHour.Subtract(DateTime.Now);
+            TimeSpan startTime = TimeSpan.FromMinutes(59 - DateTime.Now.Minute);
             // Timer ab nächster Zeiteinheit für jede folgende Zeitheinheit.
             _timer = new Timer(triggerBookingDistribution, null, startTime, TimeSpan.FromHours(1));
             return Task.CompletedTask;
