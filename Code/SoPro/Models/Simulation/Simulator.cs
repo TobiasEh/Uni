@@ -90,10 +90,10 @@ namespace Sopro.Models.Simulation
 
                 if (!triggerBookingDistribution())
                     return false;
+                
+                exScenario.updateWorkload(calculateLocationWorkload(), calculateStationWorkload());
 
                 ++tickCount;
-
-                int count = 0;
 
                 while (tickCount <= exScenario.duration)
                 {
@@ -102,21 +102,21 @@ namespace Sopro.Models.Simulation
                     {
                         if (!triggerBookingDistribution())
                             return false;
-                       
-                        double location = calculateLocationWorkload();
-                        
-                        List<double> station = calculateStationWorkload();
-                        ++count;
-                        if (!exScenario.updateWorkload(location, station))
-                            return false;
                     }
+
+                    double location = calculateLocationWorkload();
+
+                    List<double> station = calculateStationWorkload();
+                    
+                    if (!exScenario.updateWorkload(location, station))
+                        return false;
                     ++tickCount;
                 }
-
-                if(count == 0)
+                
+                /*if(count == 0)
                 {
                     exScenario.updateWorkload(0.0, new List<double>() { 0.0 });
-                }
+                }*/
                 exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
 
                 return true;
@@ -178,7 +178,7 @@ namespace Sopro.Models.Simulation
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = time + tickLength;
             List<double> workload = new List<double>();
-            int k = 0;
+
             Station station;
             Console.WriteLine("Zones: " + exScenario.location.zones.Count.ToString());
             Console.WriteLine("Stations: " + exScenario.location.zones[0].stations.Count.ToString());

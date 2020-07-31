@@ -64,8 +64,10 @@ namespace Sopro.Models.History
             // 1. Fall: Buchungs Erfolgsrate ist geringer als festgelegter Schwellenwert, also wird mehr Infrastruktur wird benötigt.
             if (bookingSuccesRate < lowerTreshold)
             {
-                int requiredStations = (int) Math.Ceiling((stationCount * calcNecessaryWorkload() / 100));
-                int averagedStationPower = (int) Math.Ceiling(zonePowerList.Sum() / (double)stationCount);
+                Console.WriteLine("stationCount: " + stationCount + ", calcNeccessaryWorkload: " + calcNecessaryWorkload());
+                int requiredStations = (int) Math.Ceiling(((double)stationCount * calcNecessaryWorkload() / 100));
+                Console.WriteLine("requiredStations: " + requiredStations);
+                int averagedStationPower = (int) Math.Ceiling((double)zonePowerList.Sum() / (double)stationCount);
                 int availablePower = scenario.location.zones.Sum(x => x.maxPower) - zonePowerList.Sum();
 
                 if (availablePower < requiredStations * averagedStationPower)
@@ -77,11 +79,13 @@ namespace Sopro.Models.History
             // 2. Fall: Buchungs Erfolgsrate ist höher als festgelegter Schwellenwert, also kann Infrastruktur abgebaut werden.
             if (bookingSuccesRate > upperTreshold) 
             {
-                int unecessaryStations = (int) Math.Floor((stationCount * calcUnnecessaryWorkload() / 100));
-                int averagedStationPower = (int)Math.Ceiling(zonePowerList.Sum() / (double)stationCount);
-                if (zonePowerList.Sum() / scenario.location.zones.Count < unecessaryStations * averagedStationPower)
-                    return new List<Suggestion>() { new ExpandInfrastructureSuggestion(unecessaryStations, -1) };
-                return new List<Suggestion>() { new ExpandInfrastructureSuggestion(unecessaryStations, 0) };
+                Console.WriteLine("stationCount: " + stationCount + ", calcUnneccessaryWorkload: " + calcUnnecessaryWorkload());
+                int unecessaryStations = (int) Math.Floor(((double)stationCount * calcUnnecessaryWorkload() / 100));
+                Console.WriteLine("unneccessaryStations: " + unecessaryStations);
+                int averagedStationPower = (int)Math.Ceiling((double)zonePowerList.Sum() / (double)stationCount);
+                if ((double)zonePowerList.Sum() / (double)scenario.location.zones.Count < unecessaryStations * averagedStationPower)
+                    return new List<Suggestion>() { new CondenseInfrastructureSuggestion(unecessaryStations, 1) };
+                return new List<Suggestion>() { new CondenseInfrastructureSuggestion(unecessaryStations, 0) };
             }
 
             // 3. Fall: Buchungs Erfolgsrate ist im erwünschten Bereich. Es wird kein Vorschlag unterbreitet.
@@ -96,6 +100,8 @@ namespace Sopro.Models.History
         /// <returns>Den Anteil der akzeptierten Buchungsanfragen</returns>
         private static double calcBookingSuccessRate()
         {
+            Console.WriteLine("getFullfilledRequests: ");
+            Console.WriteLine(scenario.getFulfilledRequests());
             return 100 * (double)scenario.getFulfilledRequests() / scenario.getBookings().Count;
         }
 
