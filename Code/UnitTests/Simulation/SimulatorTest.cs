@@ -170,7 +170,7 @@ namespace UnitTests.SimulationTest
 
         private static Scenario scenario4 = new Scenario()
         {
-            duration = 100,
+            duration = 2,
             bookingCountPerDay = 150,
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() { r1 },
@@ -195,7 +195,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario.generatedBookings, 20);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l.schedule.bookings, 20);
+            printWokrload(executedScenario);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario.getFulfilledRequests());
             validateResults(l, 20);
         }
 
@@ -209,7 +213,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenariob.generatedBookings, 20);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l.schedule.bookings, 20);
+            printWokrload(executedScenariob);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenariob.getFulfilledRequests());
             validateResults(l, 20);
         }
 
@@ -223,7 +231,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario2.generatedBookings, 50);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l2.schedule.bookings, 50);
+            printWokrload(executedScenario2);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario2.getFulfilledRequests());
             validateResults(l2, 50);
         }
 
@@ -237,7 +249,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario3.generatedBookings, 0);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l3.schedule.bookings, 0);
+            printWokrload(executedScenario3);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario3.getFulfilledRequests());
             validateResults(l3, 0);
         }
 
@@ -251,8 +267,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario3b.generatedBookings, 0);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l3.schedule.bookings, 0);
             printWokrload(executedScenario3b);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario3b.getFulfilledRequests());
             validateResults(l3, 0);
 
         }
@@ -265,9 +284,9 @@ namespace UnitTests.SimulationTest
                 exScenario = executedScenario4
             };
 
-            //printDetailedBookingList(executedScenario4.generatedBookings, 0);
+            
             await sim.run();
-            //printDetailedBookingList(l3.schedule.bookings, 0);
+            
             printWokrload(executedScenario4);
             validateResults(l3, 0);
 

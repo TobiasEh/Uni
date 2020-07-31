@@ -627,7 +627,7 @@ namespace Sopro.Controllers
                     {
                         book.Add(b);
                     }
-                    l.distributor.run(book);
+                    l.distributor.run(DateTime.Now, book);
                     break;
                 }
             }

@@ -58,7 +58,7 @@ namespace Sopro.Models.Administration
                             List<Booking> bookings;
                             if (_cache.TryGetValue(CacheKeys.BOOKING, out bookings))
                             {
-                                l.distributor.run(bookings);
+                                l.distributor.run(DateTime.Now, bookings);
                             }
                         }
                     }

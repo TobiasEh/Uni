@@ -61,12 +61,16 @@ namespace Sopro.Models.Simulation
                     }
                 }
             }
-            Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
-            Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
+            // Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
+            // Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
+            
             exScenario.location.distributor.strategy = new StandardDistribution();
 
-            if (!exScenario.location.distributor.run(toBeDistributed))
-                return false;
+            if ((toBeDistributed != null) && (toBeDistributed.Count > 0))
+            {
+                if (!exScenario.location.distributor.run(start, toBeDistributed))
+                    return false;
+            }
             return true;
         }
 
@@ -79,9 +83,6 @@ namespace Sopro.Models.Simulation
         {
             return await Task.Run(() =>
             {
-                // List<Booking> tempBookings;
-                // tempBookings = generator.generateBookings(exScenario);
-                // tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
                 exScenario.bookings = new List<Booking>();
 
                 exScenario.bookings.AddRange(exScenario.generatedBookings);
@@ -91,19 +92,23 @@ namespace Sopro.Models.Simulation
                 if (!triggerBookingDistribution())
                     return false;
                 
-                exScenario.updateWorkload(calculateLocationWorkload(), calculateStationWorkload());
+                //exScenario.updateWorkload(calculateLocationWorkload(), calculateStationWorkload());
 
                 ++tickCount;
-
-                while (tickCount <= exScenario.duration)
+                while (tickCount < exScenario.duration)
                 {
+                    
                     
                     if (pendingBookings.Count() > 0)
                     {
+                        
                         if (!triggerBookingDistribution())
+                        {
                             return false;
+                        }
+                        
                     }
-
+                    
                     double location = calculateLocationWorkload();
 
                     List<double> station = calculateStationWorkload();
@@ -112,13 +117,11 @@ namespace Sopro.Models.Simulation
                         return false;
                     ++tickCount;
                 }
-                
-                /*if(count == 0)
-                {
-                    exScenario.updateWorkload(0.0, new List<double>() { 0.0 });
-                }*/
-                exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
 
+                int req = exScenario.getFulfilledRequests();
+                
+                exScenario.fulfilledRequests = exScenario.location.schedule.bookings.Count();
+                
                 return true;
             });    
         }
@@ -141,32 +144,100 @@ namespace Sopro.Models.Simulation
                 }
             }
 
-            // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
-            // int count  = exScenario.bookings.Count( e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+            Console.WriteLine("number of Plugs: " + numberOfPlugs);
 
-            List<Booking> boo = exScenario.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+            // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
+
+            List<Booking> boo = exScenario.location.schedule.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+
             var count = boo.Count;
 
-            boo.OrderBy(e => e.startTime);
+            Console.WriteLine("count: " + count);
+            boo.Sort((e, f) => e.startTime.CompareTo(f.startTime));
             var workload = 0.0;
             var usedTogether = 0.0;
 
-            if (count >= 2)
+            double[] countPlugs = new double[count];
+
+            // Berechnen wie viele Buchungen überlappend Stecker benutzen.
+            if (count >= numberOfPlugs)
             {
-                    for (int i = 0; i < count - 1; ++i)
+                for (int x = 0; x < count - 1; ++x)
+                {
+                    // Fall: Buchung und nächste Buchung überlappen sich
+                    if (boo[x].endTime > boo[x + 1].startTime)
                     {
-                        if (boo[i].endTime > boo[i + 1].startTime)
+                        usedTogether += 2;
+                        countPlugs[x] = usedTogether;
+
+                        int y = x + 1;
+                        while (y < numberOfPlugs)
                         {
-                            ++usedTogether;
+                            // Fall: Buchung überlappt mit der nächten + y Buchung, ist das der fall schriebe +1 in die Zelle
+                            if (boo[x].endTime > boo[y].startTime)
+                            {
+                                ++usedTogether;
+                                countPlugs[x] = usedTogether;
+                            }
+                            // Fall: Buchung überlappt sich nicht mit der nächsten + y Buchung, ist das der fall gehe zu nächste Buchung (x+1) und setzt usedTogether auf 0.0
+                            else
+                            {
+                                usedTogether = 0.0;
+                                break;
+                            }
+                            ++y;
                         }
                     }
-            }
-            else
+                    // Fall: Buchung und nächste Buchung überlappen sich nicht -> es wird 1 in die Liste geschrieben, da ein Plug benutzt wurde 
+                    else
+                    {
+                        usedTogether = 1.0;
+                        countPlugs[x] = usedTogether;
+                    }
+                }
+                usedTogether = countPlugs.Max();
+            // Falls die anzahl der Buchungen kleiner als die maximalen nutzbaren sind, muss anders vorgegangen werden.
+            } else if (count >= 2)
+            {
+                for (int x = 0; x < count - 1; ++x)
+                {
+                    if (boo[x].endTime > boo[x + 1].startTime)
+                    {
+                        usedTogether += 2;
+                        countPlugs[x] = usedTogether;
+
+                        int y = x;
+                        while (y < count)
+                        {
+                            if (boo[x].endTime > boo[y].startTime)
+                            {
+                                ++usedTogether;
+                                countPlugs[x] = usedTogether;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                            ++y;
+                        }
+                    }
+                    else
+                    {
+                        usedTogether = 1.0;
+                        countPlugs[x] = usedTogether;
+                    }
+                }
+                usedTogether = countPlugs.Max();
+            } else if(count == 1)
             {
                 ++usedTogether;
             }
-                workload = (double)(usedTogether * 100.0) / (double)numberOfPlugs;
-                return workload;
+
+            
+            Console.WriteLine(usedTogether);
+
+            workload = (double)(usedTogether * 100.0) / (double)numberOfPlugs;
+            return workload;
         }
 
         /// <summary>
@@ -180,8 +251,8 @@ namespace Sopro.Models.Simulation
             List<double> workload = new List<double>();
 
             Station station;
-            Console.WriteLine("Zones: " + exScenario.location.zones.Count.ToString());
-            Console.WriteLine("Stations: " + exScenario.location.zones[0].stations.Count.ToString());
+            //Console.WriteLine("Zones: " + exScenario.location.zones.Count.ToString());
+            //Console.WriteLine("Stations: " + exScenario.location.zones[0].stations.Count.ToString());
             for(int i = 0; i < exScenario.location.zones.Count(); ++i)
             {
                 for(int j = 0; j < exScenario.location.zones[i].stations.Count(); ++j)
