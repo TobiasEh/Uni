@@ -5,11 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Models\User\UserList.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="15.0.5" />
     <PackageReference Include="MailKit" Version="2.7.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="NCrontab" Version="3.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\UserList.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

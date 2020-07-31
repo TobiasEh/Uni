@@ -14,7 +14,7 @@ namespace Sopro.Models.User
     /// </summary>
     public static class IdentityProvider
     {
-        public static string path { get; set; } = "Models/User/UserList.csv";
+        public static string path { get; set; } = "wwwroot/UserList.csv";
 
         public static UserType getUserPriority(string email)
         {
