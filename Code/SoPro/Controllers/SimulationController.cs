@@ -134,6 +134,7 @@ namespace Sopro.Controllers
             viewmodel.locations = locations;
             viewmodel.scenario = new Scenario();
             viewmodel.id = viewmodel.scenario.id;
+            viewmodel.scenario.start = DateTime.Now;
 
             cache.Set("ScenarioEdit", viewmodel.scenario);
 
@@ -180,6 +181,7 @@ namespace Sopro.Controllers
                 }
             }
             
+            
             for (int i = 0; i < vehicles.Count; i++)
             {
                 for (int j = 0; j < viewmodel.countVehicles[i]; j++)
@@ -187,12 +189,7 @@ namespace Sopro.Controllers
                     scenario.vehicles.Add((Vehicle)vehicles[i]);
                 }
             }
-
-            if(viewmodel.countRushhours == 0)
-            {
-                return View("EditLocationScenario", scenario.location);
-            }
-
+            
             while (scenario.rushhours.Count > viewmodel.countRushhours)
             {
                 scenario.rushhours.RemoveAt(scenario.rushhours.Count - 1);
@@ -202,6 +199,27 @@ namespace Sopro.Controllers
             {
                 scenario.rushhours.Add(new Rushhour());
             }
+            
+            if (scenario.vehicles.Count == 0)
+            {
+                if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+                {
+                    scenarios = new List<IScenario>();
+                }
+
+                scenarios.Add(scenario);
+
+                cache.Set(CacheKeys.SCENARIO, scenarios);
+
+                return RedirectToAction("Edit", "Simulation", new { id = scenario.id });
+            }
+
+            if(viewmodel.countRushhours == 0)
+            {
+                return View("EditLocationScenario", scenario.location);
+            }
+
+            
 
 
             return View(scenario);
