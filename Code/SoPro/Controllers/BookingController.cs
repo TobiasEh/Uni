@@ -175,6 +175,7 @@ namespace Sopro.Controllers
                 if(l.id.Equals(viewmodel.locationId))
                 {
                     booking.location = l;
+                    break;
                 }
             }
 
@@ -189,7 +190,10 @@ namespace Sopro.Controllers
                 plugs.Add(PlugType.TYPE2);
             }
             booking.plugs = plugs;
-            
+             if (booking.location.zones.Count == 0)
+            {
+                return RedirectToAction("Create", "Booking", booking);
+            }
             // Validierung der Buchung, bei Fehlschlag wird an die Create Methode weitergeleited.
             if (!TryValidateModel(booking, nameof(booking)))
             {
