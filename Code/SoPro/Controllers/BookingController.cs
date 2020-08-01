@@ -139,10 +139,10 @@ namespace Sopro.Controllers
         /// <returns>Die Methode, welche das weitere Vorgehen beschreibt.</returns>
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Post(BookingCreateViewModel viewmodel)
+        public IActionResult Post(string id,BookingCreateViewModel viewmodel)
         {
             IBooking booking = viewmodel.booking;
-
+            booking.id = id;
             // Die Liste der Standorte wird aus dem Cache geladen.
             List<ILocation> locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
             if (locations == null)
@@ -151,7 +151,8 @@ namespace Sopro.Controllers
             }
 
             // Sollte der Benutzer kein ASSISTANCE sein wird seine E-Mail als die E-Mail des Benutzers gestzt.
-            if (booking.priority != UserType.ASSISTANCE && this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
+            
+            if (booking.priority != UserType.ASSISTANCE && !this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
             {
                 booking.user = this.HttpContext.Session.GetString("email");
             }
@@ -190,7 +191,13 @@ namespace Sopro.Controllers
                 bool test = b.id.Equals(booking.id);
                 if (b.id.Equals(booking.id))
                 {
+                    if (this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
+                    {
+                        booking.priority = b.priority;
+                        booking.user = b.user;
+                    }
                     bookings.Remove(b);
+                    
                     break;
                 }
             }
