@@ -41,7 +41,7 @@ namespace Sopro.Models.Administration
             // Speichert location und emergency ab.
             Location location = (Location)sortedBookings.First().location;
             double backup = location.emergency;
-            int concurrentCount = 0;
+            //int concurrentCount = 0;
 
             List<UsedTimeSlots> usedTimeSlots = new List<UsedTimeSlots>();
 
@@ -51,7 +51,7 @@ namespace Sopro.Models.Administration
                 foreach (Station s in z.stations)
                 {
                     usedTimeSlots.Add(new UsedTimeSlots(s));
-                    concurrentCount += s.maxParallelUseable;
+                    //concurrentCount += s.maxParallelUseable;
                 }
             }
 

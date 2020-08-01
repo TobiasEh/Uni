@@ -45,12 +45,13 @@ namespace Sopro.Models.Administration
         /// Filtert die Liste der übergebenen Buchungen nach Standort, Startzeit und Zeitspanne.
         /// </summary>
         /// <param name="bookings">Liste der Buchungen die gefiltert werden soll.</param>
+        /// <param name="now">Abwelchen Zeitpunkt die Filterkriterien gelten.</param>
         /// <returns>
         /// List die nur noch die Buchungen enthält, die zum ausgewählten Standortgehören und im Intervall [jetzt, jetzt + timespan) liegen.
         /// </returns>
-        public List<Booking> filter(List<Booking> bookings)
+        public List<Booking> filter(DateTime now, List<Booking> bookings)
         {
-            DateTime time = DateTime.Now.Add(new TimeSpan(timespan, 0, 0, 0));
+            DateTime time = now.Add(new TimeSpan(timespan, 0, 0, 0));
 
             List<Booking> result = new List<Booking>();
             foreach (Booking item in bookings)

@@ -47,5 +47,25 @@ namespace Sopro.Models.Infrastructure
             plugs.Remove(plug);
             return !plugs.Contains(plug);
         }
+
+        /// <summary>
+        /// Erstellt eine tiefe Kopie dieser Station.
+        /// </summary>
+        /// <returns> Tiefe Kopie.</returns>
+        public Station deepCopy()
+        {
+            Station copy = new Station();
+            copy.manufacturer = manufacturer;
+            copy.maxPower = maxPower;
+            copy.maxParallelUseable = maxParallelUseable;
+            copy.id = id;
+
+            foreach(Plug p in plugs)
+            {
+                copy.plugs.Add(p.deepCopy());
+            }
+
+            return copy;
+        }
     }
 }

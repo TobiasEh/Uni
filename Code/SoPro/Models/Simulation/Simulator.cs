@@ -61,12 +61,16 @@ namespace Sopro.Models.Simulation
                     }
                 }
             }
-            Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
-            Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
+            // Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
+            // Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
+            
             exScenario.location.distributor.strategy = new StandardDistribution();
 
-            if (!exScenario.location.distributor.run(toBeDistributed))
-                return false;
+            if ((toBeDistributed != null) && (toBeDistributed.Count > 0))
+            {
+                if (!exScenario.location.distributor.run(start, toBeDistributed))
+                    return false;
+            }
             return true;
         }
 
@@ -79,47 +83,204 @@ namespace Sopro.Models.Simulation
         {
             return await Task.Run(() =>
             {
-                // List<Booking> tempBookings;
-                // tempBookings = generator.generateBookings(exScenario);
-                // tempBookings.Sort((x, y)=> (x.startTime.CompareTo(y.startTime)));
                 exScenario.bookings = new List<Booking>();
-
                 exScenario.bookings.AddRange(exScenario.generatedBookings);
-
                 pendingBookings = exScenario.bookings.ToList();
+                int locationMaxAccumulatedPower = getLocationMaxAccumulatedPower();
+                int stationCount = getStationCount();
 
                 if (!triggerBookingDistribution())
                     return false;
+                
+                //exScenario.updateWorkload(calculateLocationWorkload(), calculateStationWorkload());
 
                 ++tickCount;
 
-                while (tickCount <= exScenario.duration)
+                while (tickCount < exScenario.duration)
                 {
-                    
                     if (pendingBookings.Count() > 0)
                     {
                         if (!triggerBookingDistribution())
                             return false;
-                       
-                        double location = calculateLocationWorkload();
-                        
-                        List<double> station = calculateStationWorkload();
-                        if (!exScenario.updateWorkload(location, station))
-                            return false;
                     }
+                    
+                    double location = calculateLocationWorkload(locationMaxAccumulatedPower);
+
+                    List<double> station = calculateStationWorkload(stationCount);
+                    
+                    if (!exScenario.updateWorkload(location, station))
+                        return false;
                     ++tickCount;
                 }
-                
-                exScenario.fulfilledRequests = exScenario.bookings.Count(e => e.station != null);
 
+                int req = exScenario.getFulfilledRequests();
+                exScenario.fulfilledRequests = exScenario.location.schedule.bookings.Count();
+                
                 return true;
             });    
+        }
+
+        /// <summary>
+        /// Berechnet die Auslastung aller Stationen pro Tick.
+        /// </summary>
+        /// <returns>Die Auslastung alles Stationen in einer Liste.</returns>
+        /// TODO: Effizienter wäre es, calculateStationWorkload und calculateLocationWorkload zusammenzuführen.
+        private List<double> calculateStationWorkload(int stationCount)
+        {
+            ILocation location = exScenario.location;
+
+            DateTime simulatedDay = exScenario.start + tickCount * tickLength;
+            TimeSpan pollingRate = new TimeSpan(0, 15, 0);
+            TimeSpan start = new TimeSpan(6, 0, 0);
+            TimeSpan end = new TimeSpan(20, 0, 0);
+
+            List<Booking> relevantBookings = filterBookingsAfterDay(simulatedDay);
+            List<double> polledStationWorkloads = new List<double>();
+
+            while (start < end)
+            {
+                int index = 0;
+                foreach (Zone zone in location.zones)
+                {
+                    foreach (Station station in zone.stations)
+                    {
+                        int usedPlugs = 0;
+
+                        foreach (Booking b in relevantBookings)
+                        {
+                            if (b.station == station && bookingIsTakingPlace(b, start))
+                                usedPlugs++;
+                        }
+
+                        if (polledStationWorkloads.Count < stationCount)
+                        {
+                            polledStationWorkloads.Add(usedPlugs / (double)station.maxParallelUseable);
+                        } 
+                        else
+                        {
+                            double newWorkload = usedPlugs / (double)station.maxParallelUseable;
+                            double previousWorkload = polledStationWorkloads[index];
+                            polledStationWorkloads[index] = newWorkload > previousWorkload ? newWorkload : previousWorkload;
+                        }
+                        ++index;
+                    }
+                }
+                start += pollingRate;
+            }
+            return polledStationWorkloads;
+        }
+
+        /// <summary>
+        /// Berechnet die Auslastung des Standortes pro Tick.
+        /// </summary>
+        /// <returns>Die berechnete Auslastung des Standortes.</returns>
+        private double calculateLocationWorkload(int locationMaxAccumulatedPower)
+        {
+            DateTime simulatedDay = exScenario.start + tickCount * tickLength;
+            TimeSpan pollingRate = new TimeSpan(0, 15, 0);
+            TimeSpan start = new TimeSpan(6, 0, 0);
+            TimeSpan end = new TimeSpan(20, 0, 0);
+
+            List<Booking> relevantBookings = filterBookingsAfterDay(simulatedDay);
+            List<double> polledLocationWorkloads = new List<double>();
+
+            while (start < end)
+            {
+                int accumulatedPower = 0;
+                foreach (Booking b in relevantBookings)
+                {
+                    if (bookingIsTakingPlace(b, start))
+                        accumulatedPower += b.station.plugs[0].power;
+                }
+                polledLocationWorkloads.Add(accumulatedPower / (double)locationMaxAccumulatedPower);
+                start += pollingRate;
+            }
+            return polledLocationWorkloads.Average() * 100;
+        }
+
+        /// <summary>
+        /// Berechnet die maximale Leistung, die von Location zeitgleich abgerufen werden kann.
+        /// </summary>
+        /// <returns>Maximale Leistung, die von Location zeitgleich abgerufen werden kann.</returns>
+        private int getLocationMaxAccumulatedPower()
+        {
+            ILocation location = exScenario.location;
+            int accumulatedMaxPower = 0;
+
+            foreach (Zone zone in location.zones)
+            {
+                foreach (Station station in zone.stations)
+                {
+                    int plugCount = station.maxParallelUseable;
+                    List<int> plugPowers = new List<int>();
+                    foreach (Plug plug in station.plugs)
+                    {
+                        plugPowers.Add(plug.power);
+                    }
+                    int powersToConsider = plugCount > station.plugs.Count ? station.plugs.Count : plugCount;
+                    var result = plugPowers.OrderByDescending(x => x).Take(powersToConsider);
+                    accumulatedMaxPower += result.Sum();
+                }
+            }
+            return accumulatedMaxPower;
+        }
+
+        /// <summary>
+        /// Berechnet, ob die Zeitspanne einer Buchung einen bestimmten Zeitpunkt enthält.
+        /// </summary>
+        /// <param name="b">Die Buchung, deren Zeitspanne betrachtet wird.</param>
+        /// <param name="time">Der Zeitpunkt bzw. die Uhrzeit, die in der Zeitspanne enthalten sein soll.</param>
+        /// <returns>Wahrheitswert, ob die Zugehörigkeit gegeben ist, oder eben nicht.</returns>
+        private bool bookingIsTakingPlace(Booking b, TimeSpan time)
+        {
+            if (time.Hours >= b.startTime.Hour && time.Hours < b.endTime.Hour)
+            {
+                if (time.Hours == b.startTime.Hour && time.Minutes < b.startTime.Minute)
+                    return false;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Filtert die Buchungen für den momentan in der Simulation betrachteten Tag heraus, die akzeptiert wurden.
+        /// </summary>
+        /// <param name="day">Der Tag über dem man die akzeptierten Buchungen abfragen will.</param>
+        /// <returns>Die Liste der Buchungen am gegebenen Tag.</returns>
+        private List<Booking> filterBookingsAfterDay(DateTime day)
+        {
+            List<Booking> relevantBookings = new List<Booking>();
+            foreach (Booking b in exScenario.location.schedule.bookings)
+            {
+                if (b.startTime.Date.Equals(day.Date))
+                    relevantBookings.Add(b);
+            }
+            return relevantBookings;
+        }
+
+        /// <summary>
+        /// Berechnet die Gesamtanzahl der Stationen des Standorts.
+        /// </summary>
+        /// <returns>Gesamtanzahl der Stationen des Standorts.</returns>
+        private int getStationCount()
+        {
+            ILocation location = exScenario.location;
+            int stations = 0;
+            foreach (Zone zone in location.zones)
+            {
+                foreach (Station station in zone.stations)
+                {
+                    ++stations;
+                }
+            }
+            return stations;
         }
         
         /// <summary>
         /// Berechnet die Auslastung des Standortes pro Tick.
         /// </summary>
         /// <returns>Die berechnete Auslastung des Standortes.</returns>
+        /*
         private double calculateLocationWorkload()
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
@@ -135,46 +296,110 @@ namespace Sopro.Models.Simulation
             }
 
             // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
-            // int count  = exScenario.bookings.Count( e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
 
-            List<Booking> boo = exScenario.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+            List<Booking> boo = exScenario.location.schedule.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
+
             var count = boo.Count;
 
-            boo.OrderBy(e => e.startTime);
+            boo.Sort((e, f) => e.startTime.CompareTo(f.startTime));
             var workload = 0.0;
             var usedTogether = 0.0;
 
-            if (count >= 2)
+            double[] countPlugs = new double[count];
+
+            // Berechnen wie viele Buchungen überlappend Stecker benutzen.
+            if (count >= numberOfPlugs)
             {
-                    for (int i = 0; i < count - 1; ++i)
+                for (int x = 0; x < count - 1; ++x)
+                {
+                    // Fall: Buchung und nächste Buchung überlappen sich
+                    if (boo[x].endTime > boo[x + 1].startTime)
                     {
-                        if (boo[i].endTime > boo[i + 1].startTime)
+                        usedTogether += 2;
+                        countPlugs[x] = usedTogether;
+
+                        int y = x + 1;
+                        while (y < numberOfPlugs)
                         {
-                            ++usedTogether;
+                            // Fall: Buchung überlappt mit der nächten + y Buchung, ist das der fall schriebe +1 in die Zelle
+                            if (boo[x].endTime > boo[y].startTime)
+                            {
+                                ++usedTogether;
+                                countPlugs[x] = usedTogether;
+                            }
+                            // Fall: Buchung überlappt sich nicht mit der nächsten + y Buchung, ist das der fall gehe zu nächste Buchung (x+1) und setzt usedTogether auf 0.0
+                            else
+                            {
+                                usedTogether = 0.0;
+                                break;
+                            }
+                            ++y;
                         }
                     }
-            }
-            else
+                    // Fall: Buchung und nächste Buchung überlappen sich nicht -> es wird 1 in die Liste geschrieben, da ein Plug benutzt wurde 
+                    else
+                    {
+                        usedTogether = 1.0;
+                        countPlugs[x] = usedTogether;
+                    }
+                }
+                usedTogether = countPlugs.Max();
+            // Falls die anzahl der Buchungen kleiner als die maximalen nutzbaren sind, muss anders vorgegangen werden.
+            } else if (count >= 2)
+            {
+                for (int x = 0; x < count - 1; ++x)
+                {
+                    if (boo[x].endTime > boo[x + 1].startTime)
+                    {
+                        usedTogether += 2;
+                        countPlugs[x] = usedTogether;
+
+                        int y = x;
+                        while (y < count)
+                        {
+                            if (boo[x].endTime > boo[y].startTime)
+                            {
+                                ++usedTogether;
+                                countPlugs[x] = usedTogether;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                            ++y;
+                        }
+                    }
+                    else
+                    {
+                        usedTogether = 1.0;
+                        countPlugs[x] = usedTogether;
+                    }
+                }
+                usedTogether = countPlugs.Max();
+            } else if(count == 1)
             {
                 ++usedTogether;
             }
-                workload = (double)(usedTogether * 100.0) / (double)numberOfPlugs;
-                return workload;
+
+            workload = (double)(usedTogether * 100.0) / (double)numberOfPlugs;
+            return workload;
         }
+        */
 
         /// <summary>
         /// Berechnet die Auslastung aller Stationen pro Tick.
         /// </summary>
         /// <returns>Die Auslastung alles Stationen in einer Liste.</returns>
+        /*
         private List<double> calculateStationWorkload()
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
             DateTime end = time + tickLength;
             List<double> workload = new List<double>();
-            int k = 0;
+
             Station station;
-            Console.WriteLine("Zones: " + exScenario.location.zones.Count.ToString());
-            Console.WriteLine("Stations: " + exScenario.location.zones[0].stations.Count.ToString());
+            //Console.WriteLine("Zones: " + exScenario.location.zones.Count.ToString());
+            //Console.WriteLine("Stations: " + exScenario.location.zones[0].stations.Count.ToString());
             for(int i = 0; i < exScenario.location.zones.Count(); ++i)
             {
                 for(int j = 0; j < exScenario.location.zones[i].stations.Count(); ++j)
@@ -208,5 +433,6 @@ namespace Sopro.Models.Simulation
             }
             return workload;
         }
+        */
     }
 }

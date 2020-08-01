@@ -20,10 +20,12 @@ namespace UnitTests.SimulationTest
             plugs = new List<PlugType>() { PlugType.CCS }
         };
 
+        private static TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+
         private static Rushhour r1 = new Rushhour()
         {
-            start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 12, 0, 0),
-            end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 14, 0, 0),
+            start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0) + oneDay,
+            end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 14, 0, 0) + oneDay,
             bookings = 8,
             strategy = new NormalDistribution()
         };
@@ -166,11 +168,22 @@ namespace UnitTests.SimulationTest
             location = l3
         };
 
+        private static Scenario scenario4 = new Scenario()
+        {
+            duration = 2,
+            bookingCountPerDay = 150,
+            vehicles = new List<Vehicle>() { v1, v2 },
+            rushhours = new List<Rushhour>() { r1 },
+            start = DateTime.Now.AddDays(1),
+            location = l3
+        };
+
         private static ExecutedScenario executedScenario = new ExecutedScenario(scenario);
         private static ExecutedScenario executedScenariob = new ExecutedScenario(scenariob);
         private static ExecutedScenario executedScenario2 = new ExecutedScenario(scenario2);
         private static ExecutedScenario executedScenario3 = new ExecutedScenario(scenario3);
         private static ExecutedScenario executedScenario3b = new ExecutedScenario(scenario3b);
+        private static ExecutedScenario executedScenario4 = new ExecutedScenario(scenario4);
 
         [Test]
         public async Task testSimulatorCCSOnlyNoRushhour()
@@ -182,7 +195,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario.generatedBookings, 20);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l.schedule.bookings, 20);
+            printWokrload(executedScenario);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario.getFulfilledRequests());
             validateResults(l, 20);
         }
 
@@ -196,7 +213,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenariob.generatedBookings, 20);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l.schedule.bookings, 20);
+            printWokrload(executedScenariob);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenariob.getFulfilledRequests());
             validateResults(l, 20);
         }
 
@@ -210,7 +231,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario2.generatedBookings, 50);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l2.schedule.bookings, 50);
+            printWokrload(executedScenario2);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario2.getFulfilledRequests());
             validateResults(l2, 50);
         }
 
@@ -224,7 +249,11 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario3.generatedBookings, 0);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l3.schedule.bookings, 0);
+            printWokrload(executedScenario3);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario3.getFulfilledRequests());
             validateResults(l3, 0);
         }
 
@@ -238,8 +267,29 @@ namespace UnitTests.SimulationTest
 
             printDetailedBookingList(executedScenario3b.generatedBookings, 0);
             await sim.run();
+            Console.WriteLine("");
             printDetailedBookingList(l3.schedule.bookings, 0);
+            printWokrload(executedScenario3b);
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario3b.getFulfilledRequests());
             validateResults(l3, 0);
+
+        }
+
+        [Test]
+        public async Task testSimulatorMoreThanOneTick()
+        {
+            Simulator sim = new Simulator()
+            {
+                exScenario = executedScenario4
+            };
+
+            
+            await sim.run();
+            
+            printWokrload(executedScenario4);
+            validateResults(l3, 0);
+
         }
 
         private static void validateResults(Location l, int power)
@@ -274,6 +324,28 @@ namespace UnitTests.SimulationTest
             }
         }
 
+        private static void printWokrload(ExecutedScenario executedScenario) 
+        {
+            Console.WriteLine("FullfilledRequests:");
+            Console.WriteLine(executedScenario.getFulfilledRequests());
+            Console.WriteLine("LocationWorkload: \t Count:" + executedScenario.getLocationWorkload().Count);
+            foreach (double item in executedScenario.getLocationWorkload())
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.WriteLine("StationWorkload: \t CountLists:" + executedScenario.getStationWorkload().Count);
+            Console.WriteLine("StationWorkloads:");
+            foreach (List<double> list in executedScenario.getStationWorkload())
+            {
+                Console.WriteLine("NewStation:");
+                foreach (double item in executedScenario.getLocationWorkload())
+                {
+                    Console.WriteLine(item);
+                }
+            }
+
+        }
  
     }
 }

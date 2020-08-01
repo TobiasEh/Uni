@@ -48,7 +48,7 @@ namespace Sopro.Controllers
             cache.Set(CacheKeys.EVALUATION, evaluations);
             return RedirectToAction("Evaluation", evaluation);
         } 
-
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm]FileViewModel model)
@@ -82,5 +82,6 @@ namespace Sopro.Controllers
 
             return View("Index", evaluations);
         }
+        */
     }
 }
