@@ -11,6 +11,7 @@ using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Infrastructure;
 using Sopro.Persistence.PersScenario;
+using Sopro.ViewModels.TestViewModels;
 
 namespace Sopro.Controllers
 {
@@ -599,7 +600,22 @@ namespace Sopro.Controllers
 
         public IActionResult Evaluation()
         {
-            return View();
+            Random rnd = new Random();
+
+            var lstModel = new List<DataViewModel>();
+            lstModel.Add(new DataViewModel
+            {
+                DimensionOne = "Type-2",
+                Quantity = rnd.Next(10)
+            });
+            lstModel.Add(new DataViewModel
+            {
+                DimensionOne = "CCS",
+                Quantity = rnd.Next(10)
+            });
+
+            return View("Evaluation", lstModel);
+            // return View();
         }
     }
 }
