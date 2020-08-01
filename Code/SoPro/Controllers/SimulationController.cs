@@ -14,6 +14,7 @@ using Sopro.Persistence.PersScenario;
 using Sopro.ViewModels.TestViewModels;
 using Sopro.Models.History;
 using Sopro.Interfaces.HistorySimulation;
+using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {
@@ -619,18 +620,36 @@ namespace Sopro.Controllers
             return View(); 
         }
 
-        public IActionResult Evaluation(string id)
+        public async Task<IActionResult> Evaluation(string id)
         {
-            Evaluation eva;
+            Evaluation eva = null;
+            Simulator sim = new Simulator();
 
-            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
-                evaluations = new List<IEvaluatable>();
+                scenarios = new List<IScenario>();
             }
 
-            foreach (Evaluation e in evaluations)
+            foreach (Scenario scenario in scenarios)
             {
-                
+                if (scenario.id.Equals(id))
+                {
+                    sim.exScenario = new ExecutedScenario(scenario);
+                    Console.WriteLine("SimulationController.cs, line 638");
+                    foreach (Zone zone in scenario.location.zones)
+                    {
+                        foreach (Station station in zone.stations)
+                        {
+                            foreach (Plug plug in station.plugs)
+                            {
+                                Console.WriteLine(plug.type.ToString() + ": " + plug.power);
+                            }
+                        }
+                    }
+                    await sim.run();
+                    eva = Analyzer.analyze(sim.exScenario);
+                }
+                    
             }
 
             return View("Evaluation", eva);

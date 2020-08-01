@@ -5,11 +5,16 @@
 }
 
 @using System.Linq;
-@using Sopro.ViewModels.TestViewModels;
-@model List<DataViewModel>
+@using Sopro.Models.History
+@model Evaluation
 @{
+    /*
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());
+    */
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string>{ "CCS", "Type 2" }).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.plugDistributionAccepted.ToList());
+
     ViewData["Title"] = "Pie Chart";
 }
 
