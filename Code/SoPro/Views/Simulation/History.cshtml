@@ -110,7 +110,14 @@
 <div class="d-flex mt-4">
     <div class="mr-3">
         <form asp-controller="" asp-action="" class="form-horizontal" method="post" enctype="multipart/form-data">
-            <button type="submit" class="btn btn-primary btn-mhp">Import</button>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" name="importedFile" accept=".json" required />
+                </div>
+                <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-primary btn-mhp">Import</button>
+                </div>
+            </div>
         </form>
     </div>
     <div>

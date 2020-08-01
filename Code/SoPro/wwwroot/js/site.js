@@ -35,25 +35,25 @@ $(document).ready(function () {
     function peakLayout() {
         var htmlString = "";
         for (i = 0; i < anzahl; i++) {
-            htmlString = htmlString + '<div class="flex-column mb-3">'+
+            htmlString = htmlString + '<div class="flex-column mb-3">' +
                 '<div> Peak' + (i + 1) + '</div >' +
-                '@if(Model.startRushours.Count==' + i +'){Model.startRushours.Add(new DateTime(0)); {Model.endRushours.Add(new DateTime(0)); model.bookingsRushours.Add(-1)}'+
-                    '<div class="form-group mb-2 ml-5">'+
-                        '<div>Start Zeitpunkt</div>'+
-                       '<input form="create" type="datetime-local" class="form-control" asp-for="@Model.startRushours['+i+']" />'+
-                        '<small></small>'+
-                    '</div>'+
-                    '<div class="form-group mb-2 ml-5">'+
-                        '<div>Ende</div>'+
-                            '<input form="create" type="time" class="form-control" asp-for="@Model.endRushours[' + i +']" />'+
-                        '<small></small>'+
-                            '</div>' + 
-                    '<div class="form-group mb-2 ml-5">'+
-                        '<div>Anzahl der Buchungen ín dieser Zeit</div>'+
-                            '<input form="create" type="datetime-local" class="form-control" asp-for="@Model.bookingsRushours[' + i +']" />'+
-                        '<small></small>'+
-                            '</div>' + 
-        '</div >';
+                '@if(Model.startRushours.Count==' + i + '){Model.startRushours.Add(new DateTime(0)); {Model.endRushours.Add(new DateTime(0)); model.bookingsRushours.Add(-1)}' +
+                '<div class="form-group mb-2 ml-5">' +
+                '<div>Start Zeitpunkt</div>' +
+                '<input form="create" type="datetime-local" class="form-control" asp-for="@Model.startRushours[' + i + ']" />' +
+                '<small></small>' +
+                '</div>' +
+                '<div class="form-group mb-2 ml-5">' +
+                '<div>Ende</div>' +
+                '<input form="create" type="time" class="form-control" asp-for="@Model.endRushours[' + i + ']" />' +
+                '<small></small>' +
+                '</div>' +
+                '<div class="form-group mb-2 ml-5">' +
+                '<div>Anzahl der Buchungen ín dieser Zeit</div>' +
+                '<input form="create" type="datetime-local" class="form-control" asp-for="@Model.bookingsRushours[' + i + ']" />' +
+                '<small></small>' +
+                '</div>' +
+                '</div >';
         }
         $('#peak').html(htmlString);
 

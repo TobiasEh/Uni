@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Storyboard</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/sidebar.css" />
 </head>
@@ -55,7 +55,15 @@
 
         <div class="container">
             <main role="main" class="pb-3">
-                @RenderBody()
+                @if (Context.Session.GetString("role") != "PLANER")
+                {
+                    IgnoreBody();
+                    <meta http-equiv="refresh" content='3;url=@Url.Action("Index","Home")' />
+                }
+                else
+                {
+                    @RenderBody()
+                }
             </main>
             <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

@@ -14,9 +14,9 @@ namespace Sopro.Models.Infrastructure
         [ListMinLength(1)]
         public List<Plug> plugs { get; set; } = new List<Plug>() { new Plug() { power = 0, type = PlugType.CCS} };
         public string manufacturer { get; set; }
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue,ErrorMessage ="Nur Positive ganze Zahlen")]
         public int maxPower { get; set; }
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue,ErrorMessage = "Nur Positive ganze Zahlen")]
         public int maxParallelUseable { get; set; }
         public int id { get; set; }
 

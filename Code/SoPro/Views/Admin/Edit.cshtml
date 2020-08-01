@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Buchung bearbeiten";
     Layout = "_AdminLayout";
-
 }
 @model Sopro.ViewModels.BookingEditViewmodel
 @using Microsoft.AspNetCore.Http
@@ -26,6 +25,7 @@
 
                 }
             </select>
+            @Html.ValidationMessageFor(model => model.locationId)
             <small></small>
         </div>
 
@@ -51,6 +51,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"> % </span>
                 </div>
+                @Html.ValidationMessageFor(model => model.booking.socStart)
             </div>
             <small></small>
         </div>
@@ -62,6 +63,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"> % </span>
                 </div>
+                @Html.ValidationMessageFor(model => model.booking.socEnd)
             </div>
             <small></small>
         </div>
@@ -73,6 +75,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"> kW </span>
                 </div>
+                @Html.ValidationMessageFor(model => model.booking.capacity)
             </div>
             <small></small>
         </div>
@@ -81,12 +84,14 @@
             <label for="@Model.booking.startTime">Startzeit der Buchung</label>
             <input type="datetime-local" class="form-control" placeholder="@Model.booking.startTime" asp-for="@Model.booking.startTime" />
             <small></small>
+            @Html.ValidationMessageFor(model => model.booking.startTime)
         </div>
 
         <div class="form-group input-append date form_datetime">
             <label for="@Model.booking.endTime ">Endzeit der Buchung</label>
             <input type="datetime-local" class="form-control" placeholder="@Model.booking.startTime" asp-for="@Model.booking.endTime" />
             <small></small>
+            @Html.ValidationMessageFor(model => model.booking.endTime)
         </div>
         @if (Context.Session.GetString("role").Equals(Sopro.Models.User.UserType.ASSISTANCE.ToString()))
         {
@@ -94,6 +99,7 @@
                 <label for="@Model.booking.user ">E-Mail des Gastes</label>
                 <input type="email" class="form-control" placeholder="@Context.Session.GetString("email")" asp-for="@Model.booking.user" />
                 <small></small>
+                @Html.ValidationMessageFor(model => model.booking.user)
 
             </div>
             <div class="form-group">
@@ -102,6 +108,7 @@
                     <option value="GUEST">Gast</option>
                     <option value="VIP">VIP</option>
                 </select>
+                @Html.ValidationMessageFor(model => model.booking.priority)
             </div>
         }
         <div class="form-group float-right mt-4 mb-5 pb-3">

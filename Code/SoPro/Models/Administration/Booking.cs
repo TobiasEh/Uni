@@ -13,7 +13,7 @@ namespace Sopro.Models.Administration
     {
         public string id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Darf nicht leer sein")]
         [Range(1, int.MaxValue)]
         public int capacity { get; set; }
 
@@ -26,18 +26,18 @@ namespace Sopro.Models.Administration
         public int socStart { get; set; }
 
         [Required]
-        [BookingSocEndValidation]
+        [BookingSocEndValidation(ErrorMessage ="pipapo")]
         public int socEnd { get; set; }
 
         [Required]
         public string user { get; set; } = "examplemail.com";
 
-        [Required]
-        [BookingStartTimeValidation]
+        [Required(ErrorMessage ="Darf nicht leer sein")]
+        [BookingStartTimeValidation(ErrorMessage ="Startzeitpunkt kann nicht in der Vergangenheit liegen")]
         public DateTime startTime { get; set; }
 
-        [Required]
-        [BookingEndTimeValidation]
+        [Required(ErrorMessage = "Darf nicht leer sein")]
+        [BookingEndTimeValidation(ErrorMessage ="Endzeitpunkt muss nach start stattfinden")]
         public DateTime endTime { get; set; }
 
         public Station station { get; set; }
@@ -45,7 +45,7 @@ namespace Sopro.Models.Administration
         [Required]
         public bool active { get; set; } = false;
 
-        [Required]
+        [Required(ErrorMessage = "Darf nicht leer sein")]
         public ILocation location { get; set; } = new Location();
         public UserType priority { get; set; } = UserType.EMPLOYEE;
 

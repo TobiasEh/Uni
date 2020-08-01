@@ -63,7 +63,7 @@
             <form asp-controller="Simulation" asp-action="Import" method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" name="importedFile" />
+                        <input type="file" name="importedFile" accept=".json" required/>
                     </div>
                     <div class="input-group-prepend">
                         <button type="submit" class="btn btn-primary btn-mhp">Import</button>

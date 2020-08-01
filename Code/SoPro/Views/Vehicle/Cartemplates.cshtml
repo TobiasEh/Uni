@@ -26,14 +26,15 @@
                     <div>
                         <div>
                             <label for="@Model.CCS">CCS-Stecker</label>
-                            <input type="checkbox" asp-for="@Model.CCS" checked="@Model.CCS" />
+                            <input type="checkbox" asp-for="@Model.CCS" />
                         </div>
                         <div>
                             <label for="@Model.TYPE2">Typ-2-Stecker</label>
-                            <input type="checkbox" asp-for="@Model.TYPE2" checked="@Model.TYPE2" />
+                            <input type="checkbox" asp-for="@Model.TYPE2"/>
                         </div>
                     </div>
                     <small>Wähle die / den kompatiblen Stecker.</small>
+
                 </div>
 
                 <div class="form-group">
@@ -45,6 +46,7 @@
                         </div>
                     </div>
                     <small>Angab in kW</small>
+                    @Html.ValidationMessageFor(model => model.vehicle.capacity)
                 </div>
 
                 <div class="form-group">
@@ -56,6 +58,7 @@
                         </div>
                     </div>
                     <small></small>
+                    @Html.ValidationMessageFor(model => model.vehicle.socStart)
                 </div>
 
                 <div class="form-group pb-4">
@@ -67,6 +70,7 @@
                         </div>
                     </div>
                     <small></small>
+                    @Html.ValidationMessageFor(model => model.vehicle.socEnd)
                 </div>
 
                 <div class="float-right">
@@ -158,7 +162,7 @@
             <form asp-controller="Vehicle" asp-action="Import" method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" name="importedFile" />
+                        <input type="file" name="importedFile" accept=".json" required/>
                     </div>
                     <div class="input-group-prepend">
                         <button type="submit" class="btn btn-primary btn-mhp">Import</button>
