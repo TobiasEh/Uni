@@ -154,6 +154,10 @@ namespace Sopro.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult Post(BookingCreateViewModel viewmodel)
         {
+            if (!ModelState.IsValid)
+            {
+                return Create(viewmodel.booking);
+            }
             IBooking booking = viewmodel.booking;
 
             // Die Liste der Standorte wird aus dem Cache geladen.
@@ -271,8 +275,13 @@ namespace Sopro.Controllers
             return View(viewmodel);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(string id, BookingCreateViewModel viewmodel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Edit",viewmodel);
+            }
             Booking booking = viewmodel.booking;
             booking.id = id;
 

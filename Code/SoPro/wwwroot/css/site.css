@@ -95,3 +95,7 @@ body {
 .btn-mhp {
     background-color: #000099;
 }
+
+.field-validation-error{
+    color: red;
+}

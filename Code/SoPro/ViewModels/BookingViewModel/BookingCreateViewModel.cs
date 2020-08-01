@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sopro.Models.Administration;
 using Sopro.ValidationAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sopro.ViewModels
 {
@@ -13,6 +14,7 @@ namespace Sopro.ViewModels
         public bool ccs { get; set; } = false;
         [AtleastOnePlug("ccs", "type2", ErrorMessage = "Mindestens 1 Plug!")]
         public bool type2 { get; set; } = false;
+        [Required(ErrorMessage = "Location angeben!")]
         public string locationId { get; set; }
 
         public BookingCreateViewModel(List<ILocation> _locations, Booking _booking, bool _ccs, bool _type2)

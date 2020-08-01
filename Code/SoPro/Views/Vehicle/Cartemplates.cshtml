@@ -17,8 +17,9 @@
 
                 <div class="form-group">
                     <label>Fahrzeugmodell</label>
-                    <input asp-for="@Model.vehicle.model" form="addCar" class="form-control" placeholder="" required />
+                    <input asp-for="@Model.vehicle.model" form="addCar" class="form-control" placeholder="" />
                     <small></small>
+                    @Html.ValidationMessageFor(model => model.vehicle.model)
                 </div>
 
                 <div class="form-group">
@@ -27,13 +28,12 @@
                         <div>
                             <label for="@Model.CCS">CCS-Stecker</label>
                             <input type="checkbox" asp-for="@Model.CCS" />
-                            @Html.ValidationMessageFor(model => model.CCS)
                         </div>
                         <div>
                             <label for="@Model.TYPE2">Typ-2-Stecker</label>
                             <input type="checkbox" asp-for="@Model.TYPE2" />
-                            @Html.ValidationMessageFor(model => model.TYPE2)
                         </div>
+                        @Html.ValidationMessageFor(model => model.CCS)
                     </div>
                     <small>Wähle die / den kompatiblen Stecker.</small>
 
@@ -47,7 +47,7 @@
                             <span class="input-group-text"> kWh </span>
                         </div>
                     </div>
-                    <small>Angab in kW</small>
+                    <small>Angabe in kW</small>
                     @Html.ValidationMessageFor(model => model.vehicle.capacity)
                 </div>
 
@@ -164,7 +164,7 @@
             <form asp-controller="Vehicle" asp-action="Import" method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" name="importedFile" accept=".json" required/>
+                        <input type="file" name="importedFile" accept=".json" />
                     </div>
                     <div class="input-group-prepend">
                         <button type="submit" class="btn btn-primary btn-mhp">Import</button>

@@ -72,8 +72,8 @@ namespace Sopro.Controllers
                 vehicle.plugs.Add(PlugType.TYPE2);
             }
 
-           // Validierung des erstellten Autos.
-            ModelState.Clear();
+
+            // Validierung des erstellten Autos.
             if (!TryValidateModel(vehicle))
             {
                 // Validierung schlägt fehl.
@@ -81,10 +81,12 @@ namespace Sopro.Controllers
                 model.vehicle = vehicle;
                 return View("Cartemplates", model);
             }
-               
             // Auto wird dem cache und dem ViewModel hinzugefügt.
             vehicles.Add(vehicle);
+            
+
             cache.Set(CacheKeys.VEHICLE, vehicles);
+
             model.vehicles = vehicles;
 
             model.vehicle = new Vehicle();
@@ -226,7 +228,7 @@ namespace Sopro.Controllers
             }
 
             // Befüllen des Autos mit den neuen Daten.
-            ModelState.Clear();
+            
             var vehicle = model.vehicle;
             
             // Stecker des Autos ermitteln.
@@ -246,16 +248,17 @@ namespace Sopro.Controllers
             }
             vehicle.id = id;
 
-            // Validiert das Auto.
-            if (!TryValidateModel(vehicle))
-                return View("Edit", model);
-
+            
             // Übernehmen der Daten.
             vehicleCache.model = vehicle.model;
             vehicleCache.plugs = vehicle.plugs;
             vehicleCache.socEnd = vehicle.socEnd;
             vehicleCache.socStart = vehicle.socStart;
             vehicleCache.capacity = vehicle.capacity;
+
+            // Validiert das Auto.
+            if (!TryValidateModel(vehicle))
+                return View("Edit", model);
 
             this.model.vehicles = vehicles;
             this.model.vehicle = new Vehicle();

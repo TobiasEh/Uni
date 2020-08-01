@@ -70,7 +70,7 @@ namespace Sopro.Controllers
             }
 
             // Herausfiltern der Buchung, welche die übergebene Id hat.
-            IBooking booking = bookings.Find(x => x.id == id) as Booking;
+            Booking booking = bookings.Find(x => x.id == id) as Booking;
 
             // Die Liste der Standorte wird aus dem Cache geladen.
             List<ILocation> locations;
@@ -80,7 +80,7 @@ namespace Sopro.Controllers
             }
 
             // Anlegen des ViewModels für die Seite.
-            BookingEditViewmodel viewmodel = new BookingEditViewmodel(locations, booking, false, false);
+            BookingCreateViewModel viewmodel = new BookingCreateViewModel(locations, booking, false, false);
             if (booking.plugs.Contains(PlugType.CCS))
             {
                 viewmodel.ccs = true;
@@ -95,6 +95,10 @@ namespace Sopro.Controllers
         [HttpPost]
         public IActionResult Edit(string id, BookingCreateViewModel viewmodel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(id, viewmodel);
+            }
             IBooking booking = viewmodel.booking;
             booking.id = id;
 

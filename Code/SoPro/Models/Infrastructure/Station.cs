@@ -1,4 +1,5 @@
 ﻿using Sopro.CustomValidationAttributes;
+using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,12 +12,12 @@ namespace Sopro.Models.Infrastructure
     /// </summary>
     public class Station
     {
-        [ListMinLength(1)]
+        [EnumLength(1, typeof(PlugType), ErrorMessage = "Mindestens 1 Plug!")]
         public List<Plug> plugs { get; set; } = new List<Plug>() { new Plug() { power = 0, type = PlugType.CCS} };
         public string manufacturer { get; set; }
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue, ErrorMessage = "Positive Ganze Zahl eingeben!")]
         public int maxPower { get; set; }
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue,ErrorMessage ="Es sollte zummindest 1 Stecker nutzbar sein")]
         public int maxParallelUseable { get; set; }
         public int id { get; set; }
 

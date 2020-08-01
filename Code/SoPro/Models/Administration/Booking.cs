@@ -14,30 +14,30 @@ namespace Sopro.Models.Administration
         public string id { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue,ErrorMessage ="Positive Ganze Zahl eingeben!")]
         public int capacity { get; set; }
 
         [Required]
-        [BookingPlugsValidation]
+        [BookingPlugsValidation(ErrorMessage = "Mindestens 1 Plug!")]
         public List<PlugType> plugs { get; set; } = new List<PlugType>() { PlugType.CCS};
 
         [Required]
-        [Range(0, 100)]
+        [Range(0, 100,ErrorMessage ="Start SoC zwischen 0 und 100%")]
         public int socStart { get; set; }
 
         [Required]
-        [BookingSocEndValidation]
+        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC!")]
         public int socEnd { get; set; }
 
         [Required]
         public string user { get; set; } = "examplemail.com";
 
         [Required]
-        [BookingStartTimeValidation]
+        [BookingStartTimeValidation(ErrorMessage ="Startzeit darf nicht in Vergangenheit liegen!")]
         public DateTime startTime { get; set; }
 
         [Required]
-        [BookingEndTimeValidation]
+        [BookingEndTimeValidation(ErrorMessage = "Endzeit darf nicht in vor Startzeit sein!")]
         public DateTime endTime { get; set; }
 
         public Station station { get; set; }
