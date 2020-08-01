@@ -58,78 +58,77 @@
         </div>
     </div>
 
-
+    <h5 class="mt-3">Wählen Sie mindestens ein Fahrzeug für das Szenario.</h5>
     <!-- Vehicles to select -->
     @if (Model.vehicles != null && Model.vehicles.Count != 0)
     {
-        <div class="form-group">
-            <div class="form-group">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                Modell
-                            </th>
-                            <th>
-                                Plug
-                            </th>
-                            <th>
-                                Kapazität
-                            </th>
-                            <th>
-                                SoC-Start
-                            </th>
-                            <th>
-                                S
-                                SoC-End
-                            </th>
-                            <th>
-                                Anzahl
-                            </th>
-                        </tr>
+<div class="form-group">
+    <div class="form-group">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Modell
+                    </th>
+                    <th>
+                        Plug
+                    </th>
+                    <th>
+                        Kapazität
+                    </th>
+                    <th>
+                        SoC-Start
+                    </th>
+                    <th>
+                        S
+                        SoC-End
+                    </th>
+                    <th>
+                        Anzahl
+                    </th>
+                </tr>
 
-                    </thead>
-                    <tbody>
-                        @{ int i = 0;}
-                        @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
-                        {
-                            <tr>
-                                <td>
-                                    @vehicle.model
-                                </td>
-                                <td>
-                                    @{
-                                        string x = "";
-                                        foreach (var plug in vehicle.plugs)
-                                        {
-                                            x += plug.ToString() + " ";
-                                        }
-                                    }
-                                    @x
+            </thead>
+            <tbody>
+                @{ int i = 0;}
+                @foreach (Sopro.Models.Simulation.Vehicle vehicle in Model.vehicles)
+                {
+                    <tr>
+                        <td>
+                            @vehicle.model
+                        </td>
+                        <td>
+                            @{
+                                string x = "";
+                                foreach (var plug in vehicle.plugs)
+                                {
+                                    x += plug.ToString() + " ";
+                                }
+                            }
+                            @x
 
-                                </td>
-                                <td>
-                                    @vehicle.capacity
-                                </td>
-                                <td>
-                                    @vehicle.socStart
-                                </td>
-                                <td>
-                                    @vehicle.socEnd
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
-                                </td>
-                            </tr>
-                            i++;
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </td>
+                        <td>
+                            @vehicle.capacity
+                        </td>
+                        <td>
+                            @vehicle.socStart
+                        </td>
+                        <td>
+                            @vehicle.socEnd
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- buttons -->
 
-            <!-- buttons -->
-
-        </div>
+</div>
         <div class="float-right">
             <button type="submit" class="btn btn-primary btn-mhp">Weiter</button>
         </div>
@@ -137,12 +136,8 @@
     else
     {
         <div>
-            Es wurde noch kein Auto erstellt, diese müssen aber vorhanden sein.
+            Es muss mindestens ein Fahrzeug erstellt worden sein.
         </div>
     }
 </form>
-
-<script>
-    datePickerId.min = new Date().toISOString().split("T")[0];
-</script>
 
