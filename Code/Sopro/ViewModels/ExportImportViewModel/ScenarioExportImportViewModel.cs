@@ -33,12 +33,12 @@ namespace Sopro.ViewModels
         public IScenario generateScenario()
         {
             IScenario s = new Scenario();
-            id = s.id;
-            duration = s.duration;
-            bookingCountPerDay = s.bookingCountPerDay;
-            vehicles = s.vehicles;
-            rushhours = s.rushhours;
-            start = s.start;
+            s.id = id;
+            s.duration = duration;
+            s.bookingCountPerDay = bookingCountPerDay;
+            s.vehicles = vehicles;
+            s.rushhours = rushhours;
+            s.start = start;
             s.location = location.generateLocation();
 
             return s;
