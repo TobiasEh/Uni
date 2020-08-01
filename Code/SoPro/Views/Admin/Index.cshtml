@@ -41,7 +41,7 @@
                 <td><img src="~/bootstrap-icons/square.svg" width="20" /></td>
                 <td class="text-center">
                     <div>
-                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@b.id">
+                        <a asp-controller="Booking" asp-action="Edit" asp-route-bookingID="@b.id">
                             <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
                         </a>
                     </div>
@@ -77,10 +77,10 @@
                 <td>@b.socEnd %</td>
                 <td class="text-center">
                     <div>
-                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@b.id">
+                        <a asp-controller="Booking" asp-action="Edit" asp-route-bookingID="@b.id">
                             <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
                         </a>
-                        <a asp-controller="Admin" asp-action="Delete" asp-route-id="@b.id">
+                        <a asp-controller="Booking" asp-action="Delete" asp-route-bookingID="@b.id">
                             <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
                         </a>
                     </div>
