@@ -33,13 +33,13 @@
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Simulation")">
                     <a href="@Url.Action("Index", "Simulation")">Simulation</a>
                 </li>
-                <li class="@Html.IsSelected(actions: "History", controllers: "Simulation")">
-                    <a href="@Url.Action("History", "Simulation")">Historie</a>
+                <li class="@Html.IsSelected(actions: "Index", controllers: "History")">
+                    <a href="@Url.Action("Index", "History")">Historie</a>
                 </li>
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Infrastructure")">
                     <a href="@Url.Action("Index", "Infrastructure")">Infrastruktur</a>
                 </li>
-                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Simulation")">
+                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Vehicles")">
                     <a href="@Url.Action("Cartemplates", "Vehicle")">Fahrzeuge</a>
                 </li>
             </ul>
