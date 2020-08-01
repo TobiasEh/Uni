@@ -12,6 +12,7 @@ using Sopro.Interfaces.PersistenceController;
 using Sopro.Models.Infrastructure;
 using Sopro.Persistence.PersScenario;
 using Sopro.ViewModels.TestViewModels;
+using Sopro.Models.History;
 
 namespace Sopro.Controllers
 {
@@ -598,7 +599,7 @@ namespace Sopro.Controllers
             return View(); 
         }
 
-        public IActionResult Evaluation()
+        public IActionResult Evaluation(Evaluation evaluation)
         {
             Random rnd = new Random();
 
