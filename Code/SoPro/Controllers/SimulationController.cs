@@ -612,7 +612,7 @@ namespace Sopro.Controllers
 
             foreach (Evaluation e in evaluations)
             {
-                if (e.sce)
+                
             }
 
             return View("Evaluation", eva);
