@@ -21,6 +21,9 @@
     var XLabels3 = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "Akzeptiert", "Abgelehnt" }).ToList());
     var YValues3 = Newtonsoft.Json.JsonConvert.SerializeObject(new List<double> { Model.bookingSuccessRate, 1 - Model.bookingSuccessRate });
 
+    var XLabels4 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.scenario.getLocationWorkload().ConvertAll(x => (int)x).ToList());
+    var YValues4 = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().Count));
+
     ViewData["Title"] = "Pie Chart";
 }
 
@@ -37,7 +40,12 @@
     <div class="chart-container">
         <canvas id="chart3" style="width:100%; height:300px"></canvas>
     </div>
+</div>
 
+<div class="box-body d-flex justify-content-center">
+    <div class="chart-container">
+        <canvas id="chart4" style="width:100%; height:300px"></canvas>
+    </div>
 </div>
 
 
@@ -94,13 +102,21 @@
                     label: "Plug distribution [Declined Plugs]",
                     backgroundColor: [
                         'rgba(141, 205, 89, 0.2)',
-                        'rgba(89, 181, 228, 0.2)'
+                        'rgba(237, 93, 146, 0.2)'
                     ],
                     borderColor: [
                         'rgba(141, 205, 89, 1)',
-                        'rgba(89, 181, 228, 1)'
+                        'rgba(237, 93, 146, 1)'
                     ],
                     borderWidth: 1,
+                    data: @Html.Raw(YValues3),
+                }]
+            };
+
+            var chartName4 = "chart4";
+            var ctx4 = document.getElementById(chartName4).getContext('2d');
+            var data4 = {
+                datasets: [{
                     data: @Html.Raw(YValues3),
                 }]
             };
@@ -178,6 +194,12 @@
                 options: options3,
                 data: data3,
                 type: 'pie'
+            });
+
+            var myChart4 = new Chart(ctx4, {
+                options: {},
+                data: data4,
+                type: 'line'
             });
         });
 </script>
