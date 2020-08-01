@@ -425,6 +425,8 @@ namespace UnitTests.History
 
             await sim.run();
 
+            printStationWorkload(executedScenario5);
+
             Analyzer.upperTreshold = 0.98;
             Analyzer.lowerTreshold = 0.70;
             Evaluation evaluation = Analyzer.analyze(executedScenario5);
@@ -483,6 +485,18 @@ namespace UnitTests.History
             Assert.IsNotNull(evaluation.plugDistributionDeclined);
             Assert.IsNotNull(evaluation.suggestions);
             Assert.IsNotNull(evaluation.unneccessaryWorkload);
+        }
+
+        private static void printStationWorkload(ExecutedScenario s)
+        {
+            foreach (List<double> station in s.getStationWorkload())
+            {
+                foreach (double d in station)
+                {
+                    Console.Write(d.ToString() + "; ");
+                }
+                Console.WriteLine("\n");
+            }
         }
 
         private static void printScenarioDetail(ExecutedScenario s)
