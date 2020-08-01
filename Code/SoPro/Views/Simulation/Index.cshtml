@@ -58,14 +58,35 @@
     }
 </div>
 <div class="d-flex mt-4 ">
-    <div class="mr-3">
-        <form asp-controller="" asp-action="" class="form-horizontal" method="post" enctype="multipart/form-data">
-            <button type="submit" class="btn btn-primary btn-mhp">Import</button>
-        </form>
+    <div class="d-flex mt-3">
+        <div class="">
+            <form asp-controller="Simulation" asp-action="Import" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="importedFile" />
+                    </div>
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-primary btn-mhp">Import</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <input class="btn btn-secondary" type="button" name="export" value="Export" />
-    </div>
+
+    @if (Model.Any())
+    {
+        <div class="ml-2">
+            <form asp-controller="Simulation" asp-action="Export" method="get" class="form-horizontal">
+                <input class="btn btn-primary btn-mhp" value="Export" type="submit" />
+            </form>
+        </div>
+    }
+    else
+    {
+        <div>
+            <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
+        </div>
+    }
     <form class="ml-auto" asp-controller="Simulation" asp-action="Create">
         <button class="btn btn-secondary btn-mhp">Hinzufügen</button>
     </form>
