@@ -26,7 +26,7 @@ namespace UnitTests.SimulationTest
         {
             start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 0, 0) + oneDay,
             end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 14, 0, 0) + oneDay,
-            bookings = 8,
+            //bookings = 8,
             strategy = new NormalDistribution()
         };
 

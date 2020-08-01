@@ -72,7 +72,7 @@ namespace Sopro.Controllers
                         int count = 0;
                         foreach(Vehicle v in s.vehicles)
                         {
-                            if(v == vehicles[i])
+                            if(v.id.Equals(vehicles[i].id))
                             {
                                 count++;
                             }
@@ -82,6 +82,7 @@ namespace Sopro.Controllers
                     viewmodel.locations = locations;
                     viewmodel.scenario = s;
                     viewmodel.id = viewmodel.scenario.id;
+                    viewmodel.countRushhours = s.rushhours.Count;
 
                     cache.Set("ScenarioEdit", viewmodel.scenario);
 
@@ -181,8 +182,8 @@ namespace Sopro.Controllers
                     }
                 }
             }
-            
-            
+
+            scenario.vehicles = new List<Vehicle>();
             for (int i = 0; i < vehicles.Count; i++)
             {
                 for (int j = 0; j < viewmodel.countVehicles[i]; j++)
@@ -220,20 +221,27 @@ namespace Sopro.Controllers
                 return View("EditLocationScenario", scenario.location);
             }
 
-            
-
-
-            return View(scenario);
+            return View(new EditRushourViewModel(scenario));
         }
 
-        public IActionResult EditLocationScenario(Scenario s)
+        public IActionResult EditLocationScenario(EditRushourViewModel viewmodel)
         {
             Scenario scenario = null;
             if (!cache.TryGetValue("ScenarioEdit", out scenario))
             {
                 scenario = new Scenario();
             }
-            scenario.rushhours = s.rushhours;
+
+            scenario.rushhours = new List<Rushhour>();
+
+            for(int i = 0; i < viewmodel.startTimes.Count; i++)
+            {
+                Rushhour r = new Rushhour() { start = viewmodel.startTimes[i], spread = viewmodel.spreads[i]};
+                r.end = new DateTime(r.start.Year, r.start.Month, r.start.Day, viewmodel.endTimes[i].Hour, viewmodel.endTimes[i].Minute, 0);
+                scenario.rushhours.Add(r);
+            }
+            
+
             return View(scenario.location);
         }
 

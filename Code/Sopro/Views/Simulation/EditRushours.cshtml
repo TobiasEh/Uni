@@ -3,14 +3,13 @@
     ViewData["Title"] = "EditRushours";
     Layout = "_AdminLayout";
 }
-@model Sopro.Models.Simulation.Scenario
+@model Sopro.ViewModels.EditRushourViewModel
 <h1>Details der Stoßzeiten</h1>
 
 
 <div>
     <form asp-action="EditLocationScenario" asp-controller="Simulation">
-        @{ int i = 0;
-            DateTime max = Model.start.AddDays(Model.duration);}
+        @{ int i = 0; }
         @foreach (Sopro.Models.Simulation.Rushhour r in Model.rushhours)
         {
             i++;
@@ -22,17 +21,17 @@
 
                 <div class="form-group mb-2 ml-5">
                     <div>Start Zeitpunkt</div>
-                    <input type="datetime-local" class="form-control" asp-for="@r.start" onchange="timeMinStart(event ,@i )" id="@starttime"/>
+                    <input type="datetime-local" class="form-control" asp-for="@Model.startTimes[i-1]" onchange="timeMinStart(event ,@i )" id="@starttime" max="@Model.max"/>
                     <small></small>
                 </div>
                 <div class="form-group mb-2 ml-5">
                     <div>Ende</div>
-                    <input type="time" class="form-control" asp-for="@r.end" onchange="timeMinEnd(event ,@i )" id="@endtime" min="06:00"/>
+                    <input type="time" class="form-control" asp-for="@Model.endTimes[i-1]" onchange="timeMinEnd(event ,@i )" id="@endtime" min="06:00"/>
                     <small></small>
                 </div>
                 <div class="form-group mb-2 ml-5">
                     <div>Verteilung</div>
-                    <input type="number" class="form-control" asp-for="@r.spread" step="0.001" />
+                    <input type="number" class="form-control" asp-for="@Model.spreads[i-1]" step="0.001" />
                     <small></small>
                 </div>
             </div>
