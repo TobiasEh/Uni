@@ -12,34 +12,40 @@ using System.IO;
 
 namespace Sopro.Controllers
 {
-    public class HistoryController : Controller
+    public class EvaluationController : Controller
     {
         private IMemoryCache cache;
         private IEvaluationService service = new EvaluationService();
         private List<IEvaluation> evaluations;
-
-
-        public HistoryController(IMemoryCache _cache)
-        {
-            cache = _cache;
-        }
 
         public IActionResult Evaluation(IEvaluation evaluation)
         {
             return View(evaluation);
         }
 
-        public IActionResult Index()
+        public IActionResult History()
         {
-            if(!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
-            {
-                evaluations = new List<IEvaluation>();
-            }
-            
+            cache.TryGetValue(CacheKeys.EVALUATION, out evaluations);
             return View(evaluations);
         }
 
+        [HttpPost]
+        public IActionResult Post()
+        {
+            return View();
+        }
+        public IActionResult Analyze(IEvaluatable scenario)
+        {
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            {
+                evaluations = new List<IEvaluation>();
+            }
 
+            IEvaluation evaluation = Analyzer.analyze(scenario);
+            evaluations.Add(evaluation);
+            cache.Set(CacheKeys.EVALUATION, evaluations);
+            return RedirectToAction("Evaluation", evaluation);
+        } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]

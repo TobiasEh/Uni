@@ -1,6 +1,5 @@
 ﻿using Sopro.Interfaces.ControllerHistory;
 using Sopro.Models.Infrastructure;
-using Sopro.Models.Simulation;
 using Sopro.ValidationAttributes;
 using System;
 using System.Collections.Generic;
@@ -22,7 +21,6 @@ namespace Sopro.Models.History
         public List<double> plugDistributionAccepted { get; set; }
         [EnumLength(1, typeof(PlugType))]
         public List<double> plugDistributionDeclined { get; set; }
-        public ExecutedScenario scenario { get; set; }
 
         /// <summary>
         /// Füge einen Vorschlag hinzu.
