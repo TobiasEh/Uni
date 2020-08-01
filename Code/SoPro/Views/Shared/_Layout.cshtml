@@ -26,7 +26,7 @@
                         <li class="nav-item">
                             @if (Context.Session.GetString("role") != null)
                             {
-                                if (Context.Session.GetString("role") == "PLANER")
+                                if (Context.Session.GetString("role").Equals(Sopro.Models.User.UserType.PLANER.ToString()))
                                 {
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index" id="navlink">Verwaltung</a>
                                 }
