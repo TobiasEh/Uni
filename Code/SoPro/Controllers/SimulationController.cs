@@ -9,9 +9,8 @@ using Sopro.Models.Simulation;
 using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
-using Sopro.Persistence.PersScenario;
-using System.Threading.Tasks;
 using Sopro.Models.Infrastructure;
+using Sopro.Persistence.PersScenario;
 
 namespace Sopro.Controllers
 {
@@ -511,11 +510,12 @@ namespace Sopro.Controllers
             return View("Index", scenarios);
 
         }
-       
+       /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)
         {
+            
             IFormFile file = model.importedFile;
             string path = Path.GetFullPath(file.Name);
             List<IScenario> importedScenarios = service.import(path);
@@ -558,13 +558,19 @@ namespace Sopro.Controllers
             cache.Set(CacheKeys.SCENARIO, scenarios);
             return View("Index", scenarios);
         }
-
+        */
         [HttpGet]
         public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
 
-            return View("Index", scenarios);
+            List<ScenarioExportImportViewModel> scenariolist = new List<ScenarioExportImportViewModel>();
+            foreach (IScenario s in scenarios)
+            {
+                scenariolist.Add(new ScenarioExportImportViewModel(s));
+            }
+
+            return service.export(scenariolist);
         }
 
         public IActionResult History()

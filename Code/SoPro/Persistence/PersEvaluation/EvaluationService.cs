@@ -8,7 +8,7 @@ using Sopro.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Sopro.Persistence.PersLocation
+namespace Sopro.Persistence.PersEvaluation
 {
     public class EvaluationService : IEvaluationService
     {
