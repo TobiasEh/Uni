@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Sopro.Models.Administration;
 using Sopro.Models.History;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
@@ -75,6 +76,62 @@ namespace UnitTests.History
             maxParallelUseable = 4
         };
 
+        static Station s3 = new Station
+        {
+            plugs = new List<Plug> { p1 },
+            maxPower = 200,
+            manufacturer = "Blau",
+            maxParallelUseable = 1
+        };
+
+        static Station s4 = new Station
+        {
+            plugs = new List<Plug> { p3 },
+            maxPower = 200,
+            manufacturer = "Rot",
+            maxParallelUseable = 1
+        };
+
+        static Station s5 = new Station
+        {
+            plugs = new List<Plug> { p1, p3 },
+            maxPower = 200,
+            manufacturer = "Lila",
+            maxParallelUseable = 2
+        };
+
+        static Station s6 = new Station
+        {
+            plugs = new List<Plug> { p1, p3 },
+            maxPower = 200,
+            manufacturer = "Orange",
+            maxParallelUseable = 2
+        };
+
+        static Station s7 = new Station
+        {
+            plugs = new List<Plug> { p1, p3 },
+            maxPower = 200,
+            manufacturer = "Grün",
+            maxParallelUseable = 2
+        };
+
+        static Station s8 = new Station
+        {
+            plugs = new List<Plug> { p1, p3 },
+            maxPower = 200,
+            manufacturer = "Pink",
+            maxParallelUseable = 2
+        };
+
+        static Station s9 = new Station
+        {
+            plugs = new List<Plug> { p1, p3 },
+            maxPower = 200,
+            manufacturer = "Gelb",
+            maxParallelUseable = 2
+        };
+
         static Zone z1 = new Zone
         {
             stations = new List<Station> { s1 },
@@ -91,8 +148,22 @@ namespace UnitTests.History
 
         static Zone z3 = new Zone
         {
-            stations = new List<Station> { s1, s2 },
-            site = 'c',
+            stations = new List<Station> { s3, s4 },
+            site = 'C',
+            maxPower = 1000
+        };
+
+        static Zone z4 = new Zone
+        {
+            stations = new List<Station> { s5, s6, s7},
+            site = 'D',
+            maxPower = 1000
+        };
+
+        static Zone z5 = new Zone
+        {
+            stations = new List<Station> { s8, s9 },
+            site = 'E',
             maxPower = 1000
         };
 
@@ -123,9 +194,17 @@ namespace UnitTests.History
         private static Location l4 = new Location()
         {
             id = "locationidk4",
-            zones = new List<Zone>() { z1, z2, z3 },
+            zones = new List<Zone>() { z4 },
             name = "Ludwigsburg",
             emergency = 0.05,
+        };
+
+        private static Location l5 = new Location()
+        {
+            id = "locationidk5",
+            zones = new List<Zone>() { z5 },
+            name = "uwu",
+            emergency = 0.05
         };
 
         private static Scenario scenario = new Scenario()
@@ -195,7 +274,7 @@ namespace UnitTests.History
             vehicles = new List<Vehicle>() { v1, v2 },
             rushhours = new List<Rushhour>() { r1 },
             start = DateTime.Now.AddDays(1),
-            location = l4,
+            location = l5,
         };
 
         private static ExecutedScenario executedScenario = new ExecutedScenario(scenario);
@@ -203,10 +282,10 @@ namespace UnitTests.History
         private static ExecutedScenario executedScenario2 = new ExecutedScenario(scenario2);
         private static ExecutedScenario executedScenario3 = new ExecutedScenario(scenario3);
         private static ExecutedScenario executedScenario3b = new ExecutedScenario(scenario3b);
-        private static ExecutedScenario executedSxenario4 = new ExecutedScenario(scenario4);
-        private static ExecutedScenario executedSxenario5 = new ExecutedScenario(scenario5);
+        private static ExecutedScenario executedScenario4 = new ExecutedScenario(scenario4);
+        private static ExecutedScenario executedScenario5 = new ExecutedScenario(scenario5);
 
-        [TestCase]
+        [Test]
         public async Task testAnalyzerCCSOnlyNoRushhour()
         {
             Simulator sim = new Simulator()
@@ -216,10 +295,11 @@ namespace UnitTests.History
 
             await sim.run();
 
-            Analyzer.upperTreshold = 90.00;
-            Analyzer.lowerTreshold = 50.00;
-            Analyzer.analyze(executedScenario);
-            Evaluation evaluation = Analyzer.evaluation;
+            printScenarioDetail(executedScenario);
+
+            Analyzer.upperTreshold = 98;
+            Analyzer.lowerTreshold = 70;
+            Evaluation evaluation = Analyzer.analyze(executedScenario);
 
             testResults(evaluation);
             testValues(evaluation);
@@ -236,11 +316,11 @@ namespace UnitTests.History
 
             await sim.run();
 
-            Analyzer.upperTreshold = 90.00;
-            Analyzer.lowerTreshold = 50.00;
+            printScenarioDetail(executedScenariob);
 
-            Analyzer.analyze(executedScenariob);
-            Evaluation evaluation = Analyzer.evaluation;
+            Analyzer.upperTreshold = 98;
+            Analyzer.lowerTreshold = 70;
+            Evaluation evaluation = Analyzer.analyze(executedScenariob);
 
             testResults(evaluation);
             testValues(evaluation);
@@ -257,10 +337,11 @@ namespace UnitTests.History
 
             await sim.run();
 
-            Analyzer.upperTreshold = 90.00;
-            Analyzer.lowerTreshold = 50.00;
-            Analyzer.analyze(executedScenario2);
-            Evaluation evaluation = Analyzer.evaluation;
+            printScenarioDetail(executedScenario2);
+
+            Analyzer.upperTreshold = 98;
+            Analyzer.lowerTreshold = 70;
+            Evaluation evaluation = Analyzer.analyze(executedScenario2);
 
             testResults(evaluation);
             testValues(evaluation);
@@ -278,10 +359,9 @@ namespace UnitTests.History
 
             await sim.run();
 
-            Analyzer.upperTreshold = 90.00;
-            Analyzer.lowerTreshold = 50.00;
-            Analyzer.analyze(executedScenario3);
-            Evaluation evaluation = Analyzer.evaluation;
+            Analyzer.upperTreshold = 0.98;
+            Analyzer.lowerTreshold = 0.70;
+            Evaluation evaluation = Analyzer.analyze(executedScenario3);
 
             testResults(evaluation);
             testValues(evaluation);
@@ -299,30 +379,33 @@ namespace UnitTests.History
 
             await sim.run();
 
-            Analyzer.upperTreshold = 90.00;
-            Analyzer.lowerTreshold = 50.00;
-            Analyzer.analyze(executedScenario3b);
-            Evaluation evaluation = Analyzer.evaluation;
+            Analyzer.upperTreshold = 0.98;
+            Analyzer.lowerTreshold = 0.70;
+            Evaluation evaluation = Analyzer.analyze(executedScenario3b);
 
             testResults(evaluation);
             testValues(evaluation);
             testSuggestion(evaluation);
         }
 
+        // Seltsames stochastisches Testverhalten. Manchmal ergibt sich die
+        // successRate zu ca. 16666,666666666668 ?
+        // Problem: Menge der Stationen unter den Zonen ist nicht disjunkt lol
         [Test]
-        public async Task testAnalyzerToMuchInfrastructure()
+        public async Task testAnalyzerTooMuchInfrastructure()
         {
             Simulator sim = new Simulator()
             {
-                exScenario = executedSxenario4
+                exScenario = executedScenario4
             };
 
             await sim.run();
 
-            Analyzer.upperTreshold = 10.00;
-            Analyzer.lowerTreshold = 5.00;
-            Analyzer.analyze(executedSxenario4);
-            Evaluation evaluation = Analyzer.evaluation;
+            printScenarioDetail(executedScenario4);
+
+            Analyzer.upperTreshold = 0.98;
+            Analyzer.lowerTreshold = 0.70;
+            Evaluation evaluation = Analyzer.analyze(executedScenario4);
 
             testResults(evaluation);
             testValues(evaluation);
@@ -337,15 +420,14 @@ namespace UnitTests.History
         {
             Simulator sim = new Simulator()
             {
-                exScenario = executedSxenario5
+                exScenario = executedScenario5
             };
 
             await sim.run();
 
-            Analyzer.upperTreshold = 10.00;
-            Analyzer.lowerTreshold = 5.00;
-            Analyzer.analyze(executedSxenario5);
-            Evaluation evaluation = Analyzer.evaluation;
+            Analyzer.upperTreshold = 0.98;
+            Analyzer.lowerTreshold = 0.70;
+            Evaluation evaluation = Analyzer.analyze(executedScenario5);
 
             testResults(evaluation);
             testValues(evaluation);
@@ -354,27 +436,18 @@ namespace UnitTests.History
 
         public void testValues(Evaluation evaluation)
         {
-            
-            Console.WriteLine("BookingSuccessRate");
-            Console.WriteLine(evaluation.bookingSuccessRate);
-            Console.WriteLine("neccessaryWorkload");
-            Console.WriteLine(evaluation.neccessaryWorkload);
-            Console.WriteLine("plugDistributionAccepted[0]");
-            Console.WriteLine(evaluation.plugDistributionAccepted[0]);
-            Console.WriteLine("plugDistributionAccepted[1]");
-            Console.WriteLine(evaluation.plugDistributionAccepted[1]);
-            Console.WriteLine("plugsDistributionDeclined[0]");
-            Console.WriteLine(evaluation.plugDistributionDeclined[0]);
-            Console.WriteLine("plugsDistributionDeclined[1]");
-            Console.WriteLine(evaluation.plugDistributionDeclined[1]);
+            Console.WriteLine("[AnalyzerTest.cs]");
+            Console.WriteLine("Erfolgsrate:\t\t\t" + evaluation.bookingSuccessRate.ToString());
+            Console.WriteLine("Notwendige Auslastung:\t\t" + evaluation.neccessaryWorkload.ToString());
+            Console.WriteLine("Anteil Type 2 [Akz. Buchungen]:\t" + evaluation.plugDistributionAccepted[0].ToString());
+            Console.WriteLine("Anteil Type-2 [Abg. Buchungen]:\t" + evaluation.plugDistributionDeclined[0].ToString());
+            Console.WriteLine("Anteil CSS [Akz. Buchungen]:\t" + evaluation.plugDistributionAccepted[1].ToString());
+            Console.WriteLine("Anteil CCS [Abg. Buchungen]:\t" + evaluation.plugDistributionDeclined[1].ToString());
+
             if (evaluation.suggestions != null && evaluation.suggestions.Count > 0 && evaluation.suggestions[0] != null)
-            {
-                Console.WriteLine("suggestions[0]");
-                Console.WriteLine(evaluation.suggestions[0].suggestion);
-            }
-            
-            Console.WriteLine("unneccessaryWorkload");
-            Console.WriteLine(evaluation.unneccessaryWorkload);
+                Console.WriteLine("Vorschläge:\t\t\t" + evaluation.suggestions[0].suggestion);
+
+            Console.WriteLine("Unnötige Auslastung:\t\t" + evaluation.unneccessaryWorkload.ToString());
 
             Assert.IsTrue(evaluation.unneccessaryWorkload >= 0);
             Assert.IsTrue(evaluation.unneccessaryWorkload <= 100);
@@ -410,6 +483,33 @@ namespace UnitTests.History
             Assert.IsNotNull(evaluation.plugDistributionDeclined);
             Assert.IsNotNull(evaluation.suggestions);
             Assert.IsNotNull(evaluation.unneccessaryWorkload);
+        }
+
+        private static void printScenarioDetail(ExecutedScenario s)
+        {
+            Console.WriteLine("Generierte Buchungen: ");
+            printDetailedBookingList(s.generatedBookings, 0);
+            Console.WriteLine("Davon akzeptierte Buchungen: ");
+            printDetailedBookingList(s.location.schedule.bookings, 0);
+
+            Console.WriteLine("Location workload:");
+            foreach (double d in s.getLocationWorkload())
+            {
+                Console.Write(d.ToString() + ", ");
+            }
+            Console.WriteLine("");
+        }
+
+        private static void printDetailedBookingList(List<Booking> bookings, int power)
+        {
+            foreach (Booking b in bookings)
+            {
+                string timeDetail = b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t";
+                string duration = power == 0 ? "" : ((b.socEnd - b.socStart) * b.capacity / (100 * power)).ToString();
+                string chargeDetail = b.plugs[0].ToString() + "\t" + duration + "\t";
+
+                Console.WriteLine(timeDetail + chargeDetail + b.id + "\t" + b.priority);
+            }
         }
     }
 }

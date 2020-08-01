@@ -84,9 +84,7 @@ namespace Sopro.Models.Simulation
             return await Task.Run(() =>
             {
                 exScenario.bookings = new List<Booking>();
-
                 exScenario.bookings.AddRange(exScenario.generatedBookings);
-
                 pendingBookings = exScenario.bookings.ToList();
 
                 if (!triggerBookingDistribution())
@@ -95,18 +93,13 @@ namespace Sopro.Models.Simulation
                 //exScenario.updateWorkload(calculateLocationWorkload(), calculateStationWorkload());
 
                 ++tickCount;
+
                 while (tickCount < exScenario.duration)
                 {
-                    
-                    
                     if (pendingBookings.Count() > 0)
                     {
-                        
                         if (!triggerBookingDistribution())
-                        {
                             return false;
-                        }
-                        
                     }
                     
                     double location = calculateLocationWorkload();
@@ -119,17 +112,88 @@ namespace Sopro.Models.Simulation
                 }
 
                 int req = exScenario.getFulfilledRequests();
-                
                 exScenario.fulfilledRequests = exScenario.location.schedule.bookings.Count();
                 
                 return true;
             });    
+        }
+
+        private double calculateLocationWorkload()
+        {
+            DateTime simulatedDay = exScenario.start + tickCount * tickLength;
+            TimeSpan pollingRate = new TimeSpan(0, 15, 0);
+            TimeSpan start = new TimeSpan(6, 0, 0);
+            TimeSpan end = new TimeSpan(20, 0, 0);
+
+            List<Booking> relevantBookings = filterBookingsAfterDay(simulatedDay);
+            List<double> polledLocationWorkloads = new List<double>();
+
+            while (start < end)
+            {
+                int accumulatedPower = 0;
+                foreach (Booking b in relevantBookings)
+                {
+                    if (bookingIsTakingPlace(b, start))
+                        accumulatedPower += b.station.plugs[0].power;
+                }
+                // TODO: AccPower nicht jedes Mal neu berechnen. Einmal reicht.
+                polledLocationWorkloads.Add(accumulatedPower / (double)getLocationMaxAccumulatedPower());
+                start += pollingRate;
+            }
+            // foreach (double d in polledLocationWorkloads) { Console.Write(d.ToString() + "; "); }
+            return polledLocationWorkloads.Average() * 100;
+        }
+
+        private int getLocationMaxAccumulatedPower()
+        {
+            ILocation location = exScenario.location;
+            int accumulatedMaxPower = 0;
+
+            foreach (Zone zone in location.zones)
+            {
+                foreach (Station station in zone.stations)
+                {
+                    int plugCount = station.maxParallelUseable;
+                    List<int> plugPowers = new List<int>();
+                    foreach (Plug plug in station.plugs)
+                    {
+                        plugPowers.Add(plug.power);
+                    }
+                    int powersToConsider = plugCount > station.plugs.Count ? station.plugs.Count : plugCount;
+                    var result = plugPowers.OrderByDescending(x => x).Take(powersToConsider);
+                    accumulatedMaxPower += result.Sum();
+                }
+            }
+            return accumulatedMaxPower;
+        }
+
+        private bool bookingIsTakingPlace(Booking b, TimeSpan time)
+        {
+            if (time.Hours >= b.startTime.Hour && time.Hours < b.endTime.Hour)
+            {
+                if (time.Hours == b.startTime.Hour && time.Minutes < b.startTime.Minute)
+                    return false;
+                return true;
+            }
+            return false;
+        }
+
+        private List<Booking> filterBookingsAfterDay(DateTime day)
+        {
+            List<Booking> relevantBookings = new List<Booking>();
+            foreach (Booking b in exScenario.location.schedule.bookings)
+            {
+                if (b.startTime.Date.Equals(day.Date))
+                    relevantBookings.Add(b);
+            }
+            return relevantBookings;
         }
         
         /// <summary>
         /// Berechnet die Auslastung des Standortes pro Tick.
         /// </summary>
         /// <returns>Die berechnete Auslastung des Standortes.</returns>
+        /*
         private double calculateLocationWorkload()
         {
             DateTime time = exScenario.start.Add(TimeSpan.FromTicks(tickCount * tickLength.Ticks));
@@ -144,15 +208,12 @@ namespace Sopro.Models.Simulation
                 }
             }
 
-            Console.WriteLine("number of Plugs: " + numberOfPlugs);
-
             // Zählt die Buchungen, die im Zeitraum liegen und bei denen eine Station gesetzt ist.
 
             List<Booking> boo = exScenario.location.schedule.bookings.FindAll(e => (e.startTime >= time) && (e.startTime <= end) && (e.station != null));
 
             var count = boo.Count;
 
-            Console.WriteLine("count: " + count);
             boo.Sort((e, f) => e.startTime.CompareTo(f.startTime));
             var workload = 0.0;
             var usedTogether = 0.0;
@@ -233,13 +294,10 @@ namespace Sopro.Models.Simulation
                 ++usedTogether;
             }
 
-            
-            Console.WriteLine(usedTogether);
-
             workload = (double)(usedTogether * 100.0) / (double)numberOfPlugs;
             return workload;
         }
-
+        */
         /// <summary>
         /// Berechnet die Auslastung aller Stationen pro Tick.
         /// </summary>

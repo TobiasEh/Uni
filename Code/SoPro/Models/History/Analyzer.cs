@@ -64,10 +64,8 @@ namespace Sopro.Models.History
             // 1. Fall: Buchungs Erfolgsrate ist geringer als festgelegter Schwellenwert, also wird mehr Infrastruktur wird benötigt.
             if (bookingSuccesRate < lowerTreshold)
             {
-                Console.WriteLine("stationCount: " + stationCount + ", calcNeccessaryWorkload: " + calcNecessaryWorkload());
-                int requiredStations = (int) Math.Ceiling(((double)stationCount * calcNecessaryWorkload() / 100));
-                Console.WriteLine("requiredStations: " + requiredStations);
-                int averagedStationPower = (int) Math.Ceiling((double)zonePowerList.Sum() / (double)stationCount);
+                int requiredStations = (int) Math.Ceiling(calcNecessaryWorkload() / (calcBookingSuccessRate() / stationCount));
+                int averagedStationPower = (int) Math.Ceiling(zonePowerList.Sum() / (double)stationCount);
                 int availablePower = scenario.location.zones.Sum(x => x.maxPower) - zonePowerList.Sum();
 
                 if (availablePower < requiredStations * averagedStationPower)
@@ -79,9 +77,7 @@ namespace Sopro.Models.History
             // 2. Fall: Buchungs Erfolgsrate ist höher als festgelegter Schwellenwert, also kann Infrastruktur abgebaut werden.
             if (bookingSuccesRate > upperTreshold) 
             {
-                Console.WriteLine("stationCount: " + stationCount + ", calcUnneccessaryWorkload: " + calcUnnecessaryWorkload());
-                int unecessaryStations = (int) Math.Floor(((double)stationCount * calcUnnecessaryWorkload() / 100));
-                Console.WriteLine("unneccessaryStations: " + unecessaryStations);
+                int unecessaryStations = (int) Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / stationCount));
                 int averagedStationPower = (int)Math.Ceiling((double)zonePowerList.Sum() / (double)stationCount);
                 if ((double)zonePowerList.Sum() / (double)scenario.location.zones.Count < unecessaryStations * averagedStationPower)
                     return new List<Suggestion>() { new CondenseInfrastructureSuggestion(unecessaryStations, 1) };
@@ -100,8 +96,6 @@ namespace Sopro.Models.History
         /// <returns>Den Anteil der akzeptierten Buchungsanfragen</returns>
         private static double calcBookingSuccessRate()
         {
-            Console.WriteLine("getFullfilledRequests: ");
-            Console.WriteLine(scenario.getFulfilledRequests());
             return 100 * (double)scenario.getFulfilledRequests() / scenario.getBookings().Count;
         }
 
@@ -161,9 +155,9 @@ namespace Sopro.Models.History
                     }
                 }
 
-                // Berechne Anteil des Steckers an der Gesamtanzahl an Steckern.
-                double quotaAccepted = acceptedBookingsPlug / acceptedBookings;
-                double quotaDeclined = declinedBookingsPlug / declinedBookings;
+                // Berechne Anteil des Steckers an der Gesamtanzahl an Steckern. Falls Zähler Null, gebge Null zurück.
+                double quotaAccepted = acceptedBookingsPlug > 0 ? acceptedBookingsPlug / acceptedBookings : 0;
+                double quotaDeclined = declinedBookingsPlug > 0 ? declinedBookingsPlug / declinedBookings : 0;
 
                 plugDistributionAccepted.Add(quotaAccepted);
                 plugDistributionDeclined.Add(quotaDeclined);

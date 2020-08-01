@@ -35,7 +35,6 @@ namespace Sopro.Models.Simulation
         {
             // Berechnet die niedrigste Leistung der verschiedenen Stecker Sorten.
             lowestPlugPowers = lowestPowerPerPlugType(scenario);
-
             // Berechnet die Wahrscheinlichkeit mit der eine Buchung erstellt werden soll. Die Wahrscheinlichkeit ist 1-(1/xt)^n.
             // n = bookingCountPerDay. 
             // x = wie oft man im Schnitt durch den Tag laufen will bis alle Buchungen verteilt sind.
