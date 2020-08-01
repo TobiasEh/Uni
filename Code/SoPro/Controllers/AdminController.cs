@@ -10,6 +10,7 @@ using System.IO;
 using Sopro.Interfaces.PersistenceController;
 using Sopro.Persistence.PersBooking;
 using Sopro.Interfaces;
+using Sopro.Models.Infrastructure;
 
 namespace Sopro.Controllers
 {
