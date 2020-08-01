@@ -143,12 +143,6 @@ namespace Sopro.Models.Administration
                     if (HasRequestedPlugs(booking, station.Station))
                     {
                         PlugType selected = SelectPlug(booking.plugs);
-                        Console.WriteLine("StandardDistribution.cs, Line 146");
-                        foreach (Plug plug in station.Station.plugs)
-                        {
-                            Console.WriteLine("Hi");
-                            Console.WriteLine(plug.type.ToString() + ": " + plug.power.ToString());
-                        }
                         int duration = CalculateDuration(booking.socStart, booking.socEnd, booking.capacity, station.Station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
                         booking.startTime = RoundUp(booking.startTime, TimeSpan.FromMinutes(15));
                         if (wl.Exists(x => x.Day.Day.Equals(booking.startTime.Day)))

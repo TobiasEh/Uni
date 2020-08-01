@@ -55,34 +55,13 @@
 
         var options = {
                         maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    min: 0,
-                                    beginAtZero: true
-                                },
-                                gridLines: {
-                                    display: false,
-                                    color: "rgba(255,99,164,0.2)"
-                                }
-                             }],
-                            xAxes: [{
-                                ticks: {
-                                    min: 0,
-                                    beginAtZero: true
-                                },
-                                gridLines: {
-                                    display: false
-                                }
-                            }]
-                        }
+                        
                     };
 
             var myChart = new Chart(ctx, {
-                options: Chart.defaults.pie,
+                options: options,
                 data: data,
-                type:'pie'
-
+                type: 'pie'
             });
         });
 </script>

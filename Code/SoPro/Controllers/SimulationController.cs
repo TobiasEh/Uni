@@ -635,18 +635,11 @@ namespace Sopro.Controllers
                 if (scenario.id.Equals(id))
                 {
                     sim.exScenario = new ExecutedScenario(scenario);
+                    Console.WriteLine("Generierte Buchungen: " + sim.exScenario.generatedBookings.Count.ToString());
                     Console.WriteLine("SimulationController.cs, line 638");
-                    foreach (Zone zone in scenario.location.zones)
-                    {
-                        foreach (Station station in zone.stations)
-                        {
-                            foreach (Plug plug in station.plugs)
-                            {
-                                Console.WriteLine(plug.type.ToString() + ": " + plug.power);
-                            }
-                        }
-                    }
                     await sim.run();
+                    Console.WriteLine("Location Workload per step:\t" + sim.exScenario.getLocationWorkload().Count.ToString());
+                    Console.WriteLine(sim.exScenario.location.schedule.bookings.Count.ToString());
                     eva = Analyzer.analyze(sim.exScenario);
                 }
                     
