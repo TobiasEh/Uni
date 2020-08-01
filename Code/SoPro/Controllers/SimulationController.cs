@@ -13,6 +13,7 @@ using Sopro.Models.Infrastructure;
 using Sopro.Persistence.PersScenario;
 using Sopro.ViewModels.TestViewModels;
 using Sopro.Models.History;
+using Sopro.Interfaces.HistorySimulation;
 
 namespace Sopro.Controllers
 {
@@ -21,6 +22,7 @@ namespace Sopro.Controllers
         private IMemoryCache cache;
         private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
+        private List<IEvaluatable> evaluations;
 
         public SimulationController(IMemoryCache _cache)
         {
@@ -599,8 +601,22 @@ namespace Sopro.Controllers
             return View(); 
         }
 
-        public IActionResult Evaluation(Evaluation evaluation)
+        public IActionResult Evaluation(string id)
         {
+            Evaluation eva;
+
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            {
+                evaluations = new List<IEvaluatable>();
+            }
+
+            foreach (Evaluation e in evaluations)
+            {
+                if (e.sce)
+            }
+
+            return View("Evaluation", eva);
+            /*
             Random rnd = new Random();
 
             var lstModel = new List<DataViewModel>();
@@ -616,6 +632,7 @@ namespace Sopro.Controllers
             });
 
             return View("Evaluation", lstModel);
+            */
             // return View();
         }
     }
