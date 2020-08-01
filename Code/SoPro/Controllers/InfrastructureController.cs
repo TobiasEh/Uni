@@ -90,14 +90,9 @@ namespace Sopro.Controllers
             }
 
             // Der Standort wird ermittelt und aus dem Cache geholt.
-            foreach(ILocation l in locations)
+            if (locations.RemoveAll( x => x.id == id) == 1)
             {
-                if(l.id.Equals(id.ToString()))
-                {
-                    locations.Remove(l);
-                    cache.Set(CacheKeys.LOCATION, locations);
-                    break;
-                }
+                cache.Set(CacheKeys.LOCATION, locations);
             }
             return RedirectToAction("Index");
         }

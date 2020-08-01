@@ -205,7 +205,9 @@ namespace Sopro.Controllers
         /// <param name="id">Id des Veränderten Autos.</param>
         /// <param name="model">Enthält die neuen Daten.</param>
         /// <returns>Eine Seite mit der Übersicht über alle Autos sowie ein Formular zum erstellen und bearbeiten.</returns>
-        public IActionResult EndEdit(string id, EditVehicleViewModel model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(string id, EditVehicleViewModel model)
         {
             
 
@@ -216,15 +218,8 @@ namespace Sopro.Controllers
             }
 
             // Ermitteln des Autos.
-            IVehicle vehicleCache = null;
-            foreach(IVehicle v in vehicles)
-            {
-                if (v.id.Equals(id))
-                {
-                    vehicleCache = v;
-                    break;
-                }
-            }
+            IVehicle vehicleCache = vehicles.Find(x => x.id == id);
+            
 
             // Befüllen des Autos mit den neuen Daten.
             ModelState.Clear();
@@ -252,14 +247,11 @@ namespace Sopro.Controllers
                 return View("Edit", model);
 
             // Übernehmen der Daten.
-            vehicleCache.model = vehicle.model;
-            vehicleCache.plugs = vehicle.plugs;
-            vehicleCache.socEnd = vehicle.socEnd;
-            vehicleCache.socStart = vehicle.socStart;
-            vehicleCache.capacity = vehicle.capacity;
+            vehicleCache = vehicle as IVehicle;
 
             this.model.vehicles = vehicles;
             this.model.vehicle = new Vehicle();
+            cache.Set(CacheKeys.VEHICLE,vehicles);
             return RedirectToAction("Cartemplates",this.model);
         }
 
@@ -277,14 +269,7 @@ namespace Sopro.Controllers
             }
 
             // Ermitteln des Autos und entfernen aus dem Cache.
-            foreach (IVehicle v in vehicles)
-            {
-                if (v.id.Equals(id))
-                {
-                    vehicles.Remove(v);
-                    break;
-                }
-            }
+            vehicles.RemoveAll(x => x.id == id);
             cache.Set(CacheKeys.VEHICLE, vehicles);
 
             model.vehicles = vehicles;

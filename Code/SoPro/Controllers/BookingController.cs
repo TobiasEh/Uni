@@ -306,18 +306,11 @@ namespace Sopro.Controllers
             }
 
             // Die Buchung ermittelt, entfernt und es wird weitergeleitet zur Index Methode.
-            Booking booking = null;
-            foreach (Booking b in bookings)
+            if(bookings.RemoveAll(x => x.id == bookingID) == 1)
             {
-                if (b.id.Equals(bookingID))
-                {
-                    booking = b; 
-                    bookings.Remove(booking);
-                    cache.Set(cacheKey, bookings);
-                    return RedirectToAction("index");
-                }
+                cache.Set(cacheKey, bookings);
+                return RedirectToAction("index");
             }
-
             //Sollte Keine Buchung gefunden werden. Nicht Möglich.
             return RedirectToAction("index");
         }

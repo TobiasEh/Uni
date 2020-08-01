@@ -98,14 +98,8 @@ namespace Sopro.Controllers
                 scenarios = new List<IScenario>();
             }
 
-            foreach (Scenario s in scenarios)
-            {
-                if (s.id.Equals(id))
-                {
-                    scenarios.Remove(s);
-                    break;
-                }
-            }
+            scenarios.RemoveAll(x => (x as Scenario).id == id);
+
 
             return View("Index", scenarios);
         }
