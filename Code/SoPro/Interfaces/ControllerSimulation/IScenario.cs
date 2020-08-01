@@ -6,7 +6,7 @@ namespace Sopro.Interfaces.ControllerSimulation
 {
     public interface IScenario
     {
-
+        public string id { get; set; }
         public int duration { get; set; }
         public int bookingCountPerDay { get; set; }
         public List<Vehicle> vehicles { get; set; }
