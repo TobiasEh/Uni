@@ -34,12 +34,12 @@ namespace Sopro.Models.Administration
 
             public double GetWorkload()
             {
-                return Used / Total;
+                return (double)Used / (double)Total;
             }
 
             public double GetWorkload(int duration)
             {
-                return (Used + duration) / Total;
+                return ((double)Used + (double)duration) / (double)Total;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Sopro.Models.Administration
                         u.Used.Add(temp);
                         if (bo.startTime.Day.Equals(bo.endTime.Day))
                         {
-                            TimeSpan span = bo.endTime.Subtract(bo.startTime);
+                            TimeSpan span = bo.endTime - bo.startTime;
                             if (wl.Exists(x => x.Day.Day.Equals(bo.startTime.Day)))
                             {
                                 wl.Find(x => x.Day.Day.Equals(bo.startTime.Day)).Used += (int)span.TotalMinutes;
@@ -107,8 +107,8 @@ namespace Sopro.Models.Administration
                         else
                         {
                             DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
-                            TimeSpan spanStart = d.Subtract(bo.startTime);
-                            TimeSpan spanEnd = bo.endTime.Subtract(d);
+                            TimeSpan spanStart = d - bo.startTime;
+                            TimeSpan spanEnd = bo.endTime - d;
                             if (wl.Exists(x => x.Day.Day.Equals(bo.startTime.Day)))
                             {
                                 wl.Find(x => x.Day.Day.Equals(bo.startTime.Day)).Used += (int)spanStart.TotalMinutes;

@@ -51,7 +51,7 @@ namespace UnitTests.Administration
         public void filterWithoutTimespan()
         {
             BookingLocationFilter locFilter = new BookingLocationFilter(location);
-            List<Booking> result = locFilter.filter(bookings);
+            List<Booking> result = locFilter.filter(DateTime.Now, bookings);
             Assert.IsTrue(result.Contains(booking1) && result.Contains(booking2) && result.Count == 2);
         }
 
@@ -59,14 +59,14 @@ namespace UnitTests.Administration
         public void filterWithTimespan()
         {
             BookingLocationFilter locFilter = new BookingLocationFilter(location, 2);
-            List<Booking> result = locFilter.filter(bookings);
+            List<Booking> result = locFilter.filter(DateTime.Now, bookings);
             Assert.IsTrue(result.Contains(booking2) && result.Count == 1);
         }
         [Test]
         public void returnNull()
         {
             BookingLocationFilter locFilter = new BookingLocationFilter(new Location() { name = "Hamburg"});
-            List<Booking> result = locFilter.filter(bookings);
+            List<Booking> result = locFilter.filter(DateTime.Now, bookings);
             Assert.IsTrue(result.Count == 0);
         }
     }

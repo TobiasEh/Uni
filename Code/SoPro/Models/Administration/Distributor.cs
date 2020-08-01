@@ -41,13 +41,15 @@ namespace Sopro.Models.Administration
         /// </summary>
         /// <param name="bookings">Liste der Buchungen die verteilt werden soll.</param>
         /// <returns></returns>
-        public bool run(List<Booking> bookings)
+        public bool run(DateTime now, List<Booking> bookings)
         {
-            Console.WriteLine("Before filter (list): " + bookings.Count().ToString());
-            bookings = filter.filter(bookings);
-            Console.WriteLine("After filter (list): " + bookings.Count().ToString());
+            
+            bookings = filter.filter(now, bookings);
             if ((bookings == null) || (bookings.Count() == 0))
+            {
                 return false;
+            }
+                
             if (!strategy.distribute(bookings, schedule, buffer))
                 return false;
             /*

@@ -9,9 +9,8 @@ using Sopro.Models.Simulation;
 using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
-using Sopro.Persistence.PersScenario;
-using System.Threading.Tasks;
 using Sopro.Models.Infrastructure;
+using Sopro.Persistence.PersScenario;
 
 namespace Sopro.Controllers
 {
@@ -510,55 +509,81 @@ namespace Sopro.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)
         {
+            
             IFormFile file = model.importedFile;
-            string path = Path.GetFullPath(file.Name);
-            List<IScenario> importedScenarios = service.import(path);
+            if (file == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<ScenarioExportImportViewModel> importedScenarios = service.import(file);
 
             if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
-                scenarios = importedScenarios;
-                cache.Set(scenarios, CacheKeys.SCENARIO);
-                return View("Index", scenarios);
+                scenarios = new List<IScenario>();
             }
 
-            List<ILocation> locations;
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
 
-            List<Vehicle> vehicles;
+            List<IVehicle> vehicles;
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<Vehicle>();
+                vehicles = new List<IVehicle>();
             }
 
-            foreach (IScenario sce in importedScenarios)
+            foreach (ScenarioExportImportViewModel s in importedScenarios)
             {
-                if (!scenarios.Contains(sce))
+                IScenario sce = s.generateScenario();
+                if (!TryValidateModel(sce))
+                {
+                    continue;
+                }
+                bool contains = false;
+                foreach (IScenario scenario in scenarios)
+                {
+                    if (scenario.id.Equals(sce.id))
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains)
                 {
                     scenarios.Add(sce);
-
-                    if (!locations.Contains(sce.location))
+                    foreach(Vehicle  v in sce.vehicles)
                     {
-                        locations.Add(sce.location);
+                        contains = false;
+                        foreach(IVehicle vehicle in vehicles)
+                        {
+                            if (v.id.Equals(vehicle.id))
+                            {
+                                contains = true;
+                                break;
+                            }
+                        }
+                        if (!contains)
+                        {
+                            vehicles.Add(v);
+                        }
                     }
-                    sce.vehicles.ForEach(e => { if (!vehicles.Contains(e)) { vehicles.Add(e); }; });
                 }
             }
 
-            cache.Set(CacheKeys.LOCATION, locations);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             cache.Set(CacheKeys.SCENARIO, scenarios);
             return View("Index", scenarios);
         }
-
+        
         [HttpGet]
         public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
 
-            return View("Index", scenarios);
+            List<ScenarioExportImportViewModel> scenariolist = new List<ScenarioExportImportViewModel>();
+            foreach (IScenario s in scenarios)
+            {
+                scenariolist.Add(new ScenarioExportImportViewModel(s));
+            }
+
+            return service.export(scenariolist);
         }
 
         public IActionResult History()
