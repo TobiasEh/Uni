@@ -24,10 +24,12 @@
                     <div>
                         <label for="@Model.CCS">CCS-Stecker</label>
                         <input type="checkbox" asp-for="@Model.CCS" checked="@Model.vehicle.plugs.Contains(Sopro.Models.Infrastructure.PlugType.CCS)" />
+                        @Html.ValidationMessageFor(model => model.CCS)
                     </div>
                     <div>
                         <label for="@Model.TYPE2">Typ-2-Stecker</label>
                         <input type="checkbox" asp-for="@Model.TYPE2" checked="@Model.vehicle.plugs.Contains(Sopro.Models.Infrastructure.PlugType.TYPE2)" />
+                        @Html.ValidationMessageFor(model => model.TYPE2)
                     </div>
                 </div>
                 <small>Wähle die / den kompatiblen Stecker.</small>
@@ -40,6 +42,7 @@
                     <div class="input-group-append">
                         <span class="input-group-text"> kWh </span>
                     </div>
+                    @Html.ValidationMessageFor(model => model.vehicle.capacity)
                 </div>
                 <small>Angab in kW</small>
             </div>
@@ -51,6 +54,7 @@
                     <div class="input-group-append">
                         <span class="input-group-text"> % </span>
                     </div>
+                    @Html.ValidationMessageFor(model => model.vehicle.socStart)
                 </div>
                 <small></small>
             </div>
@@ -62,6 +66,7 @@
                     <div class="input-group-append">
                         <span class="input-group-text"> % </span>
                     </div>
+                    @Html.ValidationMessageFor(model => model.vehicle.socEnd)
                 </div>
                 <small></small>
             </div>

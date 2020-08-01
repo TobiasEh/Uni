@@ -27,10 +27,12 @@
                         <div>
                             <label for="@Model.CCS">CCS-Stecker</label>
                             <input type="checkbox" asp-for="@Model.CCS" />
+                            @Html.ValidationMessageFor(model => model.CCS)
                         </div>
                         <div>
                             <label for="@Model.TYPE2">Typ-2-Stecker</label>
-                            <input type="checkbox" asp-for="@Model.TYPE2"/>
+                            <input type="checkbox" asp-for="@Model.TYPE2" />
+                            @Html.ValidationMessageFor(model => model.TYPE2)
                         </div>
                     </div>
                     <small>Wähle die / den kompatiblen Stecker.</small>

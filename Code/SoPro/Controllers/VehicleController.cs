@@ -205,10 +205,9 @@ namespace Sopro.Controllers
         /// <param name="id">Id des Veränderten Autos.</param>
         /// <param name="model">Enthält die neuen Daten.</param>
         /// <returns>Eine Seite mit der Übersicht über alle Autos sowie ein Formular zum erstellen und bearbeiten.</returns>
-        public IActionResult EndEdit(string id, EditVehicleViewModel model)
+        [HttpPost]
+        public IActionResult Edit(string id, EditVehicleViewModel model)
         {
-            
-
             // Die Liste der Autos wird aus dem Cache geladen.
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
@@ -260,6 +259,7 @@ namespace Sopro.Controllers
 
             this.model.vehicles = vehicles;
             this.model.vehicle = new Vehicle();
+            cache.Set(CacheKeys.VEHICLE,vehicles);
             return RedirectToAction("Cartemplates",this.model);
         }
 
