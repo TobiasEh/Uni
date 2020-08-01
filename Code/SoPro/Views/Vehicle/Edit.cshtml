@@ -10,7 +10,7 @@
     <div class="mr-5 pr-5">
         <h3 class="pb-3">Edit</h3>
         <div>
-            <form asp-controller="Vehicle" asp-action="EndEdit" asp-route-id="@Model.vehicle.id" method="post" id="addCar" />
+            <form asp-controller="Vehicle" asp-action="Edit" asp-route-id="@Model.vehicle.id" method="post" id="addCar" />
 
             <div class="form-group">
                 <label>Fahrzeugmodell</label>
@@ -67,7 +67,7 @@
             </div>
 
             <div class="float-right mt-4 mb-5">
-                <button type="reset" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</button>
+                <a href="@Url.Action("Cartemplates")" class="btn btn-secondary" onclick="document.getElementById('addCar').reset()">Abbrechen</a>
                 <button form="addCar" type="submit" class="btn btn-primary btn-mhp">Submit</button>
             </div>
         </div>
