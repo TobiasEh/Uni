@@ -1,13 +1,8 @@
-﻿using Sopro.Interfaces;
-using Sopro.Interfaces.ControllerHistory;
-using Sopro.Interfaces.HistorySimulation;
+﻿using Sopro.Interfaces.ControllerHistory;
 using Sopro.Models.History;
-using Sopro.Models.Infrastructure;
-using System;
+using Sopro.Models.Simulation;
+using Sopro.ViewModels.ExportImportViewModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Sopro.ViewModels
 {
     public class EvaluationExportImportViewModel
@@ -18,6 +13,7 @@ namespace Sopro.ViewModels
         public double neccessaryWorkload { get; set; }
         public List<double> plugDistributionAccepted { get; set; }
         public List<double> plugDistributionDeclined { get; set; }
+        public ExecutedScenarioExportImportViewModel scenario { get; set; }
 
 
         public EvaluationExportImportViewModel() { }
@@ -30,6 +26,21 @@ namespace Sopro.ViewModels
             neccessaryWorkload = e.neccessaryWorkload;
             plugDistributionAccepted = e.plugDistributionAccepted;
             plugDistributionDeclined = e.plugDistributionDeclined;
+            scenario = new ExecutedScenarioExportImportViewModel(e.scenario);
+        }
+
+        public IEvaluation generateEvaluation()
+        {
+            IEvaluation eva = new Evaluation();
+            eva.suggestions = suggestions;
+            eva.bookingSuccessRate = bookingSuccessRate;
+            eva.unneccessaryWorkload = unneccessaryWorkload;
+            eva.neccessaryWorkload = neccessaryWorkload;
+            eva.plugDistributionAccepted = plugDistributionAccepted;
+            eva.plugDistributionDeclined = plugDistributionDeclined;
+            eva.scenario = scenario.generateScenario();
+
+            return eva;
         }
     }
 }

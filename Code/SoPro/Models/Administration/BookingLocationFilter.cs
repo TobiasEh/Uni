@@ -61,7 +61,7 @@ namespace Sopro.Models.Administration
                 // Console.WriteLine("BookingLocationFilter.cs Condition 3: " + (item.startTime >= DateTime.Now).ToString());
                 // Console.WriteLine(time.ToString());
                 // Console.WriteLine(item.startTime.ToString());
-                if ((item.location == location) && (item.startTime < time) && (item.startTime >= DateTime.Now))
+                if ((item.location == location) && (item.startTime < time) && (item.startTime >= now))
                 {
                     result.Add(item);
                 }

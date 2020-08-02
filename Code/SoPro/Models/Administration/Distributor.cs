@@ -43,15 +43,16 @@ namespace Sopro.Models.Administration
         /// <returns></returns>
         public bool run(DateTime now, List<Booking> bookings)
         {
-            
             bookings = filter.filter(now, bookings);
             if ((bookings == null) || (bookings.Count() == 0))
             {
-                return false;
+                if (bookings == null)
+                    return false;
             }
                 
             if (!strategy.distribute(bookings, schedule, buffer))
                 return false;
+                
             /*
             foreach (Booking item in bookings)
             {

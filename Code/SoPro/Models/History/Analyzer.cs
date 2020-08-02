@@ -1,6 +1,7 @@
 ﻿using Sopro.Interfaces.HistorySimulation;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
+using Sopro.Models.Simulation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,6 @@ namespace Sopro.Models.History
         public static Evaluation analyze(IEvaluatable _scenario)
         {
             scenario = _scenario;
-
             List<List<double>> plugTypeDistribution = calcPlugTypeDistribution();
 
             evaluation = new Evaluation()
@@ -38,7 +38,8 @@ namespace Sopro.Models.History
                 unneccessaryWorkload = calcUnnecessaryWorkload(),
                 neccessaryWorkload = calcNecessaryWorkload(),
                 plugDistributionAccepted = plugTypeDistribution[0],
-                plugDistributionDeclined = plugTypeDistribution[1]
+                plugDistributionDeclined = plugTypeDistribution[1],
+                scenario = (ExecutedScenario)_scenario
             };
             return evaluation;
         }

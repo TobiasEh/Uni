@@ -22,7 +22,7 @@ namespace Sopro.ValidationAttributes
             var property = validationContext.ObjectType.GetProperty("startTime");
             startTime = Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null));
             endTime = Convert.ToDateTime(value);
-            if (endTime > startTime)
+            if (endTime > startTime && endTime.Date == startTime.Date)
                 return ValidationResult.Success;
             else
                 return new ValidationResult("ErrorEndTime", new List<string>() { "endTime" });

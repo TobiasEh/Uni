@@ -11,5 +11,10 @@
         {
             suggestion = "";
         }
+
+        public Suggestion()
+        {
+            suggestion = "";
+        }
     }
 }

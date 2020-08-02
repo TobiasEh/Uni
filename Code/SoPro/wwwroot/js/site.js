@@ -10,14 +10,10 @@ $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
 
         $('#sidebar').toggleClass('active');
-
-        var text = $(this).text();
-        if (text == ">") {
-            $(this).text("<");
-        } else {
-            $(this).text(">");
-        }
-
+        if ($('#sidebar').hasClass("active"))
+            $('#carreticon').css({ "transform": "scaleX(-1)" });
+        else
+            $('#carreticon').css({ "transform": "scaleX(1)" });
     });
 
     $('#plus').click(function () {

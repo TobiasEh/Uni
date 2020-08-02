@@ -94,13 +94,9 @@
                                                     @foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
                                                     {
                                                         if (p.type.Equals(Sopro.Models.Infrastructure.PlugType.CCS))
-                                                        {
                                                             ccs++;
-                                                        }
                                                         else
-                                                        {
                                                             type2++;
-                                                        }
                                                     }
                                                     <div>@ccs</div>
                                                     <div class="mb-3">@type2</div>

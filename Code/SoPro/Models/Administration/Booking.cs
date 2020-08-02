@@ -56,5 +56,30 @@ namespace Sopro.Models.Administration
         {
             id = Guid.NewGuid().ToString();
         }
+
+        /// <summary>
+        /// Erzeugt eine Tiefe Kopie einer Buchung.
+        /// </summary>
+        /// <returns>Tiefe Kopie einer Buchung.</returns>
+        public Booking deepCopy()
+        {
+            Booking copy = new Booking()
+            {
+                id = id,
+                capacity = capacity,
+                plugs = plugs,
+                socStart = socStart,
+                socEnd = socEnd,
+                user = user,
+                startTime = startTime,
+                endTime = endTime,
+                active = active,
+                location = location,
+                station = station,
+                priority = priority
+            };
+
+            return copy;
+        }
     }
 }
