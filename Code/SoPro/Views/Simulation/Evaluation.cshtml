@@ -8,23 +8,19 @@
 @using Sopro.ViewModels
 @model EvaluationViewModel
 @{
-    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "CCS", "Type 2" }).ToList());
-    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.plugDistributionAccepted.ToList());
+    var LabelsPlug = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "CCS", "Type 2" }).ToList());
+    var LabelsStatus = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "Akzeptiert", "Abgelehnt" }).ToList());
+    var LabelsDuration = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().ToList().Count));
 
-    var XLabels2 = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "CCS", "Type 2" }).ToList());
-    var YValues2 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.plugDistributionDeclined.ToList());
+    var plugDistributionAcceptedValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.plugDistributionAccepted.ToList());
+    var plugDistributionDeclinedValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.plugDistributionDeclined.ToList());
+    var bookingSuccessRateValues = Newtonsoft.Json.JsonConvert.SerializeObject(new List<double> { Model.bookingSuccessRate, 100 - Model.bookingSuccessRate });
+    var locationWorkloadValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.locationWorkload.ConvertAll(Convert.ToInt32).ToList());
 
-    var XLabels3 = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "Akzeptiert", "Abgelehnt" }).ToList());
-    var YValues3 = Newtonsoft.Json.JsonConvert.SerializeObject(new List<double> { Model.bookingSuccessRate, 100 - Model.bookingSuccessRate });
-
-    var XLabels4 = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().ToList().Count));
-    var YValues4 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.locationWorkload.ConvertAll(Convert.ToInt32).ToList());
-
-    var XLabelsDuration = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().ToList().Count));
-    List<string> StationWorkloads = new List<string>();
+    List<string> stationWorkloads = new List<string>();
     foreach (List<double> d in Model.stationWorkload)
     {
-        StationWorkloads.Add(Newtonsoft.Json.JsonConvert.SerializeObject(d.ConvertAll(Convert.ToInt32).ToList()));
+        stationWorkloads.Add(Newtonsoft.Json.JsonConvert.SerializeObject(d.ConvertAll(Convert.ToInt32).ToList()));
     }
 
     ViewData["Title"] = "Pie Chart";
@@ -36,8 +32,10 @@
     <div class="chart-container">
         <canvas id="chart4" style="width:100%; height:300px"></canvas>
     </div>
+</div>
 
-    @for (int i = 5; i < StationWorkloads.Count + 5; ++i)
+<div class="box-body d-flex justify-content-center">
+    @for (int i = 5; i < stationWorkloads.Count + 5; ++i)
     {
         string id = "chart" + i.ToString();
         <div class="chart-container">
@@ -69,7 +67,7 @@
         var ctx = document.getElementById(chartName).getContext('2d');
         var data =
         {
-            labels: @Html.Raw(XLabels),
+            labels: @Html.Raw(LabelsPlug),
             datasets: [{
                 label: "Plug distribution [Accepted Plugs]",
                 backgroundColor: [
@@ -81,14 +79,14 @@
                     'rgba(254, 191, 45, 1)'
                 ],
                 borderWidth: 1,
-                data: @Html.Raw(YValues),
+                data: @Html.Raw(plugDistributionAcceptedValues),
             }]
         };
 
             var chartName2 = "chart2";
             var ctx2 = document.getElementById(chartName2).getContext('2d');
             var data2 = {
-                labels: @Html.Raw(XLabels2),
+                labels: @Html.Raw(LabelsPlug),
                 datasets: [{
                     label: "Plug distribution [Declined Plugs]",
                     backgroundColor: [
@@ -100,16 +98,16 @@
                         'rgba(99, 99, 99, 1)'
                     ],
                     borderWidth: 1,
-                    data: @Html.Raw(YValues2),
+                    data: @Html.Raw(plugDistributionDeclinedValues),
                 }]
             };
 
             var chartName3 = "chart3";
             var ctx3 = document.getElementById(chartName3).getContext('2d');
             var data3 = {
-                labels: @Html.Raw(XLabels3),
+                labels: @Html.Raw(LabelsStatus),
                 datasets: [{
-                    label: "Plug distribution [Declined Plugs]",
+                    label: "Booking distibution",
                     backgroundColor: [
                         'rgba(141, 205, 89, 0.2)',
                         'rgba(237, 93, 146, 0.2)'
@@ -119,14 +117,14 @@
                         'rgba(237, 93, 146, 1)'
                     ],
                     borderWidth: 1,
-                    data: @Html.Raw(YValues3),
+                    data: @Html.Raw(bookingSuccessRateValues),
                 }]
             };
 
             var chartName4 = "chart4";
             var ctx4 = document.getElementById(chartName4).getContext('2d');
             var data4 = {
-                labels: @Html.Raw(XLabels4),
+                labels: @Html.Raw(LabelsDuration),
                 datasets: [{
                     label: "Location Workload",
                     backgroundColor: [
@@ -158,11 +156,11 @@
                         'rgba(255, 0, 255)'
                     ],
                     borderWidth: 1,
-                    data: @Html.Raw(YValues4),
+                    data: @Html.Raw(locationWorkloadValues),
                     }]
             };
 
-            @for (int i = 5; i < StationWorkloads.Count + 5; ++i)
+            @for (int i = 5; i < stationWorkloads.Count + 5; ++i)
             {
                 string chartName = "chartName" + i.ToString();
                 string name = "chart" + i.ToString();
@@ -173,7 +171,7 @@
                     var @chartName = "@name";
                     var @ctx = document.getElementById(@chartName).getContext('2d');
                     var @chartdata = {
-                        labels: @Html.Raw(XLabelsDuration),
+                        labels: @Html.Raw(LabelsDuration),
                         datasets: [{
                             label: "@num",
                             backgroundColor: [
@@ -205,7 +203,7 @@
                                 'rgba(255, 0, 255)'
                             ],
                             borderWidth: 1,
-                            data: @Html.Raw(StationWorkloads[i - 5]),
+                            data: @Html.Raw(stationWorkloads[i - 5]),
                             }]
                     };
                 </text>
@@ -318,8 +316,8 @@
                 type: 'line'
             });
 
-            @for (int i = 5; i < StationWorkloads.Count + 5; ++i)
-             {
+            @for (int i = 5; i < stationWorkloads.Count + 5; ++i)
+            {
                 string ctx = "ctx" + i.ToString();
                 string data = "data" + i.ToString();
                 string name = "myChart" + i.ToString();
