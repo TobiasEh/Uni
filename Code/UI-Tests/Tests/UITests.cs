@@ -510,6 +510,130 @@ namespace UI_Tests.Tests
         }
 
         
+        public void createMoreBookings(int socStart, int socEnd, int capacity, string _startDate, string _startTime, string _endDate, string _endTime)
+        {
+            _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Booking/Create?");
+            System.Threading.Thread.Sleep(1000);
+
+            IWebElement location = _driver.FindElement(By.XPath("//select[@id='locationId']"));
+
+            SelectElement selectElement = new SelectElement(location);
+            selectElement.SelectByText("UITestLocation");
+
+            // IWebElement plugType = _driver.FindElement(By.XPath("//input[@id='ccs']"));
+            // plugType.Click();
+
+            IWebElement socS = _driver.FindElement(By.XPath("//input[@id='booking_socStart']"));
+            socS.Clear();
+            socS.SendKeys(socStart.ToString());
+
+
+            IWebElement socE = _driver.FindElement(By.XPath("//input[@id='booking_socEnd']"));
+            socE.Clear();
+            socE.SendKeys(socEnd.ToString());
+
+            IWebElement cap = _driver.FindElement(By.XPath("//input[@id='booking_capacity']"));
+            cap.Clear();
+            cap.SendKeys(capacity.ToString());
+
+            IWebElement startTime = _driver.FindElement(By.XPath("//input[@id='booking_startTime']"));
+            
+            startTime.SendKeys(_startDate);
+            startTime.SendKeys(Keys.ArrowRight);
+            startTime.SendKeys(_startTime);
+
+            IWebElement endTime = _driver.FindElement(By.XPath("//input[@id='booking_endTime']"));
+            endTime.SendKeys(_endDate);
+            endTime.SendKeys(Keys.ArrowRight);
+            endTime.SendKeys(_endTime);
+
+            IWebElement submit = _driver.FindElement(By.XPath("//button[@type='submit']"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submit);
+            System.Threading.Thread.Sleep(1000);
+
+            submit.Click();
+
+            System.Threading.Thread.Sleep(3000);
+        }
+
+        [Test]
+        public void startDistributionTest() 
+        {
+            try
+            {
+                createZone(2, 120, 3, 100, 3, 1200, 2000, true);
+
+                bookingSetUp();
+
+                string date = DateTime.Now.Add(new TimeSpan(1, 0, 0, 0)).Date.ToString("dd.MM.yyyy");
+
+                createMoreBookings(20, 90, 300, date, "0800", date, "1500");
+
+                createMoreBookings(70, 90, 200, date, "0830", date, "1400");
+
+                date = DateTime.Now.Add(new TimeSpan(2, 0, 0, 0)).Date.ToString("dd.MM.yyyy");
+
+                createMoreBookings(40, 80, 145, date, "1400", date, "1900");
+
+                createMoreBookings(60, 80, 170, date, "1300", date, "1800");
+
+                createMoreBookings(10, 90, 100, date, "0800", date, "1900");
+
+                locationSetUp();
+
+                IWebElement distribute = _driver.FindElement(By.XPath("//div/div[last()]/div/a[2]/button"));
+
+                ((IJavaScriptExecutor)_driver).ExecuteScript(js, distribute);
+                System.Threading.Thread.Sleep(1000);
+
+                distribute.Click();
+
+                System.Threading.Thread.Sleep(3000);
+
+                _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Admin");
+
+                System.Threading.Thread.Sleep(2000);
+            } catch
+            {
+                Assert.Fail();
+            }
+            IWebElement booking;
+
+            while (true)
+            {
+                try
+                {
+                    booking = _driver.FindElement(By.XPath("//tr[td[contains(text(), 'UITestLocation')]]/td[9]/div/a/img"));
+                    ((IJavaScriptExecutor)_driver).ExecuteScript(js, booking);
+                    System.Threading.Thread.Sleep(1000);
+                    booking.Click();
+                    System.Threading.Thread.Sleep(3000);
+                }
+                catch
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    booking = _driver.FindElement(By.XPath("//div[2]//tr[td[contains(text(), 'UITestLocation')]]/td[7]/div/a[2]/img"));
+                    ((IJavaScriptExecutor)_driver).ExecuteScript(js, booking);
+                    System.Threading.Thread.Sleep(1000);
+                    booking.Click();
+                    System.Threading.Thread.Sleep(3000);
+                }
+                catch
+                {
+                    break;
+                }
+
+                _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
+            }
+        }
 
         [TearDown]
         public void tearDown()

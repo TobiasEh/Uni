@@ -166,8 +166,31 @@ namespace UI_Tests.Tests
             {
                 Assert.IsTrue(_driver.Url.ToString().Contains("https://sopro-ss2020-team17.azurewebsites.net/Simulation/editRushours"));
             }
+        }
 
+        [Test]
+        public void startScenario()
+        {
+            rushhourTest("04082020", "0800", "0900", 1, true);
 
+            IWebElement readyButton = _driver.FindElement(By.XPath("//div[@class='d-flex mt-4']/form/button"));
+            readyButton.Click();
+
+            System.Threading.Thread.Sleep(4000);
+
+            IWebElement startSimulation = _driver.FindElement(By.XPath("//div/div[last()-1]/a/img"));
+            startSimulation.Click();
+
+            System.Threading.Thread.Sleep(3000);
+
+            Assert.IsTrue(_driver.Url.ToString().Contains("https://sopro-ss2020-team17.azurewebsites.net/Simulation/Evaluation"));
+
+            _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Simulation");
+
+            System.Threading.Thread.Sleep(2000);
+
+            IWebElement deleteSimulation = _driver.FindElement(By.XPath("//div/div[last()-1]/a[3]/img"));
+            deleteSimulation.Click();
         }
 
         [TearDown]
