@@ -7,12 +7,8 @@ namespace Sopro.ValidationAttributes
 {
     public class BookingSocEndValidation : ValidationAttribute, IClientModelValidator
     {
-        private string socStart;
         private int socEnd;
-        public BookingSocEndValidation(string _socStart)
-        {
-            socStart = _socStart;
-        }
+       
 
         public void AddValidation(ClientModelValidationContext context)
         {

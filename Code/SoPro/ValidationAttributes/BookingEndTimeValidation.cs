@@ -8,13 +8,8 @@ namespace Sopro.ValidationAttributes
 {
     public class BookingEndTimeValidation : ValidationAttribute, IClientModelValidator
     {
-        private string startTime;
         private DateTime endTime;
-        public BookingEndTimeValidation(string _startTime)
-        {
-            startTime = _startTime;
-        }
-
+        
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.Add("data-val", "true");
@@ -34,7 +29,7 @@ namespace Sopro.ValidationAttributes
         /// </returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var property = validationContext.ObjectType.GetProperty(startTime);
+            var property = validationContext.ObjectType.GetProperty("startTime");
             endTime = Convert.ToDateTime(value);
             if (endTime > Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null)) && endTime.Date == Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null)).Date)
                 return ValidationResult.Success;
