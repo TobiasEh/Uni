@@ -76,8 +76,8 @@ namespace UnitTests
                 socStart = 10,
                 socEnd = 100,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = lTest
             };
 
@@ -99,8 +99,8 @@ namespace UnitTests
                 socStart = 10,
                 socEnd = 100,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = lTest
             };
 
@@ -122,8 +122,8 @@ namespace UnitTests
                 socStart = -5,
                 socEnd = 100,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = lTest
             };
 
@@ -145,8 +145,8 @@ namespace UnitTests
                 socStart = 10,
                 socEnd = 9,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = lTest
             };
 
@@ -164,8 +164,8 @@ namespace UnitTests
                 socStart = 10,
                 socEnd = 1001,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = lTest
             };
 
@@ -187,8 +187,8 @@ namespace UnitTests
                 socStart = 5,
                 socEnd = 20,
                 user = "",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = lTest
             };
 
@@ -210,14 +210,14 @@ namespace UnitTests
                 socStart = 5,
                 socEnd = 20,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(-1).AddHours(-1),
-                endTime = DateTime.Now.AddDays(-1),
+                startTime = DateTime.Now.Date.AddDays(-1).AddHours(-1),
+                endTime = DateTime.Now.Date.AddDays(1),
                 location = lTest
             };
 
             var validationResults = new List<ValidationResult>();
             var actual = Validator.TryValidateObject(booking, new ValidationContext(booking), validationResults, true);
-            Assert.AreEqual(1, validationResults.Count);
+            Assert.AreEqual(2, validationResults.Count);
 
             var msg = validationResults[0];
             Assert.AreEqual("startTime", msg.MemberNames.ElementAt(0));
@@ -233,8 +233,8 @@ namespace UnitTests
                 socStart = 5,
                 socEnd = 20,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(-1),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(2),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(0),
                 location = lTest
             };
 
@@ -256,8 +256,8 @@ namespace UnitTests
                 socStart = 5,
                 socEnd = 20,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(1).AddHours(1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(1),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(3),
                 location = null
             };
 

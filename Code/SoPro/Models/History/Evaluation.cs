@@ -23,6 +23,7 @@ namespace Sopro.Models.History
         [EnumLength(1, typeof(PlugType))]
         public List<double> plugDistributionDeclined { get; set; }
         public ExecutedScenario scenario { get; set; }
+        public DateTime executed { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Füge einen Vorschlag hinzu.
