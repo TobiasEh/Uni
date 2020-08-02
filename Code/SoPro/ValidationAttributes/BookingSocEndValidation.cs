@@ -1,14 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace Sopro.ValidationAttributes
 {
-    public class BookingSocEndValidation : ValidationAttribute
+    public class BookingSocEndValidation : ValidationAttribute, IClientValidatable
     {
-        private int socStart;
+        private string socStart;
         private int socEnd;
+        public BookingSocEndValidation(string _socStart)
+        {
+            socStart = _socStart;
+        }
+
+        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        {
+            var rule = new ModelClientValidationRule
+            {
+                ErrorMessage = FormatErrorMessage(metadata.DisplayName),
+                ValidationType = "socend"
+            };
+            rule.ValidationParameters.Add("start", socStart);
+            yield return rule;
+        }
+
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endadestatus als Startladestatus bei der Eingabe gewählt hat.
         /// </summary>
@@ -20,9 +36,8 @@ namespace Sopro.ValidationAttributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var property = validationContext.ObjectType.GetProperty("socStart");
-            socStart = Convert.ToInt16(property.GetValue(validationContext.ObjectInstance, null));
             socEnd = Convert.ToInt16(value);
-            if (socEnd >= socStart && socEnd <= 100 && socEnd >= 0)
+            if (socEnd >= Convert.ToInt16(property.GetValue(validationContext.ObjectInstance, null)) && socEnd <= 100 && socEnd >= 0)
                 return ValidationResult.Success;
             else
                 return new ValidationResult("ErrorSocEnd", new List<string>() { "socEnd" });

@@ -3,13 +3,16 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.EditZoneViewModel
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 <h1 class="display-4 pb-5 pt-5">Zone @Model.zone.site</h1>
 <div class="form-row">
 
     <div class="form-group col">
         <h1>Standort: @Model.name</h1>
     </div>
-    <form class="form-group col" asp-controller="Simulation" asp-action="EndEditZoneScenario" id="EndEdit"  asp-route-site="@Model.zone.site">
+    <form class="form-group col" asp-controller="Simulation" asp-action="EndEditZoneScenario" id="EndEdit" asp-route-site="@Model.zone.site">
         <label>Leistung der Zone</label>
         <div class="input-group">
             <input form="EndEdit" class="form-control" type="number" placeholder="@Model.zone.maxPower" asp-for="@Model.zone.maxPower" min="0" />
@@ -23,7 +26,7 @@
 
 <div class="d-flex flex-wrap mt-2">
     <div class="text-nowrap mr-auto">
-        <form asp-controller="Simulation" asp-action="EditStationScenario"  asp-route-site="@Model.zone.site" method="post">
+        <form asp-controller="Simulation" asp-action="EditStationScenario" asp-route-site="@Model.zone.site" method="post">
             <h2>Station bearbeiten</h2>
             <h4>Station @Model.station.id</h4>
             <div class="form-group">

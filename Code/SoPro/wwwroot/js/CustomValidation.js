@@ -1,11 +1,11 @@
-﻿$.validator.addMethod('BookingStartTimeValidation', function (value, element) {
+﻿$.validator.addMethod('starttime', function (value, element) {
         return Date.parse(value) <= Date.now;
 });
-$.validator.addMethod("BookingEndTimeValidation", function (value, element) {
+$.validator.addMethod("endtime", function (value, element) {
     return Date.parse(value) > Date.parse($('#booking_startTime').val());
 });
 
-$.validator.addMethod('BookingSocEndValidation', function (value, element) {
+$.validator.addMethod('socend', function (value, element,  params) {
     return parseInt(value) > parseInt($('#booking_socStart').val());
 });
 $.validator.addMethod('minPlugtype2Validation', function (value, element) {
@@ -40,6 +40,10 @@ $.validator.addMethod('parallelUsableValidation', function (value, element) {
 
 
 
-$.validator.unobtrusive.adapters.addBool('BookingStartTimeValidation');
-$.validator.unobtrusive.adapters.addBool('BookingEndTimeValidation');
+
+$.validator.unobtrusive.adapters.addBool('starttime');
+$.validator.unobtrusive.adapters.addBool('endtime');
+$.validator.unobtrusive.adapters.add("socend", ["start"], function (options) {
+    options.rules["socend"] = options.params;
+});
 $.validator.unobtrusive.adapters.addBool('BookingSocEndValidation');

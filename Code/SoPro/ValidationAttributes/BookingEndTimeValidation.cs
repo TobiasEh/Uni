@@ -1,14 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace Sopro.ValidationAttributes
 {
-    public class BookingEndTimeValidation : ValidationAttribute
+    public class BookingEndTimeValidation : ValidationAttribute, IClientValidatable
     {
-        private DateTime startTime;
+        private string startTime;
         private DateTime endTime;
+        public BookingEndTimeValidation(string _startTime)
+        {
+            startTime = _startTime;
+        }
+
+        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        {
+            var rule = new ModelClientValidationRule
+            {
+                ErrorMessage = FormatErrorMessage(metadata.DisplayName),
+                ValidationType = "endtime"
+            };
+            rule.ValidationParameters.Add("otherpropertyname", startTime);
+            yield return rule;
+        }
+
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endzeitpunkt als Startzeitpunkt bei der Eingabe gewählt hat.
         /// </summary>
@@ -19,10 +35,9 @@ namespace Sopro.ValidationAttributes
         /// </returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var property = validationContext.ObjectType.GetProperty("startTime");
-            startTime = Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null));
+            var property = validationContext.ObjectType.GetProperty(startTime);
             endTime = Convert.ToDateTime(value);
-            if (endTime > startTime && endTime.Date == startTime.Date)
+            if (endTime > Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null)) && endTime.Date == Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null)).Date)
                 return ValidationResult.Success;
             else
                 return new ValidationResult("ErrorEndTime", new List<string>() { "endTime" });

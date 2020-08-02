@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Sopro.ValidationAttributes
 {
-    public class BookingStartTimeValidation : ValidationAttribute
+    public class BookingStartTimeValidation : ValidationAttribute, IClientValidatable
     {
         /// <summary>
         /// Überprüft ob der Nutzer einen sinnvollen Startzeitpunkt gewählt hat.
@@ -32,7 +31,7 @@ namespace Sopro.ValidationAttributes
         {
             ModelClientValidationRule rule = new ModelClientValidationRule();
             rule.ErrorMessage = FormatErrorMessage(metadata.GetDisplayName());
-            rule.ValidationType = "BookingStartTimeValidation";
+            rule.ValidationType = "starttime";
             yield return rule;
         }
     }

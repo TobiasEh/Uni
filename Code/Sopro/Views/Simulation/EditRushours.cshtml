@@ -5,7 +5,9 @@
 }
 @model Sopro.ViewModels.EditRushourViewModel
 <h1>Details der Stoßzeiten</h1>
-
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 
 <div>
     <form asp-action="EditLocationScenario" asp-controller="Simulation">
@@ -15,7 +17,7 @@
             i++;
             string starttime = string.Concat("starttime", i.ToString());
             string endtime = string.Concat("endtime", i.ToString());
-            
+
             <div class="flex-column mb-3">
                 <div>Stoßzeit @i</div>
 
@@ -38,7 +40,7 @@
                     @Html.ValidationMessageFor(model => model.spreads[i - 1])
                 </div>
             </div>
-            
+
         }
         <button type="submit" class="btn btn-primary btn-mhp">Weiter</button>
     </form>
@@ -57,7 +59,7 @@
     }
     function timeMinEnd(e, i) {
         var date = document.getElementById("starttime" + i).value;
-        
+
             var starttime = calcStartTime(date, e.target.value)
         for (var j = i + 1; j <= @Model.rushhours.Count; j++) {
             document.getElementById("starttime"+j).min = starttime;
