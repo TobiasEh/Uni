@@ -553,7 +553,7 @@ namespace Sopro.Controllers
             {
                 return RedirectToAction("Index");
             }
-            List<SzenarioExportImportViewModel> importedScenarios = service.import(file);
+            List<ScenarioExportImportViewModel> importedScenarios = service.import(file);
 
             if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
@@ -567,7 +567,7 @@ namespace Sopro.Controllers
                 vehicles = new List<IVehicle>();
             }
 
-            foreach (SzenarioExportImportViewModel s in importedScenarios)
+            foreach (ScenarioExportImportViewModel s in importedScenarios)
             {
                 IScenario sce = s.generateScenario();
                 if (!TryValidateModel(sce))
@@ -615,10 +615,10 @@ namespace Sopro.Controllers
         {
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
 
-            List<SzenarioExportImportViewModel> scenariolist = new List<SzenarioExportImportViewModel>();
+            List<ScenarioExportImportViewModel> scenariolist = new List<ScenarioExportImportViewModel>();
             foreach (IScenario s in scenarios)
             {
-                scenariolist.Add(new SzenarioExportImportViewModel(s));
+                scenariolist.Add(new ScenarioExportImportViewModel(s));
             }
 
             return service.export(scenariolist);
