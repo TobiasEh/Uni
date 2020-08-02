@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace Sopro.ValidationAttributes
 {
-    public class BookingSocEndValidation : ValidationAttribute, IClientValidatable
+    public class BookingSocEndValidation : ValidationAttribute, IClientModelValidator
     {
         private string socStart;
         private int socEnd;
@@ -14,16 +14,13 @@ namespace Sopro.ValidationAttributes
             socStart = _socStart;
         }
 
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        public void AddValidation(ClientModelValidationContext context)
         {
-            var rule = new ModelClientValidationRule
-            {
-                ErrorMessage = FormatErrorMessage(metadata.DisplayName),
-                ValidationType = "socend"
-            };
-            rule.ValidationParameters.Add("start", socStart);
-            yield return rule;
+            context.Attributes.Add("data-val", "true");
+            context.Attributes.Add("data-val-socend", GetErrorMessage());
         }
+        public string GetErrorMessage() =>
+            $"End SoC kann nicht kleiner als Start SoC sein.";
 
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endadestatus als Startladestatus bei der Eingabe gewählt hat.

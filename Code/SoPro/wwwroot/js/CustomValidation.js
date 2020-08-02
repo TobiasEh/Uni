@@ -1,5 +1,5 @@
-﻿$.validator.addMethod('starttime', function (value, element) {
-        return Date.parse(value) <= Date.now;
+﻿$.validator.addMethod("starttime", function (value, element) {
+    return Date.parse(value) > Date.now();
 });
 $.validator.addMethod("endtime", function (value, element) {
     return Date.parse(value) > Date.parse($('#booking_startTime').val());
@@ -36,14 +36,8 @@ $.validator.addMethod('parallelUsableValidation', function (value, element) {
     return (parseInt($('#type2').val()) + parseInt($('#ccs').val())) > parseInt(value);
 });
 
-
-
-
-
-
-$.validator.unobtrusive.adapters.addBool('starttime');
-$.validator.unobtrusive.adapters.addBool('endtime');
-$.validator.unobtrusive.adapters.add("socend", ["start"], function (options) {
-    options.rules["socend"] = options.params;
+$.validator.unobtrusive.adapters.add('starttime', ['year'], function (options) {
+    options.messages['classicmovie'] = options.message;
 });
-$.validator.unobtrusive.adapters.addBool('BookingSocEndValidation');
+$.validator.unobtrusive.adapters.addBool(endtime);
+

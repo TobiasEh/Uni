@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.Globalization;
 
 namespace Sopro.ValidationAttributes
 {
-    public class BookingEndTimeValidation : ValidationAttribute, IClientValidatable
+    public class BookingEndTimeValidation : ValidationAttribute, IClientModelValidator
     {
         private string startTime;
         private DateTime endTime;
@@ -14,16 +15,14 @@ namespace Sopro.ValidationAttributes
             startTime = _startTime;
         }
 
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        public void AddValidation(ClientModelValidationContext context)
         {
-            var rule = new ModelClientValidationRule
-            {
-                ErrorMessage = FormatErrorMessage(metadata.DisplayName),
-                ValidationType = "endtime"
-            };
-            rule.ValidationParameters.Add("otherpropertyname", startTime);
-            yield return rule;
+            context.Attributes.Add("data-val", "true");
+            context.Attributes.Add("data-val-endtime", GetErrorMessage());
         }
+        public string GetErrorMessage() =>
+            $"Buchungsende kann nicht vor Start sein.";
+
 
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endzeitpunkt als Startzeitpunkt bei der Eingabe gewählt hat.
