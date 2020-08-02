@@ -1,4 +1,5 @@
-﻿using Sopro.Interfaces.HistorySimulation;
+﻿using Sopro.Interfaces;
+using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.Simulation;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
@@ -123,6 +124,40 @@ namespace Sopro.Models.Simulation
             fulfilledRequests = 0;
             bookings = new List<Booking>();
             bookings.AddRange(generatedBookings);
+        }
+
+        public ExecutedScenario deepCopy(ILocation l)
+        {
+            List<Booking> _generatedBookings = new List<Booking>();
+            foreach(Booking b in generatedBookings)
+            {
+                Booking booking = b.deepCopy();
+                booking.location = l;
+                _generatedBookings.Add(booking);
+            }
+
+            ExecutedScenario copy = new ExecutedScenario(generatedBookings);
+            copy.id = id;
+            copy.duration = duration;
+            copy.bookingCountPerDay = bookingCountPerDay;
+            copy.vehicles = vehicles;
+            copy.rushhours = rushhours;
+            copy.start = start;
+            copy.location = l;
+
+            copy.locationWorkload = locationWorkload;
+            copy.stationWorkload = stationWorkload;
+            copy.fulfilledRequests = fulfilledRequests;
+
+            List<Booking> _bookings = new List<Booking>();
+            foreach(Booking b in bookings)
+            {
+                Booking booking = b.deepCopy();
+                booking.location = l;
+                _bookings.Add(booking);
+            }
+            copy.bookings = _bookings;
+            return copy;
         }
     }
 }
