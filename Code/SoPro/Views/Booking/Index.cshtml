@@ -39,7 +39,16 @@
                         <p><b>Ladestand</b> @booking.socStart %</p>
                         <p><b>Benötigte Kilometer</b> @booking.socEnd %</p>
                     </div>
-                    <div> <button class="w-100 btn btn-primary btn-mhp mb-3">Check-In</button></div>
+                    <div>
+                        @if (booking.active)
+                        {
+                            <button class="w-100 btn btn-primary btn-mhp mb-3" asp-action="ToggleCheck" asp-controller="Booking" asp-route-bookingID="@booking.id">Check-Out</button>
+                        }
+                        else
+                        {
+                            <button class="w-100 btn btn-primary btn-mhp mb-3" asp-action="ToggleCheck" asp-controller="Booking" asp-route-bookingID="@booking.id">Check-In</button>
+                        }
+                    </div>
                 </div>
             }
             <! für max 4 Buchungen danach neues div>
@@ -79,7 +88,7 @@ else
                     <td class="text-center">
                         <div>
                             <a asp-controller="Booking" asp-action="Edit" asp-route-bookingID="@booking.id">
-                                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2"/>
+                                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="filter-blue mr-2" />
                             </a>
                             <a asp-controller="Booking" asp-action="Delete" asp-route-bookingID="@booking.id">
                                 <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-2" />
