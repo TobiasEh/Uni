@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UI_Tests.Booking
+namespace UI_Tests.Tests
 {
     class BrowserSettings
     {
         private IWebDriver _webDriver { get; set; }
         private string _email { get; set; }
-        private const string urlLogin = "https://localhost:44383/";
+        private const string urlLogin = "https://sopro-ss2020-team17.azurewebsites.net/";
 
         private IWebElement logIn => _webDriver.FindElement(By.Name("email"));
 
@@ -19,7 +19,7 @@ namespace UI_Tests.Booking
             _email = email;
             NavigateTo(urlLogin);
             webDriver.Manage().Window.Maximize();
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(5000);
             LogIn();
         }
 

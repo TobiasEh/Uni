@@ -10,7 +10,7 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Html5;
 using OpenQA.Selenium.Support.UI;
 
-namespace UI_Tests.Booking
+namespace UI_Tests.Tests
 {
     [TestFixture]
     class UITests
@@ -39,9 +39,8 @@ namespace UI_Tests.Booking
         {
             email = "planer@sopro.de";
             settings.initBrowser(_driver, email);
-             _driver.Navigate().GoToUrl("https://localhost:44383/Infrastructure");
+             _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
             System.Threading.Thread.Sleep(2000);
-            // settings.NavigateTo("https://localhost:44383/Booking/Create?");
         }
         public void deleteLocation()
         {
@@ -53,7 +52,7 @@ namespace UI_Tests.Booking
 
         public void deleteZone()
         {
-            _driver.Navigate().GoToUrl("https://localhost:44383/Infrastructure");
+            _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
             System.Threading.Thread.Sleep(2000);
 
             IWebElement arrow = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img[2]"));
@@ -77,9 +76,8 @@ namespace UI_Tests.Booking
         {
             email = "employee@sopro.de";
             settings.initBrowser(_driver, email);
-            _driver.Navigate().GoToUrl("https://localhost:44383/Booking/Create?");
+            _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Booking/Create?");
             System.Threading.Thread.Sleep(2000);
-            // settings.NavigateTo("https://localhost:44383/Booking/Create?");
         }
 
         [Test]
@@ -195,7 +193,7 @@ namespace UI_Tests.Booking
             newZButton.Click();
             System.Threading.Thread.Sleep(1000);
             
-            Assert.IsTrue(_driver.Url.ToString().Contains("https://localhost:44383/Infrastructure/CreateZone"));
+            Assert.IsTrue(_driver.Url.ToString().Contains("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure/CreateZone"));
 
             IWebElement manufacturer = _driver.FindElement(By.Id("station_manufacturer"));
             manufacturer.Clear();
@@ -233,7 +231,7 @@ namespace UI_Tests.Booking
             if(expected)
             {
                 Assert.IsTrue(_driver.FindElement(By.XPath("//div[2]/div[2]/div/table/tbody/tr[last()]/td/div/div[2]/div[1]")).Text.ToString().Equals("TestManu"));
-                _driver.Navigate().GoToUrl("https://localhost:44383/Infrastructure");
+                _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
             } else
             {
                 try
@@ -243,7 +241,7 @@ namespace UI_Tests.Booking
                 catch
                 {
                     Assert.IsTrue(true);
-                    _driver.Navigate().GoToUrl("https://localhost:44383/Infrastructure");
+                    _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
                 }
             }
         }
@@ -315,7 +313,7 @@ namespace UI_Tests.Booking
             if (expected)
             {
                 Assert.IsTrue(_driver.FindElement(By.XPath("//div[2]/div[2]/div/table/tbody/tr[last()]/td/div/div[2]/div[1]")).Text.ToString().Equals("TestChangedManu"));
-                _driver.Navigate().GoToUrl("https://localhost:44383/Infrastructure");
+                _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
                 System.Threading.Thread.Sleep(1000);
             }
             else
@@ -327,7 +325,7 @@ namespace UI_Tests.Booking
                 catch
                 {
                     Assert.IsTrue(true);
-                    _driver.Navigate().GoToUrl("https://localhost:44383/Infrastructure");
+                    _driver.Navigate().GoToUrl("https://sopro-ss2020-team17.azurewebsites.net/Infrastructure");
                     System.Threading.Thread.Sleep(1000);
                 }
             }
@@ -430,17 +428,19 @@ namespace UI_Tests.Booking
 
             if (expected)
             {
-                Assert.IsTrue(_driver.Url.ToString().Contains("https://localhost:44383/Booking"));
+                Assert.IsTrue(_driver.Url.ToString().Contains("https://sopro-ss2020-team17.azurewebsites.net/Booking"));
                 deleteBooking();
                 locationSetUp();
             }
             if (!expected)
             {
-                Assert.IsTrue(_driver.Url.ToString().Contains("https://localhost:44383/Booking/Create"));
+                Assert.IsTrue(_driver.Url.ToString().Contains("https://sopro-ss2020-team17.azurewebsites.net/Booking/Create"));
                 locationSetUp();
             }
 
         }
+
+        
 
         [TearDown]
         public void tearDown()
