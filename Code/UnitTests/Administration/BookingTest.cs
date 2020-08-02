@@ -210,8 +210,8 @@ namespace UnitTests
                 socStart = 5,
                 socEnd = 20,
                 user = "example@email.de",
-                startTime = DateTime.Now.AddDays(-1),
-                endTime = DateTime.Now.AddDays(1).AddHours(3),
+                startTime = DateTime.Now.AddDays(-1).AddHours(-1),
+                endTime = DateTime.Now.AddDays(-1),
                 location = lTest
             };
 
