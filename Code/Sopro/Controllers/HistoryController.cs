@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces.ControllerHistory;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Models.History;
 using Sopro.Persistence.PersEvaluation;
+using Sopro.ViewModels;
 using System.Collections.Generic;
 
 namespace Sopro.Controllers
@@ -20,9 +22,22 @@ namespace Sopro.Controllers
             cache = _cache;
         }
 
-        public IActionResult Evaluation(IEvaluation evaluation)
+        public IActionResult Evaluation(string id)
         {
-            return View(evaluation);
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            {
+                evaluations = new List<IEvaluation>();
+            }
+
+            foreach(IEvaluation eva in evaluations)
+            {
+                if (eva.scenario.id.Equals(id))
+                {
+                    return View("Views/Simulation/Evaluation.cshtml", new EvaluationViewModel((Evaluation)eva));
+                }
+            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Index()
@@ -35,8 +50,28 @@ namespace Sopro.Controllers
             return View(evaluations);
         }
 
+        public IActionResult Delete(string id)
+        {
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            {
+                evaluations = new List<IEvaluation>();
+            }
 
-        /*
+            foreach (IEvaluation eva in evaluations)
+            {
+                if (eva.scenario.id.Equals(id))
+                {
+                    evaluations.Remove(eva);
+                    break;
+                }
+            }
+
+            cache.Set(CacheKeys.EVALUATION, evaluations);
+
+            return RedirectToAction("Index");
+        }
+            
+            /*
                [HttpPost]
                [ValidateAntiForgeryToken]
                public IActionResult Import([FromForm]FileViewModel model)
