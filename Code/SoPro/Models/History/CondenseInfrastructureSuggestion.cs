@@ -9,7 +9,10 @@
         /// <param name="zones">Emfpohlene Anzahl zu entfernender Zonen</param>
         public CondenseInfrastructureSuggestion(int stations, int zones) : base(stations, zones)
         {
-            suggestion = "Sie brauchen ca. " + zones + " Zonen und " + stations + " Stationen weniger.";
+            if (zones == 1)
+                suggestion = "Sie können Zonen abbauen. Insgesamt wären ca. " + stations + " Stationen weniger ausreichend.";
+            else
+                suggestion = "Insgesamt wären ca. " + stations + " Stationen weniger ausreichend.";
         }
     }
 }
