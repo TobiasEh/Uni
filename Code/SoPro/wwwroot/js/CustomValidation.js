@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿
     $.validator.addMethod("starttime", function (value, element) {
         return false;
     });
@@ -38,7 +38,6 @@
     });
 
     $.validator.unobtrusive.adapters.add('starttime', ['year'], function (options) {
-        options.messages['classicmovie'] = options.message;
+        options.messages['starttime'] = options.message;
     });
     $.validator.unobtrusive.adapters.addBool(endtime);
-});
