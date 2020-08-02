@@ -16,6 +16,7 @@ namespace UI_Tests.Tests
         private IWebDriver _driver;
         private string email;
         private BrowserSettings settings;
+        private string js = "arguments[0].scrollIntoView(true)";
 
         [SetUp]
         public void setUp()
@@ -34,7 +35,12 @@ namespace UI_Tests.Tests
 
         public void deleteVehicle()
         {
-            _driver.FindElement(By.XPath("//form/div/div[2]/div/table/tbody/tr[last()]/td[6]/div/a[2]/img")).Click();
+            IWebElement bin = _driver.FindElement(By.XPath("//form/div/div[2]/div/table/tbody/tr[last()]/td[6]/div/a[2]/img"));
+            
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, bin);
+            System.Threading.Thread.Sleep(1000);
+
+            bin.Click();
             System.Threading.Thread.Sleep(1000);
         }
 
@@ -84,8 +90,13 @@ namespace UI_Tests.Tests
             socEnd.Clear();
             socEnd.SendKeys(_socEnd.ToString());
 
-            _driver.FindElement(By.XPath("//form/div/div/div/div[6]/button[2]")).Click();
-            
+            IWebElement submit = _driver.FindElement(By.XPath("//form/div/div/div/div[6]/button[2]"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submit);
+
+            System.Threading.Thread.Sleep(1000);
+            submit.Click();
+
             System.Threading.Thread.Sleep(3000);
 
             if(expected && !delete)
@@ -159,10 +170,8 @@ namespace UI_Tests.Tests
 
             IWebElement submit = _driver.FindElement(By.XPath("//div/div/div/form/div[6]/button[2]"));
 
-
-            Actions action = new Actions(_driver);
-            action.MoveToElement(submit);
-            action.Perform();
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submit);
+            System.Threading.Thread.Sleep(1000);
 
             submit.Click();
 

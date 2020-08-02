@@ -26,6 +26,7 @@ namespace UI_Tests.Tests
         private IWebDriver _driver;
         private BrowserSettings settings;
         private string email;
+        private string js = "arguments[0].scrollIntoView(true)";
 
         [SetUp]
         public void setUp()
@@ -45,6 +46,8 @@ namespace UI_Tests.Tests
         public void deleteLocation()
         {
             IWebElement bin = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/a/img"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, bin);
+            System.Threading.Thread.Sleep(1000);
             bin.Click();
             System.Threading.Thread.Sleep(1000);
 
@@ -56,11 +59,17 @@ namespace UI_Tests.Tests
             System.Threading.Thread.Sleep(2000);
 
             IWebElement arrow = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img[2]"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, arrow);
+            System.Threading.Thread.Sleep(1000);
+
             arrow.Click();
 
             System.Threading.Thread.Sleep(2000);
 
             IWebElement bin = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div[3]/div/div[last()]/div[1]/div/div[2]/form/button/img"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, bin);
+            System.Threading.Thread.Sleep(1000);
+
             bin.Click();
             System.Threading.Thread.Sleep(2000);
         }
@@ -68,6 +77,10 @@ namespace UI_Tests.Tests
         public void deleteBooking()
         {
             IWebElement bin = _driver.FindElement(By.XPath("//div[@class='table-responsive rounded']/table/tbody/tr[last()]/td[6]/div/a[2]/img"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, bin);
+            System.Threading.Thread.Sleep(1000);
+
             bin.Click();
             System.Threading.Thread.Sleep(1000);
         }
@@ -92,10 +105,17 @@ namespace UI_Tests.Tests
             locationSetUp();
 
             IWebElement newLocationButton = _driver.FindElement(By.XPath("//div[@class='d-flex mt-4']/*[3]"));
+            
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, newLocationButton);
+            System.Threading.Thread.Sleep(1000);
+
             newLocationButton.Click();
             System.Threading.Thread.Sleep(1000);
 
             IWebElement collapse = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, collapse);
+            System.Threading.Thread.Sleep(1000);
+
             collapse.Click();
             System.Threading.Thread.Sleep(1000);
 
@@ -111,6 +131,8 @@ namespace UI_Tests.Tests
             distributionTime.SendKeys("0300");
 
             IWebElement submitButton = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div[2]//button"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submitButton);
+            System.Threading.Thread.Sleep(1000);
             submitButton.Click();
 
             System.Threading.Thread.Sleep(2000);
@@ -136,6 +158,10 @@ namespace UI_Tests.Tests
             createLocationTest(0.05, true);
 
             IWebElement collapse = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img"));
+            
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, collapse);
+            System.Threading.Thread.Sleep(1000);
+
             collapse.Click();
             System.Threading.Thread.Sleep(1000);
 
@@ -151,6 +177,10 @@ namespace UI_Tests.Tests
             distributionTime.SendKeys("0400");
 
             IWebElement submitButton = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div[2]//button"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submitButton);
+            System.Threading.Thread.Sleep(1000);
+
             submitButton.Click();
 
             System.Threading.Thread.Sleep(2000);
@@ -162,6 +192,10 @@ namespace UI_Tests.Tests
             else if (!expected)
             {
                 Assert.IsTrue(_driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/h5")).Text.Equals("UITestLocation"));
+
+                ((IJavaScriptExecutor)_driver).ExecuteScript(js, collapse);
+                System.Threading.Thread.Sleep(1000);
+
                 collapse.Click();
             }
         }
@@ -186,10 +220,18 @@ namespace UI_Tests.Tests
             createLocationTest(0.05, true);
 
             IWebElement arrow = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img[2]"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, arrow);
+            System.Threading.Thread.Sleep(1000);
+
             arrow.Click();
             System.Threading.Thread.Sleep(1000);
             
             IWebElement newZButton = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div[3]/div/form/button"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, newZButton);
+            System.Threading.Thread.Sleep(1000);
+
             newZButton.Click();
             System.Threading.Thread.Sleep(1000);
             
@@ -265,15 +307,32 @@ namespace UI_Tests.Tests
         {
             createZone(2, 200, 3, 120, 2, 2000, 200, true);
 
-            _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img[2]")).Click();
-            
+            IWebElement button1 = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div/img[2]"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, button1);
             System.Threading.Thread.Sleep(1000);
 
-            _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div[3]/div/div[last()]/div/div/div/form/button")).Click();
-            
+            button1.Click();
+
             System.Threading.Thread.Sleep(1000);
 
-            _driver.FindElement(By.XPath("//div[2]/div[2]/div/table/tbody/tr[last()]/td[2]/a/img")).Click();
+
+
+            IWebElement button2 = _driver.FindElement(By.XPath("//div[@class='flex-column']/div[last()]/div[3]/div/div[last()]/div/div/div/form/button"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, button2);
+            System.Threading.Thread.Sleep(1000);
+
+            button2.Click();
+
+            System.Threading.Thread.Sleep(1000);
+
+            IWebElement button3 = _driver.FindElement(By.XPath("//div[2]/div[2]/div/table/tbody/tr[last()]/td[2]/a/img"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, button3);
+            System.Threading.Thread.Sleep(1000);
+
+            button3.Click();
 
             System.Threading.Thread.Sleep(1000);
 
@@ -306,7 +365,12 @@ namespace UI_Tests.Tests
             maxPower.Clear();
             maxPower.SendKeys(_maxPower.ToString());
 
-            _driver.FindElement(By.XPath("//div[2]/div/form/div[6]/button")).Click();
+            IWebElement submit = _driver.FindElement(By.XPath("//div[2]/div/form/div[6]/button"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submit);
+            System.Threading.Thread.Sleep(1000);
+
+            submit.Click();
 
             System.Threading.Thread.Sleep(2000);
 
@@ -362,6 +426,10 @@ namespace UI_Tests.Tests
             if (!plugTypeRight)
             {
                 IWebElement plugType = _driver.FindElement(By.XPath("//input[@id='ccs']"));
+
+                ((IJavaScriptExecutor)_driver).ExecuteScript(js, plugType);
+                System.Threading.Thread.Sleep(1000);
+
                 plugType.Click();
             }
             
@@ -422,6 +490,10 @@ namespace UI_Tests.Tests
             }
 
             IWebElement submit = _driver.FindElement(By.XPath("//button[@type='submit']"));
+
+            ((IJavaScriptExecutor)_driver).ExecuteScript(js, submit);
+            System.Threading.Thread.Sleep(1000);
+
             submit.Click();
 
             System.Threading.Thread.Sleep(5000);
