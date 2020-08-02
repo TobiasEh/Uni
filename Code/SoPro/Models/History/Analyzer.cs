@@ -50,15 +50,15 @@ namespace Sopro.Models.History
                 if (!s.location.schedule.bookings.Contains(b))
                     declined.Add(b);
             }
-                printFiller();
-            Console.WriteLine("[Generierte Buchungen]");
+            printFiller();
+            Console.WriteLine("[Generierte Buchungen (" + s.generatedBookings.Count.ToString() + ")]");
             printDetailedBookingList(s.generatedBookings, "[-]");
             printFiller();
-            Console.WriteLine("[Akzeptierte Buchungen]");
+            Console.WriteLine("[Akzeptierte Buchungen (" + s.location.schedule.bookings.Count.ToString() + ")]");
             printDetailedBookingList(s.location.schedule.bookings, "[O]");
             printFiller();
-            Console.WriteLine("[Abgelehnte Buchungen]");
-            printDetailedBookingList(s.location.schedule.bookings, "[X]");
+            Console.WriteLine("[Abgelehnte Buchungen (" + declined.Count.ToString() + ")]");
+            printDetailedBookingList(declined, "[X]");
             return evaluation;
         }
 
