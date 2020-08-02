@@ -38,8 +38,8 @@
     </div>
 
     @for (int i = 5; i < StationWorkloads.Count + 5; ++i)
-            {
-                string id = "chart" + i.ToString();
+    {
+        string id = "chart" + i.ToString();
         <div class="chart-container">
             <canvas id="@id" style="width:100%; height:300px"></canvas>
         </div>
@@ -168,13 +168,14 @@
                 string name = "chart" + i.ToString();
                 string ctx = "ctx" + i.ToString();
                 string chartdata = "data" + i.ToString();
+                string num = "Station " + (i - 5).ToString() + " workload";
                 <text>
                     var @chartName = "@name";
                     var @ctx = document.getElementById(@chartName).getContext('2d');
                     var @chartdata = {
                         labels: @Html.Raw(XLabelsDuration),
                         datasets: [{
-                            label: "Station Workload",
+                            label: "@num",
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
