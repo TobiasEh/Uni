@@ -196,11 +196,11 @@ namespace UnitTests.SimulationTest
             printDetailedBookingList(executedScenario.generatedBookings, 20);
             await sim.run();
             Console.WriteLine("");
-            printDetailedBookingList(l.schedule.bookings, 20);
+            printDetailedBookingList(executedScenario.location.schedule.bookings, 20);
             printWokrload(executedScenario);
             Console.WriteLine("FullfilledRequests:");
             Console.WriteLine(executedScenario.getFulfilledRequests());
-            validateResults(l, 20);
+            validateResults((Location)executedScenario.location, 20);
         }
 
         [Test]
@@ -214,11 +214,11 @@ namespace UnitTests.SimulationTest
             printDetailedBookingList(executedScenariob.generatedBookings, 20);
             await sim.run();
             Console.WriteLine("");
-            printDetailedBookingList(l.schedule.bookings, 20);
+            printDetailedBookingList(executedScenariob.location.schedule.bookings, 20);
             printWokrload(executedScenariob);
             Console.WriteLine("FullfilledRequests:");
             Console.WriteLine(executedScenariob.getFulfilledRequests());
-            validateResults(l, 20);
+            validateResults((Location)executedScenariob.location, 20);
         }
 
         [Test]
@@ -232,11 +232,11 @@ namespace UnitTests.SimulationTest
             printDetailedBookingList(executedScenario2.generatedBookings, 50);
             await sim.run();
             Console.WriteLine("");
-            printDetailedBookingList(l2.schedule.bookings, 50);
+            printDetailedBookingList(executedScenario2.location.schedule.bookings, 50);
             printWokrload(executedScenario2);
             Console.WriteLine("FullfilledRequests:");
             Console.WriteLine(executedScenario2.getFulfilledRequests());
-            validateResults(l2, 50);
+            validateResults((Location)executedScenario2.location, 50);
         }
 
         [Test]
@@ -250,11 +250,11 @@ namespace UnitTests.SimulationTest
             printDetailedBookingList(executedScenario3.generatedBookings, 0);
             await sim.run();
             Console.WriteLine("");
-            printDetailedBookingList(l3.schedule.bookings, 0);
+            printDetailedBookingList(executedScenario3.location.schedule.bookings, 0);
             printWokrload(executedScenario3);
             Console.WriteLine("FullfilledRequests:");
             Console.WriteLine(executedScenario3.getFulfilledRequests());
-            validateResults(l3, 0);
+            validateResults((Location)executedScenario3.location, 0);
         }
 
         [Test]
@@ -268,11 +268,11 @@ namespace UnitTests.SimulationTest
             printDetailedBookingList(executedScenario3b.generatedBookings, 0);
             await sim.run();
             Console.WriteLine("");
-            printDetailedBookingList(l3.schedule.bookings, 0);
+            printDetailedBookingList(executedScenario3b.location.schedule.bookings, 0);
             printWokrload(executedScenario3b);
             Console.WriteLine("FullfilledRequests:");
             Console.WriteLine(executedScenario3b.getFulfilledRequests());
-            validateResults(l3, 0);
+            validateResults((Location)executedScenario3b.location, 0);
 
         }
 
@@ -288,7 +288,7 @@ namespace UnitTests.SimulationTest
             await sim.run();
             
             printWokrload(executedScenario4);
-            validateResults(l3, 0);
+            validateResults((Location)executedScenario4.location, 0);
 
         }
 
