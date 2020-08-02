@@ -5,6 +5,9 @@
 @model Sopro.ViewModels.BookingCreateViewModel
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 <script src="~/js/Validation.js" asp-append-version="true"></script>
 <h1 class="display-4">Buchungsanfrage anlegen</h1>
 @{ Sopro.Interfaces.AdministrationController.IBooking booking = Model.booking;}
@@ -126,8 +129,6 @@
     document.getElementById("booking_endTime").min = now;
     document.getElementById("booking_endTime").value = now;
 </script>
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+
 
 
