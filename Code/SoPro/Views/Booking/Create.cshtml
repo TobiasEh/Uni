@@ -8,7 +8,7 @@
 <script src="~/js/Validation.js" asp-append-version="true"></script>
 <h1 class="display-4">Buchungsanfrage anlegen</h1>
 @{ Sopro.Interfaces.AdministrationController.IBooking booking = Model.booking;}
-<form asp-controller="Booking" asp-action="Post" method="post">
+<form asp-controller="Booking" asp-action="Post" asp-route-id="@Model.booking.id" method="post">
     <div>
         <div class="form-group">
             <label>Firmenstandort wählen</label>

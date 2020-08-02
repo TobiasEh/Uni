@@ -8,11 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Sopro.Models.User;
 using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
-using System.IO;
 using Sopro.Models.Infrastructure;
-using Sopro.Interfaces.PersistenceController;
-using Sopro.Persistence.PersBooking;
-
 namespace Sopro.Controllers
 {
     /// <summary>
@@ -22,7 +18,6 @@ namespace Sopro.Controllers
     {
         private IMemoryCache cache;
         List<IBooking> bookings;
-        private IBookingService service = new BookingService();
 
         /// <summary>
         /// Konstruktor des Kontrollers für die Buchungen.
@@ -35,8 +30,8 @@ namespace Sopro.Controllers
 
 
         /// <summary>
-        /// Zeigt dem Benutzer eine Übersicht seiner Buchungen an. 
-        /// Sollte der Benutzer über die Rolle PLANER verfügen, wird er weitergeleitet auf die Adminsicht. 
+        /// Zeigt dem Benutzer eine Übersicht seiner Buchungen an.
+        /// Sollte der Benutzer über die Rolle PLANER verfügen, wird er weitergeleitet auf die Adminsicht.
         /// Sollte er nicht angemeldet sein, wird er auf die Startseite weitergeleitet.
         /// </summary>
         /// <returns>Eine Übersicht aller Buchungen.</returns>
@@ -129,19 +124,11 @@ namespace Sopro.Controllers
                 booking.endTime = now;
             }
 
-            // Erstellen des ViewModels für die Seite. 
+            // Erstellen des ViewModels für die Seite.
             BookingCreateViewModel viewmodel = new BookingCreateViewModel(locations, booking, booking.plugs.Contains(PlugType.CCS), booking.plugs.Contains(PlugType.TYPE2));
 
             return View("Create", viewmodel);
         }
-
-        /* Method to show all bookings in UI.
-         * Checks if cache already exists.
-         * When booking is valid it is added to 
-         * the bookinglist and the cache.
-         * Throws "exception" when booking is not valid.
-         * Returns Booking.Index view, with bookinglist.
-         */
 
         /// <summary>
         /// Testet ob die Buchung, welche mithilfe des viewmodel erstellt wurde valide ist.
@@ -152,14 +139,14 @@ namespace Sopro.Controllers
         /// <returns>Die Methode, welche das weitere Vorgehen beschreibt.</returns>
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Post(BookingCreateViewModel viewmodel)
+        public IActionResult Post(string id,BookingCreateViewModel viewmodel)
         {
             if (!ModelState.IsValid)
             {
                 return Create(viewmodel.booking);
             }
             IBooking booking = viewmodel.booking;
-
+            booking.id = id;
             // Die Liste der Standorte wird aus dem Cache geladen.
             List<ILocation> locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
             if (locations == null)
@@ -168,13 +155,14 @@ namespace Sopro.Controllers
             }
 
             // Sollte der Benutzer kein ASSISTANCE sein wird seine E-Mail als die E-Mail des Benutzers gestzt.
-            if (booking.priority != UserType.ASSISTANCE)
+
+            if (booking.priority != UserType.ASSISTANCE && !this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
             {
                 booking.user = this.HttpContext.Session.GetString("email");
             }
 
             // Filtern des richtigen Standorts aus der Liste der Standorte.
-            booking.location = locations.Find(x => x.id == viewmodel.locationId);
+            booking.location = locations.Find(x => x.id.Equals( viewmodel.locationId));
 
             // Befüllen der Liste an Stecker, welche zum Auto des Benutzers passen.
             List<PlugType> plugs = new List<PlugType>();
@@ -201,6 +189,23 @@ namespace Sopro.Controllers
                 bookings = new List<IBooking>();
             }
 
+            // Im Edit Fall wird die Buchung, welche editiert wurde entfernt.
+            foreach(Booking b in bookings)
+            {
+                bool test = b.id.Equals(booking.id);
+                if (b.id.Equals(booking.id))
+                {
+                    if (this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
+                    {
+                        booking.priority = b.priority;
+                        booking.user = b.user;
+                    }
+                    bookings.Remove(b);
+
+                    break;
+                }
+            }
+
             // Sollte der Benutzer eine Adhoc Buchung vornehmen und VIP sein, wird diese erstellt befüllt, verteilt, dem Cache hinzugefügt und es wird zur Index Methode weitergeleited.
             if (booking.startTime.Date == DateTime.Now.Date)
             {
@@ -212,8 +217,7 @@ namespace Sopro.Controllers
                 {
                     capacity = booking.capacity,
                     plugs = booking.plugs,
-                    socStart =
-                    booking.socStart,
+                    socStart = booking.socStart,
                     socEnd = booking.socEnd,
                     user = booking.user,
                     startTime = booking.startTime,
@@ -251,7 +255,7 @@ namespace Sopro.Controllers
             }
 
             // Herausfiltern der Buchung, welche die übergebene Id hat.
-            Booking booking = bookings.Find(x => x.id == bookingID) as Booking;
+            Booking booking = bookings.Find(x => x.id.Equals(bookingID)) as Booking;
 
 
             // Die Liste der Standorte wird aus dem Cache geladen.
@@ -272,65 +276,9 @@ namespace Sopro.Controllers
                 viewmodel.type2 = true;
             }
 
-            return View(viewmodel);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, BookingCreateViewModel viewmodel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("Edit",viewmodel);
-            }
-            Booking booking = viewmodel.booking;
-            booking.id = id;
-
-            // Die Liste der Standorte wird aus dem Cache geladen.
-            List<ILocation> locations = (List<ILocation>)cache.Get(CacheKeys.LOCATION);
-            if (locations == null)
-            {
-                locations = new List<ILocation>();
-            }
-            // Die Buchungen werden aus dem Cache geladen.
-            var cacheKey = CacheKeys.BOOKING;
-            if (!cache.TryGetValue(cacheKey, out bookings))
-            {
-                bookings = new List<IBooking>();
-            }
-            booking.user = bookings[bookings.FindIndex(x => x.id == viewmodel.booking.id)].user;
-            booking.priority = bookings[bookings.FindIndex(x => x.id == viewmodel.booking.id)].priority;
-
-            // Filtern des richtigen Standorts aus der Liste der Standorte.
-            booking.location = locations.Find(x => x.id == viewmodel.locationId);
-
-            // Befüllen der Liste an Stecker, welche zum Auto des Benutzers passen.
-            List<PlugType> plugs = new List<PlugType>();
-            if (viewmodel.ccs)
-            {
-                plugs.Add(PlugType.CCS);
-            }
-            if (viewmodel.type2)
-            {
-                plugs.Add(PlugType.TYPE2);
-            }
-            booking.plugs = plugs;
-
-            // Validierung der Buchung, bei Fehlschlag wird an die Create Methode weitergeleited.
-            if (!TryValidateModel(booking, nameof(booking)))
-            {
-                return RedirectToAction("Edit", "Booking", viewmodel);
-            }
-            // Hinzufügen der Buchung zum Cache.
-            bookings[bookings.FindIndex(x => x.id == booking.id)] = booking;
-            cache.Set(cacheKey, bookings);
-
-            return RedirectToAction("Index", "Booking");
+            return View("Create",viewmodel);
         }
 
-        /* Method to delete existing booking.
-         * Booking is removed from bookinglist and cache.
-         * Returns Booking.Index view, without the given booking.
-         */
         /// <summary>
         /// Methode für das Löschen einer Buchung.
         /// </summary>
@@ -346,7 +294,7 @@ namespace Sopro.Controllers
             }
 
             // Die Buchung ermittelt, entfernt und es wird weitergeleitet zur Index Methode.
-            if (bookings.RemoveAll(x => x.id == bookingID) == 1)
+            if (bookings.RemoveAll(x => x.id.Equals(bookingID)) == 1)
             {
                 cache.Set(cacheKey, bookings);
                 return RedirectToAction("index");
@@ -356,7 +304,7 @@ namespace Sopro.Controllers
         }
 
         /// <summary>
-        /// Methode für das ein Checken und aus Checken. 
+        /// Methode für das ein Checken und aus Checken.
         /// Das activ Attribut wird abgeändert sollte der Benutzer sich im Zeitraum befinden.
         /// </summary>
         /// <param name="bookingID"></param>
@@ -372,9 +320,7 @@ namespace Sopro.Controllers
 
             // Die Buchung ermittelt.
             Booking booking = null;
-            booking = bookings.Find(x => x.id == bookingID) as Booking;
-            booking.id = bookings.Find(x => x.id == bookingID).id;
-            booking.priority = bookings.Find(x => x.id == bookingID).priority;
+            booking = bookings.Find(x => x.id.Equals(bookingID)) as Booking;
 
             // Sollte die Buchung Aktiv sein, wird sie inaktiv.
             if (booking.active)
