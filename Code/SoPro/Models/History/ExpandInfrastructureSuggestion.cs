@@ -9,7 +9,10 @@
         /// <param name="zones">Emfpohlene Anzahl nötiger Zonen</param>
         public ExpandInfrastructureSuggestion(int stations, int zones) : base(stations, zones)
         {
-            suggestion = "Sie brauchen ca. " + zones + " Zonen und " + stations + " Stationen mehr.";
+            if (zones == 1)
+                suggestion = "Sie werden wahrscheinlich eine neue Zone benötigen. Insgesamt brauchen sie ca. " + stations + " Stationen mehr.";
+            else
+                suggestion = "Insgesamt brauchen sie ca. " + stations + " Stationen mehr.";
         }
     }
 }
