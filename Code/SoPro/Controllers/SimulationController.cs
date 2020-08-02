@@ -15,6 +15,7 @@ using Sopro.ViewModels.TestViewModels;
 using Sopro.Models.History;
 using Sopro.Interfaces.HistorySimulation;
 using System.Threading.Tasks;
+using Sopro.Interfaces.ControllerHistory;
 
 namespace Sopro.Controllers
 {
@@ -649,9 +650,17 @@ namespace Sopro.Controllers
                     Console.WriteLine("Location Workload per step:\t" + sim.exScenario.getLocationWorkload().Count.ToString());
                     Console.WriteLine(sim.exScenario.location.schedule.bookings.Count.ToString());
                     eva = Analyzer.analyze(sim.exScenario);
+                    break;
                 }  
             }
+            List<IEvaluation> evaluations;
+            if(!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            {
+                evaluations = new List<IEvaluation>();
+            }
 
+            evaluations.Add(eva);
+            cache.Set(CacheKeys.EVALUATION, evaluations);
             return View("Evaluation", new EvaluationViewModel(eva));
             /*
             Random rnd = new Random();

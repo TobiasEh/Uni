@@ -9,6 +9,5 @@ namespace Sopro.Interfaces.PersistenceController
     {
         public List<EvaluationExportImportViewModel> import(IFormFile file);
         public FileContentResult export(List<EvaluationExportImportViewModel> list);
-
     }
 }
