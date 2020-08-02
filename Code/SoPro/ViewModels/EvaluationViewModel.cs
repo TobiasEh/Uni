@@ -33,7 +33,25 @@ namespace Sopro.ViewModels
             plugDistributionDeclined = evaluation.plugDistributionDeclined;
             scenario = evaluation.scenario;
             locationWorkload = evaluation.scenario.getLocationWorkload();
-            stationWorkload = evaluation.scenario.getStationWorkload();
+            stationWorkload = transformStationWorkload(evaluation.scenario.getStationWorkload());
+        }
+
+        private List<List<double>> transformStationWorkload(List<List<double>> stationWorkload)
+        {
+            List<List<double>> transformedWorkload = new List<List<double>>();
+            int steps = stationWorkload.Count;
+            int stations = stationWorkload[0].Count;
+
+            for (int i = 0; i < stations; ++i)
+            {
+                List<double> workload = new List<double>();
+                foreach (List<double> d in stationWorkload)
+                {
+                    workload.Add(d[i] * 100);
+                }
+                transformedWorkload.Add(workload);
+            }
+            return transformedWorkload;
         }
     }
 }
