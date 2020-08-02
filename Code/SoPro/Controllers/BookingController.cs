@@ -319,13 +319,16 @@ namespace Sopro.Controllers
             booking = bookings.Find(x => x.id.Equals(bookingID)) as Booking;
 
             // Sollte die Buchung Aktiv sein, wird sie inaktiv.
+            bool test = booking.active;
+            test = booking.startTime <= DateTime.Now;
+            test = booking.endTime >= DateTime.Now;
             if (booking.active)
             {
                 booking.active = false;
                 return RedirectToAction("Index");
             }
             // Sollte die Buchung inaktiv sein und die aktuelle Zeit im Ladezeitraum liegen, wird diese aktiviert.
-            else if (booking.startTime >= DateTime.Now && booking.endTime <= DateTime.Now)
+            else if (booking.startTime <= DateTime.Now && booking.endTime >= DateTime.Now)
             {
                 booking.active = true;
                 return RedirectToAction("Index");

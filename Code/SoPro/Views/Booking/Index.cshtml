@@ -42,16 +42,19 @@
                     <div>
                         @if (booking.active)
                         {
-                            <button class="w-100 btn btn-primary btn-mhp mb-3" asp-action="ToggleCheck" asp-controller="Booking" asp-route-bookingID="@booking.id">Check-Out</button>
+                            <form methode="post" asp-controller="Booking" asp-action="ToggleCheck" asp-route-bookingID="@booking.id" >
+                                <button class="w-100 btn btn-primary btn-mhp mb-3" type="submit" >Check-Out</button>
+                            </form>
                         }
                         else
                         {
-                            <button class="w-100 btn btn-primary btn-mhp mb-3" asp-action="ToggleCheck" asp-controller="Booking" asp-route-bookingID="@booking.id">Check-In</button>
+                            <form methode="post" asp-controller="Booking" asp-action="ToggleCheck" asp-route-bookingID="@booking.id">
+                                <button class="w-100 btn btn-primary btn-mhp mb-3" type="submit" >Check-In</button>
+                            </form>
                         }
                     </div>
                 </div>
             }
-            <! für max 4 Buchungen danach neues div>
         </div>
     }
 </div>
