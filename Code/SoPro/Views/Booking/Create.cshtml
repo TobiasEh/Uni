@@ -126,5 +126,8 @@
     document.getElementById("booking_endTime").min = now;
     document.getElementById("booking_endTime").value = now;
 </script>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 
 

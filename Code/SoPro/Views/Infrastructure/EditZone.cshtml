@@ -4,6 +4,9 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.EditZoneViewModel
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 <h1 class="display-4 pb-5 pt-5">Zone @Model.zone.site</h1>
 <div class="form-row">
 
@@ -124,13 +127,13 @@
                                     </div>
                                     <div class="flex-column ml-4">
                                         @{if (s.manufacturer == null)
-                                          {
+                                            {
                                                 <div>Kein Hersteller</div>
-                                          }
-                                          else
-                                          {
+                                            }
+                                            else
+                                            {
                                                 <div>@s.manufacturer</div>
-                                          }
+                                            }
                                         }
                                         <div>@ccs</div>
                                         <div class="mb-3">@type2</div>

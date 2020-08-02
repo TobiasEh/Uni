@@ -4,6 +4,9 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.BookingCreateViewModel
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 @using Microsoft.AspNetCore.Http
 
 <h1 class="display-4">Buchungsanfrage anlegen</h1>

@@ -4,6 +4,9 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.VehicleViewModel
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 
 <h1 class="display-4 pt-5">Fahrzeuge</h1>
 @{
@@ -159,42 +162,42 @@
 
     </div>
 </form>
-    <div class="d-flex mt-3">
-        <div class="ml-auto">
-            <form asp-controller="Vehicle" asp-action="Import" method="post" class="form-horizontal" enctype="multipart/form-data">
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" name="importedFile" accept=".json" />
-                    </div>
-                    <div class="input-group-prepend">
-                        <button type="submit" class="btn btn-primary btn-mhp">Import</button>
-                    </div>
+<div class="d-flex mt-3">
+    <div class="ml-auto">
+        <form asp-controller="Vehicle" asp-action="Import" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" name="importedFile" accept=".json" />
                 </div>
-            </form>
-        </div>
+                <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-primary btn-mhp">Import</button>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
 
-    @if (Model.vehicles.Any())
-    {
-        <div class="ml-2">
-            <form asp-controller="Vehicle" asp-action="Export" method="get" class="form-horizontal">
-                <input class="btn btn-primary btn-mhp" value="Export" type="submit" />
-            </form>
-        </div>
+@if (Model.vehicles.Any())
+{
+    <div class="ml-2">
+        <form asp-controller="Vehicle" asp-action="Export" method="get" class="form-horizontal">
+            <input class="btn btn-primary btn-mhp" value="Export" type="submit" />
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
+    </div>
+}
+
+
+<script type="text/javascript">
+    function socMin(e) {
+        document.getElementById("vehicle_socEnd").min = e.target.value;
+        document.getElementById("vehicle_socEnd").value = e.target.value;
     }
-    else
-    {
-        <div>
-            <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
-        </div>
-    }
-
-
-    <script type="text/javascript">
-        function socMin(e) {
-            document.getElementById("vehicle_socEnd").min = e.target.value;
-            document.getElementById("vehicle_socEnd").value = e.target.value;
-        }
-    </script>
+</script>
 
 
