@@ -107,7 +107,6 @@ namespace Sopro.Models.Simulation
                     }
                     
                     double location = calculateLocationWorkload(locationMaxAccumulatedPower);
-                    Console.WriteLine(location.ToString());
                     List<double> station = calculateStationWorkload(stationCount);
                     
                     if (!exScenario.updateWorkload(location, station))
