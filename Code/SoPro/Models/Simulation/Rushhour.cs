@@ -13,7 +13,7 @@ namespace Sopro.Models.Simulation
     {
         public DateTime start { get; set; }
 
-        [BookingEndTimeValidation]
+        [BookingEndTimeValidation("start")]
         public DateTime end { get; set; }
 
         [Range(0,int.MaxValue)]

@@ -14,15 +14,15 @@ namespace Sopro.Models.Administration
         public string id { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue,ErrorMessage ="Positive Ganze Zahl eingeben.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Positive Ganze Zahl eingeben.")]
         public int capacity { get; set; }
 
         [Required]
         [BookingPlugsValidation(ErrorMessage = "Mindestens 1 Plug ist nötig.")]
-        public List<PlugType> plugs { get; set; } = new List<PlugType>() { PlugType.CCS};
+        public List<PlugType> plugs { get; set; } = new List<PlugType>() { PlugType.CCS };
 
         [Required]
-        [Range(0, 100,ErrorMessage ="Start SoC zwischen 0 und 100%.")]
+        [Range(0, 100, ErrorMessage = "Start SoC zwischen 0 und 100%.")]
         public int socStart { get; set; }
 
         [Required]
@@ -32,12 +32,12 @@ namespace Sopro.Models.Administration
         [Required]
         public string user { get; set; } = "examplemail.com";
 
+        [BookingStartTimeValidation(ErrorMessage = "Startzeit darf nicht in Vergangenheit liegen.")]
         [Required]
-        [BookingStartTimeValidation(ErrorMessage ="Startzeit darf nicht in Vergangenheit liegen.")]
         public DateTime startTime { get; set; }
 
+        [BookingEndTimeValidation("startTime",ErrorMessage = "Endzeit darf nicht in vor Startzeit sein.")]
         [Required]
-        [BookingEndTimeValidation(ErrorMessage = "Endzeit darf nicht in vor Startzeit sein.")]
         public DateTime endTime { get; set; }
 
         public Station station { get; set; }

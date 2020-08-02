@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace Sopro.ValidationAttributes
 {
@@ -24,6 +27,13 @@ namespace Sopro.ValidationAttributes
             {
                 return false;
             }     
+        }
+        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        {
+            ModelClientValidationRule rule = new ModelClientValidationRule();
+            rule.ErrorMessage = FormatErrorMessage(metadata.GetDisplayName());
+            rule.ValidationType = "BookingStartTimeValidation";
+            yield return rule;
         }
     }
 }
