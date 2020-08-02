@@ -12,12 +12,12 @@ namespace Sopro.Models.Infrastructure
     /// </summary>
     public class Station
     {
-        [EnumLength(1, typeof(PlugType), ErrorMessage = "Mindestens 1 Plug!")]
+        [EnumLength(1, typeof(PlugType), ErrorMessage = "Mindestens ein Plug muss ausgewählt werden.")]
         public List<Plug> plugs { get; set; } = new List<Plug>() { new Plug() { power = 0, type = PlugType.CCS} };
         public string manufacturer { get; set; }
-        [Range(0, int.MaxValue, ErrorMessage = "Positive Ganze Zahl eingeben!")]
+        [Range(0, int.MaxValue, ErrorMessage = "Positive Ganzezahl eingeben.")]
         public int maxPower { get; set; }
-        [Range(1, int.MaxValue,ErrorMessage ="Es sollte zummindest 1 Stecker nutzbar sein")]
+        [Range(1, int.MaxValue,ErrorMessage ="Es sollte mindest ein Stecker nutzbar sein.")]
         public int maxParallelUseable { get; set; }
         public int id { get; set; }
 

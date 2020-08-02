@@ -10,11 +10,11 @@ namespace Sopro.ViewModels
     {
         public List<ILocation> locations { get; set; } = new List<ILocation>();
         public Booking booking { get; set; }
-        [AtleastOnePlug("ccs", "type2", ErrorMessage = "Mindestens 1 Plug!")]
+        [AtleastOnePlug("ccs", "type2", ErrorMessage = "Es muss mindestens ein Plug gewählt sein.")]
         public bool ccs { get; set; } = false;
-        [AtleastOnePlug("ccs", "type2", ErrorMessage = "Mindestens 1 Plug!")]
+        [AtleastOnePlug("ccs", "type2", ErrorMessage = "Es muss mindestens ein Plug gewählt sein.")]
         public bool type2 { get; set; } = false;
-        [Required(ErrorMessage = "Location angeben!")]
+        [Required(ErrorMessage = "Der Standort muss gesetzt sein.")]
         public string locationId { get; set; }
 
         public BookingCreateViewModel(List<ILocation> _locations, Booking _booking, bool _ccs, bool _type2)
