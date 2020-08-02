@@ -39,7 +39,7 @@ namespace Sopro.Models.Simulation
                 vehicles = scenario.vehicles;
                 rushhours = scenario.rushhours;
                 start = scenario.start;
-                location = scenario.location;
+                location = scenario.location.deepCopy();
             }
             generatedBookings = Generator.generateBookings(this);
         }

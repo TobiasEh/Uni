@@ -529,13 +529,13 @@ namespace Sopro.Controllers
             {
                 scenarios = new List<IScenario>();
             }
-
+            
             scenarios.Add(scenario);
 
             cache.Set(CacheKeys.SCENARIO, scenarios);
             if (!TryValidateModel(scenario))
             {
-                return RedirectToAction("Edit", scenario.id);
+                return RedirectToAction("Edit", "Simulation", scenario.id);
             }
 
             return View("Index", scenarios);
