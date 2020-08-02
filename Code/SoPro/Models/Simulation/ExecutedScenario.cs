@@ -12,9 +12,9 @@ namespace Sopro.Models.Simulation
     /// </summary>
     public class ExecutedScenario : Scenario, IRunnable, IEvaluatable
     {
-        private List<double> locationWorkload { get; set; }
-        private List<List<double>> stationWorkload { get; set; }
-        public int fulfilledRequests { private get; set; } = 0;
+        public List<double> locationWorkload { get; set; }
+        public List<List<double>> stationWorkload { get; set; }
+        public int fulfilledRequests { get; set; } = 0;
         public List<Booking> bookings { get; set; }
         public readonly List<Booking> generatedBookings;
 
@@ -42,6 +42,14 @@ namespace Sopro.Models.Simulation
                 location = scenario.location.deepCopy();
             }
             generatedBookings = Generator.generateBookings(this);
+        }
+
+        public ExecutedScenario(List<Booking> _generatedBookings)
+        {
+            generatedBookings = _generatedBookings;
+            bookings = new List<Booking>();
+            stationWorkload = new List<List<double>>();
+            locationWorkload = new List<double>();
         }
 
         /// <summary>
