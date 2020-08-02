@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
-using Sopro.Interfaces.ControllerHistory;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Sopro.ViewModels;
 
 namespace Sopro.Interfaces.PersistenceController
 {
     public interface IEvaluationService
     {
-        public List<IEvaluation> import(string path);
-        public void export(List<IEvaluation> list, string path);
+        public List<EvaluationExportImportViewModel> import(IFormFile file);
+        public FileContentResult export(List<EvaluationExportImportViewModel> list);
+
     }
 }

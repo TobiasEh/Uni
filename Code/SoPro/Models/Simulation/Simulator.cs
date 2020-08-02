@@ -69,7 +69,7 @@ namespace Sopro.Models.Simulation
             if ((toBeDistributed != null) && (toBeDistributed.Count > 0))
             {
                 if (!exScenario.location.distributor.run(start, toBeDistributed))
-                    return false;
+                    return false;  
             }
             return true;
         }
@@ -95,21 +95,21 @@ namespace Sopro.Models.Simulation
                 //exScenario.updateWorkload(calculateLocationWorkload(), calculateStationWorkload());
 
                 ++tickCount;
-
                 while (tickCount < exScenario.duration)
                 {
                     if (pendingBookings.Count() > 0)
                     {
                         if (!triggerBookingDistribution())
-                            return false;
+                            return false;     
                     }
                     
                     double location = calculateLocationWorkload(locationMaxAccumulatedPower);
-
+                    Console.WriteLine(location.ToString());
                     List<double> station = calculateStationWorkload(stationCount);
                     
                     if (!exScenario.updateWorkload(location, station))
                         return false;
+                        
                     ++tickCount;
                 }
 

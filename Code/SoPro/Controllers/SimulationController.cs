@@ -9,9 +9,12 @@ using Sopro.Models.Simulation;
 using Sopro.Interfaces;
 using Sopro.ViewModels;
 using Sopro.Interfaces.PersistenceController;
-using Sopro.Persistence.PersScenario;
-using System.Threading.Tasks;
 using Sopro.Models.Infrastructure;
+using Sopro.Persistence.PersScenario;
+using Sopro.ViewModels.TestViewModels;
+using Sopro.Models.History;
+using Sopro.Interfaces.HistorySimulation;
+using System.Threading.Tasks;
 
 namespace Sopro.Controllers
 {
@@ -20,6 +23,7 @@ namespace Sopro.Controllers
         private IMemoryCache cache;
         private IScenarioService service = new ScenarioService();
         private List<IScenario> scenarios;
+        private List<IEvaluatable> evaluations;
 
         public SimulationController(IMemoryCache _cache)
         {
@@ -68,7 +72,7 @@ namespace Sopro.Controllers
                         int count = 0;
                         foreach(Vehicle v in s.vehicles)
                         {
-                            if(v == vehicles[i])
+                            if(v.id.Equals(vehicles[i].id))
                             {
                                 count++;
                             }
@@ -78,6 +82,7 @@ namespace Sopro.Controllers
                     viewmodel.locations = locations;
                     viewmodel.scenario = s;
                     viewmodel.id = viewmodel.scenario.id;
+                    viewmodel.countRushhours = s.rushhours.Count;
 
                     cache.Set("ScenarioEdit", viewmodel.scenario);
 
@@ -131,6 +136,7 @@ namespace Sopro.Controllers
             viewmodel.locations = locations;
             viewmodel.scenario = new Scenario();
             viewmodel.id = viewmodel.scenario.id;
+            viewmodel.scenario.start = DateTime.Now;
 
             cache.Set("ScenarioEdit", viewmodel.scenario);
 
@@ -176,7 +182,8 @@ namespace Sopro.Controllers
                     }
                 }
             }
-            
+
+            scenario.vehicles = new List<Vehicle>();
             for (int i = 0; i < vehicles.Count; i++)
             {
                 for (int j = 0; j < viewmodel.countVehicles[i]; j++)
@@ -184,12 +191,7 @@ namespace Sopro.Controllers
                     scenario.vehicles.Add((Vehicle)vehicles[i]);
                 }
             }
-
-            if(viewmodel.countRushhours == 0)
-            {
-                return View("EditLocationScenario", scenario.location);
-            }
-
+            
             while (scenario.rushhours.Count > viewmodel.countRushhours)
             {
                 scenario.rushhours.RemoveAt(scenario.rushhours.Count - 1);
@@ -199,19 +201,47 @@ namespace Sopro.Controllers
             {
                 scenario.rushhours.Add(new Rushhour());
             }
+            
+            if (scenario.vehicles.Count == 0)
+            {
+                if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+                {
+                    scenarios = new List<IScenario>();
+                }
 
+                scenarios.Add(scenario);
 
-            return View(scenario);
+                cache.Set(CacheKeys.SCENARIO, scenarios);
+
+                return RedirectToAction("Edit", "Simulation", new { id = scenario.id });
+            }
+
+            if(viewmodel.countRushhours == 0)
+            {
+                return View("EditLocationScenario", scenario.location);
+            }
+
+            return View(new EditRushourViewModel(scenario));
         }
 
-        public IActionResult EditLocationScenario(Scenario s)
+        public IActionResult EditLocationScenario(EditRushourViewModel viewmodel)
         {
             Scenario scenario = null;
             if (!cache.TryGetValue("ScenarioEdit", out scenario))
             {
                 scenario = new Scenario();
             }
-            scenario.rushhours = s.rushhours;
+
+            scenario.rushhours = new List<Rushhour>();
+
+            for(int i = 0; i < viewmodel.startTimes.Count; i++)
+            {
+                Rushhour r = new Rushhour() { start = viewmodel.startTimes[i], spread = viewmodel.spreads[i]};
+                r.end = new DateTime(r.start.Year, r.start.Month, r.start.Day, viewmodel.endTimes[i].Hour, viewmodel.endTimes[i].Minute, 0);
+                scenario.rushhours.Add(r);
+            }
+            
+
             return View(scenario.location);
         }
 
@@ -499,13 +529,13 @@ namespace Sopro.Controllers
             {
                 scenarios = new List<IScenario>();
             }
-
+            
             scenarios.Add(scenario);
 
             cache.Set(CacheKeys.SCENARIO, scenarios);
             if (!TryValidateModel(scenario))
             {
-                return RedirectToAction("Edit", scenario.id);
+                return RedirectToAction("Edit", "Simulation", scenario.id);
             }
 
             return View("Index", scenarios);
@@ -516,55 +546,81 @@ namespace Sopro.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)
         {
+            
             IFormFile file = model.importedFile;
-            string path = Path.GetFullPath(file.Name);
-            List<IScenario> importedScenarios = service.import(path);
+            if (file == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<ScenarioExportImportViewModel> importedScenarios = service.import(file);
 
             if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
-                scenarios = importedScenarios;
-                cache.Set(scenarios, CacheKeys.SCENARIO);
-                return View("Index", scenarios);
+                scenarios = new List<IScenario>();
             }
 
-            List<ILocation> locations;
-            if (!cache.TryGetValue(CacheKeys.LOCATION, out locations))
-            {
-                locations = new List<ILocation>();
-            }
 
-            List<Vehicle> vehicles;
+            List<IVehicle> vehicles;
             if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
             {
-                vehicles = new List<Vehicle>();
+                vehicles = new List<IVehicle>();
             }
 
-            foreach (IScenario sce in importedScenarios)
+            foreach (ScenarioExportImportViewModel s in importedScenarios)
             {
-                if (!scenarios.Contains(sce))
+                IScenario sce = s.generateScenario();
+                if (!TryValidateModel(sce))
+                {
+                    continue;
+                }
+                bool contains = false;
+                foreach (IScenario scenario in scenarios)
+                {
+                    if (scenario.id.Equals(sce.id))
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains)
                 {
                     scenarios.Add(sce);
-
-                    if (!locations.Contains(sce.location))
+                    foreach(Vehicle  v in sce.vehicles)
                     {
-                        locations.Add(sce.location);
+                        contains = false;
+                        foreach(IVehicle vehicle in vehicles)
+                        {
+                            if (v.id.Equals(vehicle.id))
+                            {
+                                contains = true;
+                                break;
+                            }
+                        }
+                        if (!contains)
+                        {
+                            vehicles.Add(v);
+                        }
                     }
-                    sce.vehicles.ForEach(e => { if (!vehicles.Contains(e)) { vehicles.Add(e); }; });
                 }
             }
 
-            cache.Set(CacheKeys.LOCATION, locations);
             cache.Set(CacheKeys.VEHICLE, vehicles);
             cache.Set(CacheKeys.SCENARIO, scenarios);
             return View("Index", scenarios);
         }
-
+        
         [HttpGet]
         public IActionResult Export([FromForm] FileViewModel model)
         {
             cache.TryGetValue(CacheKeys.SCENARIO, out scenarios);
 
-            return View("Index", scenarios);
+            List<ScenarioExportImportViewModel> scenariolist = new List<ScenarioExportImportViewModel>();
+            foreach (IScenario s in scenarios)
+            {
+                scenariolist.Add(new ScenarioExportImportViewModel(s));
+            }
+
+            return service.export(scenariolist);
         }
 
         public IActionResult History()
@@ -572,9 +628,49 @@ namespace Sopro.Controllers
             return View(); 
         }
 
-        public IActionResult Evaluation()
+        public async Task<IActionResult> Evaluation(string id)
         {
-            return View();
+            Evaluation eva = null;
+            Simulator sim = new Simulator();
+
+            if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
+            {
+                scenarios = new List<IScenario>();
+            }
+
+            foreach (Scenario scenario in scenarios)
+            {
+                if (scenario.id.Equals(id))
+                {
+                    sim.exScenario = new ExecutedScenario(scenario);
+                    Console.WriteLine("Generierte Buchungen: " + sim.exScenario.generatedBookings.Count.ToString());
+                    Console.WriteLine("SimulationController.cs, line 638");
+                    await sim.run();
+                    Console.WriteLine("Location Workload per step:\t" + sim.exScenario.getLocationWorkload().Count.ToString());
+                    Console.WriteLine(sim.exScenario.location.schedule.bookings.Count.ToString());
+                    eva = Analyzer.analyze(sim.exScenario);
+                }  
+            }
+
+            return View("Evaluation", new EvaluationViewModel(eva));
+            /*
+            Random rnd = new Random();
+
+            var lstModel = new List<DataViewModel>();
+            lstModel.Add(new DataViewModel
+            {
+                DimensionOne = "Type-2",
+                Quantity = rnd.Next(10)
+            });
+            lstModel.Add(new DataViewModel
+            {
+                DimensionOne = "CCS",
+                Quantity = rnd.Next(10)
+            });
+
+            return View("Evaluation", lstModel);
+            */
+            // return View();
         }
     }
 }

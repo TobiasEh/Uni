@@ -3,36 +3,76 @@
     ViewData["Title"] = "EditRushours";
     Layout = "_AdminLayout";
 }
-@model Sopro.Models.Simulation.Scenario
+@model Sopro.ViewModels.EditRushourViewModel
 <h1>Details der Stoßzeiten</h1>
 
 
 <div>
     <form asp-action="EditLocationScenario" asp-controller="Simulation">
-        @{ int i = 0;}
+        @{ int i = 0; }
         @foreach (Sopro.Models.Simulation.Rushhour r in Model.rushhours)
-                {
-                    i++;
+        {
+            i++;
+            string starttime = string.Concat("starttime", i.ToString());
+            string endtime = string.Concat("endtime", i.ToString());
+            
             <div class="flex-column mb-3">
                 <div>Stoßzeit @i</div>
 
                 <div class="form-group mb-2 ml-5">
                     <div>Start Zeitpunkt</div>
-                    <input type="datetime-local" class="form-control" asp-for="@r.start" />
+                    <input type="datetime-local" class="form-control" asp-for="@Model.startTimes[i-1]" onchange="timeMinStart(event ,@i )" id="@starttime" max="@Model.max"/>
                     <small></small>
                 </div>
                 <div class="form-group mb-2 ml-5">
                     <div>Ende</div>
-                    <input type="time" class="form-control" asp-for="@r.end" />
+                    <input type="time" class="form-control" asp-for="@Model.endTimes[i-1]" onchange="timeMinEnd(event ,@i )" id="@endtime" min="06:00"/>
                     <small></small>
                 </div>
                 <div class="form-group mb-2 ml-5">
                     <div>Verteilung</div>
-                    <input type="number" class="form-control" asp-for="@r.spread" step="0.001" />
+                    <input type="number" class="form-control" asp-for="@Model.spreads[i-1]" step="0.001" />
                     <small></small>
                 </div>
             </div>
+            
         }
         <button type="submit" class="btn btn-primary btn-mhp">Weiter</button>
     </form>
 </div>
+
+<script type="text/javascript">
+    function timeMinStart(e, i) {
+        for (var j = i; j <= @Model.rushhours.Count; j++) {
+            document.getElementById("starttime"+ j).min = e.target.value;
+            document.getElementById("starttime" + j).value = e.target.value;
+            var date = e.target.value;
+            document.getElementById("endtime" + j).min = toHHMM(date);
+            document.getElementById("endtime" + j).value = toHHMM(date);
+        }
+
+    }
+    function timeMinEnd(e, i) {
+        var date = document.getElementById("starttime" + i).value;
+        
+            var starttime = calcStartTime(date, e.target.value)
+        for (var j = i + 1; j <= @Model.rushhours.Count; j++) {
+            document.getElementById("starttime"+j).min = starttime;
+            document.getElementById("starttime"+j).value = starttime;
+            document.getElementById("endtime"+j).min = e.target.value;
+            document.getElementById("endtime"+j).value = e.target.value;
+        }
+
+    }
+
+    function toHHMM(date) {
+        var dateSplit = date.split("T");
+    return dateSplit[1];
+    }
+
+    function calcStartTime(date, value) {
+        var dateSplit = date.split("T");
+        var result = dateSplit[0] +"T" +value;
+    return result;
+    }
+</script>
