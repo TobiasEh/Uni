@@ -41,13 +41,17 @@
     <p class="lead text-dark">Davon wurden @Model.scenario.location.schedule.bookings.Count Anfragen akzeptiert.</p>
     @if (Model.suggestions[0].GetType().Name.Equals("CondenseInfrastructureSuggestion"))
     {
-        <img src="~/bootstrap-icons/caret-down-square-fill.svg" class="filter-red"/>
+        <div class="bg-warning rounded">
+            <p class="lead text-dark p-2">@Model.suggestions[0].suggestion</p>
+        </div> 
     }
-    else
+    else if(Model.suggestions[0].GetType().Name.Equals("ExpandInfrastructureSuggestion"))
     {
-        <img src="~/bootstrap-icons/caret-up-square-fill.svg"/>
+        <div class="bg-warning rounded">
+            <p class="lead text-dark">@Model.suggestions[0].suggestion</p>
+        </div>
     }
-    <p class="lead text-dark">@Model.suggestions[0].suggestion</p>
+    
 </div>
 
 <!-- Übersicht (Kreisdiagramme) -->
