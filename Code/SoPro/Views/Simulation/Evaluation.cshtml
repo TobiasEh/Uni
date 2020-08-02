@@ -12,7 +12,7 @@
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());
     */
-    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string>{ "CCS", "Type 2" }).ToList());
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "CCS", "Type 2" }).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.plugDistributionAccepted.ToList());
 
     var XLabels2 = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "CCS", "Type 2" }).ToList());
@@ -25,12 +25,25 @@
     var YValues4 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.locationWorkload.ConvertAll(Convert.ToInt32).ToList());
 
     var XLabels5 = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().ToList().Count));
-    var YValues5 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.stationWorkload.ToList());
+    List<string> YValues5 = new List<string>();
+    foreach (List<double> d in Model.stationWorkload)
+    {
+        YValues5.Add(Newtonsoft.Json.JsonConvert.SerializeObject(d.ToList()));
+    }
 
     ViewData["Title"] = "Pie Chart";
 }
 
 <h1 class="display-4 mb-5 pt-5">Auswertung</h1>
+
+<div class="box-body d-flex justify-content-center">
+    <div class="chart-container">
+        <canvas id="chart4" style="width:100%; height:300px"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="chart5" style="width:100%; height:300px"></canvas>
+    </div>
+</div>
 
 <div class="box-body d-flex justify-content-center flex-wrap">
 
@@ -44,13 +57,6 @@
         <canvas id="chart3" style="width:100%; height:300px"></canvas>
     </div>
 </div>
-
-<div class="box-body d-flex justify-content-center">
-    <div class="chart-container">
-        <canvas id="chart4" style="width:100%; height:300px"></canvas>
-    </div>
-</div>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -155,6 +161,52 @@
                     }]
             };
 
+            var chartName5 = "chart5";
+            var ctx5 = document.getElementById(chartName5).getContext('2d');
+            datax = [];
+            @{ 
+                foreach(string s in YValues5)
+                {
+                    @:datax.push(@Html.Raw(s))
+                }
+            }
+            var data5 = {
+                labels: @Html.Raw(XLabels5),
+                datasets: [{
+                    label: "Location Workload",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: datax,
+                    }]
+            };
+
             var options =
             {
                 maintainAspectRatio: false,
@@ -238,6 +290,31 @@
                 }
             };
 
+            var options5 = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
             var myChart = new Chart(ctx, {
                 options: options,
                 data: data,
@@ -259,6 +336,12 @@
             var myChart4 = new Chart(ctx4, {
                 options: options4,
                 data: data4,
+                type: 'line'
+            });
+
+            var myChart5 = new Chart(ctx5, {
+                options: options5,
+                data: data5,
                 type: 'line'
             });
         });
