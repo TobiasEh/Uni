@@ -13,11 +13,8 @@ namespace Sopro.Models.Simulation
     {
         public DateTime start { get; set; }
 
-        [BookingEndTimeValidation("start")]
+        //[BookingEndTimeValidation]
         public DateTime end { get; set; }
-
-        [Range(0,int.MaxValue)]
-        public int bookings { get; set; }
 
         public IFunctionStrategy strategy { get; set; } = new NormalDistribution();
 

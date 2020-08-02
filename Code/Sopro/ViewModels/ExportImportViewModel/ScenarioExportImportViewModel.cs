@@ -2,6 +2,7 @@
 using Sopro.Interfaces.ControllerSimulation;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
+using Sopro.ViewModels.ExportImportViewModel;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace Sopro.ViewModels
         public int duration { get; set; }
         public int bookingCountPerDay { get; set; }
         public List<Vehicle> vehicles { get; set; }
-        public List<Rushhour> rushhours { get; set; }
+        public List<RushhourExportImportViewModel> rushhours { get; set; } = new List<RushhourExportImportViewModel>();
         public DateTime start { get; set; }
         public LocationExportImportViewModel location { get; set; }
 
@@ -25,9 +26,13 @@ namespace Sopro.ViewModels
             duration = s.duration;
             bookingCountPerDay = s.bookingCountPerDay;
             vehicles = s.vehicles;
-            rushhours = s.rushhours;
+            foreach(Rushhour r in s.rushhours)
+            {
+                rushhours.Add(new RushhourExportImportViewModel(r));
+            }
             start = s.start;
             location = new LocationExportImportViewModel(s.location);
+            
         }
 
         public IScenario generateScenario()
@@ -37,7 +42,11 @@ namespace Sopro.ViewModels
             s.duration = duration;
             s.bookingCountPerDay = bookingCountPerDay;
             s.vehicles = vehicles;
-            s.rushhours = rushhours;
+            s.rushhours = new List<Rushhour>();
+            foreach(RushhourExportImportViewModel r in rushhours)
+            {
+                s.rushhours.Add(r.generateRushhour());
+            }
             s.start = start;
             s.location = location.generateLocation();
 

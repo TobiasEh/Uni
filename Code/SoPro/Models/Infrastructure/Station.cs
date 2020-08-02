@@ -60,7 +60,7 @@ namespace Sopro.Models.Infrastructure
             copy.maxPower = maxPower;
             copy.maxParallelUseable = maxParallelUseable;
             copy.id = id;
-
+            copy.plugs = new List<Plug>();
             foreach(Plug p in plugs)
             {
                 copy.plugs.Add(p.deepCopy());

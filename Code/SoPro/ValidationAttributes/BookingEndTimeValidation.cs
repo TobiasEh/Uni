@@ -7,12 +7,8 @@ namespace Sopro.ValidationAttributes
 {
     public class BookingEndTimeValidation : ValidationAttribute
     {
-        private string startTime;
+        private DateTime startTime;
         private DateTime endTime;
-        public BookingEndTimeValidation(string _startTime)
-        {
-            startTime = _startTime;
-        }
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endzeitpunkt als Startzeitpunkt bei der Eingabe gewählt hat.
         /// </summary>
@@ -23,9 +19,10 @@ namespace Sopro.ValidationAttributes
         /// </returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var property = validationContext.ObjectType.GetProperty(startTime);
+            var property = validationContext.ObjectType.GetProperty("startTime");
+            startTime = Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null));
             endTime = Convert.ToDateTime(value);
-            if (endTime > Convert.ToDateTime(property.GetValue(validationContext.ObjectInstance, null)))
+            if (endTime > startTime && endTime.Date == startTime.Date)
                 return ValidationResult.Success;
             else
                 return new ValidationResult("ErrorEndTime", new List<string>() { "endTime" });
