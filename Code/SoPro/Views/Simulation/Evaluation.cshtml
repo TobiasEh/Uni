@@ -5,8 +5,8 @@
 }
 
 @using System.Linq;
-@using Sopro.Models.History
-@model Evaluation
+@using Sopro.ViewModels
+@model EvaluationViewModel
 @{
     /*
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
@@ -21,15 +21,18 @@
     var XLabels3 = Newtonsoft.Json.JsonConvert.SerializeObject((new List<string> { "Akzeptiert", "Abgelehnt" }).ToList());
     var YValues3 = Newtonsoft.Json.JsonConvert.SerializeObject(new List<double> { Model.bookingSuccessRate, 1 - Model.bookingSuccessRate });
 
-    var XLabels4 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.scenario.getLocationWorkload().ConvertAll(x => (int)x).ToList());
-    var YValues4 = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().Count));
+    var XLabels4 = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().ToList().Count));
+    var YValues4 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.locationWorkload.ConvertAll(Convert.ToInt32).ToList());
+
+    var XLabels5 = Newtonsoft.Json.JsonConvert.SerializeObject(Enumerable.Range(0, Model.scenario.getLocationWorkload().ToList().Count));
+    var YValues5 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.stationWorkload.ToList());
 
     ViewData["Title"] = "Pie Chart";
 }
 
 <h1 class="display-4 mb-5 pt-5">Auswertung</h1>
 
-<div class="box-body d-flex justify-content-center">
+<div class="box-body d-flex justify-content-center flex-wrap">
 
     <div class="chart-container">
         <canvas id="chart" style="width:100%; height:300px"></canvas>
@@ -63,11 +66,11 @@
             datasets: [{
                 label: "Plug distribution [Accepted Plugs]",
                 backgroundColor: [
-                    'rgba(237, 93, 146, 0.2)',
+                    'rgba(89, 181, 228, 0.2)',
                     'rgba(254, 191, 45, 0.2)'
                 ],
                 borderColor: [
-                    'rgba(237, 93, 146,1)',
+                    'rgba(89, 181, 228, 1)',
                     'rgba(254, 191, 45, 1)'
                 ],
                 borderWidth: 1,
@@ -82,12 +85,12 @@
                 datasets: [{
                     label: "Plug distribution [Declined Plugs]",
                     backgroundColor: [
-                        'rgba(141, 205, 89, 0.2)',
-                        'rgba(89, 181, 228, 0.2)'
+                        'rgba(0, 0, 0, 0.5)',
+                        'rgba(99, 99, 99, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(141, 205, 89, 1)',
-                        'rgba(89, 181, 228, 1)'
+                        'rgba(0, 0, 0, 1)',
+                        'rgba(99, 99, 99, 1)'
                     ],
                     borderWidth: 1,
                     data: @Html.Raw(YValues2),
@@ -116,9 +119,40 @@
             var chartName4 = "chart4";
             var ctx4 = document.getElementById(chartName4).getContext('2d');
             var data4 = {
+                labels: @Html.Raw(XLabels4),
                 datasets: [{
-                    data: @Html.Raw(YValues3),
-                }]
+                    label: "Location Workload",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YValues4),
+                    }]
             };
 
             var options =
@@ -178,6 +212,32 @@
                 }
             };
 
+            var options4 = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 100,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
             var myChart = new Chart(ctx, {
                 options: options,
                 data: data,
@@ -197,7 +257,7 @@
             });
 
             var myChart4 = new Chart(ctx4, {
-                options: {},
+                options: options4,
                 data: data4,
                 type: 'line'
             });

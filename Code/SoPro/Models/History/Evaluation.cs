@@ -22,7 +22,6 @@ namespace Sopro.Models.History
         public List<double> plugDistributionAccepted { get; set; }
         [EnumLength(1, typeof(PlugType))]
         public List<double> plugDistributionDeclined { get; set; }
-
         public ExecutedScenario scenario { get; set; }
 
         /// <summary>

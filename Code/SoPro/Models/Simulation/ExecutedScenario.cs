@@ -50,7 +50,7 @@ namespace Sopro.Models.Simulation
         /// <returns>Liste der Auslastungen des Standortes pro Tick.</returns>
         public List<double> getLocationWorkload()
         {
-            return locationWorkload;
+            return locationWorkload.ToList();
         }
 
         /// <summary>

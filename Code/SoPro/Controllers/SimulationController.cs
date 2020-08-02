@@ -649,11 +649,10 @@ namespace Sopro.Controllers
                     Console.WriteLine("Location Workload per step:\t" + sim.exScenario.getLocationWorkload().Count.ToString());
                     Console.WriteLine(sim.exScenario.location.schedule.bookings.Count.ToString());
                     eva = Analyzer.analyze(sim.exScenario);
-                }
-                    
+                }  
             }
 
-            return View("Evaluation", eva);
+            return View("Evaluation", new EvaluationViewModel(eva));
             /*
             Random rnd = new Random();
 

@@ -50,7 +50,6 @@ namespace UnitTests.Simulation
 
         public static Rushhour rushhour1 = new Rushhour()
         {
-            bookings = 20,
             start = DateTime.Now.AddDays(4),
             end = DateTime.Now.AddDays(5),
             strategy = new NormalDistribution(),
