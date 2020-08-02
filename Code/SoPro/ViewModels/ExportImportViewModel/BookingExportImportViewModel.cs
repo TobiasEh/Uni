@@ -51,7 +51,11 @@ namespace Sopro.ViewModels
             endTime = b.endTime;
             station = b.station;
             active = b.active;
-            location = new LocationExportImportViewModel( b.location);
+            if(b.location != null)
+            {
+                location = new LocationExportImportViewModel( b.location);
+            }
+            
             priority = b.priority;
         }
 
@@ -68,7 +72,9 @@ namespace Sopro.ViewModels
             b.endTime = endTime;
             b.station = station;
             b.active = active;
-            b.location = location.generateLocation();
+            if(location != null) { 
+                b.location = location.generateLocation();
+            }
             b.priority = priority;
             return b;
         }

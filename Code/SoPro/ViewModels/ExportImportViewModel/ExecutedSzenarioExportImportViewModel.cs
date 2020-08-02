@@ -1,10 +1,8 @@
-﻿using Sopro.Models.Administration;
+﻿using Sopro.Interfaces;
+using Sopro.Models.Administration;
 using Sopro.Models.Simulation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Sopro.ViewModels.ExportImportViewModel
 {
     public class ExecutedScenarioExportImportViewModel
@@ -21,7 +19,7 @@ namespace Sopro.ViewModels.ExportImportViewModel
         public List<List<double>> stationWorkload { get; set; }
         public int fulfilledRequests { private get; set; } = 0;
         public List<BookingExportImportViewModel> bookings { get; set; }
-        public readonly List<BookingExportImportViewModel> generatedBookings;
+        public List<BookingExportImportViewModel> generatedBookings { get; set; }
 
         public ExecutedScenarioExportImportViewModel() { }
 
@@ -43,6 +41,7 @@ namespace Sopro.ViewModels.ExportImportViewModel
             bookings = new List<BookingExportImportViewModel>();
 
             foreach (Booking b in s.bookings){
+                b.location = null;
                 bookings.Add(new BookingExportImportViewModel(b));
             }
 
@@ -50,6 +49,7 @@ namespace Sopro.ViewModels.ExportImportViewModel
 
             foreach (Booking b in s.generatedBookings)
             {
+                b.location = null;
                 generatedBookings.Add(new BookingExportImportViewModel(b));
             }
         }
@@ -57,9 +57,12 @@ namespace Sopro.ViewModels.ExportImportViewModel
         public ExecutedScenario generateScenario()
         {
             List<Booking>  _generatedBookings = new List<Booking>();
+            ILocation l = location.generateLocation();
             foreach (BookingExportImportViewModel b in generatedBookings)
             {
-                _generatedBookings.Add((Booking)b.generateBooking());
+                Booking booking = (Booking)b.generateBooking();
+                booking.location = l;
+                _generatedBookings.Add(booking);
             }
             ExecutedScenario s = new ExecutedScenario(_generatedBookings);
             s.id = id;
@@ -72,7 +75,7 @@ namespace Sopro.ViewModels.ExportImportViewModel
                 s.rushhours.Add(r.generateRushhour());
             }
             s.start = start;
-            s.location = location.generateLocation();
+            s.location = l;
 
             s.locationWorkload = locationWorkload;
             s.stationWorkload = stationWorkload;
@@ -81,6 +84,8 @@ namespace Sopro.ViewModels.ExportImportViewModel
 
             foreach (BookingExportImportViewModel b in bookings)
             {
+                Booking booking = (Booking)b.generateBooking();
+                booking.location = l;
                 _bookings.Add((Booking)b.generateBooking());
             }
             s.bookings = _bookings;

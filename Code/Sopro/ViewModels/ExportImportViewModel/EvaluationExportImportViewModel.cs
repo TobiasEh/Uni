@@ -1,6 +1,7 @@
 ﻿using Sopro.Interfaces.ControllerHistory;
 using Sopro.Models.History;
 using Sopro.Models.Simulation;
+using Sopro.ViewModels.ExportImportViewModel;
 using System.Collections.Generic;
 namespace Sopro.ViewModels
 {
@@ -12,7 +13,7 @@ namespace Sopro.ViewModels
         public double neccessaryWorkload { get; set; }
         public List<double> plugDistributionAccepted { get; set; }
         public List<double> plugDistributionDeclined { get; set; }
-        public ExecutedScenario scenario { get; set; }
+        public ExecutedScenarioExportImportViewModel scenario { get; set; }
 
 
         public EvaluationExportImportViewModel() { }
@@ -25,7 +26,7 @@ namespace Sopro.ViewModels
             neccessaryWorkload = e.neccessaryWorkload;
             plugDistributionAccepted = e.plugDistributionAccepted;
             plugDistributionDeclined = e.plugDistributionDeclined;
-            scenario = e.scenario;
+            scenario = new ExecutedScenarioExportImportViewModel(e.scenario);
         }
 
         public IEvaluation generateEvaluation()
@@ -37,7 +38,7 @@ namespace Sopro.ViewModels
             eva.neccessaryWorkload = neccessaryWorkload;
             eva.plugDistributionAccepted = plugDistributionAccepted;
             eva.plugDistributionDeclined = plugDistributionDeclined;
-            eva.scenario = scenario;
+            eva.scenario = scenario.generateScenario();
 
             return eva;
         }

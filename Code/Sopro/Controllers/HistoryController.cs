@@ -9,6 +9,7 @@ using Sopro.Models.History;
 using Sopro.Models.Simulation;
 using Sopro.Persistence.PersEvaluation;
 using Sopro.ViewModels;
+using System;
 using System.Collections.Generic;
 
 namespace Sopro.Controllers
@@ -78,64 +79,84 @@ namespace Sopro.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm]FileViewModel model)
         {
-            IFormFile file = model.importedFile;
-            List<EvaluationExportImportViewModel> importedEvaluations = service.import(file);
-
-            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            try
             {
-                evaluations = new List<IEvaluation>();
-            }
+                IFormFile file = model.importedFile;
+                List<EvaluationExportImportViewModel> importedEvaluations = service.import(file);
 
-            List<IVehicle> vehicles;
-            if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
-            {
-                vehicles = new List<IVehicle>();
-            }
-
-            foreach (EvaluationExportImportViewModel e in importedEvaluations)
-            {
-                IEvaluation eva = e.generateEvaluation();
-                bool unique = true;
-                foreach(IEvaluation evaluation in evaluations)
+                if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
                 {
-                    if (eva.scenario.id.Equals(evaluation.scenario.id))
-                    {
-                        unique = false;
-                        break;
-                    }
+                    evaluations = new List<IEvaluation>();
                 }
-                if (unique)
+
+                List<IVehicle> vehicles;
+                if (!cache.TryGetValue(CacheKeys.VEHICLE, out vehicles))
                 {
-                    evaluations.Add(eva);
+                    vehicles = new List<IVehicle>();
                 }
-                foreach(Vehicle v in eva.scenario.vehicles)
+
+                foreach (EvaluationExportImportViewModel e in importedEvaluations)
                 {
-                    unique = true;
-                    foreach(Vehicle vehicle in vehicles)
+                
+
+                
+                    IEvaluation eva = e.generateEvaluation();
+                    bool unique = true;
+                    foreach(IEvaluation evaluation in evaluations)
                     {
-                        if (vehicle.id.Equals(v.id))
-                        {
+                        if (eva.scenario.id.Equals(evaluation.scenario.id))
+                        {   
                             unique = false;
                             break;
                         }
                     }
                     if (unique)
                     {
-                        vehicles.Add(v);
+                        evaluations.Add(eva);
+                    }
+                    foreach(Vehicle v in eva.scenario.vehicles)
+                    {   
+                        unique = true;
+                        foreach(Vehicle vehicle in vehicles)
+                        {
+                            if (vehicle.id.Equals(v.id))
+                            {
+                                unique = false;
+                                break;
+                            }
+                        }
+                        if (unique)
+                        {
+                            vehicles.Add(v);
+                        }
                     }
                 }
+                cache.Set(CacheKeys.VEHICLE, vehicles);
+                cache.Set(CacheKeys.EVALUATION, evaluations);
+                return View("Index", evaluations);
+            } 
+            catch(Exception e)
+            {
+                return RedirectToAction("Index");
             }
-            cache.Set(CacheKeys.VEHICLE, vehicles);
-            cache.Set(CacheKeys.EVALUATION, evaluations);
-            return View("Evaluation", evaluations);
         }
 
 
         [HttpGet]
-        public IActionResult Export([FromForm] FileViewModel model)
+        public IActionResult Export()
         {
-            cache.TryGetValue(CacheKeys.LOCATION, out evaluations);
-            return View("Index", evaluations);
+            
+            if (!cache.TryGetValue(CacheKeys.EVALUATION, out evaluations))
+            {
+                evaluations = new List<IEvaluation>();
+            }
+
+            List<EvaluationExportImportViewModel> exportEvaluations = new List<EvaluationExportImportViewModel>();
+            foreach(IEvaluation eva in evaluations)
+            {
+                exportEvaluations.Add(new EvaluationExportImportViewModel(eva));
+            }
+            return service.export(exportEvaluations);
         }
                
     }
