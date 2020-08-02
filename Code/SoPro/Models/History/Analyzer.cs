@@ -41,7 +41,44 @@ namespace Sopro.Models.History
                 plugDistributionDeclined = plugTypeDistribution[1],
                 scenario = (ExecutedScenario)_scenario
             };
+
+            Console.WriteLine("[Analyzer.cs, Zeile 45]");
+            List<Booking> declined = new List<Booking>();
+            ExecutedScenario s = (ExecutedScenario)scenario;
+            foreach (Booking b in s.generatedBookings)
+            {
+                if (!s.location.schedule.bookings.Contains(b))
+                    declined.Add(b);
+            }
+                printFiller();
+            Console.WriteLine("[Generierte Buchungen]");
+            printDetailedBookingList(s.generatedBookings, "[-]");
+            printFiller();
+            Console.WriteLine("[Akzeptierte Buchungen]");
+            printDetailedBookingList(s.location.schedule.bookings, "[O]");
+            printFiller();
+            Console.WriteLine("[Abgelehnte Buchungen]");
+            printDetailedBookingList(s.location.schedule.bookings, "[X]");
             return evaluation;
+        }
+
+        private static void printFiller()
+        {
+            for (var i = 0; i < 5; ++i)
+            {
+                Console.WriteLine("~");
+            }
+        }
+
+        private static void printDetailedBookingList(List<Booking> bookings, string symbol)
+        {
+            foreach (Booking b in bookings)
+            {
+                string timeDetail = b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t";
+                string chargeDetail = b.plugs[0].ToString() + "\t";
+
+                Console.WriteLine(symbol + "\t" + timeDetail + "\t" + chargeDetail + "\t" + b.id + "\t" + b.priority);
+            }
         }
 
         /// <summary>
