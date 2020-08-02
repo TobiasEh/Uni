@@ -42,7 +42,8 @@ namespace Sopro.Models.History
                 scenario = (ExecutedScenario)_scenario
             };
 
-            Console.WriteLine("[Analyzer.cs, Zeile 45]");
+            // START Debug Block. (Bedenklos entfernbar)
+            Console.WriteLine("[Analyzer.cs, Zeilen 45 - 67]");
             List<Booking> declined = new List<Booking>();
             ExecutedScenario s = (ExecutedScenario)scenario;
             foreach (Booking b in s.generatedBookings)
@@ -59,6 +60,12 @@ namespace Sopro.Models.History
             printFiller();
             Console.WriteLine("[Abgelehnte Buchungen (" + declined.Count.ToString() + ")]");
             printDetailedBookingList(declined, "[X]");
+            printFiller();
+            Console.WriteLine("[Weitere Daten]");
+            Console.WriteLine("#Generierte Buchungen:\t" + s.generatedBookings.Count.ToString());
+            Console.WriteLine("#Akzeptierte Buchungen:\t" + s.location.schedule.bookings.Count.ToString());
+            // Ende Debug Block.
+
             return evaluation;
         }
 
