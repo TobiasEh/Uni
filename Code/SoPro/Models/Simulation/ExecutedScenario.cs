@@ -1,4 +1,5 @@
-﻿using Sopro.Interfaces.HistorySimulation;
+﻿using Sopro.Interfaces;
+using Sopro.Interfaces.HistorySimulation;
 using Sopro.Interfaces.Simulation;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
@@ -12,9 +13,9 @@ namespace Sopro.Models.Simulation
     /// </summary>
     public class ExecutedScenario : Scenario, IRunnable, IEvaluatable
     {
-        private List<double> locationWorkload { get; set; }
-        private List<List<double>> stationWorkload { get; set; }
-        public int fulfilledRequests { private get; set; } = 0;
+        public List<double> locationWorkload { get; set; }
+        public List<List<double>> stationWorkload { get; set; }
+        public int fulfilledRequests { get; set; } = 0;
         public List<Booking> bookings { get; set; }
         public readonly List<Booking> generatedBookings;
 
@@ -42,6 +43,14 @@ namespace Sopro.Models.Simulation
                 location = scenario.location.deepCopy();
             }
             generatedBookings = Generator.generateBookings(this);
+        }
+
+        public ExecutedScenario(List<Booking> _generatedBookings)
+        {
+            generatedBookings = _generatedBookings;
+            bookings = new List<Booking>();
+            stationWorkload = new List<List<double>>();
+            locationWorkload = new List<double>();
         }
 
         /// <summary>
@@ -115,6 +124,40 @@ namespace Sopro.Models.Simulation
             fulfilledRequests = 0;
             bookings = new List<Booking>();
             bookings.AddRange(generatedBookings);
+        }
+
+        public ExecutedScenario deepCopy(ILocation l)
+        {
+            List<Booking> _generatedBookings = new List<Booking>();
+            foreach(Booking b in generatedBookings)
+            {
+                Booking booking = b.deepCopy();
+                booking.location = l;
+                _generatedBookings.Add(booking);
+            }
+
+            ExecutedScenario copy = new ExecutedScenario(generatedBookings);
+            copy.id = id;
+            copy.duration = duration;
+            copy.bookingCountPerDay = bookingCountPerDay;
+            copy.vehicles = vehicles;
+            copy.rushhours = rushhours;
+            copy.start = start;
+            copy.location = l;
+
+            copy.locationWorkload = locationWorkload;
+            copy.stationWorkload = stationWorkload;
+            copy.fulfilledRequests = fulfilledRequests;
+
+            List<Booking> _bookings = new List<Booking>();
+            foreach(Booking b in bookings)
+            {
+                Booking booking = b.deepCopy();
+                booking.location = l;
+                _bookings.Add(booking);
+            }
+            copy.bookings = _bookings;
+            return copy;
         }
     }
 }

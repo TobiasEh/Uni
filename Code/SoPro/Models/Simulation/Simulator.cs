@@ -84,7 +84,10 @@ namespace Sopro.Models.Simulation
             return await Task.Run(() =>
             {
                 exScenario.bookings = new List<Booking>();
-                exScenario.bookings.AddRange(exScenario.generatedBookings);
+                foreach(Booking booking in exScenario.generatedBookings)
+                {
+                    exScenario.bookings.Add(booking.deepCopy());
+                }
                 pendingBookings = exScenario.bookings.ToList();
                 int locationMaxAccumulatedPower = getLocationMaxAccumulatedPower();
                 int stationCount = getStationCount();
