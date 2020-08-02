@@ -14,30 +14,30 @@ namespace Sopro.Models.Administration
         public string id { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue,ErrorMessage ="Positive Ganze Zahl eingeben!")]
+        [Range(1, int.MaxValue,ErrorMessage ="Positive Ganze Zahl eingeben.")]
         public int capacity { get; set; }
 
         [Required]
-        [BookingPlugsValidation(ErrorMessage = "Mindestens 1 Plug!")]
+        [BookingPlugsValidation(ErrorMessage = "Mindestens 1 Plug ist nötig.")]
         public List<PlugType> plugs { get; set; } = new List<PlugType>() { PlugType.CCS};
 
         [Required]
-        [Range(0, 100,ErrorMessage ="Start SoC zwischen 0 und 100%")]
+        [Range(0, 100,ErrorMessage ="Start SoC zwischen 0 und 100%.")]
         public int socStart { get; set; }
 
         [Required]
-        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC!")]
+        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC und zwischen 0 und 100 sein.")]
         public int socEnd { get; set; }
 
         [Required]
         public string user { get; set; } = "examplemail.com";
 
         [Required]
-        [BookingStartTimeValidation(ErrorMessage ="Startzeit darf nicht in Vergangenheit liegen!")]
+        [BookingStartTimeValidation(ErrorMessage ="Startzeit darf nicht in Vergangenheit liegen.")]
         public DateTime startTime { get; set; }
 
         [Required]
-        [BookingEndTimeValidation(ErrorMessage = "Endzeit darf nicht in vor Startzeit sein!")]
+        [BookingEndTimeValidation(ErrorMessage = "Endzeit darf nicht in vor Startzeit sein.")]
         public DateTime endTime { get; set; }
 
         public Station station { get; set; }

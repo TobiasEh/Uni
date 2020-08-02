@@ -14,19 +14,19 @@ namespace Sopro.Models.Simulation
     public class Vehicle : IVehicle
     {
         public string id { get; set; }
-        [Required(ErrorMessage ="Auto ohne name is traurig")]
+        [Required(ErrorMessage ="Das Auto benötigt einen Namen.")]
         public string model { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Positive Ganze Zahl eingeben!")]
         public int capacity { get; set; }
         [Required]
-        [Range(0, 100, ErrorMessage = "Start SoC zwischen 0 und 100%")]
+        [Range(0, 100, ErrorMessage = "Start SoC zwischen 0 und 100%.")]
         public int socStart { get; set; }
         [Required]
-        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC!")]
+        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC.")]
         public int socEnd { get; set; }
         [Required]
-        [EnumLength(1, typeof(PlugType), ErrorMessage = "Mindestens 1 Plug!")]
+        [EnumLength(1, typeof(PlugType), ErrorMessage = "Es muss mindestens ein Plug ausgewählt werden")]
         public List<PlugType> plugs { get; set; } = new List<PlugType>();
         
         /// <summary>

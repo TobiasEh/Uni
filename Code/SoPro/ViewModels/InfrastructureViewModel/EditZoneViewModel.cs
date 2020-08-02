@@ -21,16 +21,16 @@ namespace Sopro.ViewModels
        
         public Station station { get; set; }
         [Required]
-        [AtleastOnePlugStation("ccs","type2", ErrorMessage = "Mindestens 1 Plug!")]
+        [AtleastOnePlugStation("ccs","type2", ErrorMessage = "Mindestens ein Plug ist erforderlich.")]
         public int ccs { get; set; }
         [Required]
-        [AtleastOnePlugStation("ccs","type2", ErrorMessage = "Mindestens 1 Plug!")]
+        [AtleastOnePlugStation("ccs","type2", ErrorMessage = "Mindestens ein Plug ist erforderlich.")]
         public int type2 { get; set; }
         [Required]
-        [PowerNotZero("ccs", ErrorMessage = "Power sollte größer 0 sein!")]
+        [PowerNotZero("ccs", ErrorMessage = "Die Leistung sollte größer 0 sein.")]
         public int ccsPower { get; set; }
         [Required]
-        [PowerNotZero("type2", ErrorMessage = "Power sollte größer 0 sein!")]
+        [PowerNotZero("type2", ErrorMessage = "Die Leistung sollte größer 0 sein.")]
         public int type2Power { get; set; }
     }
 }
