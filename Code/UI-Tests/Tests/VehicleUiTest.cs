@@ -13,9 +13,9 @@ namespace UI_Tests.Tests
     [TestFixture]
     class VehicleUiTest
     {
-        private IWebDriver _driver;
+        public IWebDriver _driver;
         private string email;
-        private BrowserSettings settings;
+        public BrowserSettings settings;
         private string js = "arguments[0].scrollIntoView(true)";
 
         [SetUp]

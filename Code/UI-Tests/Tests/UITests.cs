@@ -23,8 +23,8 @@ namespace UI_Tests.Tests
         // sicherer getestet werden kann und die Tests auch auf der Azure Website laufen können.
         // Nach jedem Test wird die Location (ggf. mit der Zone) wieder gelöscht.
 
-        private IWebDriver _driver;
-        private BrowserSettings settings;
+        public IWebDriver _driver;
+        public BrowserSettings settings;
         private string email;
         private string js = "arguments[0].scrollIntoView(true)";
 
@@ -426,9 +426,6 @@ namespace UI_Tests.Tests
             if (!plugTypeRight)
             {
                 IWebElement plugType = _driver.FindElement(By.XPath("//input[@id='ccs']"));
-
-                ((IJavaScriptExecutor)_driver).ExecuteScript(js, plugType);
-                System.Threading.Thread.Sleep(1000);
 
                 plugType.Click();
             }
