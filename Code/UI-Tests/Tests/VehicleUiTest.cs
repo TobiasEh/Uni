@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using System;
 using System.IO;
 using System.Reflection;
@@ -156,7 +157,14 @@ namespace UI_Tests.Tests
             socEnd.Clear();
             socEnd.SendKeys(_socEnd.ToString());
 
-            _driver.FindElement(By.XPath("//div/div/div/form/div[6]/button[2]")).Click();
+            IWebElement submit = _driver.FindElement(By.XPath("//div/div/div/form/div[6]/button[2]"));
+
+
+            Actions action = new Actions(_driver);
+            action.MoveToElement(submit);
+            action.Perform();
+
+            submit.Click();
 
             System.Threading.Thread.Sleep(3000);
 
