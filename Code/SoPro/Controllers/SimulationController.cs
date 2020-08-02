@@ -74,9 +74,7 @@ namespace Sopro.Controllers
                         foreach(Vehicle v in s.vehicles)
                         {
                             if(v.id.Equals(vehicles[i].id))
-                            {
                                 count++;
-                            }
                         }
                         viewmodel.countVehicles[i] = count;
                     }
@@ -218,9 +216,7 @@ namespace Sopro.Controllers
             }
 
             if(viewmodel.countRushhours == 0)
-            {
                 return View("EditLocationScenario", scenario.location);
-            }
 
             return View(new EditRushourViewModel(scenario));
         }
@@ -508,7 +504,6 @@ namespace Sopro.Controllers
                 {
                     toBeDeleted = z;
                     break;
-                    
                 }
             }
             if (toBeDeleted == null )
