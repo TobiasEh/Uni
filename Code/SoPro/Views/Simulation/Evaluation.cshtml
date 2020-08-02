@@ -38,7 +38,15 @@
 <!-- Allgemeines -->
 <div>
     <p class="lead text-dark">Es wurden insgesamt @Model.scenario.generatedBookings.Count Buchungsanfragen gestellt.</p>
-    <p class="lead text-dark">Davon wurden @Model.scenario.location.schedule.bookings.Count Anfragen akzeptiert .</p>
+    <p class="lead text-dark">Davon wurden @Model.scenario.location.schedule.bookings.Count Anfragen akzeptiert.</p>
+    @if (Model.suggestions[0].GetType().Name.Equals("CondenseInfrastructureSuggestion"))
+    {
+        <img src="~/bootstrap-icons/caret-down-square-fill.svg" class="filter-red"/>
+    }
+    else
+    {
+        <img src="~/bootstrap-icons/caret-up-square-fill.svg"/>
+    }
     <p class="lead text-dark">@Model.suggestions[0].suggestion</p>
 </div>
 
@@ -70,27 +78,22 @@
     @{int stationCounter = 5; }
     @foreach (Zone zone in Model.scenario.location.zones)
     {
-        <div>
-        <div class="h3">Zone @zone.site  </div>
-        @foreach (Station station in zone.stations)
-        {
-            string id = "chart" + stationCounter.ToString();
-            <div class="chart-container">
-                <canvas id="@id" style="width:100%; height:300px"></canvas>
-            </div>
-            stationCounter++;
-        }
-        </div>
-    }
+    <div class="shadow rounded mt-lg-4">
+        <div class="h3 pl-3 pt-3">Zone @zone.site  </div><hr/>
+        <div class="d-flex flex-wrap">
+            @foreach (Station station in zone.stations)
+            {
+                string id = "chart" + stationCounter.ToString();
 
-    <!--
-    @for (int i = 5; i < stationWorkloads.Count + 5; ++i)
-    {
-        string id = "chart" + i.ToString();
-        <div class="chart-container">
-            <canvas id="@id" style="width:100%; height:300px"></canvas>
+                <div class="chart-container" style="flex: 0 0 49%; height: 200px;">
+                    <canvas id="@id"></canvas>
+                </div>
+
+                stationCounter++;
+            }
         </div>
-    }-->
+    </div>
+    }
 </div>
 
 <!-- Chart.js und JQuery.js -->
@@ -100,25 +103,25 @@
 <!-- Rendern der Charts -->
 <script type="text/javascript">
         $(function () {
-        var chartName = "chart";
-        var ctx = document.getElementById(chartName).getContext('2d');
-        var data =
-        {
-            labels: @Html.Raw(LabelsPlug),
-            datasets: [{
-                label: "Plug distribution [Accepted Plugs]",
-                backgroundColor: [
-                    'rgba(89, 181, 228, 0.2)',
-                    'rgba(254, 191, 45, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(89, 181, 228, 1)',
-                    'rgba(254, 191, 45, 1)'
-                ],
-                borderWidth: 1,
-                data: @Html.Raw(plugDistributionAcceptedValues),
-            }]
-        };
+            var chartName = "chart";
+            var ctx = document.getElementById(chartName).getContext('2d');
+            var data =
+            {
+                labels: @Html.Raw(LabelsPlug),
+                datasets: [{
+                    label: "Plug distribution [Accepted Plugs]",
+                    backgroundColor: [
+                        'rgba(89, 181, 228, 0.2)',
+                        'rgba(254, 191, 45, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(89, 181, 228, 1)',
+                        'rgba(254, 191, 45, 1)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(plugDistributionAcceptedValues),
+                }]
+            };
 
             var chartName2 = "chart2";
             var ctx2 = document.getElementById(chartName2).getContext('2d');
@@ -353,7 +356,5 @@
              });
                 </text>
             }
-
-
             });
 </script>

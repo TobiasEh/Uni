@@ -90,6 +90,10 @@ body {
     filter: invert(100%) sepia(0%) saturate(474%) hue-rotate(30deg) brightness(115%) contrast(87%);
 }
 
+.filter-red {
+    filter: invert(15%) sepia(85%) saturate(2847%) hue-rotate(348deg) brightness(102%) contrast(92%);
+}
+
 /* MHP Colors*/
 
 .btn-mhp {
