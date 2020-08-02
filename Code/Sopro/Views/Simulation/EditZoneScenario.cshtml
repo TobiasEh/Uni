@@ -17,6 +17,7 @@
                 <span class="input-group-text"> kW </span>
             </div>
         </div>
+        @Html.ValidationMessageFor(model => model.zone.maxPower)
     </form>
 </div>
 
@@ -29,6 +30,7 @@
                 <label>Hersteller</label>
                 <input class="form-control" placeholder="@Model.station.manufacturer" asp-for="@Model.station.manufacturer" />
                 <small></small>
+                @Html.ValidationMessageFor(model => model.station.manufacturer)
             </div>
             <div class="form-row">
                 <div class="form-group col">
@@ -44,12 +46,14 @@
                             <span class="input-group-text"> kW </span>
                         </div>
                     </div>
+                    @Html.ValidationMessageFor(model => model.ccsPower)
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
                     <label>Type-2-plug</label>
                     <input class="form-control" type="number" placeholder="@Model.type2" asp-for="@Model.type2" min="0" />
+                    @Html.ValidationMessageFor(model => model.type2)
                 </div>
                 <div class="form-group col">
                     <label>Leistung</label>
@@ -59,13 +63,14 @@
                             <span class="input-group-text"> kW </span>
                         </div>
                     </div>
+                    @Html.ValidationMessageFor(model => model.type2Power)
                 </div>
 
             </div>
             <div class="form-group">
                 <label>Gleichzeitig benutzbare Stecker</label>
                 <input class="form-control" type="number" placeholder="@Model.station.maxParallelUseable" asp-for="@Model.station.maxParallelUseable" min="0" />
-
+                @Html.ValidationMessageFor(model => model.station.maxParallelUseable)
             </div>
             <div class="form-group">
                 <label>Maximale Leistung der Station</label>
@@ -75,6 +80,7 @@
                         <span class="input-group-text"> kW </span>
                     </div>
                 </div>
+                @Html.ValidationMessageFor(model => model.station.maxPower)
             </div>
 
             <div>
