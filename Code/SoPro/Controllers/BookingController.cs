@@ -152,7 +152,7 @@ namespace Sopro.Controllers
 
             // Sollte der Benutzer kein ASSISTANCE sein wird seine E-Mail als die E-Mail des Benutzers gestzt.
             
-            if (booking.priority != UserType.ASSISTANCE && !this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
+            if (booking.priority == UserType.EMPLOYEE && !this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
             {
                 booking.user = this.HttpContext.Session.GetString("email");
             }
@@ -172,6 +172,7 @@ namespace Sopro.Controllers
             }
             booking.plugs = plugs;
 
+            bool test = ModelState.IsValid;
             // Validierung der Buchung, bei Fehlschlag wird an die Create Methode weitergeleited.
             if (!TryValidateModel(booking, nameof(booking)))
             {
@@ -188,10 +189,9 @@ namespace Sopro.Controllers
             // Im Edit Fall wird die Buchung, welche editiert wurde entfernt.
             foreach(Booking b in bookings)
             {
-                bool test = b.id.Equals(booking.id);
                 if (b.id.Equals(booking.id))
                 {
-                    if (this.HttpContext.Session.GetString("role").Equals(UserType.PLANER.ToString()))
+                    if (!this.HttpContext.Session.GetString("role").Equals(UserType.ASSISTANCE.ToString()))
                     {
                         booking.priority = b.priority;
                         booking.user = b.user;
@@ -319,13 +319,16 @@ namespace Sopro.Controllers
             booking = bookings.Find(x => x.id.Equals(bookingID)) as Booking;
 
             // Sollte die Buchung Aktiv sein, wird sie inaktiv.
+            bool test = booking.active;
+            test = booking.startTime <= DateTime.Now;
+            test = booking.endTime >= DateTime.Now;
             if (booking.active)
             {
                 booking.active = false;
                 return RedirectToAction("Index");
             }
             // Sollte die Buchung inaktiv sein und die aktuelle Zeit im Ladezeitraum liegen, wird diese aktiviert.
-            else if (booking.startTime >= DateTime.Now && booking.endTime <= DateTime.Now)
+            else if (booking.startTime <= DateTime.Now && booking.endTime >= DateTime.Now)
             {
                 booking.active = true;
                 return RedirectToAction("Index");
