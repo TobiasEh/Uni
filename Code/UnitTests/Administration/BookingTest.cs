@@ -54,8 +54,8 @@ namespace UnitTests
                 socStart = 22,
                 socEnd = 44,
                 user = "User@userexample.com",
-                startTime = DateTime.Now.AddDays(1).AddHours(3),
-                endTime = DateTime.Now.AddDays(1).AddHours(6),
+                startTime = DateTime.Now.Date.AddDays(1).AddHours(3),
+                endTime = DateTime.Now.Date.AddDays(1).AddHours(6),
                 location = lTest,
                 plugs = new List<PlugType>() { PlugType.CCS }
             };
