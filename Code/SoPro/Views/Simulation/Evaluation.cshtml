@@ -28,24 +28,8 @@
 
 <h1 class="display-4 mb-5 pt-5">Auswertung</h1>
 
-<div class="box-body d-flex justify-content-center">
-    <div class="chart-container">
-        <canvas id="chart4" style="width:100%; height:300px"></canvas>
-    </div>
-</div>
-
-<div class="box-body d-flex justify-content-center">
-    @for (int i = 5; i < stationWorkloads.Count + 5; ++i)
-    {
-        string id = "chart" + i.ToString();
-        <div class="chart-container">
-            <canvas id="@id" style="width:100%; height:300px"></canvas>
-        </div>
-    }
-</div>
-
+<div class="h3">Übersicht</div>
 <div class="box-body d-flex justify-content-center flex-wrap">
-
     <div class="chart-container">
         <canvas id="chart" style="width:100%; height:300px"></canvas>
     </div>
@@ -55,6 +39,24 @@
     <div class="chart-container">
         <canvas id="chart3" style="width:100%; height:300px"></canvas>
     </div>
+</div>
+
+<div class="h3">Standortsauslastung</div>
+<div class="box-body d-flex justify-content-center">
+    <div class="chart-container">
+        <canvas id="chart4" style="width:100%; height:300px"></canvas>
+    </div>
+</div>
+
+<div class="h3">Stationsauslastung</div>
+<div class="box-body d-flex justify-content-center">
+    @for (int i = 5; i < stationWorkloads.Count + 5; ++i)
+    {
+        string id = "chart" + i.ToString();
+        <div class="chart-container">
+            <canvas id="@id" style="width:100%; height:300px"></canvas>
+        </div>
+    }
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
