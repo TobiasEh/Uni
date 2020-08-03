@@ -90,33 +90,34 @@
     </table>
 </div>
 
-<div class="d-flex">
-    <div>
-        <form asp-controller="Admin" asp-action="Import" class="form-horizontal" method="post" enctype="multipart/form-data">
-            <div class="input-group">
-                <div class="custom-file">
-                    <input type="file" name="importedFile" />
+<div class="d-flex mt-4">
+    <div class="d-flex">
+        <div>
+            <form asp-controller="Admin" asp-action="Import" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="importedFile" />
+                    </div>
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-primary btn-mhp rounded">Import</button>
+                    </div>
                 </div>
-                <div class="input-group-prepend">
-                    <button type="submit" class="btn btn-primary col-xs-12 btn-mhp rounded">Import</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-
+    @if (Model.scheduledBookings.Any() || Model.unscheduledBookings.Any())
+    {
+        <div class="ml-2">
+            <form asp-controller="Admin" asp-action="Export" method="get" class="form-horizontal">
+                <input class="btn btn-primary" type="submit" name="exportBooking" value="Export" />
+            </form>
+        </div>
+    }
+    else
+    {
+        <div>
+            <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
+        </div>
+    }
 </div>
 
-@if (Model.scheduledBookings.Any() || Model.unscheduledBookings.Any())
-{
-    <div class="ml-auto">
-        <form asp-controller="Admin" asp-action="Export" method="get" class="form-horizontal">
-            <input class="btn btn-primary" type="submit" name="exportBooking" value="Export" />
-        </form>
-    </div>
-}
-else
-{
-    <div>
-        <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
-    </div>
-}
