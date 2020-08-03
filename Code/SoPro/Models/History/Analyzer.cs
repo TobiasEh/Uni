@@ -49,7 +49,7 @@ namespace Sopro.Models.History
             int declinedBookingsInGeneratedBookings = 0;
             int acceptedBookingsInGeneratedBookings = 0;
             ExecutedScenario s = (ExecutedScenario)scenario;
-            foreach (Booking b in s.generatedBookings)
+            foreach (Booking b in s.bookings)
             {
                 if (!s.location.schedule.bookings.Contains(b))
                     declined.Add(b);
