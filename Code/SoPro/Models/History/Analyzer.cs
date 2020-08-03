@@ -43,14 +43,29 @@ namespace Sopro.Models.History
             };
 
             // START Debug Block. (Bedenklos entfernbar)
-            Console.WriteLine("[Analyzer.cs, Zeilen 45 - 67]");
+            // Berechnungen.
+            Console.WriteLine("[Analyzer.cs, Zeilen 45 - ca. 106]");
             List<Booking> declined = new List<Booking>();
+            int declinedBookingsInGeneratedBookings = 0;
+            int acceptedBookingsInGeneratedBookings = 0;
             ExecutedScenario s = (ExecutedScenario)scenario;
             foreach (Booking b in s.generatedBookings)
             {
                 if (!s.location.schedule.bookings.Contains(b))
                     declined.Add(b);
             }
+            foreach (Booking b in s.location.schedule.bookings)
+            {
+                if (s.generatedBookings.Contains(b))
+                    acceptedBookingsInGeneratedBookings++;
+            }
+            foreach (Booking b in declined)
+            {
+                if (s.generatedBookings.Contains(b))
+                    declinedBookingsInGeneratedBookings++;
+            }
+
+            // Ausgaben.
             printFiller();
             Console.WriteLine("[Generierte Buchungen (" + s.generatedBookings.Count.ToString() + ")]");
             printDetailedBookingList(s.generatedBookings, "[-]");
@@ -64,11 +79,17 @@ namespace Sopro.Models.History
             Console.WriteLine("[Weitere Daten]");
             Console.WriteLine("#Generierte Buchungen:\t" + s.generatedBookings.Count.ToString());
             Console.WriteLine("#Akzeptierte Buchungen:\t" + s.location.schedule.bookings.Count.ToString());
+            Console.WriteLine("#Abgelehnt.id enthalten in generated Bookings:\t" + declinedBookingsInGeneratedBookings.ToString());
+            Console.WriteLine("#Akzeptiert.id enthalten in generated Bookings:\t" + acceptedBookingsInGeneratedBookings.ToString());
+            Console.WriteLine("UnecessaryStations = UnecessaryWorkload / (bookingSuccessRate / #stations)");
+            Console.WriteLine("UnecessaryStations =\t" + ((int)Math.Floor(calcUnnecessaryWorkload())).ToString() +  " / (" +  calcBookingSuccessRate().ToString() +  " / " + scenario.getStationWorkload().Count.ToString() + ")");
+            Console.WriteLine("UnecessaryStations = " + ((int)Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / scenario.getStationWorkload().Count))).ToString());
             // Ende Debug Block.
 
             return evaluation;
         }
 
+        // Debug Hilfsfunktionen.
         private static void printFiller()
         {
             for (var i = 0; i < 5; ++i)
@@ -87,6 +108,7 @@ namespace Sopro.Models.History
                 Console.WriteLine(symbol + "\t" + timeDetail + "\t" + chargeDetail + "\t" + b.id + "\t" + b.priority);
             }
         }
+        // Debug Hilfsfunktionen Ende.
 
         /// <summary>
         /// Generiere Vorschläge, die dem Planer unterbreitet werden.
@@ -94,7 +116,7 @@ namespace Sopro.Models.History
         /// <returns>Die generierten Vorschläge.</returns>
         private static List<Suggestion> createSuggestion()
         {
-            var stationCount = scenario.getStationWorkload().Count;
+            var stationCount = scenario.getStationWorkload()[0].Count;
             var zonePowerList = new List<int>();
             var bookingSuccesRate = calcBookingSuccessRate();
 
