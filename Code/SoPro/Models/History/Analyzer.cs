@@ -15,8 +15,8 @@ namespace Sopro.Models.History
     {
         public static Evaluation evaluation { get; set; }
         public static IEvaluatable scenario { get; set; }
-        public static double lowerTreshold { get; set; }
-        public static double upperTreshold { get; set; }
+        public static double lowerTreshold { get; set; } = 0.70;
+        public static double upperTreshold { get; set; } = 0.95;
 
         /// <summary>
         /// Analysiert ein gegebenes Szenario. Dabei werden verschiedene Leistungsmetriken
