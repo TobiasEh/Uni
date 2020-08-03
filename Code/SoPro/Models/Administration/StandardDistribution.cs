@@ -23,14 +23,14 @@ namespace Sopro.Models.Administration
             {
                 Day = _day;
                 Used = 0;
-                Total = concurrentCount * 60 * 24;
+                Total = concurrentCount * 60 * 60 * 24;
             }
 
             public Workload(DateTime _day, int concurrentCount, int _used)
             {
                 Day = _day;
                 Used = _used;
-                Total = concurrentCount * 60 * 24;
+                Total = concurrentCount * 60  * 60 * 24;
             }
 
             public double GetWorkload()
@@ -40,6 +40,7 @@ namespace Sopro.Models.Administration
 
             public double GetWorkload(int duration)
             {
+                double d = ((double)Used + (double)duration) / (double)Total;
                 return ((double)Used + (double)duration) / (double)Total;
             }
         }
@@ -48,11 +49,11 @@ namespace Sopro.Models.Administration
         {
             // Sortiert Buchungsliste nach Proirität.
             int[] map = { 4, 0, 1, 2, 3 };
+            Console.WriteLine("Booking: StandartDistribution Z.54" + bookings.Count);
             List<Booking> sortedBookings = bookings.OrderBy(o => map[(int)(o.priority)]).ToList();
-            /*foreach(Booking b in sortedBookings)
-            {
-                Console.WriteLine("Booking: {0}, {1}, {2}", b.priority, b.id, b.startTime);
-            }*/
+            
+                Console.WriteLine("Booking: StandartDistribution Z.54" + sortedBookings.Count);
+            
 
             // Speichert location und emergency ab.
             Location location = (Location)sortedBookings.First().location;
@@ -124,38 +125,44 @@ namespace Sopro.Models.Administration
                 PlugType plugType;
                 Station station;
                 DateTime startTime;
-                (inserted, duration, plugType, station, startTime) = BestSpotForBooking(booking, schedule.bookings, stations, puffer);
-                //Console.WriteLine("Booking: {0}, {1}, {2}", booking.priority, booking.id, inserted);
-                if(inserted)
-                {
-                    if (wl.Exists(x => x.Day.Day.Equals(startTime.Day)))
+                
+                    (inserted, duration, plugType, station, startTime) = BestSpotForBooking(booking, schedule.bookings, stations, puffer);
+                    Console.WriteLine("Booking: {0}, {1}, {2}", booking.priority, booking.id, inserted);
+                    if(inserted)
                     {
-                        if ((wl.Find(x => x.Day.Day.Equals(startTime.Day)).GetWorkload(duration) + backup) > 1)
+                        
+                        if (wl.Exists(x => x.Day.Day.Equals(startTime.Day)))
+                        {
+                            if ((wl.Find(x => x.Day.Day.Equals(startTime.Day)).GetWorkload(duration) + backup) > 1)
+                            {
+                                continue;
+                            }
+                        }
+                        if(booking.startTime.AddMinutes(duration) > booking.endTime)
                         {
                             continue;
                         }
-                    }
-                    if(booking.startTime.AddMinutes(duration) > booking.endTime)
+                        booking.startTime = startTime;
+                        booking.endTime = booking.startTime.AddMinutes(duration).AddSeconds(-1);
+                        booking.plugs.Clear();
+                        booking.plugs.Add(plugType);
+                        booking.station = station;
+                        schedule.addBooking(booking);
+                        if (wl.Exists(x => x.Day.Day.Equals(booking.endTime.Day)))
+                        {
+                            wl.Find(x => x.Day.Day.Equals(booking.endTime.Day)).Used += duration;
+                        }
+                        else
+                        {
+                            Workload w = new Workload(booking.endTime, concurrentCount, duration);
+                            wl.Add(w);
+                        }
+                    } else
                     {
-                        continue;
-                    }
-                    booking.startTime = startTime;
-                    booking.endTime = booking.startTime.AddMinutes(duration).AddSeconds(-1);
-                    booking.plugs.Clear();
-                    booking.plugs.Add(plugType);
-                    booking.station = station;
-                    schedule.addBooking(booking);
-                    if (wl.Exists(x => x.Day.Day.Equals(booking.endTime.Day)))
-                    {
-                        wl.Find(x => x.Day.Day.Equals(booking.endTime.Day)).Used += duration;
-                    }
-                    else
-                    {
-                        Workload w = new Workload(booking.endTime, concurrentCount, duration);
-                        wl.Add(w);
+                        break;
                     }
                 }
-            }
+
             return true;
         }
 
@@ -210,9 +217,9 @@ namespace Sopro.Models.Administration
             int usedPower = 0;
             foreach (Booking b in schedule)
             {
-                if (b.station.Equals(station))
+                if (b.station.uniqueId.Equals(station.uniqueId))
                 {
-                    if(!DateOverlapping(start, end, b.startTime, b.endTime))
+                    if(DateOverlapping(start, end, b.startTime, b.endTime))
                     {
                         concurrent++;
                         usedPower += station.plugs.Find(x => x.type.Equals(b.plugs.First())).power;
@@ -287,7 +294,9 @@ namespace Sopro.Models.Administration
                 {
                     if (HasRequestedPlugs(plugType, station))
                     {
+                        
                         int duration = CalculateDuration(booking.socStart, booking.socEnd, booking.capacity, station.plugs.Find(x => x.type.Equals(plugType)).power, puffer);
+                        Console.WriteLine(booking.startTime + " - " + booking.endTime + ": " + duration);
                         for (int offset = 0; booking.startTime.AddMinutes(offset + duration) < booking.endTime; offset += 15)
                         {
                             if (CheckCurrentBooking(schedule, booking.startTime.AddMinutes(offset), booking.startTime.AddMinutes(offset + duration), station))

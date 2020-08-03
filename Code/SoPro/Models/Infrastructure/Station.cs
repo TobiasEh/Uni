@@ -19,7 +19,12 @@ namespace Sopro.Models.Infrastructure
         [Range(0, int.MaxValue)]
         public int maxParallelUseable { get; set; }
         public int id { get; set; }
+        public string uniqueId { get; set; }
 
+        public Station()
+        {
+            uniqueId = Guid.NewGuid().ToString();
+        }
         /// <summary>
         /// Füge der Station einen Stecker hinzu.
         /// </summary>
