@@ -34,7 +34,7 @@ namespace Sopro.Models.Simulation
             // Berechnet Indizes für die Buchungen in pendingBooking, welche der toBeDistributed Liste hinzugefügt werden sollen.
             for(int i = 1; i <= count; ++i)
             {
-                int l = (int)(Math.Round(1 / Math.Sqrt(i), 4) * 1000) % count;
+                int l = (int)(Math.Round(Math.Exp(i / 4)));
                 if((!indices.Contains(l)) && (l % 2 == 1))
                 {
                     indices.Add(l);
