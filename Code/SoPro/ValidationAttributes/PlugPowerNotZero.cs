@@ -21,10 +21,10 @@ namespace Sopro.ValidationAttributes
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.Add("data-val", "true");
-            context.Attributes.Add("data-val-notzeropower", GetErrorMessage());
+            context.Attributes.Add("data-val-atleastoneplug", GetErrorMessage());
         }
         public string GetErrorMessage() =>
-            $"Leistung sollte größer 0 sein.";
+            $"Es sollte mindestens 1 plug existieren.";
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endadestatus als Startladestatus bei der Eingabe gewählt hat.
         /// </summary>

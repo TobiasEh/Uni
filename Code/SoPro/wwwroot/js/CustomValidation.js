@@ -16,32 +16,23 @@ $.validator.addMethod('socend', function (value, element) {
 });
 
 
-$.validator.addMethod('minPlugtype2Validation', function (value, element) {
-    if ($('#ccs').checked() == true && element.checked() == false) {
-        return false;
+$.validator.addMethod('minplug', function (value, element) {
+    if ($('input:checkbox:checked').length > 0) {
+        return true;
     }
-    return true;
+    return false;
 });
 
-
-$.validator.addMethod('minPlugccsValidation', function (value, element) {
-    if ($('#type2').checked() == true && element.checked() == false) {
-        return false;
+$.validator.addMethod('atleastoneplug', function (value, element) {
+    if ($('#ccs').val() + $('#type2').val() > 0) {
+        return true;
     }
-    return true;
+    return false;
 });
 
-
-$.validator.addMethod('ccsPowerValidation', function (value, element) {
-    if ($('#ccs').val() != 0 && parseInt(value) == 0) {
-        return false;
-    }
-    return true;
-});
-
-
-$.validator.addMethod('type2PowerValidation', function (value, element) {
-    if ($('#type2').val() != 0 && parseInt(value) == 0) {
+$.validator.addMethod('notzeropower', function (value, element) {
+    var id = '#' + element.attr('id').replace('Power', '');
+    if ($().val() > 0 && value == 0) {
         return false;
     }
     return true;
@@ -50,10 +41,9 @@ $.validator.addMethod('type2PowerValidation', function (value, element) {
 $.validator.unobtrusive.adapters.addBool('starttime');
 $.validator.unobtrusive.adapters.addBool('endtime');
 $.validator.unobtrusive.adapters.addBool('socend');
-$.validator.unobtrusive.adapters.addBool('minPlugtype2Validation');
-$.validator.unobtrusive.adapters.addBool('minPlugccsValidation');
-$.validator.unobtrusive.adapters.addBool('ccsPowerValidation');
-$.validator.unobtrusive.adapters.addBool('type2PowerValidation');
+$.validator.unobtrusive.adapters.addBool('minplug');
+$.validator.unobtrusive.adapters.addBool('atleastoneplug');
+$.validator.unobtrusive.adapters.addBool('notzeropower');
 $.validator.unobtrusive.parse('form');
 
 
