@@ -120,10 +120,7 @@ namespace Sopro.Controllers
                 vehicles = evaluation.scenario.vehicles,
                 rushhours = evaluation.scenario.rushhours,
                 start = evaluation.scenario.start,
-                location = l,
-                locationWorkload = evaluation.scenario.locationWorkload,
-                stationWorkload = evaluation.scenario.stationWorkload,
-                fulfilledRequests = evaluation.scenario.fulfilledRequests,
+                location = l
             };
             cache.Set("ChangeInfrastrukture", newScenario);
             return View("EditLocationHistory", newScenario.location);
