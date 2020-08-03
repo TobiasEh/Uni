@@ -23,37 +23,51 @@
         <div class="d-inline-flex flex-wrap pb-2">
             @foreach (Sopro.Models.Administration.Booking booking in Model.scheduledBookings)
             {
-                <div class="col-sm shadow rounded m-2">
-                    <h4 class="text-center p-2 text-white rounded bg-dark mt-3">Buchung</h4>
-                    <div class="p-3 text-nowrap">
-                        <p><b>Standort</b> @booking.location.name</p>
-                        <div>
-                            <b>Zone</b> @foreach (Sopro.Models.Infrastructure.Zone z in booking.location.zones)
-                            {
-                                if (z.stations.Contains(booking.station))
-                                {<p>@z.site</p>}
-                        }
-                        </div>
-                        <p><b>Start</b> @booking.startTime</p>
-                        <p><b>Ende</b> @booking.endTime</p>
-                        <p><b>Ladestand</b> @booking.socStart %</p>
-                        <p><b>Benötigte Kilometer</b> @booking.socEnd %</p>
-                    </div>
-                    <div>
-                        @if (booking.active)
-                        {
-                            <form methode="post" asp-controller="Booking" asp-action="ToggleCheck" asp-route-bookingID="@booking.id" >
-                                <button class="w-100 btn btn-primary btn-mhp mb-3" type="submit" >Check-Out</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <form methode="post" asp-controller="Booking" asp-action="ToggleCheck" asp-route-bookingID="@booking.id">
-                                <button class="w-100 btn btn-primary btn-mhp mb-3" type="submit" >Check-In</button>
-                            </form>
-                        }
-                    </div>
+               
+            <div class="col-sm shadow rounded mt-2 mb-1 ml-2">
+                <div class="p-2 text-white rounded bg-dark mt-2 d-flex">
+                    <h4 class="flex-grow-1 text-center">Buchung</h4>
+                    <a asp-controller="Booking" asp-action="Delete" asp-route-bookingID="@booking.id" class="bg-danger rounded m-1 px-1">
+                        <img src="~/bootstrap-icons/trash.svg" width="23" class=" filter-white" />
+                    </a>
                 </div>
+                <div class="p-3 text-nowrap mr-2">
+                    <p><b>Standort</b> @booking.location.name </p>
+                    <div>
+                        <p>
+                            <b>Zone</b>
+                            @foreach (Sopro.Models.Infrastructure.Zone z in booking.location.zones)
+                            {
+                                foreach (Sopro.Models.Infrastructure.Station s in z.stations)
+                                {
+                                    if (s.id == booking.station.id)
+                                    {
+                                    <p>@z.site</p>
+                                    break;
+                                }
+                            }
+                        }</p>
+                        </div>
+                    <p><b>Start</b> @booking.startTime</p>
+                    <p><b>Ende</b> @booking.endTime</p>
+                    <p><b>Ladestand</b> @booking.socStart %</p>
+                    <p><b>Benötigte Kilometer</b> @booking.socEnd %</p>
+                </div>
+                <div class=" mr-2">
+                    @if (booking.active)
+                    {
+                        <form methode="post" asp-controller="Booking" asp-action="ToggleCheck" asp-route-bookingID="@booking.id">
+                            <button class="w-100 btn btn-primary btn-mhp mb-3" type="submit">Check-Out</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form methode="post" asp-controller="Booking" asp-action="ToggleCheck" asp-route-bookingID="@booking.id">
+                            <button class="w-100 btn btn-primary btn-mhp mb-3" type="submit">Check-In</button>
+                        </form>
+                    }
+                </div>
+            </div>
             }
         </div>
     }
