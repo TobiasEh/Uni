@@ -10,6 +10,7 @@ $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
 
         $('#sidebar').toggleClass('active');
+        $(this).toggleClass('addPadding');
         if ($('#sidebar').hasClass("active"))
             $('#carreticon').css({ "transform": "scaleX(-1)" });
         else
