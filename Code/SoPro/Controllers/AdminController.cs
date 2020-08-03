@@ -60,6 +60,11 @@ namespace Sopro.Controllers
             }
         }
 
+        public IActionResult Help()
+        {
+            return View("Help", "Admin");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Import([FromForm] FileViewModel model)
