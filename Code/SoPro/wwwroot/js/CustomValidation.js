@@ -32,7 +32,7 @@ $.validator.addMethod('atleastoneplug', function (value, element) {
 
 $.validator.addMethod('notzeropower', function (value, element) {
     var id = '#' + element.attr('id').replace('Power', '');
-    if ($().val() > 0 && value == 0) {
+    if ($(id).val() > 0 && value == 0) {
         return false;
     }
     return true;
