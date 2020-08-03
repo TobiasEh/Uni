@@ -23,7 +23,7 @@ namespace Sopro.Models.Simulation
         [Range(0, 100, ErrorMessage = "Start SoC zwischen 0 und 100%.")]
         public int socStart { get; set; }
         [Required]
-        [BookingSocEndValidation("socStart", ErrorMessage = "End SoC sollte größer sein als start SoC.")]
+        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC.")]
         public int socEnd { get; set; }
         [Required]
         [EnumLength(1, typeof(PlugType), ErrorMessage = "Es muss mindestens ein Plug ausgewählt werden")]

@@ -26,7 +26,7 @@ namespace Sopro.Models.Administration
         public int socStart { get; set; }
 
         [Required]
-        [BookingSocEndValidation("socStart", ErrorMessage = "End SoC sollte größer sein als start SoC und zwischen 0 und 100 sein.")]
+        [BookingSocEndValidation(ErrorMessage = "End SoC sollte größer sein als start SoC und zwischen 0 und 100 sein.")]
         public int socEnd { get; set; }
 
         [Required]
@@ -36,7 +36,7 @@ namespace Sopro.Models.Administration
         [Required]
         public DateTime startTime { get; set; }
 
-        [BookingEndTimeValidation("startTime", ErrorMessage = "Endzeit darf nicht in vor Startzeit sein.")]
+        [BookingEndTimeValidation(ErrorMessage = "Endzeit darf nicht in vor Startzeit sein.")]
         [Required]
         public DateTime endTime { get; set; }
 
