@@ -82,6 +82,9 @@ namespace Sopro.Models.History
             Console.WriteLine("#Abgelehnt.id enthalten in generated Bookings:\t" + declinedBookingsInGeneratedBookings.ToString());
             Console.WriteLine("#Akzeptiert.id enthalten in generated Bookings:\t" + acceptedBookingsInGeneratedBookings.ToString());
             Console.WriteLine("UnecessaryStations = " + ((int)Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / scenario.getStationWorkload()[0].Count))).ToString());
+            Console.WriteLine("Lower Threshold:\t" + Analyzer.lowerTreshold.ToString());
+            Console.WriteLine("Upper Threshold:\t" + Analyzer.upperTreshold.ToString());
+
             // Ende Debug Block.
 
             return evaluation;
