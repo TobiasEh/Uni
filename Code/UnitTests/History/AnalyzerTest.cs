@@ -355,7 +355,6 @@ namespace UnitTests.History
                 exScenario = executedScenario3
             };
 
-
             await sim.run();
 
             Analyzer.upperTreshold = 0.98;
@@ -475,7 +474,7 @@ namespace UnitTests.History
                     {
                         stations = int.Parse(s);
                     }
-                    catch (Exception e) { }
+                    catch (Exception) { }
                 }
                 Assert.IsTrue(stations >= 0);
                 // Assert.IsTrue(int.Parse(strings[6]) >= 0);

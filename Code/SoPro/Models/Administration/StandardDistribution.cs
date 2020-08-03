@@ -12,6 +12,7 @@ namespace Sopro.Models.Administration
         {
 
         }
+         
         class Workload
         {
             public int Used { get; set; }
@@ -22,14 +23,14 @@ namespace Sopro.Models.Administration
             {
                 Day = _day;
                 Used = 0;
-                Total = concurrentCount * 60 * 24;
+                Total = concurrentCount * 60 * 60 * 24;
             }
 
             public Workload(DateTime _day, int concurrentCount, int _used)
             {
                 Day = _day;
                 Used = _used;
-                Total = concurrentCount * 60 * 24;
+                Total = concurrentCount * 60  * 60 * 24;
             }
 
             public double GetWorkload()
@@ -39,28 +40,17 @@ namespace Sopro.Models.Administration
 
             public double GetWorkload(int duration)
             {
+                double d = ((double)Used + (double)duration) / (double)Total;
                 return ((double)Used + (double)duration) / (double)Total;
             }
         }
-
-        class UsedTimeSlots
-        {
-            public Station Station { get; set; }
-            public List<List<DateTime>> Used { get; set; } = new List<List<DateTime>>();
-
-            public UsedTimeSlots(Station _station)
-            {
-                Station = _station;
-                Used = new List<List<DateTime>>();
-            }
-        }
-
 
         public bool distribute(List<Booking> bookings, Schedule schedule, int puffer)
         {
             // Sortiert Buchungsliste nach Proirität.
             int[] map = { 4, 0, 1, 2, 3 };
             List<Booking> sortedBookings = bookings.OrderBy(o => map[(int)(o.priority)]).ToList();
+            
 
             // Speichert location und emergency ab.
             Location location = (Location)sortedBookings.First().location;
@@ -68,66 +58,57 @@ namespace Sopro.Models.Administration
             List<Workload> wl = new List<Workload>();
             int concurrentCount = 0;
 
-            List<UsedTimeSlots> usedTimeSlots = new List<UsedTimeSlots>();
+            //List<UsedTimeSlots> usedTimeSlots = new List<UsedTimeSlots>();
+            List<Station> stations = new List<Station>();
 
-            // Füge alle Stations in usedTimeSlots.
+            // Erstelle Liste aller Stationen
             foreach (Zone z in location.zones)
             {
                 foreach (Station s in z.stations)
                 {
-                    usedTimeSlots.Add(new UsedTimeSlots(s));
+                    stations.Add(s);
                     concurrentCount += s.maxParallelUseable;
                 }
             }
 
-            // Füge alle bereits gebuchten Bookings in usedTimeSlots ein und berechne ahtuelle Workload.
+            // Berechne aktuelle Workload.
             foreach (Booking bo in schedule.bookings)
             {
-                foreach (UsedTimeSlots u in usedTimeSlots)
+                if (bo.startTime.Day.Equals(bo.endTime.Day))
                 {
-                    if (bo.station.Equals(u.Station))
+                    TimeSpan span = bo.endTime - bo.startTime;
+                    if (wl.Exists(x => x.Day.Day.Equals(bo.startTime.Day)))
                     {
-                        List<DateTime> temp = new List<DateTime>();
-                        temp.Add(bo.startTime);
-                        temp.Add(bo.endTime);
-                        u.Used.Add(temp);
-                        if (bo.startTime.Day.Equals(bo.endTime.Day))
-                        {
-                            TimeSpan span = bo.endTime - bo.startTime;
-                            if (wl.Exists(x => x.Day.Day.Equals(bo.startTime.Day)))
-                            {
-                                wl.Find(x => x.Day.Day.Equals(bo.startTime.Day)).Used += (int)span.TotalMinutes;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.startTime, concurrentCount, (int)span.TotalMinutes);
-                                wl.Add(w);
-                            }
-                        }
-                        else
-                        {
-                            DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
-                            TimeSpan spanStart = d - bo.startTime;
-                            TimeSpan spanEnd = bo.endTime - d;
-                            if (wl.Exists(x => x.Day.Day.Equals(bo.startTime.Day)))
-                            {
-                                wl.Find(x => x.Day.Day.Equals(bo.startTime.Day)).Used += (int)spanStart.TotalMinutes;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.startTime, concurrentCount, (int)spanStart.TotalMinutes);
-                                wl.Add(w);
-                            }
-                            if (wl.Exists(x => x.Day.Day.Equals(bo.endTime.Day)))
-                            {
-                                wl.Find(x => x.Day.Day.Equals(bo.endTime.Day)).Used += (int)spanEnd.TotalMinutes;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(bo.endTime, concurrentCount, (int)spanEnd.TotalMinutes);
-                                wl.Add(w);
-                            }
-                        }
+                        wl.Find(x => x.Day.Day.Equals(bo.startTime.Day)).Used += (int)span.TotalMinutes;
+                    }
+                    else
+                    {
+                        Workload w = new Workload(bo.startTime, concurrentCount, (int)span.TotalMinutes);
+                        wl.Add(w);
+                    }
+                }
+                else
+                {
+                    DateTime d = new DateTime(bo.startTime.Year, bo.startTime.Month, bo.startTime.Day).AddDays(1);
+                    TimeSpan spanStart = d - bo.startTime;
+                    TimeSpan spanEnd = bo.endTime - d;
+                    if (wl.Exists(x => x.Day.Day.Equals(bo.startTime.Day)))
+                    {
+                        wl.Find(x => x.Day.Day.Equals(bo.startTime.Day)).Used += (int)spanStart.TotalMinutes;
+                    }
+                    else
+                    {
+                        Workload w = new Workload(bo.startTime, concurrentCount, (int)spanStart.TotalMinutes);
+                        wl.Add(w);
+                    }
+                    if (wl.Exists(x => x.Day.Day.Equals(bo.endTime.Day)))
+                    {
+                        wl.Find(x => x.Day.Day.Equals(bo.endTime.Day)).Used += (int)spanEnd.TotalMinutes;
+                    }
+                    else
+                    {
+                        Workload w = new Workload(bo.endTime, concurrentCount, (int)spanEnd.TotalMinutes);
+                        wl.Add(w);
                     }
                 }
             }
@@ -137,112 +118,68 @@ namespace Sopro.Models.Administration
             {
                 bool inserted = false;
                 // Überprüfe aktuelle Station.
-                foreach (UsedTimeSlots station in usedTimeSlots)
-                {
-                    // Hat die Station die benötigten Plugs.
-                    if (HasRequestedPlugs(booking, station.Station))
+                int duration = 0;
+                PlugType plugType;
+                Station station;
+                DateTime startTime;
+                
+                    (inserted, duration, plugType, station, startTime) = BestSpotForBooking(booking, schedule.bookings, stations, puffer);
+                    if(inserted)
                     {
-                        PlugType selected = SelectPlug(booking.plugs);
-                        int duration = CalculateDuration(booking.socStart, booking.socEnd, booking.capacity, station.Station.plugs.Find(x => x.type.Equals(selected)).power, puffer);
-                        booking.startTime = RoundUp(booking.startTime, TimeSpan.FromMinutes(15));
-                        if (wl.Exists(x => x.Day.Day.Equals(booking.startTime.Day)))
+                        
+                        if (wl.Exists(x => x.Day.Day.Equals(startTime.Day)))
                         {
-                            if ((wl.Find(x => x.Day.Day.Equals(booking.startTime.Day)).GetWorkload(duration) + backup) > 1)
+                            if ((wl.Find(x => x.Day.Day.Equals(startTime.Day)).GetWorkload(duration) + backup) > 1)
                             {
-                                break;
+                                continue;
                             }
                         }
-                        // Ist noch genug Workload verfügbar für die aktuelle Buchung.
-                        if (booking.startTime.AddMinutes(duration) > booking.endTime)
+                        if(booking.startTime.AddMinutes(duration) > booking.endTime)
                         {
-                            break;
+                            continue;
                         }
-
-                        if (!station.Used.Any())
+                        booking.startTime = startTime;
+                        booking.endTime = booking.startTime.AddMinutes(duration).AddSeconds(-1);
+                        booking.plugs.Clear();
+                        booking.plugs.Add(plugType);
+                        booking.station = station;
+                        schedule.addBooking(booking);
+                        if (wl.Exists(x => x.Day.Day.Equals(booking.endTime.Day)))
                         {
-                            booking.station = station.Station;
-                            booking.endTime = booking.startTime.AddMinutes(duration).AddSeconds(-1);
-                            booking.plugs.Clear();
-                            booking.plugs.Add(selected);
-                            List<DateTime> temp = new List<DateTime>();
-                            temp.Add(booking.startTime);
-                            temp.Add(booking.endTime);
-                            station.Used.Add(temp);
-                            schedule.addBooking(booking);
-                            inserted = true;
-                            if (wl.Exists(x => x.Day.Day.Equals(booking.endTime.Day)))
-                            {
-                                wl.Find(x => x.Day.Day.Equals(booking.endTime.Day)).Used += duration;
-                            }
-                            else
-                            {
-                                Workload w = new Workload(booking.endTime, concurrentCount, duration);
-                                wl.Add(w);
-                            }
+                            wl.Find(x => x.Day.Day.Equals(booking.endTime.Day)).Used += duration;
                         }
                         else
                         {
-                            // Versuche Buchung dynamisch einzuspielen.
-                            for (int offset = 0; booking.startTime.AddMinutes(offset + duration) < booking.endTime; offset += 15)
-                            {
-                                // Gibt es noch einen Platz für die Buchung.
-                                if (CheckCurrentBooking(station.Used, booking.startTime.AddMinutes(offset), booking.startTime.AddMinutes(offset + duration), station.Station))
-                                {
-                                    booking.station = station.Station;
-                                    booking.startTime = booking.startTime.AddMinutes(offset);
-                                    booking.endTime = booking.startTime.AddMinutes(duration).AddSeconds(-1);
-                                    booking.plugs.Clear();
-                                    booking.plugs.Add(selected);
-                                    List<DateTime> temp = new List<DateTime>();
-                                    temp.Add(booking.startTime);
-                                    temp.Add(booking.endTime);
-                                    station.Used.Add(temp);
-                                    schedule.addBooking(booking);
-                                    inserted = true;
-                                    if (wl.Exists(x => x.Day.Day.Equals(booking.endTime.Day)))
-                                    {
-                                        wl.Find(x => x.Day.Day.Equals(booking.endTime.Day)).Used += duration;
-                                    }
-                                    else
-                                    {
-                                        Workload w = new Workload(booking.endTime, concurrentCount, duration);
-                                        wl.Add(w);
-                                    }
-                                    break;
-                                }
-                            }
+                            Workload w = new Workload(booking.endTime, concurrentCount, duration);
+                            wl.Add(w);
                         }
-                    }
-                    if (inserted)
+                    } else
                     {
                         break;
                     }
                 }
-            }
+
             return true;
         }
 
         /// <summary>Überprüfe ob die Station die benötigten PlugTypen hat.</summary
-        /// <param name="booking">Zu überprüfenden Buchung.</param>
+        /// <param name="plugType">Zu überprüfender PlugType.</param>
         /// <param name="station">zu überprüfende Station.</param>
-        /// <returns>true: falls alle PlugTyps der Buchung in der Station vorhanden sind
+        /// <returns>true: falls alle PlugTyp in der Station vorhanden ist
         ///          sonst: false</returns>
-        private bool HasRequestedPlugs(Booking booking, Station station)
+        private bool HasRequestedPlugs(PlugType plugType, Station station)
         {
-            foreach (PlugType plugType in booking.plugs)
+            bool found = false;
+            foreach (Plug plug in station.plugs)
             {
-                bool found = false;
-                foreach (Plug plug in station.plugs)
+                if (plug.type.Equals(plugType))
                 {
-                    if (plugType.Equals(plug.type))
-                    {
-                        found = true;
-                    }
+                    found = true;
                 }
-                if (!found)
-                {
-                    return false;
-                }
+            }
+            if (!found)
+            {
+                return false;
             }
             return true;
         }
@@ -256,7 +193,7 @@ namespace Sopro.Models.Administration
         ///          sonst: false</returns>
         private bool DateOverlapping(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
         {
-            if (start1 > end2 || end1 < start2)
+            if (start1 <= end2 && end1 >= start2)
             {
                 return true;
             }
@@ -264,22 +201,31 @@ namespace Sopro.Models.Administration
         }
 
         /// <summary>Prüft, ob die aktuelle Buchung noch in der Station eingefügt werden kann.</summary>
-        /// <param name="spots">Bereits belegte Zeitperioden.</param>
+        /// <param name="schedule">Liste der schon eingefügten Buchungen</param>
         /// <param name="station">Zu prüfende Station.</param>
         /// <param name="start">Startzeit der Buchung.</param>
         /// <param name="end">Endzeit der Buchung.</param>
         /// <returns>true: wenn Station noch einen Platz für die Buchung frei hat
         ///          sonst: false</returns>
-        private bool CheckCurrentBooking(List<List<DateTime>> spots, DateTime start, DateTime end, Station station)
+        private bool CheckCurrentBooking(List<Booking> schedule, DateTime start, DateTime end, Station station)
         {
             int concurrent = 0;
-            foreach (List<DateTime> spot in spots)
+            int usedPower = 0;
+            foreach (Booking b in schedule)
             {
-                if (!DateOverlapping(spot.First(), spot.Last(), start, end))
+                if (b.station.uniqueId.Equals(station.uniqueId))
                 {
-                    concurrent++;
+                    if(DateOverlapping(start, end, b.startTime, b.endTime))
+                    {
+                        concurrent++;
+                        usedPower += station.plugs.Find(x => x.type.Equals(b.plugs.First())).power;
+                    }
                 }
             }
+            if (!(usedPower <= station.maxPower))
+            {
+                return false;
+            } 
             if (concurrent < station.maxParallelUseable)
             {
                 return true;
@@ -311,14 +257,6 @@ namespace Sopro.Models.Administration
             return duration + 15 - remainder;
         }
 
-        /// <summary>Wählt ein passendes Plug aus der Liste aus.</summary>
-        /// <param name="plugs">Verfügbare Plugs der Buchung.</param>
-        /// <returns>Ausgewähltes Plug.</returns>
-        private PlugType SelectPlug(List<PlugType> plugs)
-        {
-            return plugs.First();
-        }
-
         /// <summary>Rundet den Zeitpunkt auf das nächste d.Minuten Intervall. </summary>
         /// <param name="dt">Zeitpunkt.</param>
         /// <param name="d">Rundungsparameter.</param>
@@ -326,6 +264,54 @@ namespace Sopro.Models.Administration
         private DateTime RoundUp(DateTime dt, TimeSpan d)
         {
             return new DateTime((dt.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, dt.Kind);
+        }
+
+        /// <summary>
+        /// Überprüft ob Buchung eingefügt werden kann und gibt dann das beste Tupel für diese Buchung zurück
+        /// </summary>
+        /// <param name="booking">Zu überprüfenden Buchung</param>
+        /// <param name="schedule">Liste der bereits eingefügten Buchungen</param>
+        /// <param name="stations">Liste der Stationen der Location</param>
+        /// <param name="puffer">Pufferzeit in Minuten</param>
+        /// <returns>Tupel: (true, beste Dauer, PlugType, Station, Startzeit), falls Buchung angenommen werden kann
+        ///                 sonst: false</returns>
+        private (bool, int, PlugType, Station, DateTime) BestSpotForBooking (Booking booking, List<Booking> schedule, List<Station> stations, int puffer)
+        {
+            bool ok = false;
+            int bestDuration = int.MaxValue;
+            PlugType bestPlug = booking.plugs.First();
+            Station bestStation = null;
+            booking.startTime = RoundUp(booking.startTime, TimeSpan.FromMinutes(15));
+            DateTime bestStartTime = booking.startTime;
+
+            foreach (Station station in stations)
+            {
+                foreach(PlugType plugType in booking.plugs)
+                {
+                    if (HasRequestedPlugs(plugType, station))
+                    {
+                        
+                        int duration = CalculateDuration(booking.socStart, booking.socEnd, booking.capacity, station.plugs.Find(x => x.type.Equals(plugType)).power, puffer);
+                        for (int offset = 0; booking.startTime.AddMinutes(offset + duration) < booking.endTime; offset += 15)
+                        {
+                            if (CheckCurrentBooking(schedule, booking.startTime.AddMinutes(offset), booking.startTime.AddMinutes(offset + duration), station))
+                            {
+                                if(bestDuration > duration)
+                                {
+                                    ok = true;
+                                    bestDuration = duration;
+                                    bestPlug = plugType;
+                                    bestStation = station;
+                                    bestStartTime = booking.startTime.AddMinutes(offset);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+
+            return (ok, bestDuration, bestPlug, bestStation, bestStartTime);
         }
     }
 }

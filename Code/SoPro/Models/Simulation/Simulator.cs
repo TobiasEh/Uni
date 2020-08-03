@@ -34,35 +34,40 @@ namespace Sopro.Models.Simulation
             // Berechnet Indizes für die Buchungen in pendingBooking, welche der toBeDistributed Liste hinzugefügt werden sollen.
             for(int i = 1; i <= count; ++i)
             {
-                int l = (int)(Math.Round(1 / Math.Sqrt(i), 4) * 1000) % count;
-                if((!indices.Contains(l)) && (l % 2 == 1))
+                int l = (int)(Math.Round(Math.Exp(i / exScenario.bookingCountPerDay)));
+                if(pendingBookings.Count < l)
+                {
+                    break;
+                }
+                if((!indices.Contains(l)))
                 {
                     indices.Add(l);
                 }
             }
-
-            foreach(Booking item in pendingBookings.ToList())
+            foreach (Booking item in pendingBookings.ToList())
             {
-                // Buchungen im Intervall [start, start+ nächste 30 Tage].
-                if ((item.startTime >= start) && (item.endTime <= end))
-                {
                     // Alle Buchungen für den nächsten Tag.
                     if ((item.startTime >= start) && (item.startTime <= start.AddDays(1)))
                     {
                         toBeDistributed.Add(item);
                         pendingBookings.Remove(item);
                     }
-
-                    // Buchungen mit dem Index, der in der Liste help existiert.
-                    if (indices.Contains(pendingBookings.IndexOf(item)))
-                    {
-                        toBeDistributed.Add(item);
-                        pendingBookings.Remove(item);
-                    }
-                }
             }
-            // Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
-            // Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
+            for(int i = indices.Count - 1; i > 0; i--)
+            {
+                if( i > pendingBookings.Count - 1)
+                {
+                    continue;
+                }
+                Booking booking = pendingBookings.ElementAt(i);
+                // Buchungen im Intervall [start, start+ nächste 30 Tage].
+                if ((booking.startTime >= start) && (booking.endTime <= end))
+                {
+                    pendingBookings.RemoveAt(i);
+                }
+                toBeDistributed.Add(booking);
+            }
+
             
             exScenario.location.distributor.strategy = new StandardDistribution();
 
@@ -107,7 +112,6 @@ namespace Sopro.Models.Simulation
                     }
                     
                     double location = calculateLocationWorkload(locationMaxAccumulatedPower);
-                    Console.WriteLine(location.ToString());
                     List<double> station = calculateStationWorkload(stationCount);
                     
                     if (!exScenario.updateWorkload(location, station))

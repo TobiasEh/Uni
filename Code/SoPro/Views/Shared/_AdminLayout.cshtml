@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header text-center">
@@ -23,11 +22,11 @@
                 </a>
             </div>
             <div class="text-center">
-                <a href="#" data-toggle="modal" data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
+                <a href="#" data-toggle="modal" data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-circle.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
             </div>
 
             <ul class="list-unstyled components">
-                <li class="@Html.IsSelected(actions: "Dashboard", controllers: "Admin")">
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Admin")">
                     <a href="@Url.Action("Index", "Admin")">Übersicht</a>
                 </li>
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Simulation")">
@@ -39,14 +38,17 @@
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Infrastructure")">
                     <a href="@Url.Action("Index", "Infrastructure")">Infrastruktur</a>
                 </li>
-                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Vehicles")">
+                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Vehicle")">
                     <a href="@Url.Action("Cartemplates", "Vehicle")">Fahrzeuge</a>
+                </li>
+                <li class="@Html.IsSelected(actions: "Help", controllers: "Admin")">
+                    <a href="@Url.Action("Help", "Admin")">Hilfe</a>
                 </li>
             </ul>
         </nav>
 
         <div>
-            <button type="button" id="sidebarCollapse" class="btn btn-mhp m-3" style="text-align:center; line-height:50%;">
+            <button type="button" id="sidebarCollapse" class="btn btn-mhp m-3">
                 <i class="fas fa-align-left"><img src="~/bootstrap-icons/caret-left-fill.svg" class="filter-white" id="carreticon" /></i>
             </button>
         </div>

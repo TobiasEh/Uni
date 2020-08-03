@@ -15,8 +15,8 @@ namespace Sopro.Models.History
     {
         public static Evaluation evaluation { get; set; }
         public static IEvaluatable scenario { get; set; }
-        public static double lowerTreshold { get; set; }
-        public static double upperTreshold { get; set; }
+        public static double lowerTreshold { get; set; } = 70;
+        public static double upperTreshold { get; set; } = 95;
 
         /// <summary>
         /// Analysiert ein gegebenes Szenario. Dabei werden verschiedene Leistungsmetriken
@@ -41,6 +41,28 @@ namespace Sopro.Models.History
                 plugDistributionDeclined = plugTypeDistribution[1],
                 scenario = (ExecutedScenario)_scenario
             };
+
+            // Berechnungen.
+            List<Booking> declined = new List<Booking>();
+            int declinedBookingsInGeneratedBookings = 0;
+            int acceptedBookingsInGeneratedBookings = 0;
+            ExecutedScenario s = (ExecutedScenario)scenario;
+            foreach (Booking b in s.bookings)
+            {
+                if (!s.location.schedule.bookings.Contains(b))
+                    declined.Add(b);
+            }
+            foreach (Booking b in s.location.schedule.bookings)
+            {
+                if (s.bookings.Contains(b))
+                    acceptedBookingsInGeneratedBookings++;
+            }
+            foreach (Booking b in declined)
+            {
+                if (s.bookings.Contains(b))
+                    declinedBookingsInGeneratedBookings++;
+            }
+
             return evaluation;
         }
 
@@ -50,7 +72,7 @@ namespace Sopro.Models.History
         /// <returns>Die generierten Vorschläge.</returns>
         private static List<Suggestion> createSuggestion()
         {
-            var stationCount = scenario.getStationWorkload().Count;
+            var stationCount = scenario.getStationWorkload()[0].Count;
             var zonePowerList = new List<int>();
             var bookingSuccesRate = calcBookingSuccessRate();
 
@@ -61,7 +83,7 @@ namespace Sopro.Models.History
                 k.stations.ForEach(x => i += x.maxPower);
                 zonePowerList.Add(i);
             });
-
+ 
             // 1. Fall: Buchungs Erfolgsrate ist geringer als festgelegter Schwellenwert, also wird mehr Infrastruktur wird benötigt.
             if (bookingSuccesRate < lowerTreshold)
             {

@@ -20,7 +20,12 @@ namespace Sopro.Models.Infrastructure
         [Range(1, int.MaxValue,ErrorMessage ="Es sollte mindest ein Stecker nutzbar sein.")]
         public int maxParallelUseable { get; set; }
         public int id { get; set; }
+        public string uniqueId { get; set; }
 
+        public Station()
+        {
+            uniqueId = Guid.NewGuid().ToString();
+        }
         /// <summary>
         /// Füge der Station einen Stecker hinzu.
         /// </summary>

@@ -4,50 +4,35 @@
     Layout = "_AdminLayout";
 }
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<h1 class="display-4 pb-5 pt-5">Infrastruktur</h1>
-@model Sopro.ViewModels.InfrastructureViewModel
+<h1 class="display-4 pb-5 pt-5">Bearbeiten der Location</h1>
+@model Sopro.Interfaces.ILocation
 
 <div class="flex-column">
-    @{ int i = 0;}
-    @foreach (Sopro.Models.Infrastructure.Location l in Model.locations)
-    {
-        string colla = string.Concat("collapsible", i.ToString());
-        string collaEdit = string.Concat(colla, "Edit");
-        i++;
+    @{ 
+        string edit = "editLocation";
+        string zones = "seeZones";
+            }
         <div name="panel ">
             <div class="d-flex rounded shadow mt-4 pl-2 py-1">
-                <h5 class="ml-2 mr-5 mt-1">@l.name</h5>
-                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="ml-auto mr-2" data-toggle="collapse" data-target="#@collaEdit " aria-expanded="false" aria-controls="t2" />
-                <a asp-controller="Infrastructure" asp-action="DeleteLocation" asp-route-id="@l.id">
-                    <img src="~/bootstrap-icons/trash.svg" width="23" class="mr-4" />
-                </a>
-                <a asp-controller="Infrastructure" asp-action="zuteilen" asp-route-id="@l.id">
-                   <button type="submit">zuteilen</button>
-                </a>
-                <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#@colla " aria-expanded="false" aria-controls="t2" width="23" class="mr-2 ml-2 filter-blue float-right" />
+                <h5 class="ml-2 mr-5 mt-1">@Model.name</h5>
+                <img src="~/bootstrap-icons/pencil-square.svg" width="23" class="ml-auto mr-2" data-toggle="collapse" data-target="#@edit " aria-expanded="false" aria-controls="t2" />
+                <img src="~/bootstrap-icons/caret-down-fill.svg" data-toggle="collapse" data-target="#@zones" aria-expanded="true" aria-controls="t2" width="23" class="mr-2 ml-2 filter-blue float-right" />
             </div>
-            <div id="@collaEdit" class="collapse rounded border p-3 ml-4 flex-column">
-                <form asp-controller="Infrastructure" asp-action="EditLocation" asp-route-id="@l.id">
+            <div id="@edit" class="collapse rounded border p-3 ml-4 flex-column">
+                <form asp-controller="History" asp-action="EditLocationNameAndEmergencyHistory">
 
                     <div class="form-group">
                         <label for="@Model.name">Der Name des Standorts</label>
                         <div class="input-group">
-                            <input class="form-control" placeholder="@l.name" asp-for="@Model.name" />
+                            <input class="form-control" placeholder="@Model.name" asp-for="@Model.name" />
                         </div>
-                        @Html.ValidationMessageFor(model => model.name)
                     </div>
                     <div class="form-group">
 
                         <label for="@Model.emergency">Notreserve</label>
                         <div class="input-group">
-                            <input class="form-control" type="number" placeholder="@l.emergency" asp-for="@Model.emergency" max="1" min="0" step="0.001" />
+                            <input class="form-control" type="number" placeholder="@Model.emergency" asp-for="@Model.emergency" max="1" min="0" step="0.001" />
                         </div>
-                        @Html.ValidationMessageFor(model => model.emergency)
-                    </div>
-                    <div class="form-group input-append date form_datetime">
-                        <label for="@Model.distributionTime">Verteilzeitpunkt MEZ</label>
-                        <input type="time" class="form-control" placeholder="@l.normalizedDistributionTime.Hour:@l.normalizedDistributionTime.Minute" asp-for="@Model.distributionTime" />
-                        @Html.ValidationMessageFor(model => model.distributionTime)
                     </div>
                     <div class="flex-row">
                         <button type="submit" class="btn btn-primary btn-mhp ml-auto mt-3">Übernehmen</button>
@@ -55,9 +40,9 @@
 
                 </form>
             </div>
-            <div id="@colla" class="collapse ml-4">
+            <div id="@zones" class="collapse ml-4">
                 <div class="flex-column rounded border p-3">
-                    @foreach (Sopro.Models.Infrastructure.Zone z in l.zones)
+                    @foreach (Sopro.Models.Infrastructure.Zone z in Model.zones)
                     {
 
                         <div class="card mt-3 mb-1">
@@ -65,12 +50,12 @@
                                 <div class="d-flex">
                                     <h4><b>Zone @z.site</b></h4>
                                     <div class="ml-auto">
-                                        <form methode="post" asp-controller="Infrastructure" asp-action="EditZone" asp-route-id="@l.id" asp-route-site="@z.site">
+                                        <form methode="post" asp-controller="History" asp-action="EditZoneHistory"  asp-route-site="@z.site">
                                             <button class="btn btn-link"><img src="~/bootstrap-icons/pencil-square.svg" width="20" /></button>
                                         </form>
                                     </div>
                                     <div class="ml-2">
-                                        <form methode="post" asp-controller="Infrastructure" asp-action="DeleteZone" asp-route-id="@l.id" asp-route-site="@z.site">
+                                        <form methode="post" asp-controller="History" asp-action="DeleteZoneHistory"  asp-route-site="@z.site">
                                             <button class="btn btn-link"><img src="~/bootstrap-icons/trash.svg" width="20" /></button>
                                         </form>
                                     </div>
@@ -97,9 +82,13 @@
                                                     @foreach (Sopro.Models.Infrastructure.Plug p in s.plugs)
                                                     {
                                                         if (p.type.Equals(Sopro.Models.Infrastructure.PlugType.CCS))
+                                                        {
                                                             ccs++;
+                                                        }
                                                         else
+                                                        {
                                                             type2++;
+                                                        }
                                                     }
                                                     <div>@ccs</div>
                                                     <div class="mb-3">@type2</div>
@@ -116,52 +105,18 @@
                             </div>
                         </div>
                     }
-
-                    <form asp-action="CreateZone" asp-controller="Infrastructure" asp-route-id="@l.id">
+                    <form asp-action="CreateZoneHistory" asp-controller="History">
                         <button class="btn btn-primary btn-block mt-3 btn-mhp">Neue Zone</button>
                     </form>
                 </div>
             </div>
         </div>
-    }
 
 </div>
 
 <div class="d-flex mt-4">
-    <div class="d-flex">
-        <div>
-            <form asp-controller="Infrastructure" asp-action="import" class="form-horizontal" method="post" enctype="multipart/form-data">
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" name="importedFile" accept=".json" />
-                    </div>
-                    <div class="input-group-prepend">
-                        <button type="submit" class="btn btn-primary col-xs-12 btn-mhp rounded">Import</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-    </div>
-
-    @if (Model.locations.Any())
-    {
-        <div class="ml-2">
-            <form asp-controller="Infrastructure" asp-action="export" method="get" class="form-horizontal">
-                <input class="btn btn-primary btn-mhp" type="submit" name="" value="Export" />
-            </form>
-        </div>
-    }
-    else
-    {
-        <div>
-            <input class="btn btn-secondary ml-2" type="button" name="exportBooking" value="Export" />
-        </div>
-    }
-    <div class="ml-auto">
-        <form asp-controller="Infrastructure" asp-action="newLocation">
-            <button class="btn btn-primary btn-mhp">Neuer Standort</button>
-        </form>
-    </div>
+    <form asp-action="EndEditing" asp-controller="History">
+        <button type="submit" class="btn btn-primary btn-mhp">Fertigstellen</button>
+    </form>
 </div>
 

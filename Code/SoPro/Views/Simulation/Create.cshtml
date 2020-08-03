@@ -111,26 +111,26 @@
                                     }
                                     @x
 
-                                </td>
-                                <td>
-                                    @vehicle.capacity
-                                </td>
-                                <td>
-                                    @vehicle.socStart
-                                </td>
-                                <td>
-                                    @vehicle.socEnd
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" />
-                                </td>
-                            </tr>
-                            i++;
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <!-- buttons -->
+                        </td>
+                        <td>
+                            @vehicle.capacity
+                        </td>
+                        <td>
+                            @vehicle.socStart
+                        </td>
+                        <td>
+                            @vehicle.socEnd
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" asp-for="@Model.countVehicles[i]" min="0" />
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- buttons -->
 
         </div>
         <div class="float-right">

@@ -74,9 +74,7 @@ namespace Sopro.Controllers
                         foreach(Vehicle v in s.vehicles)
                         {
                             if(v.id.Equals(vehicles[i].id))
-                            {
                                 count++;
-                            }
                         }
                         viewmodel.countVehicles[i] = count;
                     }
@@ -218,9 +216,7 @@ namespace Sopro.Controllers
             }
 
             if(viewmodel.countRushhours == 0)
-            {
                 return View("EditLocationScenario", scenario.location);
-            }
 
             return View(new EditRushourViewModel(scenario));
         }
@@ -508,7 +504,6 @@ namespace Sopro.Controllers
                 {
                     toBeDeleted = z;
                     break;
-                    
                 }
             }
             if (toBeDeleted == null )
@@ -524,7 +519,10 @@ namespace Sopro.Controllers
             {
                 scenario = new Scenario();
             }
-
+            if(scenario.location.zones.Count == 0)
+            {
+                return View("EditLocationScenario", scenario.location);
+            }
             
             if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
@@ -644,11 +642,7 @@ namespace Sopro.Controllers
                 if (scenario.id.Equals(id))
                 {
                     sim.exScenario = new ExecutedScenario(scenario);
-                    Console.WriteLine("Generierte Buchungen: " + sim.exScenario.generatedBookings.Count.ToString());
-                    Console.WriteLine("SimulationController.cs, line 638");
                     await sim.run();
-                    Console.WriteLine("Location Workload per step:\t" + sim.exScenario.getLocationWorkload().Count.ToString());
-                    Console.WriteLine(sim.exScenario.location.schedule.bookings.Count.ToString());
                     eva = Analyzer.analyze(sim.exScenario);
                     break;
                 }  
@@ -661,25 +655,7 @@ namespace Sopro.Controllers
 
             evaluations.Add(eva);
             cache.Set(CacheKeys.EVALUATION, evaluations);
-            return View("Evaluation", new EvaluationViewModel(eva));
-            /*
-            Random rnd = new Random();
-
-            var lstModel = new List<DataViewModel>();
-            lstModel.Add(new DataViewModel
-            {
-                DimensionOne = "Type-2",
-                Quantity = rnd.Next(10)
-            });
-            lstModel.Add(new DataViewModel
-            {
-                DimensionOne = "CCS",
-                Quantity = rnd.Next(10)
-            });
-
-            return View("Evaluation", lstModel);
-            */
-            // return View();
+            return RedirectToAction("Evaluation","History",eva.scenario.id);
         }
     }
 }

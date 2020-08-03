@@ -141,7 +141,7 @@ namespace Sopro.Models.Simulation
                 if (lowestPlugPowers[(int)p] < power) power = lowestPlugPowers[(int)p];
             }
 
-            double maxChargingDuration = ((socEnd - socStart) / 100.0 * capacity) / power;
+            double maxChargingDuration = (((socEnd - socStart) / 100.0 * capacity) / power)+ 0.25;
 
             // Erstellt die Endzeit der Buchung.
 

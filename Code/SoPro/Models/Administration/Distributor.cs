@@ -49,7 +49,7 @@ namespace Sopro.Models.Administration
                 if (bookings == null)
                     return false;
             }
-                
+            
             if (!strategy.distribute(bookings, schedule, buffer))
                 return false;
                 

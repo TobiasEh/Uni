@@ -39,19 +39,27 @@
 <div>
     <p class="lead text-dark">Es wurden insgesamt @Model.scenario.generatedBookings.Count Buchungsanfragen gestellt.</p>
     <p class="lead text-dark">Davon wurden @Model.scenario.location.schedule.bookings.Count Anfragen akzeptiert.</p>
-    @if (Model.suggestions[0].GetType().Name.Equals("CondenseInfrastructureSuggestion"))
+    @if (Model.suggestions.Count != 0)
     {
-        <div class="bg-warning rounded">
-            <p class="lead text-dark p-2">@Model.suggestions[0].suggestion</p>
-        </div> 
-    }
-    else if(Model.suggestions[0].GetType().Name.Equals("ExpandInfrastructureSuggestion"))
-    {
-        <div class="bg-warning rounded">
-            <p class="lead text-dark">@Model.suggestions[0].suggestion</p>
+        @if (Model.suggestions[0].GetType().Name.Equals("CondenseInfrastructureSuggestion"))
+        {
+            <div class="bg-warning rounded">
+                <p class="lead text-dark p-2">@Model.suggestions[0].suggestion</p>
+            </div>
+        }
+        else if (Model.suggestions[0].GetType().Name.Equals("ExpandInfrastructureSuggestion"))
+        {
+            <div class="bg-danger rounded">
+                <p class="lead text-dark">@Model.suggestions[0].suggestion</p>
+            </div>
+        }
+
+        <div>
+            <form asp-controller="History" asp-action="ChangeInfrastrukture"  asp-route-id="@Model.scenario.id"class="form-horizontal">
+                <input class="btn btn-primary btn-mhp" type="submit" name="exportBooking" value="Bearbeiten" />
+            </form>
         </div>
     }
-    
 </div>
 
 <!-- Übersicht (Kreisdiagramme) -->
