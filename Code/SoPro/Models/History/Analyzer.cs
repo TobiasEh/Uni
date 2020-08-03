@@ -44,7 +44,7 @@ namespace Sopro.Models.History
 
             // START Debug Block. (Bedenklos entfernbar)
             // Berechnungen.
-            Console.WriteLine("[Analyzer.cs, Zeilen 45 - ca. 106]");
+            Console.WriteLine("[Analyzer.cs, Zeilen 45 - ca. 109]");
             List<Booking> declined = new List<Booking>();
             int declinedBookingsInGeneratedBookings = 0;
             int acceptedBookingsInGeneratedBookings = 0;
@@ -81,9 +81,7 @@ namespace Sopro.Models.History
             Console.WriteLine("#Akzeptierte Buchungen:\t" + s.location.schedule.bookings.Count.ToString());
             Console.WriteLine("#Abgelehnt.id enthalten in generated Bookings:\t" + declinedBookingsInGeneratedBookings.ToString());
             Console.WriteLine("#Akzeptiert.id enthalten in generated Bookings:\t" + acceptedBookingsInGeneratedBookings.ToString());
-            Console.WriteLine("UnecessaryStations = UnecessaryWorkload / (bookingSuccessRate / #stations)");
-            Console.WriteLine("UnecessaryStations =\t" + ((int)Math.Floor(calcUnnecessaryWorkload())).ToString() +  " / (" +  calcBookingSuccessRate().ToString() +  " / " + scenario.getStationWorkload().Count.ToString() + ")");
-            Console.WriteLine("UnecessaryStations = " + ((int)Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / scenario.getStationWorkload().Count))).ToString());
+            Console.WriteLine("UnecessaryStations = " + ((int)Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / scenario.getStationWorkload()[0].Count))).ToString());
             // Ende Debug Block.
 
             return evaluation;
