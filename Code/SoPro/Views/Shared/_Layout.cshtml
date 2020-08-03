@@ -61,7 +61,7 @@
                         @if (Context.Session.GetString("role") != null)
                         {
                             <li class="nav-item">
-                                <a href="#" data-toggle="modal" data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-fill.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
+                                <a href="#" data-toggle="modal" data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-circle.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
                             </li>
                         }
 
