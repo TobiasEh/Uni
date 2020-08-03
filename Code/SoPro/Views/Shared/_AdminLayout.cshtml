@@ -27,7 +27,7 @@
             </div>
 
             <ul class="list-unstyled components">
-                <li class="@Html.IsSelected(actions: "Dashboard", controllers: "Admin")">
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Admin")">
                     <a href="@Url.Action("Index", "Admin")">Übersicht</a>
                 </li>
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Simulation")">
@@ -39,7 +39,7 @@
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Infrastructure")">
                     <a href="@Url.Action("Index", "Infrastructure")">Infrastruktur</a>
                 </li>
-                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Vehicles")">
+                <li class="@Html.IsSelected(actions: "Cartemplates", controllers: "Vehicle")">
                     <a href="@Url.Action("Cartemplates", "Vehicle")">Fahrzeuge</a>
                 </li>
             </ul>
