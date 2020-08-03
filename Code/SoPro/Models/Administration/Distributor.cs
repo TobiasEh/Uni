@@ -43,13 +43,16 @@ namespace Sopro.Models.Administration
         /// <returns></returns>
         public bool run(DateTime now, List<Booking> bookings)
         {
+            Console.WriteLine("[Distributor.cs], Zeilen 46, 47, 55");
+            Console.WriteLine("Buchungen vor Filter:\t" + bookings.Count.ToString());
             bookings = filter.filter(now, bookings);
             if ((bookings == null) || (bookings.Count() == 0))
             {
                 if (bookings == null)
                     return false;
             }
-                
+            
+            Console.WriteLine("Buchungen nach Filter:\t" + bookings.Count.ToString());
             if (!strategy.distribute(bookings, schedule, buffer))
                 return false;
                 
