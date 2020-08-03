@@ -17,7 +17,7 @@ $.validator.addMethod('socend', function (value, element) {
 
 
 $.validator.addMethod('minPlugtype2Validation', function (value, element) {
-    if ($('#ccs').val() == 0 && parseInt(value) == 0) {
+    if ($('#ccs').checked() == true && element.checked() == false) {
         return false;
     }
     return true;
@@ -25,7 +25,7 @@ $.validator.addMethod('minPlugtype2Validation', function (value, element) {
 
 
 $.validator.addMethod('minPlugccsValidation', function (value, element) {
-    if ($('#type2').val() == 0 && parseInt(value) == 0) {
+    if ($('#type2').checked() == true && element.checked() == false) {
         return false;
     }
     return true;
