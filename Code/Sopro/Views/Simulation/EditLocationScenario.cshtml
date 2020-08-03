@@ -6,9 +6,7 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <h1 class="display-4 pb-5 pt-5">Bearbeiten der Location</h1>
 @model Sopro.Interfaces.ILocation
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+
 <div class="flex-column">
     @{
         string edit = "editLocation";
@@ -124,3 +122,6 @@
     </form>
 </div>
 
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -4,9 +4,7 @@
     Layout = "_AdminLayout";
 }
 @model Sopro.ViewModels.ScenarioCreateViewModel
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+
 <h1 class="display-4 mb-3 pt-5">Szenario Erstellen</h1>
 
 <form asp-controller="Simulation" asp-action="editRushours" method="post">
@@ -147,3 +145,6 @@
     }
 </form>
 
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -5,10 +5,6 @@
 }
 @model Sopro.ViewModels.EditRushourViewModel
 <h1>Details der Stoßzeiten</h1>
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
-
 <div>
     <form asp-action="EditLocationScenario" asp-controller="Simulation">
         @{ int i = 0; }
@@ -81,3 +77,6 @@
     return result;
     }
 </script>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
