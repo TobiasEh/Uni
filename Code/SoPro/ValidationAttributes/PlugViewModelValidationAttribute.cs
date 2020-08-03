@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Math.EC.Rfc7748;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading;
 
 namespace Sopro.ValidationAttributes
 {
-    public class AtleastOnePlug : ValidationAttribute
+    public class AtleastOnePlug : ValidationAttribute, IClientModelValidator
     {
         private string[] plugs;
         
@@ -16,6 +17,15 @@ namespace Sopro.ValidationAttributes
         {
             plugs = _plugs;
         }
+
+        public void AddValidation(ClientModelValidationContext context)
+        {
+            context.Attributes.Add("data-val", "true");
+            context.Attributes.Add("data-val-minplug", GetErrorMessage());
+        }
+        public string GetErrorMessage() =>
+            $"Mindestens 1 Plug.";
+
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             List<bool> propList = new List<bool>();

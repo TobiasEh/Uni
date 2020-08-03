@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Math.EC.Rfc7748;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading;
 
 namespace Sopro.ValidationAttributes
 {
-    public class PowerNotZero : ValidationAttribute
+    public class PowerNotZero : ValidationAttribute, IClientModelValidator
     {
 
         private string plug;
@@ -16,6 +17,14 @@ namespace Sopro.ValidationAttributes
         {
             plug = _plug;
         }
+
+        public void AddValidation(ClientModelValidationContext context)
+        {
+            context.Attributes.Add("data-val", "true");
+            context.Attributes.Add("data-val-atleastoneplug", GetErrorMessage());
+        }
+        public string GetErrorMessage() =>
+            $"Es sollte mindestens 1 plug existieren.";
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endadestatus als Startladestatus bei der Eingabe gewählt hat.
         /// </summary>

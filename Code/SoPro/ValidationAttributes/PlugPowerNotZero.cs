@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Math.EC.Rfc7748;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading;
 
 namespace Sopro.ValidationAttributes
 {
-    public class AtleastOnePlugStation : ValidationAttribute
+    public class AtleastOnePlugStation : ValidationAttribute, IClientModelValidator
     {
        
         private string[] plugs;
@@ -16,6 +17,14 @@ namespace Sopro.ValidationAttributes
         {
             plugs = _plugs;
         }
+
+        public void AddValidation(ClientModelValidationContext context)
+        {
+            context.Attributes.Add("data-val", "true");
+            context.Attributes.Add("data-val-notzeropower", GetErrorMessage());
+        }
+        public string GetErrorMessage() =>
+            $"Leistung sollte größer 0 sein.";
         /// <summary>
         /// Überprüft ob der Nutzer einen späteren Endadestatus als Startladestatus bei der Eingabe gewählt hat.
         /// </summary>
