@@ -15,8 +15,8 @@ namespace Sopro.Models.History
     {
         public static Evaluation evaluation { get; set; }
         public static IEvaluatable scenario { get; set; }
-        public static double lowerTreshold { get; set; } = 0.70;
-        public static double upperTreshold { get; set; } = 0.95;
+        public static double lowerTreshold { get; set; } = 70;
+        public static double upperTreshold { get; set; } = 95;
 
         /// <summary>
         /// Analysiert ein gegebenes Szenario. Dabei werden verschiedene Leistungsmetriken
@@ -82,8 +82,8 @@ namespace Sopro.Models.History
             Console.WriteLine("#Abgelehnt.id enthalten in generated Bookings:\t" + declinedBookingsInGeneratedBookings.ToString());
             Console.WriteLine("#Akzeptiert.id enthalten in generated Bookings:\t" + acceptedBookingsInGeneratedBookings.ToString());
             Console.WriteLine("UnecessaryStations = " + ((int)Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / scenario.getStationWorkload()[0].Count))).ToString());
-            Console.WriteLine("Lower Threshold:\t" + Analyzer.lowerTreshold.ToString());
-            Console.WriteLine("Upper Threshold:\t" + Analyzer.upperTreshold.ToString());
+            Console.WriteLine("Lower Threshold:\t" + lowerTreshold.ToString());
+            Console.WriteLine("Upper Threshold:\t" + upperTreshold.ToString());
 
             // Ende Debug Block.
 
@@ -128,7 +128,7 @@ namespace Sopro.Models.History
                 k.stations.ForEach(x => i += x.maxPower);
                 zonePowerList.Add(i);
             });
-
+ 
             // 1. Fall: Buchungs Erfolgsrate ist geringer als festgelegter Schwellenwert, also wird mehr Infrastruktur wird benötigt.
             if (bookingSuccesRate < lowerTreshold)
             {
