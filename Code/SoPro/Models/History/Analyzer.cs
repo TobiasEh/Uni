@@ -56,12 +56,12 @@ namespace Sopro.Models.History
             }
             foreach (Booking b in s.location.schedule.bookings)
             {
-                if (s.generatedBookings.Contains(b))
+                if (s.bookings.Contains(b))
                     acceptedBookingsInGeneratedBookings++;
             }
             foreach (Booking b in declined)
             {
-                if (s.generatedBookings.Contains(b))
+                if (s.bookings.Contains(b))
                     declinedBookingsInGeneratedBookings++;
             }
 
