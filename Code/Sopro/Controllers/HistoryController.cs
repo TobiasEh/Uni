@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Sopro.Interfaces.ControllerHistory;
 using Sopro.Interfaces.ControllerSimulation;
 using Sopro.Interfaces.PersistenceController;
+using Sopro.Models.Administration;
 using Sopro.Models.History;
 using Sopro.Models.Infrastructure;
 using Sopro.Models.Simulation;
@@ -93,14 +94,33 @@ namespace Sopro.Controllers
                     break;
                 }
             }
-            ExecutedScenario newScenario = new ExecutedScenario(evaluation.scenario.generatedBookings)
+            Location l = evaluation.scenario.location.deepCopy();
+            List<Booking> genBookings = new List<Booking>();
+            foreach(Booking b in evaluation.scenario.generatedBookings)
+            {
+                genBookings.Add(new Booking()
+                {
+                    id = b.id,
+                    capacity = b.capacity,
+                    plugs = b.plugs,
+                    socStart = b.socStart,
+                    socEnd = b.socEnd,
+                    user = b.user,
+                    startTime = b.startTime,
+                    endTime = b.endTime,
+                    active = b.active,
+                    location = l,
+                    priority = b.priority
+                });
+            }
+            ExecutedScenario newScenario = new ExecutedScenario(genBookings)
             {
                 duration = evaluation.scenario.duration,
                 bookingCountPerDay = evaluation.scenario.bookingCountPerDay,
                 vehicles = evaluation.scenario.vehicles,
                 rushhours = evaluation.scenario.rushhours,
                 start = evaluation.scenario.start,
-                location = evaluation.scenario.location.deepCopy(),
+                location = l,
                 locationWorkload = evaluation.scenario.locationWorkload,
                 stationWorkload = evaluation.scenario.stationWorkload,
                 fulfilledRequests = evaluation.scenario.fulfilledRequests,
@@ -353,7 +373,7 @@ namespace Sopro.Controllers
                     break;
                 }
             }
-            return RedirectToAction("EditLocationHistory");
+            return View("EditLocationHistory", scenario.location);
         }
 
         public IActionResult DeleteZoneHistory(char site)
@@ -382,6 +402,7 @@ namespace Sopro.Controllers
         public async Task<IActionResult> EndEditing()
         {
             Simulator sim = new Simulator();
+            
             ExecutedScenario scenario = null;
             if (!cache.TryGetValue("ChangeInfrastrukture", out scenario))
             {
@@ -392,7 +413,7 @@ namespace Sopro.Controllers
             {
                 return View("EditLocationHistory", scenario.location);
             }
-
+            sim.exScenario = scenario;
             await sim.run();
             Evaluation eva = Analyzer.analyze(sim.exScenario);
 
