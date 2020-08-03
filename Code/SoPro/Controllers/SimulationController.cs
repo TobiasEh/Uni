@@ -519,7 +519,10 @@ namespace Sopro.Controllers
             {
                 scenario = new Scenario();
             }
-
+            if(scenario.location.zones.Count == 0)
+            {
+                return View("EditLocationScenario", scenario.location);
+            }
             
             if (!cache.TryGetValue(CacheKeys.SCENARIO, out scenarios))
             {
@@ -652,7 +655,7 @@ namespace Sopro.Controllers
 
             evaluations.Add(eva);
             cache.Set(CacheKeys.EVALUATION, evaluations);
-            return View("Evaluation", new EvaluationViewModel(eva));
+            return RedirectToAction("Evaluation","History",eva.scenario.id);
         }
     }
 }
