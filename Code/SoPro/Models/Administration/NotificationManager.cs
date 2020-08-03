@@ -11,10 +11,10 @@ namespace Sopro.Models.Administration
     {
         private INotificationListener listener { get; set; }
 
-        public NotificationManager()
+        /*public NotificationManager()
         {
             listener = new BookingsStatusNotification();
-        }
+        }*/
 
         /// <summary>
         /// Ruft update Methode der Klasse listener auf.

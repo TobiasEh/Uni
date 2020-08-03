@@ -9,5 +9,6 @@
         public const string DECLINED = "declinedBooking";
         public const string CHECKIN = "checkInBooking";
         public const string CHECKOUT = "checkOutBooking";
+        public const string BEGINN = "beginBooking";
     }
 }

@@ -63,6 +63,23 @@
                             <li class="nav-item">
                                 <a href="#" data-toggle="modal" data-target="#logoutModal" class="nav-link text-dark" id="navlink"><img src="~/bootstrap-icons/person-circle.svg" width="16" class="mr-2" />@httpContextAccessor.HttpContext.Session.GetString("email")</a>
                             </li>
+                            @if (!Context.Session.GetString("role").Equals(Sopro.Models.User.UserType.PLANER.ToString()))
+                            {
+                                @if (Context.Session.GetInt32("message") == 1)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Communication" asp-action="Index" id="navlink"><img src="~/bootstrap-icons/envelope-fill.svg" width="16" class="mr-2" /></a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Communication" asp-action="Index" id="navlink"><img src="~/bootstrap-icons/envelope-open.svg" width="16" class="mr-2" /></a>
+                                    </li>
+                                }
+
+                            }
+
                         }
 
                     </ul>
