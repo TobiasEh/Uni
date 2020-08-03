@@ -1,4 +1,5 @@
-﻿using Sopro.Interfaces.CommunicationAdministration;
+﻿using Sopro.Interfaces.AdministrationController;
+using Sopro.Interfaces.CommunicationAdministration;
 using Sopro.Models.Administration;
 using Sopro.Models.Infrastructure;
 using System;
@@ -10,17 +11,15 @@ namespace Sopro.Models.Communication
     /// <summary>
     /// Klasse ist für die Erstellung und das Versenden der Nachrichten, die an den User geschickt werden zuständig.
     /// </summary>
-    public class BookingsStatusNotification : INotificationListener
+    public class BookingsStatusNotification
     {
         private List<string> commands { get; set; }
-        private Messenger messenger;
 
         /// <summary>
         /// Konstruktor, in dem alle Nachrichtenfragmente erzeugt werden.
         /// </summary>
         public BookingsStatusNotification()
         {
-            messenger = new Messenger();
             commands = new List<string>();
             // Indizes.
             // 0.
@@ -38,7 +37,7 @@ namespace Sopro.Models.Communication
             commands.Add("ausgecheckt.\n");
             // 5.
             commands.Add("\nIhre Ladezeit beginnt am {0} um {1} Uhr und endet am {2} um {3} Uhr.\n" +
-                "Bitte begeben Sie sich, kurz bevor Ihre Ladezeit  beginnt, mit Ihrem Auto zur Ladestation mit der Nummer {4}.\n" +
+                "Bitte begeben Sie sich, kurz bevor Ihre Ladezeit  beginnt, mit Ihrem Auto zur Zone {4}.\n" +
                 "Vergessen Sie nicht sich einzuchecken, wenn Sie Ihr Auto angesteckt haben, da ansonsten Ihr Ladeplatz womöglich weitervergeben wird.");
             // 6.
             commands.Add("\nBitte versuchen Sie erneu eine Buchung zu erstellen.\n" +
@@ -55,6 +54,8 @@ namespace Sopro.Models.Communication
             // 8.
             commands.Add("Bitte verlassen Sie nun die Ladestation.\n\n" +
                 "Wir wünschen noch einen schönen Tag.");
+            // 9.
+            commands.Add("Ihre Ladezeit beginnt jetzt.");
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace Sopro.Models.Communication
         /// </summary>
         /// <param name="booking">Buchung für die eine Nachricht generiet wird.</param>
         /// <param name="eventName">Bezeichung, was für eine Art von Nachricht erzeugt werden soll.</param>
-        public void update(Booking booking, string eventName)
+        public string generate(IBooking booking, string eventName)
         {
             string message = "";
             switch (eventName)
@@ -80,10 +81,13 @@ namespace Sopro.Models.Communication
                 case NotificationEvent.CHECKOUT:
                     message = generateMessageCheckOut(booking);
                     break;
+                case NotificationEvent.BEGINN:
+                    message = generateMessageBeginn(booking);
+                    break;
                 default:
                     break;
             }
-            messenger.sendMessage(message, booking.user);
+            return message;
         }
 
         /// <summary>
@@ -91,7 +95,7 @@ namespace Sopro.Models.Communication
         /// </summary>
         /// <param name="booking">Buchung zu der die Nachricht erzeugt wird.</param>
         /// <returns></returns>
-        private string generateMessageAccepted(Booking booking)
+        private string generateMessageAccepted(IBooking booking)
         {
             string site = "";
             foreach (Zone item in booking.location.zones)
@@ -110,7 +114,7 @@ namespace Sopro.Models.Communication
         /// </summary>
         /// <param name="booking">Buhcung zu der die Nachricht erzeugt wird.</param>
         /// <returns></returns>
-        private string generateMessageDeclined(Booking booking)
+        private string generateMessageDeclined(IBooking booking)
         {
             string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(2) +
                 string.Format(commands.ElementAt(6), booking.socStart, booking.socEnd, booking.startTime.ToString("dd.MM.yyyy HH:mm:ss"), 
@@ -123,7 +127,7 @@ namespace Sopro.Models.Communication
         /// </summary>
         /// <param name="booking">Buchung zu der die Nachricht erzeugt wird.</param>
         /// <returns></returns>
-        private string generateMessageCheckIn(Booking booking)
+        private string generateMessageCheckIn(IBooking booking)
         {
             string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3) +
                 string.Format(commands.ElementAt(7), booking.endTime.ToString("dd.MM.yyyy"), booking.endTime.ToString("HH:mm:ss"));
@@ -135,9 +139,14 @@ namespace Sopro.Models.Communication
         /// </summary>
         /// <param name="booking">Buhcung zu der die Nachricht erzeugt wird.</param>
         /// <returns></returns>
-        private String generateMessageCheckOut(Booking booking)
+        private string generateMessageCheckOut(IBooking booking)
         {
-            String message = String.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3);
+            string message = string.Format(commands.ElementAt(0), booking.location.name, booking.socStart, booking.socEnd) + commands.ElementAt(3);
+            return message;
+        }
+        private string generateMessageBeginn(IBooking booking)
+        {
+            string message = commands.ElementAt(9);
             return message;
         }
     }

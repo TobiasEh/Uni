@@ -1,5 +1,6 @@
-﻿using MailKit.Net.Smtp;
-using MimeKit;
+﻿using Sopro.Interfaces.AdministrationController;
+using Sopro.Models.Administration;
+using System.Collections.Generic;
 
 namespace Sopro.Models.Communication
 {
@@ -8,29 +9,23 @@ namespace Sopro.Models.Communication
     /// </summary>
     public class Messenger
     {
-        private SmtpClient emailClient;
-        public Messenger()
+        public static List<Message> messages = new List<Message>();
+        
+        public static void newMessage(IBooking _booking, string _eventName, string _email)
         {
-            emailClient = new SmtpClient();
+            Message message = new Message()
+            {
+                booking = _booking,
+                eventName = _eventName,
+                email = _email,
+            };
+            addMessage(message);
         }
 
-        /// <summary>
-        /// Übergebene Nachricht wird an den Entsprechendnen User gesendet.
-        /// </summary>
-        /// <param name="message">Nachricht die gesendet werden soll.</param>
-        /// <param name="user">Email-Addresse des Users, an den die Nachricht gesendet werden soll.</param>
-        public void sendMessage(string message, string user)
+        private static void addMessage(Message message)
         {
-            var finalMessage = new MimeMessage();
-            finalMessage.From.Add(new MailboxAddress("Ladesäulensystem MHP", "Saender1324@gmail.com"));
-            finalMessage.To.Add(MailboxAddress.Parse(user));
-            finalMessage.Subject = "Ladesäulenbuchung MHP";
-            finalMessage.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = message };
-            emailClient.Connect("smtp.gmail.com", 465, true);
-            emailClient.Authenticate("saender1324@gmail.com", "Sander1234");
-            emailClient.Send(finalMessage);
-            emailClient.Disconnect(true);
-
+            messages.Add(message);
         }
+
     }
 }

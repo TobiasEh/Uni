@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "Nachrichtenübersicht";
+}
+@model List<Sopro.Models.Communication.Message>
+
+<div class="d-flex">
+    <h1 class="pb-5 display-4">Nachrichten</h1>
+</div>
+@if (Model.Count() == 0)
+{
+    <p>
+        Sie haben noch keine Nachrichten bekommen.
+    </p>
+}
+else
+{
+<div class="flex-column">
+
+
+    @foreach (Sopro.Models.Communication.Message item in Model)
+    {
+
+    <div class="d-flex rounded shadow mt-3 py-2 px-2">
+
+            <p class="ml-5">
+                @item.createMessageText();
+            </p>
+
+        
+            @if (!item.read)
+            {
+            <div>
+            
+            <a asp-controller="Communication" asp-action="Read" asp-route-id="@item.id">
+                <img src="~/bootstrap-icons/check-square-fill.svg" width="23" class="filter-red mr-1 mt-1" />
+            </a>
+            </div>
+                }
+                else
+                {
+             <div>
+                @{/*<p class="mr-2 mt-1">
+                        gelesen
+                    </p>*/
+                }
+                <a asp-controller="Communication" asp-action="Read" asp-route-id="@item.id">
+                    <img src="~/bootstrap-icons/check-square-fill.svg" width="23" class="filter-green mr-1 mt-1" />
+                </a>
+            </div>
+            }
+    </div>
+    }
+</div>
+}
+
+

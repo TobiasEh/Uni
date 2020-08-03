@@ -9,6 +9,8 @@ using Sopro.Models.User;
 using Sopro.Models.Administration;
 using Sopro.Interfaces.AdministrationController;
 using Sopro.Models.Infrastructure;
+using Sopro.Models.Communication;
+
 namespace Sopro.Controllers
 {
     /// <summary>
@@ -77,6 +79,13 @@ namespace Sopro.Controllers
                             scheduledBookings.Add((Booking)item);
                         }
                     }
+                foreach (IBooking item in scheduledBookings)
+                {
+                    if (item.startTime.Equals(DateTime.Now))
+                    {
+                        Messenger.newMessage(item, NotificationEvent.BEGINN, item.user);
+                    }
+                }
                 return View(new DashboardViewModel(scheduledBookings, unscheduledBookings));
             }
             else

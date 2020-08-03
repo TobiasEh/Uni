@@ -38,7 +38,7 @@ namespace Sopro.Models.Administration
             if (checkCount == bookings.Count())
                 return false;
 
-            // notificationManager.notify(booking, NotificationEvent.ACCEPTED);
+            Messenger.newMessage(booking, NotificationEvent.ACCEPTED, booking.user);
 
             return true;
         }
@@ -97,13 +97,12 @@ namespace Sopro.Models.Administration
             int index = bookings.IndexOf(booking);
             bookings[index].active = !bookings[index].active;
 
-            /*
+
             if (bookings[index].active)
-                notificationManager.notify(booking, NotificationEvent.CHECKIN);
+                Messenger.newMessage(booking, NotificationEvent.CHECKIN, booking.user);
 
             else
-                notificationManager.notify(booking, NotificationEvent.CHECKOUT);
-            */
+                Messenger.newMessage(booking, NotificationEvent.CHECKIN, booking.user);
         }
     }
 }
