@@ -186,9 +186,9 @@ namespace Sopro.Controllers
                 }
                 if (uniqeId)
                 {
-                    if (TryValidateModel(boo)) { 
+                    if (TryValidateModel(boo)) {
                         bookings.Add(boo);
-
+                        boo.station = null;
                         bool notIncluded = true;
                         foreach (ILocation loc in locations)
                         {
