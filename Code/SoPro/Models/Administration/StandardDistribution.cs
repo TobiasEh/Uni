@@ -49,10 +49,7 @@ namespace Sopro.Models.Administration
         {
             // Sortiert Buchungsliste nach Proirität.
             int[] map = { 4, 0, 1, 2, 3 };
-            Console.WriteLine("Booking: StandartDistribution Z.54" + bookings.Count);
             List<Booking> sortedBookings = bookings.OrderBy(o => map[(int)(o.priority)]).ToList();
-            
-                Console.WriteLine("Booking: StandartDistribution Z.54" + sortedBookings.Count);
             
 
             // Speichert location und emergency ab.
@@ -127,7 +124,6 @@ namespace Sopro.Models.Administration
                 DateTime startTime;
                 
                     (inserted, duration, plugType, station, startTime) = BestSpotForBooking(booking, schedule.bookings, stations, puffer);
-                    Console.WriteLine("Booking: {0}, {1}, {2}", booking.priority, booking.id, inserted);
                     if(inserted)
                     {
                         
@@ -296,7 +292,6 @@ namespace Sopro.Models.Administration
                     {
                         
                         int duration = CalculateDuration(booking.socStart, booking.socEnd, booking.capacity, station.plugs.Find(x => x.type.Equals(plugType)).power, puffer);
-                        Console.WriteLine(booking.startTime + " - " + booking.endTime + ": " + duration);
                         for (int offset = 0; booking.startTime.AddMinutes(offset + duration) < booking.endTime; offset += 15)
                         {
                             if (CheckCurrentBooking(schedule, booking.startTime.AddMinutes(offset), booking.startTime.AddMinutes(offset + duration), station))

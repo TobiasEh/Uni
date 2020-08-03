@@ -41,20 +41,16 @@ namespace Sopro.Models.Simulation
                 }
                 if((!indices.Contains(l)))
                 {
-                    Console.WriteLine(l);
                     indices.Add(l);
                 }
             }
-            Console.WriteLine("Start: " + start);
             foreach (Booking item in pendingBookings.ToList())
             {
-                bool test = item.startTime <= start.AddDays(1);
                     // Alle Buchungen für den nächsten Tag.
                     if ((item.startTime >= start) && (item.startTime <= start.AddDays(1)))
                     {
                         toBeDistributed.Add(item);
                         pendingBookings.Remove(item);
-                        Console.WriteLine("Buchung: " + item.startTime);
                     }
             }
             for(int i = indices.Count - 1; i > 0; i--)
@@ -72,8 +68,6 @@ namespace Sopro.Models.Simulation
                 toBeDistributed.Add(booking);
             }
 
-            // Console.WriteLine("Pending:" + pendingBookings.Count.ToString());
-            // Console.WriteLine("To be distributed:" + toBeDistributed.Count.ToString());
             
             exScenario.location.distributor.strategy = new StandardDistribution();
 

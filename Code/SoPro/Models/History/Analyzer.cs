@@ -42,9 +42,7 @@ namespace Sopro.Models.History
                 scenario = (ExecutedScenario)_scenario
             };
 
-            // START Debug Block. (Bedenklos entfernbar)
             // Berechnungen.
-            Console.WriteLine("[Analyzer.cs, Zeilen 45 - ca. 109]");
             List<Booking> declined = new List<Booking>();
             int declinedBookingsInGeneratedBookings = 0;
             int acceptedBookingsInGeneratedBookings = 0;
@@ -65,51 +63,8 @@ namespace Sopro.Models.History
                     declinedBookingsInGeneratedBookings++;
             }
 
-            // Ausgaben.
-            printFiller();
-            Console.WriteLine("[Generierte Buchungen (" + s.generatedBookings.Count.ToString() + ")]");
-            printDetailedBookingList(s.generatedBookings, "[-]");
-            printFiller();
-            Console.WriteLine("[Akzeptierte Buchungen (" + s.location.schedule.bookings.Count.ToString() + ")]");
-            printDetailedBookingList(s.location.schedule.bookings, "[O]");
-            printFiller();
-            Console.WriteLine("[Abgelehnte Buchungen (" + declined.Count.ToString() + ")]");
-            printDetailedBookingList(declined, "[X]");
-            printFiller();
-            Console.WriteLine("[Weitere Daten]");
-            Console.WriteLine("#Generierte Buchungen:\t" + s.generatedBookings.Count.ToString());
-            Console.WriteLine("#Akzeptierte Buchungen:\t" + s.location.schedule.bookings.Count.ToString());
-            Console.WriteLine("#Abgelehnt.id enthalten in generated Bookings:\t" + declinedBookingsInGeneratedBookings.ToString());
-            Console.WriteLine("#Akzeptiert.id enthalten in generated Bookings:\t" + acceptedBookingsInGeneratedBookings.ToString());
-            Console.WriteLine("UnecessaryStations = " + ((int)Math.Floor(calcUnnecessaryWorkload() / (calcBookingSuccessRate() / scenario.getStationWorkload()[0].Count))).ToString());
-            Console.WriteLine("Lower Threshold:\t" + lowerTreshold.ToString());
-            Console.WriteLine("Upper Threshold:\t" + upperTreshold.ToString());
-
-            // Ende Debug Block.
-
             return evaluation;
         }
-
-        // Debug Hilfsfunktionen.
-        private static void printFiller()
-        {
-            for (var i = 0; i < 5; ++i)
-            {
-                Console.WriteLine("~");
-            }
-        }
-
-        private static void printDetailedBookingList(List<Booking> bookings, string symbol)
-        {
-            foreach (Booking b in bookings)
-            {
-                string timeDetail = b.startTime.ToString() + "\t" + b.endTime.ToString() + "\t";
-                string chargeDetail = b.plugs[0].ToString() + "\t";
-
-                Console.WriteLine(symbol + "\t" + timeDetail + "\t" + chargeDetail + "\t" + b.id + "\t" + b.priority);
-            }
-        }
-        // Debug Hilfsfunktionen Ende.
 
         /// <summary>
         /// Generiere Vorschläge, die dem Planer unterbreitet werden.
