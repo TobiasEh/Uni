@@ -43,15 +43,20 @@
     {
         <div class="bg-warning rounded">
             <p class="lead text-dark p-2">@Model.suggestions[0].suggestion</p>
-        </div> 
+        </div>
     }
-    else if(Model.suggestions[0].GetType().Name.Equals("ExpandInfrastructureSuggestion"))
+    else if (Model.suggestions[0].GetType().Name.Equals("ExpandInfrastructureSuggestion"))
     {
         <div class="bg-warning rounded">
             <p class="lead text-dark">@Model.suggestions[0].suggestion</p>
         </div>
     }
-    
+
+    <div>
+        <form asp-controller="Admin" asp-action="Export" method="get" class="form-horizontal">
+            <input class="btn btn-primary btn-mhp" type="submit" name="exportBooking" value="Bearbeiten" />
+        </form>
+    </div>
 </div>
 
 <!-- Übersicht (Kreisdiagramme) -->
