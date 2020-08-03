@@ -394,9 +394,9 @@ namespace Sopro.Controllers
                 }
             }
             if (toBeDeleted == null)
-                return RedirectToAction("EditLocationHistory");
+                return View("EditLocationHistory", scenario.location);
             scenario.location.deleteZone(toBeDeleted);
-            return RedirectToAction("EditLocationHistory");
+            return View("EditLocationHistory", scenario.location);
         }
 
         public async Task<IActionResult> EndEditing()
