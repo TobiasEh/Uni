@@ -55,7 +55,7 @@
         }
 
         <div>
-            <form asp-route-id="@Model.scenario.id" asp-controller="History" asp-action="Evaluation" class="form-horizontal">
+            <form asp-controller="History" asp-action="ChangeInfrastrukture"  asp-route-id="@Model.scenario.id"class="form-horizontal">
                 <input class="btn btn-primary btn-mhp" type="submit" name="exportBooking" value="Bearbeiten" />
             </form>
         </div>
